@@ -1,0 +1,7 @@
+org.appverse.web.framework.backend.frontfacade.gxt.aop.managers.impl.live
+org.appverse.web.framework.backend.frontfacade.gxt.common
+org.appverse.web.framework.backend.frontfacade.gxt.controllers
+org.appverse.web.framework.backend.frontfacade.gxt.converters.p2b
+org.appverse.web.framework.backend.frontfacade.gxt.model.presentation
+org.appverse.web.framework.backend.frontfacade.gxt.services.presentation
+org.appverse.web.framework.backend.frontfacade.gxt.services.presentation.impl.live

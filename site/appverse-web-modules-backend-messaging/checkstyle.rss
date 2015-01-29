@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rss version="0.91">
+  <channel>
+    <title>Appverse Web Framework Modules Backend Messaging Module - Checkstyle report</title>
+    <link>http://appverse.org/projects/appverse-web/</link>
+    <description>Appverse Web Framework Modules Backend Messaging Module - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2011 - 2013 Appverse</copyright>
+    <item>
+      <title>File: 9,
+             Errors: 171,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>http://appverse.org/projects/appverse-web//checkstyle.html</link>
+      <description>
+        <p>Click <a href="http://appverse.org/projects/appverse-web//checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.messaging.services.integration.IMessageDelegate.java">org/appverse/web/framework/backend/messaging/services/integration/IMessageDelegate.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.messaging.services.integration.IMessageConverter.java">org/appverse/web/framework/backend/messaging/services/integration/IMessageConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.messaging.services.integration.IJMSService.java">org/appverse/web/framework/backend/messaging/services/integration/IJMSService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.messaging.services.integration.impl.live.AbstractMessageConverter.java">org/appverse/web/framework/backend/messaging/services/integration/impl/live/AbstractMessageConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.messaging.services.integration.IJMSServiceConsumer.java">org/appverse/web/framework/backend/messaging/services/integration/IJMSServiceConsumer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.messaging.services.integration.IJMSServicePublisher.java">org/appverse/web/framework/backend/messaging/services/integration/IJMSServicePublisher.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.messaging.services.integration.impl.live.DefaultMessageDelegate.java">org/appverse/web/framework/backend/messaging/services/integration/impl/live/DefaultMessageDelegate.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  25
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.messaging.services.integration.impl.live.JMSService.java">org/appverse/web/framework/backend/messaging/services/integration/impl/live/JMSService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.messaging.services.integration.IMessageListener.java">org/appverse/web/framework/backend/messaging/services/integration/IMessageListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+

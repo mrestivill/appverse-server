@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rss version="0.91">
+  <channel>
+    <title>Appverse Web Framework Modules Frontend GWT API Module - Checkstyle report</title>
+    <link>http://appverse.org/projects/appverse-web/</link>
+    <description>Appverse Web Framework Modules Frontend GWT API Module - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2011 - 2013 Appverse</copyright>
+    <item>
+      <title>File: 40,
+             Errors: 2006,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>http://appverse.org/projects/appverse-web//checkstyle.html</link>
+      <description>
+        <p>Click <a href="http://appverse.org/projects/appverse-web//checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.views.EditorValidationView.java">org/appverse/web/framework/frontend/gwt/views/EditorValidationView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.common.utils.GWTUtils.java">org/appverse/web/framework/frontend/gwt/common/utils/GWTUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  139
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.widgets.search.suggest.events.SelectSuggestEvent.java">org/appverse/web/framework/frontend/gwt/widgets/search/suggest/events/SelectSuggestEvent.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  43
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.helpers.validation.VTypeValidator.java">org/appverse/web/framework/frontend/gwt/helpers/validation/VTypeValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  32
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.widgets.sencha.extensions.form.DualListFieldExt.java">org/appverse/web/framework/frontend/gwt/widgets/sencha/extensions/form/DualListFieldExt.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  58
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.common.FrameworkEventBus.java">org/appverse/web/framework/frontend/gwt/common/FrameworkEventBus.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  29
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.common.FrameworkConstants.properties">org/appverse/web/framework/frontend/gwt/common/FrameworkConstants.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.commands.LogoutManagementRpcCommand.java">org/appverse/web/framework/frontend/gwt/commands/LogoutManagementRpcCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  40
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.rmvp.ReverseComposite.java">org/appverse/web/framework/frontend/gwt/rmvp/ReverseComposite.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  30
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.common.FrameworkMessages.properties">org/appverse/web/framework/frontend/gwt/common/FrameworkMessages.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.rmvp.ReverseResizeComposite.java">org/appverse/web/framework/frontend/gwt/rmvp/ReverseResizeComposite.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  27
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.commands.AbstractCommand.java">org/appverse/web/framework/frontend/gwt/commands/AbstractCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.common.FrameworkMessages.java">org/appverse/web/framework/frontend/gwt/common/FrameworkMessages.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  25
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.common.FrameworkImages.java">org/appverse/web/framework/frontend/gwt/common/FrameworkImages.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.helpers.security.XsrfRpcRequestBuilder.java">org/appverse/web/framework/frontend/gwt/helpers/security/XsrfRpcRequestBuilder.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  35
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.model.beans.AbstractFrontendBean.java">org/appverse/web/framework/frontend/gwt/model/beans/AbstractFrontendBean.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.views.LayoutManagerView.java">org/appverse/web/framework/frontend/gwt/views/LayoutManagerView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  20
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.common.FrameworkConstants.java">org/appverse/web/framework/frontend/gwt/common/FrameworkConstants.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.theme.package-info.java">org/appverse/web/framework/frontend/gwt/theme/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.commands.impl.live.AuthenticationRpcCommandImpl.java">org/appverse/web/framework/frontend/gwt/commands/impl/live/AuthenticationRpcCommandImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  105
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.helpers.validation.VType.java">org/appverse/web/framework/frontend/gwt/helpers/validation/VType.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  37
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.widgets.search.suggest.impl.gxt.SuggestWidgetImpl.java">org/appverse/web/framework/frontend/gwt/widgets/search/suggest/impl/gxt/SuggestWidgetImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  446
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.theme.client.search.AppverseSuggestAppearance.java">org/appverse/web/framework/frontend/gwt/theme/client/search/AppverseSuggestAppearance.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  52
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.commands.AuthenticationRpcCommand.java">org/appverse/web/framework/frontend/gwt/commands/AuthenticationRpcCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.widgets.search.suggest.model.SuggestModel.java">org/appverse/web/framework/frontend/gwt/widgets/search/suggest/model/SuggestModel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.rpc.ApplicationAsyncCallback.java">org/appverse/web/framework/frontend/gwt/rpc/ApplicationAsyncCallback.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  191
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.commands.impl.live.LogoutManagementRpcCommandImpl.java">org/appverse/web/framework/frontend/gwt/commands/impl/live/LogoutManagementRpcCommandImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  68
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.managers.NotificationManager.java">org/appverse/web/framework/frontend/gwt/managers/NotificationManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  60
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.views.impl.gxt.LayoutManagerViewGxtImpl.java">org/appverse/web/framework/frontend/gwt/views/impl/gxt/LayoutManagerViewGxtImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  37
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.widgets.search.suggest.handlers.SelectSuggestEventHandler.java">org/appverse/web/framework/frontend/gwt/widgets/search/suggest/handlers/SelectSuggestEventHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.formatter.Nullsafe.java">org/appverse/web/framework/frontend/gwt/formatter/Nullsafe.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.helpers.security.PrincipalInformation.java">org/appverse/web/framework/frontend/gwt/helpers/security/PrincipalInformation.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  46
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.views.AbstractEditorValidationView.java">org/appverse/web/framework/frontend/gwt/views/AbstractEditorValidationView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  57
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.presenters.LayoutManagerPresenter.java">org/appverse/web/framework/frontend/gwt/presenters/LayoutManagerPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  20
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.theme.client.search.SuggestTemplate.java">org/appverse/web/framework/frontend/gwt/theme/client/search/SuggestTemplate.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.helpers.filters.GxtPaginationConverter.java">org/appverse/web/framework/frontend/gwt/helpers/filters/GxtPaginationConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  54
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.widgets.search.suggest.events.LoadSuggestEvent.java">org/appverse/web/framework/frontend/gwt/widgets/search/suggest/events/LoadSuggestEvent.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  58
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.widgets.search.suggest.handlers.LoadSuggestEventHandler.java">org/appverse/web/framework/frontend/gwt/widgets/search/suggest/handlers/LoadSuggestEventHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.commands.AbstractRpcCommand.java">org/appverse/web/framework/frontend/gwt/commands/AbstractRpcCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  66
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.frontend.gwt.formatter.NullsafeFactory.java">org/appverse/web/framework/frontend/gwt/formatter/NullsafeFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+

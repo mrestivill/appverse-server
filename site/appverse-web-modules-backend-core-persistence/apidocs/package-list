@@ -1,0 +1,5 @@
+org.appverse.web.framework.backend.persistence.helpers.log
+org.appverse.web.framework.backend.persistence.model.integration
+org.appverse.web.framework.backend.persistence.services.integration
+org.appverse.web.framework.backend.persistence.services.integration.helpers
+org.appverse.web.framework.backend.persistence.services.integration.impl.live

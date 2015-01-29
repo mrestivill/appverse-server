@@ -1,0 +1,266 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+<title>Get Started With Appverse</title>
+<style>
+body {
+	background-color: #f5f5f5;
+	margin-left: auto;
+	margin-right: auto;
+	width: 800pt;
+}
+
+h1 {
+	margin-top: 20pt;
+	margin-left: 0pt;
+	margin-bottom: 5pt;
+	margin-right: 0pt;
+	font-family: "Myriad Pro", "sans-serif";
+	font-size: 20.0pt;
+	font-weight: normal;
+	color: #2F67B2;
+}
+
+h2 {
+	margin-top: 10pt;
+	margin-left: 0pt;
+	margin-bottom: 5pt;
+	margin-right: 0pt;
+	font-family: "Myriad Pro", "sans-serif";
+	font-size: 14.0pt;
+	font-weight: normal;
+	color: #2F67B2;
+}
+
+table {
+	width: 780pt;
+	background: #DBE5F1;
+	border: solid #2F67B2 1.5pt	
+}
+
+td {
+	padding-top:5px;
+	padding-right:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+	vertical-align: top;
+	font-family: Consolas;
+	font-size: 9.0pt;
+	color: black;	
+
+}
+
+img {
+	padding-top:5px;
+	padding-right:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+ 	height:250;
+}
+
+.normal {
+	margin-top: 0pt;
+	margin-right: 0pt;
+	margin-bottom: 3pt;
+	margin-left: 0pt;
+	width: 780pt;	
+	font-family: "Myriad Pro", "sans-serif";
+	font-size: 11.0pt;
+	font-weight: normal;
+	color: #6D6E71;
+}
+
+.emphasis {
+	margin-top: 0pt;
+	margin-right: 0pt;
+	margin-bottom: 3pt;
+	margin-left: 0pt;
+	width: 780pt;	
+	font-family: "Myriad Pro", "sans-serif";
+	font-size: 10.0pt;
+	font-weight: normal;
+	font-style: italic;
+	color: #6D6E71;
+}
+
+.blue {
+	margin-top: 0pt;
+	margin-right: 0pt;
+	margin-bottom: 3pt;
+	margin-left: 0pt;
+	font-family: "Myriad Pro", "sans-serif";
+	font-size: 12.0pt;
+	font-weight: normal;
+	color: #2F67B2;
+	text-align:center;	
+}
+
+.listHeader {
+	margin-top: 2pt;
+	margin-right: 0pt;
+	margin-bottom: 0pt;
+	margin-left: 0pt;
+	font-family: "Myriad Pro", "sans-serif";
+	font-size: 11.0pt;
+	font-weight: bold;
+	color: #6D6E71;
+}
+
+.listContent {
+	margin-top: 2pt;
+	margin-right: 0pt;
+	margin-bottom: 0pt;
+	margin-left: 0pt;
+	font-family: "Myriad Pro", "sans-serif";
+	font-size: 11.0pt;
+	font-weight: normal;
+	color: #6D6E71;
+}
+
+.centered{
+	text-align: center;
+}
+.fill{
+	width:100%;
+}
+</style>
+</head>
+<body>
+	<h1>Get Started With Appverse</h1>
+	<p class=normal>
+		Appverse Web provides an incredibly powerful and flexible collection
+		of technologies to improve your enterprise Application.
+	</p>
+
+	<h1>Start From a Maven Archetype</h1>
+	<p class=normal>Create maven projects from arquetipes executing
+		thefollowing commands:</p>
+	<h2>GWT Flavored Project</h2>
+
+	<table>
+		<tr>
+			<td>mvn archetype:generate
+				-DarchetypeGroupId=org.appverse.web.framework.archetypes.gwt
+				-DarchetypeArtifactId=appverse-web-archetypes-gwt
+				-DarchetypeVersion=1.1.0-RELEASE -DgroupId=org.organization.project
+				-DartifactId=project -Dversion=1.0-SNAPSHOT "-DnewProjectName=My
+				Project" -DtargetDbPlatform=MysqlPlatform -DinteractiveMode=false
+			</td>
+		</tr>
+	</table>
+
+	<ul>
+		<li class="listHeader">archetypeGroupId<span class="listContent">
+				org.appverse.web.framework.gwt</span></li>
+		<li class="listHeader">archetypeArtifactId<span
+			class="listContent"> appverse-web-archetypes-gwt</span></li>
+		<li class="listHeader">archetypeVersionId<span
+			class="listContent">1.1.0-RELEASE</span></li>
+		<li class="listHeader">groupId<span class="listContent">
+				New project groupId e.g. org.organization.project*</span></li>
+		<li class="listHeader">artifactId<span class="listContent">
+				New project artifactId</span></li>
+		<li class="listHeader">version<span class="listContent">
+				New project version eg.1.0-SNAPSHOT</span></li>
+		<li class="listHeader">newProjectName<span class="listContent">
+				New project user-friendly name eg.1.0-SNAPSHOT</span></li>
+		<li class="listHeader">targetDbPlatform<span class="listContent">
+				Valid eclipselink database platform e.g. OraclePlatform (Defaults to
+				MySQLPlatform)</li>
+	</ul>
+	<span class="emphasis">* GroupId must finish with artifactId </span>
+	<p>
+	<h2>JSF2 Flavored Project</h2>
+
+	<table>
+		<tr>
+			<td>mvn archetype:generate
+				-DarchetypeGroupId=org.appverse.web.framework.archetypes.jsf2
+				-DarchetypeArtifactId=appverse-web-archetypes-jsf2
+				-DarchetypeVersion=1.1.0-RELEASE -DgroupId=org.organization.project
+				-DartifactId=project -Dversion=1.0-SNAPSHOT
+				"-DnewProjectName=MyProject" -DinteractiveMode=false</td>
+		</tr>
+	</table>
+
+	<ul>
+		<li class="listHeader">archetypeGroupId<span class="listContent">
+				org.appverse.web.framework.jsf2</span></li>
+		<li class="listHeader">archetypeArtifactId<span
+			class="listContent"> appverse-web-archetypes-jsf2</span></li>
+		<li class="listHeader">archetypeVersionId<span
+			class="listContent">1.1.0-RELEASE</span></li>
+		<li class="listHeader">groupId<span class="listContent">
+				New project groupId e.g. org.organization.project*</span></li>
+		<li class="listHeader">artifactId<span class="listContent">
+				New project artifactId</span></li>
+		<li class="listHeader">version<span class="listContent">
+				New project version eg.1.0-SNAPSHOT</span></li>
+		<li class="listHeader">newProjectName<span class="listContent">
+				New project user-friendly name eg.1.0-SNAPSHOT</span></li>
+	</ul>
+	<span class="emphasis"> * GroupId must finish with artifactId </span>
+
+	<h1>Generated Projects</h1>
+	<table>
+		<tr>
+			<td class="centered">
+				<a href="projects/GWT%20project.zip" target="_blank"> 
+					<img src="images/project.png" >
+				</a>
+				<p class="blue">GWT Empty Project</p>
+			</td>
+			<td class="centered">
+				<a href="projects/JSF2%20project.zip" target="_blank"> 
+					<img src="images/project.png" >
+				</a>
+				<p class="blue">JSF2 Empty Project</p>
+			</td>						
+			<td class="fill"/>
+		</tr>
+	</table>
+
+	<h1>Documentation</h1>
+	<table>
+		<tr>
+			<td class="centered">
+				<a href="documentation/Appverse%20Web%20Reference%20Documentation.pdf" target="_blank"> 
+					<img src="images/reference_documentation.png" >
+				</a>
+				<p class="blue">Appverse Web Reference Documentation</p>
+			</td>
+			<td class="centered">
+				<a href="documentation/Appverse%20Web%20Reference%20Documentation.pdf" target="_blank"> 
+					<img src="images/GWT_showcase_tutorial.png" >
+				</a>
+				<p class="blue">Appverse Web GWT Showcase Tutorial</p>
+			</td>
+			<td class="centered">
+				<a href="documentation/Appverse%20Web%20Reference%20Documentation.pdf" target="_blank"> 
+					<img src="images/JSF2_showcase_tutorial.png" >
+				</a>
+				<p class="blue">Appverse JSF2 Showcase Tutorial</p>
+			</td>						
+			<td class="fill"/>
+		</tr>
+	</table>
+	
+	<h1>Showcases</h1>
+	<table>
+	    <tr>
+			<td class="centered">
+				<a href="http://tomcat7-gwtshowcase.appverseweb-ci.cloudbees.net/" target="_blank"> 
+					<img src="images/gwt_showcase.png" >
+				</a>
+				<p class="blue">Appverse Web GWT Showcase</p>
+			</td>	
+			<td class="centered">
+				<a href="http://tomcat7-jsf2showcase.appverseweb-ci.cloudbees.net/" target="_blank"> 
+					<img src="images/jsf_showcase.png">
+				</a>
+				<p class="blue">Appverse Web JSF Showcase</p>
+			</td>					
+		</tr>
+	</table>
+  </body>
+</html>

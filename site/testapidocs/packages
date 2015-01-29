@@ -1,0 +1,4 @@
+org.appverse.web.framework.backend.persistence.model.integration
+org.appverse.web.framework.backend.persistence.services.integration.impl.live
+org.appverse.web.framework.backend.persistence.services.integration.impl.test
+org.appverse.web.framework.backend.persistence.services.integration

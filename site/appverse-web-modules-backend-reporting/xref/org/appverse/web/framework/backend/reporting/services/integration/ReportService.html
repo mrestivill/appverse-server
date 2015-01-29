@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>ReportService xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../apidocs/org/appverse/web/framework/backend/reporting/services/integration/ReportService.html">View Javadoc</a></div><pre>
+
+<a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.</em>
+<a class="jxr_linenumber" name="3" href="#3">3</a>   
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_comment"> This Source Code Form is subject to the terms of the Appverse Public License </em>
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_comment"> Version 2.0 (���APL v2.0���). If a copy of the APL was not distributed with this </em>
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_comment"> file, You can obtain one at <a href="http://www.appverse.mobi/licenses/apl_v2.0.pdf." target="alexandria_uri">http://www.appverse.mobi/licenses/apl_v2.0.pdf.</a> [^]</em>
+<a class="jxr_linenumber" name="7" href="#7">7</a>   
+<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_comment"> Redistribution and use in source and binary forms, with or without modification, </em>
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_comment"> are permitted provided that the conditions of the AppVerse Public License v2.0 </em>
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_comment"> are met.</em>
+<a class="jxr_linenumber" name="11" href="#11">11</a>  
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_comment"> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND</em>
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_comment"> ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</em>
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_comment"> WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</em>
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_comment"> DISCLAIMED. EXCEPT IN CASE OF WILLFUL MISCONDUCT OR GROSS NEGLIGENCE, IN NO EVENT</em>
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_comment"> SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,</em>
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</em>
+<a class="jxr_linenumber" name="18" href="#18">18</a>  <em class="jxr_comment"> LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR</em>
+<a class="jxr_linenumber" name="19" href="#19">19</a>  <em class="jxr_comment"> PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,</em>
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <em class="jxr_comment"> WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT(INCLUDING NEGLIGENCE OR OTHERWISE) </em>
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <em class="jxr_comment"> ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE </em>
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <em class="jxr_comment"> POSSIBILITY OF SUCH DAMAGE.</em>
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">package</strong> org.appverse.web.framework.backend.reporting.services.integration;
+<a class="jxr_linenumber" name="25" href="#25">25</a>  
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="27" href="#27">27</a>  
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.appverse.web.framework.backend.api.model.integration.ExcelSheetReportData;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../../../../../../org/appverse/web/framework/backend/reporting/services/integration/ReportService.html">ReportService</a> {
+<a class="jxr_linenumber" name="31" href="#31">31</a>  
+<a class="jxr_linenumber" name="32" href="#32">32</a>  	<strong class="jxr_keyword">public</strong> byte[] generateExcel(List&lt;ExcelSheetReportData&gt; excelSheetsReportData)
+<a class="jxr_linenumber" name="33" href="#33">33</a>  			<strong class="jxr_keyword">throws</strong> Exception;
+<a class="jxr_linenumber" name="34" href="#34">34</a>  }
+</pre>
+<hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
+</html>
+

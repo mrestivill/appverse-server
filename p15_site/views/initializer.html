@@ -1,0 +1,127 @@
+<div id="header-container">
+    <header class="wrapper clearfix">
+        <div id="html5-logo-container">
+            <img width="170" height="170" src="images/icon.png" alt="" />
+        </div>
+        <div id="title-container">
+            <h1 id="title">Appverse P15</h1>
+            <h2>Start an application in 15 minutes.</h2>
+        </div>
+
+        <div id="follow-container">
+
+        </div>
+    </header>
+</div>
+<div id="main-container">
+    <div id="main" class="wrapper clearfix" ng-controller="BambooP15RestController">
+        <form>
+            <h2 class="separator">Project type</h2>
+            <div id="preconfig-section" class="clearfix">
+                <div class="preconfig-container blank-background">
+                    <button id="preconfig-blank" class="preconfig-block blank-background clearfix" ng-click="keyBuild()">
+                        <h3>GWT</h3>
+                    </button>
+                </div>
+                <div class="preconfig-container initializr-background">
+                    <button id="preconfig-initializr" class="preconfig-block initializr-background clearfix">
+                        <h3>JSF</h3>
+                    </button>
+                    <!--					<div class="preconfig-links-container"><a target="_blank" href="http://verekia.com/initializr/responsive-template" class="first">Docs</a><a target="_blank" href="/try">Demo</a></div>-->
+                </div>
+                <div class="preconfig-container bootstrap-background">
+                    <button id="preconfig-bootstrap" class="preconfig-block bootstrap-background clearfix">
+                        <h3>HTML5</h3>
+                    </button>
+                    <!--					<div class="preconfig-links-container"><a target="_blank" href="http://getbootstrap.com/getting-started/" class="first">Docs</a><a target="_blank" href="http://getbootstrap.com/examples/jumbotron/">Demo</a></div>-->
+                </div>
+            </div>
+
+            <div id="hidden-section">
+                <h2 id="fine-tuning-separator" class="separator">Project detailed configuration</h2>
+                <div id="customize-section" class="clearfix">
+                    <div class="customize-section">
+                        <h3>Archetype version</h3>
+                        <label><input type="text" name="archetypeVersion" ng-model="bamboodata.archetypeVersion"></label>
+                        <!--<label><select id="cboArchetypeVersion" name="cboDepartamento"></select></label>-->
+                    </div>
+                    <div class="customize-section">
+                        <h3>group ID</h3>
+                        <label><input type="text" name="groupId" ng-model="bamboodata.newProjectGroupID"></label>
+                    </div>
+                    <div class="customize-section">
+                        <h3>Code version</h3>
+                        <label><input type="text" name="codeVersion" ng-model="bamboodata.newProjectVersion"></label>
+                    </div>
+
+                </div>
+                <div id="ready-section" class="clearfix">
+                    <button id="ready" class="preconfig-block ready-background clearfix">
+                        <h3>Ready!</h3>
+                    </button>
+                </div>
+            </div>
+            <div id="hidden-section-cooming-soon">
+                <h2>Cooming soon</h2>
+            </div>
+            <div id="hidden-section-2">
+                <h2 id="fine-tuning-separator-2" class="separator">Project attributes</h2>
+                <div id="customize-section-2" class="clearfix">
+                    <div class="customize-section-2">
+                        <h3>Project name</h3>
+                        <label><input type="text" name="projectName" value="defaultName"></label>
+                    </div>
+                    <div class="customize-section-2">
+                        <h3>Title name</h3>
+                        <label><input type="text" name="projectTitle" value="Default Title" ng-model="bamboodata.newProjectName"></label>
+                    </div>
+                    <div class="customize-section-2">
+                        <h3>e-mail</h3>
+                        <label><input type="text" name="mail" value="mymail@mymail.com" ng-model="bamboodata.newProjectOwnerEmail"></label>
+                    </div>
+                </div>	
+                <input type="hidden" id="buildKeyDataHidden">
+                <div id="download-section" class="clearfix">
+                    <button id="download" class="preconfig-block ready-background clearfix" ng-click="runJob()">
+                        <h3>download!</h3>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div> <!-- #main -->
+</div> <!-- #main-container -->
+
+<div id="about-container">
+    <div class="wrapper">
+        <div id="github-container" class="clearfix">
+            <a href="https://github.com/jesusjavierdediego/TMDashboard"><small>View project on</small>GitHub</a>
+
+
+        </div>
+        <article id="docs">
+            <h3>About P15</h3>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+        </article>
+
+    </div>
+</div>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="front/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+<!--<script src="/scripts/p15.js"></script>-->
+<script>
+                        var _gaq = [['_setAccount', 'UA-11028046-9'], ['_trackPageview']]; // Change UA-XXXXX-X to be your site's ID
+                        (function(d, t) {
+                            var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+                            g.async = 1;
+                            g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
+                            s.parentNode.insertBefore(g, s)
+                        }(document, 'script'));
+</script>
+
+<!--[if lt IE 7 ]>
+        <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+        <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+<![endif]-->

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rss version="0.91">
+  <channel>
+    <title>Appverse Web Framework Modules Backend Core Persistence Module - Checkstyle report</title>
+    <link>http://appverse.org/projects/appverse-web/</link>
+    <description>Appverse Web Framework Modules Backend Core Persistence Module - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2011 - 2013 Appverse</copyright>
+    <item>
+      <title>File: 13,
+             Errors: 3406,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>http://appverse.org/projects/appverse-web//checkstyle.html</link>
+      <description>
+        <p>Click <a href="http://appverse.org/projects/appverse-web//checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.ELJMSTransportManager.java">org/appverse/web/framework/backend/persistence/services/integration/ELJMSTransportManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  117
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.ELCacheSessionCustomizer.java">org/appverse/web/framework/backend/persistence/services/integration/ELCacheSessionCustomizer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  25
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.helpers.UpdateJpaCallback.java">org/appverse/web/framework/backend/persistence/services/integration/helpers/UpdateJpaCallback.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  123
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.impl.live.JPAPersistenceService.java">org/appverse/web/framework/backend/persistence/services/integration/impl/live/JPAPersistenceService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1301
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.IJPAPersistenceService.java">org/appverse/web/framework/backend/persistence/services/integration/IJPAPersistenceService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1043
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.helpers.EntityListener.java">org/appverse/web/framework/backend/persistence/services/integration/helpers/EntityListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  57
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryJpaCallback.java">org/appverse/web/framework/backend/persistence/services/integration/helpers/QueryJpaCallback.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  238
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.ELJMSConfig.java">org/appverse/web/framework/backend/persistence/services/integration/ELJMSConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  148
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.model.integration.AbstractIntegrationAuditedJPABean.java">org/appverse/web/framework/backend/persistence/model/integration/AbstractIntegrationAuditedJPABean.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  105
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryJpaCallbackParameter.java">org/appverse/web/framework/backend/persistence/services/integration/helpers/QueryJpaCallbackParameter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  47
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryJpaCallbackHint.java">org/appverse/web/framework/backend/persistence/services/integration/helpers/QueryJpaCallbackHint.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  57
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.services.integration.helpers.PersistenceMessageBundle.java">org/appverse/web/framework/backend/persistence/services/integration/helpers/PersistenceMessageBundle.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  110
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://appverse.org/projects/appverse-web//checkstyle.html#org.appverse.web.framework.backend.persistence.helpers.log.EclipselinkLogger.java">org/appverse/web/framework/backend/persistence/helpers/log/EclipselinkLogger.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  35
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+
