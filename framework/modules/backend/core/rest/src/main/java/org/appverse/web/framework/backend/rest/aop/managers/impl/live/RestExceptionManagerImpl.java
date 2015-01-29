@@ -71,7 +71,13 @@ public class RestExceptionManagerImpl implements RestExceptionManager {
 				convertAndRethrowException(method, args, target, targetEx);
 			else
 				throw ex;
-		}
+		}else if (ex instanceof IllegalStateException)
+        {
+            IllegalStateException ise = (IllegalStateException) ex;
+            String reason = ise.getMessage();
+            RestWebAppException rex = new RestWebAppException(reason, 0, ise);
+            throw rex;
+        }
 		else
 			throw ex;
 
