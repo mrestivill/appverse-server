@@ -23,20 +23,16 @@
  */
 package org.appverse.web.framework.backend.persistence.services.integration;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-
 import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
 import org.appverse.web.framework.backend.api.model.integration.IntegrationDataFilter;
 import org.appverse.web.framework.backend.api.model.integration.ResultIntegrationBean;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryJpaCallback;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.UpdateJpaCallback;
+
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This is the interface for JPA Persistence services implementations providing
@@ -871,23 +867,4 @@ public interface IJPAPersistenceService<T extends AbstractIntegrationBean> {
      * @see javax.persistence.EntityManager#unwrap(Class)
      */
     <S> S unwrap(Class<S> cls);
-    
-    /**
-     * Create an instance of <code>TypedQuery</code> for executing a
-     * criteria query.
-     * @param criteriaQuery  a criteria query object
-     * @return the new query instance
-     * @throws IllegalArgumentException if the criteria query is
-     *         found to be invalid
-     */
-    <TQ> TypedQuery<TQ> createQuery(CriteriaQuery<TQ> criteriaQuery);
-    
-    /**
-     * Return an instance of <code>CriteriaBuilder</code> for the creation of
-     * <code>CriteriaQuery</code> objects.
-     * @return CriteriaBuilder instance
-     * @throws IllegalStateException if the entity manager has
-     *         been closed
-     */
-    CriteriaBuilder getCriteriaBuilder();    
 }

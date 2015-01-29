@@ -23,14 +23,12 @@
  */
 package org.appverse.web.framework.backend.persistence.services.integration.helpers;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 
 public class QueryJpaCallback<T> {
 
@@ -106,12 +104,7 @@ public class QueryJpaCallback<T> {
 	@SuppressWarnings("unchecked")
 	public T doInJpaSingleResult(EntityManager em) throws PersistenceException {
 		prepareQuery(em);
-		try{
-			return (T) query.getSingleResult();
-		}
-		catch(NoResultException e){
-			return null;
-		}
+		return (T) query.getSingleResult();
 	}	
 	
 	private void prepareQuery(EntityManager em){

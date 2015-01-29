@@ -36,7 +36,8 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.validateMockitoUsage;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class JWSHttpServletRequestWrapperTest {

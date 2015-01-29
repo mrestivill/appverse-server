@@ -24,21 +24,15 @@
 package org.appverse.web.framework.backend.frontfacade.gxt.controllers;
 
 import com.google.gwt.user.server.rpc.RPC;
-
-import org.appverse.web.framework.backend.api.helpers.security.ESAPIHelper;
 import org.appverse.web.framework.backend.api.helpers.security.SecurityHelper;
 import org.appverse.web.framework.backend.api.services.presentation.IFileUploadPresentationService;
 import org.appverse.web.framework.backend.api.services.presentation.PresentationException;
 import org.appverse.web.framework.backend.frontfacade.gxt.services.presentation.GWTPresentationException;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-import org.apache.tika.Tika;
-import org.apache.tika.parser.txt.CharsetDetector;
 
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
@@ -49,14 +43,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 @Component
 @Singleton
@@ -94,29 +84,20 @@ public class FileUploadController implements ApplicationContextAware {
     @POST
     @Path("{servicemethodname}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public void handleFormUpload(FormDataMultiPart multiPart,
+    public void handleFormUpload(
             @PathParam("servicemethodname") String servicemethodname,
             @FormDataParam("file") InputStream stream,
+            @FormDataParam("hiddenFileName") String hiddenFileName,
             @FormDataParam(SecurityHelper.XSRF_TOKEN_NAME) String xsrfToken,
+            @FormDataParam("hiddenMediaCategory") String hiddenMediaCategory,
+            @FormDataParam("maxFileSize") String maxSize,
             @Context HttpServletRequest request,
             @Context HttpServletResponse response) throws Exception {
-    	    	
-    	Map<String, String> parameters = new HashMap<String, String>();
 
-        Map<String, List<FormDataBodyPart>> multiParts = multiPart.getFields();
-        Iterator<Entry<String, List<FormDataBodyPart>>> keySetIterator = multiParts.entrySet().iterator();
-    	while(keySetIterator.hasNext()){
-    		Entry<String, List<FormDataBodyPart>> parameter = keySetIterator.next();
-    		String parameterName = parameter.getKey();
-    		if (!parameterName.equals("file")){
-        		List<FormDataBodyPart> valuesList = parameter.getValue();
-        		FormDataBodyPart valueBodyPart=null;
-        		if (valuesList != null){
-        			valueBodyPart = valuesList.get(0);        			
-        		}        		
-        		parameters.put(parameterName, valueBodyPart.getValue());
-    		}
-    	}    	
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("hiddenFileName", hiddenFileName);
+        parameters.put("hiddenMediaCategory", hiddenMediaCategory);
+        parameters.put("maxFileSize", maxSize);
 
         SecurityHelper.checkXSRFToken(xsrfToken, request);
 
@@ -139,7 +120,7 @@ public class FileUploadController implements ApplicationContextAware {
     }
 
     private void processCall(final HttpServletResponse response,
-                             byte[] bytes, final Map<String, String> parameters) throws Exception {
+                             final byte[] bytes, final Map<String, String> parameters) throws Exception {
         Object presentationService = applicationContext.getBean(serviceName
                 .get());
         if (!(presentationService instanceof IFileUploadPresentationService)) {
@@ -148,11 +129,7 @@ public class FileUploadController implements ApplicationContextAware {
                             + presentationService + ")");
         }
         String encodedResult = null;
-        
-        // XSS File upload protection. Clean parameters
-        ESAPIHelper.cleanParams(parameters);
-        
-        // Check file size
+
         if (parameters.get(MAX_FILE_SIZE_PARAM_NAME) != null) {
             long maxFileSize = Long.parseLong(parameters
                     .get(MAX_FILE_SIZE_PARAM_NAME));
@@ -163,24 +140,6 @@ public class FileUploadController implements ApplicationContextAware {
                                 bytes.getClass(), Map.class),
                         new GWTMaxFileSizeExceedException());
             }
-        }
-        
-        // XSS File upload protection
-        Tika tika = new Tika();
-        String mime = tika.detect(bytes);
-        if (mime.equals(org.apache.tika.mime.MediaType.APPLICATION_XML.toString()) || 
-        	mime.equals(org.apache.tika.mime.MediaType.TEXT_HTML.toString()) || 
-        	mime.equals(org.apache.tika.mime.MediaType.TEXT_PLAIN.toString())){
-            CharsetDetector charsetDetector = new CharsetDetector();
-            charsetDetector.setText(bytes);
-            // Get the bytes as a String autodetecting charset
-            String fileString = charsetDetector.getString(bytes, null);
-
-            // Skip possible XSS in string
-            fileString = ESAPIHelper.stripXSS(fileString);            
-            
-            // Write the skipped bytes respecting the autodetected charset
-            bytes = fileString.getBytes(charsetDetector.detect().getName());
         }
 
         try {

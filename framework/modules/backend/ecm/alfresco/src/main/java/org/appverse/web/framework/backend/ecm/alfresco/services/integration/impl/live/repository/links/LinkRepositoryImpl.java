@@ -29,6 +29,7 @@ import org.appverse.web.framework.backend.ecm.alfresco.model.integration.reposit
 import org.appverse.web.framework.backend.ecm.alfresco.model.integration.repository.links.PageDTO;
 import org.appverse.web.framework.backend.ecm.alfresco.services.integration.repository.links.LinkRepository;
 import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedResult;
+import org.appverse.web.framework.backend.rest.services.integration.IRestPersistenceService;
 import org.appverse.web.framework.backend.rest.services.integration.impl.live.RestPersistenceService;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.slf4j.Logger;
@@ -38,7 +39,6 @@ import org.springframework.stereotype.Repository;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +49,7 @@ import java.util.Map;
  */
 @Repository("linkRepository")
 public class LinkRepositoryImpl extends RestPersistenceService<LinkDTO>
-        implements LinkRepository {
+        implements LinkRepository, IRestPersistenceService<LinkDTO> {
 
 
     @Autowired
@@ -103,7 +103,7 @@ public class LinkRepositoryImpl extends RestPersistenceService<LinkDTO>
             properties.put(HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_USERNAME, user);
             properties.put(HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_PASSWORD, password);
         }
-        return this.retrievePagedQuery(alfrescoRestClient.path("links/site/"+ site +"/" + container),
+        return this.retrievePagedQuery(alfrescoRestClient.path("links/site/webtestsite/links"),
                 filter, null, queryParams, properties);
     }
 

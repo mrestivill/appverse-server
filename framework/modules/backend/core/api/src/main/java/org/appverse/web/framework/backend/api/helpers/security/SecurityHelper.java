@@ -23,18 +23,17 @@
  */
 package org.appverse.web.framework.backend.api.helpers.security;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.owasp.esapi.ESAPI;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 public class SecurityHelper {
 
@@ -66,8 +65,9 @@ public class SecurityHelper {
         HttpSession session = request.getSession(false);
         String xsrfSessionToken = (String) session
                 .getAttribute(XSRF_TOKEN_NAME);
-        if (xsrfSessionToken == null) {        	
-            long value = System.currentTimeMillis() + ESAPI.randomizer().getRandomLong();
+        if (xsrfSessionToken == null) {
+            Random r = new Random(System.currentTimeMillis());
+            long value = System.currentTimeMillis() + r.nextLong();
             char ids[] = session.getId().toCharArray();
             for (int i = 0; i < ids.length; i++) {
                 value += ids[i] * (i + 1);

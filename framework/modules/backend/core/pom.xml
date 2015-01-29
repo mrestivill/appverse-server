@@ -10,7 +10,7 @@
 
 	<groupId>org.appverse.web.framework.poms.modules.backend.core</groupId>
 	<artifactId>appverse-web-modules-backend-core-pom</artifactId>
-	<version>1.5.1-SNAPSHOT</version>
+	<version>1.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Appverse Web Framework Modules Backend Core POM</name>
@@ -138,6 +138,11 @@
 		<url>https://github.com/Appverse/appverse-web/issues</url>
 	</issueManagement>
 
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>https://appverseweb-ci.ci.cloudbees.com</url>
+	</ciManagement>
+
 	<mailingLists>
 		<mailingList>
 			<name>User and Developers</name>
@@ -179,6 +184,8 @@
 		<module>persistence</module>
 		<module>ws</module>
 		<module>rest</module>
-	</modules>
+        <module>bpm</module>
+        <module>notification</module>
+    </modules>
 
 </project>

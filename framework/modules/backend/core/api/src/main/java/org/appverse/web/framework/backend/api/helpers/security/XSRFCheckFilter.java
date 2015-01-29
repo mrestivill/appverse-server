@@ -28,16 +28,10 @@ import jodd.typeconverter.TypeConversionException;
 import jodd.util.StringUtil;
 import jodd.util.Wildcard;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * This filter checks the XSRF token is present in your request.
@@ -45,30 +39,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * Params initialization and url patterns treatment (matches, nocaches and wildcards) is inspired by jodd.servlet.filter.GzipFilter.java
  * http://jodd.org/doc/htmlstapler/enabling-gzip.html#GZIP-filter
- * 
- * Those params are:
- * - match: comma separated string patterns to be found in the uri for using XSRFCheckFilter. Only uris that match these patterns will be checked. Use '*' to enable default matching.
- * - widlcards {true|false}  boolean that specifies wildcard matching for string patterns. by default false. 
- * - exludes: comma separated string patterns to be excluded if found in uri for using XSRFCheckFilter. It is applied only if all urls are matched.
- * - genXsrfPath: Single path which will generate the XSRF Token.
  */
 public class XSRFCheckFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        if( isXsrfGenerate(req) ) {
-        	try {
-        		String xsrfToken = SecurityHelper.createXSRFToken(req);
-        		response.getOutputStream().write(xsrfToken.getBytes());
-        		response.flushBuffer();
-        		return;
-        	} catch (Exception e) {
-                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                /*return;*/
-        	}
-        }
-        else if (isXsrfCheckEligible(req)){
+        if (isXsrfCheckEligible(req)){
             try{
                 SecurityHelper.checkXSRFToken(req);
             }
@@ -83,7 +60,6 @@ public class XSRFCheckFilter implements Filter {
     protected String[] matches;
     protected String[] excludes;
     protected boolean wildcards;
-    protected String getXsrfPath;
 
 
     /**
@@ -116,9 +92,6 @@ public class XSRFCheckFilter implements Filter {
                 excludes[i] = excludes[i].trim();
             }
         }
-        
-        // getXsrfPath
-        getXsrfPath = config.getInitParameter("getXsrfPath");
     }
 
     public void destroy() {
@@ -126,16 +99,6 @@ public class XSRFCheckFilter implements Filter {
         excludes = null;
     }
 
-    private boolean isXsrfGenerate(HttpServletRequest req) {
-        String uri = req.getRequestURI();
-        if (uri == null) {
-            return false;
-        }
-        if (getXsrfPath!=null && uri.contains(getXsrfPath)) {
-            return true;
-        }
-        return false;
-    }
     /**
      * Determine if uri is eligible for being checked against XSRF attacks
      */

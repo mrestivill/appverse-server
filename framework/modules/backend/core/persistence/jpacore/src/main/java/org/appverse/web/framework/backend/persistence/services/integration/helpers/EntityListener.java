@@ -23,17 +23,16 @@
  */
 package org.appverse.web.framework.backend.persistence.services.integration.helpers;
 
-import java.util.Date;
-
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-
 import org.appverse.web.framework.backend.api.helpers.util.GMTTimeHelper;
 import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
 import org.appverse.web.framework.backend.persistence.model.integration.AbstractIntegrationAuditedJPABean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import java.util.Date;
 
 public class EntityListener {
 
@@ -44,8 +43,15 @@ public class EntityListener {
 		if (authentication == null) {
 			username = "batch_process";
 		} else {
-			UserDetails user = (UserDetails) authentication.getPrincipal();
-			username = user.getUsername();
+            Object obj = authentication.getPrincipal();
+            //On unauthenticated applications obj is a simple string and it will fail
+            if (obj instanceof UserDetails){
+                UserDetails user = (UserDetails) authentication.getPrincipal();
+                username = user.getUsername();
+            }else if (obj instanceof String){
+                username = (String)obj;
+            }
+
 		}
 		return username;
 	}

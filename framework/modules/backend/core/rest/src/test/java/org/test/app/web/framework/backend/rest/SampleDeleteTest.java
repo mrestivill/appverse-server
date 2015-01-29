@@ -39,9 +39,6 @@
  */
 package org.test.app.web.framework.backend.rest;
 
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response.Status;
-
 import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
 import org.appverse.web.framework.backend.api.services.integration.IntegrationException;
 import org.appverse.web.framework.backend.rest.model.integration.StatusResult;
@@ -50,7 +47,6 @@ import org.glassfish.jersey.test.TestProperties;
 import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -62,9 +58,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.test.app.web.framework.backend.rest.model.integration.SampleDTO;
 import org.test.app.web.framework.backend.rest.services.integration.SampleRepository;
-
 import server.org.appverse.service.rest.sample.ExtendedGrizzlyTestContainerFactory;
 import server.org.appverse.service.rest.sample.SampleRestApplication;
+
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response.Status;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -169,7 +168,6 @@ public class SampleDeleteTest extends JerseyTest {
 	}
 
 	@Test
-	@Ignore
 	public void deleteSampleExceptionXml() throws Exception {
 		try
 		{

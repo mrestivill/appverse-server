@@ -23,19 +23,7 @@
  */
 package org.appverse.web.framework.backend.api.services.presentation.impl.live;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import org.appverse.web.framework.backend.api.model.presentation.AuthorizationDataVO;
-import org.appverse.web.framework.backend.api.model.presentation.UserInfoVO;
 import org.appverse.web.framework.backend.api.services.presentation.AbstractPresentationService;
 import org.appverse.web.framework.backend.api.services.presentation.AuthenticationServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,23 +37,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-/**
- * Authentication Service Implementation.
- * It is being used by gwt api in the module initialization phase.
- * @author RRBL
- *
- */
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Service("authenticationServiceFacade")
-@Path("authenticationServiceFacade")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationServiceFacadeImpl extends
 		AbstractPresentationService implements AuthenticationServiceFacade {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 
 	@Override
 	public void authenticatePrincipal(String principal, List<String> credentials) {
@@ -77,17 +59,6 @@ public class AuthenticationServiceFacadeImpl extends
 		authenticationManager.authenticate(authentication);
 	}
 
-	/**
-	 * This is a convenience method for making Rest and RPC interfaces of this service compatible.
-	 */
-	@Override
-    @POST
-    @Path("authenticatePrincipal")
-	@Produces(MediaType.APPLICATION_JSON)
-	public AuthorizationDataVO authenticatePrincipal(UserInfoVO userInfo) {
-		return authenticatePrincipal(userInfo.getUser(), userInfo.getPassword());
-	}
-	
 	/**
 	 * Takes the username and password as provided and checks the validaty of
 	 * the credentials. Spring security is used to check the credentielas and to
@@ -124,9 +95,6 @@ public class AuthenticationServiceFacadeImpl extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-    @POST
-    @Path("getAuthorities")
-	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getAuthorities() {
 		final Authentication authentication = SecurityContextHolder
 				.getContext().getAuthentication();
@@ -140,9 +108,6 @@ public class AuthenticationServiceFacadeImpl extends
 	}
 
 	@Override
-    @POST
-    @Path("getPrincipal")
-	@Produces(MediaType.APPLICATION_JSON)
 	public String getPrincipal() {
 		final Authentication authentication = SecurityContextHolder
 				.getContext().getAuthentication();
@@ -153,23 +118,14 @@ public class AuthenticationServiceFacadeImpl extends
 	 * Geneates a cross site request forgivery token, saves it at the current
 	 * session and returns the token to the frontend site.
 	 * 
-	 * This method is intercepted by:
-	 * - the spring gwtrpc controller
-	 * - the spring json controller
-	 * - XSRFCheckFilter
-	 * 
-	 * Reason for this interception is to decouple these spring beans from the servlet context.
+	 * This method is intercepted by the spring gwtrpc controller
 	 * 
 	 * @return String object with cross site request forgivery generated token
 	 *         for current session
-	 * @throws IOException 
 	 */
 	@Override
-    @POST
-    @Path("getXSRFSessionToken")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getXSRFSessionToken() throws IOException {
-		//See Javadoc to understand this method.
+	public String getXSRFSessionToken() {
+
 		return "";
 	}
 
@@ -181,9 +137,6 @@ public class AuthenticationServiceFacadeImpl extends
 	 *         elsewise
 	 */
 	@Override
-    @POST
-    @Path("isPrincipalAuthenticated")
-	@Produces(MediaType.APPLICATION_JSON)
 	public boolean isPrincipalAuthenticated() {
 		final Authentication authentication = SecurityContextHolder
 				.getContext().getAuthentication();
@@ -195,5 +148,4 @@ public class AuthenticationServiceFacadeImpl extends
 		}
 
 	}
-
 }

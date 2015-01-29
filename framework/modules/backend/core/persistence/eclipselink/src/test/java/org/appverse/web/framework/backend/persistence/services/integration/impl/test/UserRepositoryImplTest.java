@@ -23,16 +23,6 @@
  */
 package org.appverse.web.framework.backend.persistence.services.integration.impl.test;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
 import org.appverse.web.framework.backend.api.helpers.test.AbstractTransactionalTest;
 import org.appverse.web.framework.backend.api.helpers.test.JPATest;
 import org.appverse.web.framework.backend.api.model.integration.IntegrationDataFilter;
@@ -44,6 +34,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.util.Assert;
+
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
+import java.util.List;
 
 @TransactionConfiguration(defaultRollback = false)
 public class UserRepositoryImplTest extends AbstractTransactionalTest implements
@@ -162,24 +156,6 @@ public class UserRepositoryImplTest extends AbstractTransactionalTest implements
 		userDTORetrieved = userRepository.retrieve(userDTO.getId());
 		Assert.notNull(userDTORetrieved);
 	}
-	
-	@Test
-	public void useCriteriaBuilder() throws Exception {
-		persist();
-		CriteriaBuilder cb = userRepository.getCriteriaBuilder();		 
-		CriteriaQuery<UserDTO> cq = cb.createQuery(UserDTO.class);
-		Root<UserDTO> u = cq.from(UserDTO.class);
-		cq.select(u);
-		TypedQuery<UserDTO> q = userRepository.createQuery(cq);
-		List<UserDTO> allUsers = q.getResultList();		
-		Assert.notEmpty(allUsers, "allUsers should not be empty or null");
-	}
-	
-	@Test
-	public void testSingleResultWithoutResults() throws Exception {
-		UserDTO userDTORetrieved = userRepository.retrieve("select u from UserDTO u");
-		Assert.isNull(userDTORetrieved);
-	}	
 
     /*  Tests optimistic locking. This can not be uncommented because even though it is possible to assert that
         certain exception is thrown, the transaction fails anyway and the test is flaged as 'failed'.
