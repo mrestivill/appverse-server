@@ -30,6 +30,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.spring.integration.test.annotation.SpringConfiguration;
 import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -72,6 +73,7 @@ public class SyncMessageTestCase {
 	 *
 	 * @throws Exception if any error occurs
 	 */
+	@Ignore
 	@Test
 	public void testSendAndReceive() throws Exception {
 
@@ -97,6 +99,7 @@ public class SyncMessageTestCase {
 	 *
 	 * @throws Exception if any error occurs
 	 */
+	@Ignore
 	@Test
 	public void testSendAndReceiveHeader() throws Exception {
 
