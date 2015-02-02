@@ -193,8 +193,8 @@
 
 	<properties>
 		<framework.version>2.0.0-SNAPSHOT</framework.version>
-		<spring.version>4.0.6.RELEASE</spring.version>
-        <spring.security.version>3.2.4.RELEASE</spring.security.version>
+		<spring.version>4.1.4.RELEASE</spring.version>
+        <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <spring.oauth2.version>2.0.2.RELEASE</spring.oauth2.version>
 		<!--  GWT Native validation requires slf4j vresion 1.6.1, if this is changed, module frontend-gwt-api needs to be reviewed and tested -->
 		<slf4j.version>1.6.1</slf4j.version>
@@ -206,7 +206,6 @@
 		<jersey.version>2.11</jersey.version>
         <jdk.source>1.6</jdk.source>
         <jdk.target>1.6</jdk.target>
-        <ehcache.version>2.4.7</ehcache.version>
         <owasp.esapi.version>2.1.0</owasp.esapi.version>
         <org.jsoup.version>1.7.3</org.jsoup.version>
         <nimbus.version>2.25</nimbus.version>
@@ -217,6 +216,7 @@
 
 	<modules>
 		<module>modules</module>
+
 	</modules>
 
 	<build>
@@ -571,12 +571,6 @@
 				<version>${spring.version}</version>
 				<scope>test</scope>
 			</dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-                <scope>test</scope>
-            </dependency>
 
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -599,13 +593,13 @@
 			<dependency>
 				<groupId>org.springframework.batch</groupId>
 				<artifactId>spring-batch-core</artifactId>
-				<version>2.1.9.RELEASE</version>
+				<version>3.0.3.RELEASE</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-jpa</artifactId>
-				<version>${spring.version}</version>
+				<version>1.7.2.RELEASE</version>
 			</dependency>
 
 			<dependency>
@@ -635,7 +629,7 @@
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
-                <version>${spring.oauth2.version}</version>
+                <version>2.0.6.RELEASE</version>
             </dependency>
 			<!-- END OF SPRING FRAMEWORK MANAGED DEPENDENCIES -->
 
@@ -778,9 +772,10 @@
 			<!-- EHCache version -->
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
-				<artifactId>ehcache-core</artifactId>
-				<version>${ehcache.version}</version>
+				<artifactId>ehcache</artifactId>
+				<version>2.9.0</version>
 			</dependency>
+
 			
 			<!-- Spring Instrument version, for aspectj load time weaving -->
 			<dependency>
@@ -1088,6 +1083,12 @@
     			<version>1.1.1</version>
   			</dependency>
 			
+			<dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
 			
 			<dependency>
 				<groupId>org.apache.activemq</groupId>

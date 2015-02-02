@@ -26,12 +26,12 @@ package org.appverse.web.framework.backend.cache.helpers;
 import java.net.URISyntaxException;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
 
 import net.sf.ehcache.distribution.jms.JMSUtil;
-import net.sf.ehcache.store.chm.ConcurrentHashMap;
 
 import org.apache.activemq.jndi.ActiveMQInitialContextFactory;
 
