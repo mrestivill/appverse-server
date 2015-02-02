@@ -23,7 +23,6 @@
  */
 package org.appverse.web.framework.backend.persistence.services.integration.impl.test;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;

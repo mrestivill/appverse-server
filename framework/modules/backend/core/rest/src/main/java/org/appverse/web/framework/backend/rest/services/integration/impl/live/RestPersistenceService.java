@@ -606,7 +606,6 @@ public abstract class RestPersistenceService<T extends AbstractIntegrationBean> 
 	@Override
 	public T update(final WebTarget webClient, final T object, final String idName, final Long id)
 			throws Exception {
-		// TODO Auto-generated method stub
 		return update(webClient, object, idName, id, null, null);
 	}
 

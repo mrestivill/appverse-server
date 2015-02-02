@@ -40,7 +40,6 @@ public class JWSJerseyFilter implements ClientRequestFilter, ClientResponseFilte
 	@Override
 	//RequestFilter
 	public void filter(final ClientRequestContext requestContext) throws IOException {
-		// TODO Auto-generated method stub
 
 		try
 		{
@@ -148,7 +147,6 @@ public class JWSJerseyFilter implements ClientRequestFilter, ClientResponseFilte
 	public void filter(final ClientRequestContext requestContext,
 			final ClientResponseContext responseContext)
 			throws IOException {
-		// TODO Auto-generated method stub
 
 	}
 

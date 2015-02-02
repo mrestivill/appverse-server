@@ -84,7 +84,7 @@ public class SecurityHelper {
      * @param request
      * @throws Exception
      */
-    @SuppressWarnings("unused")
+
     public static void checkXSRFToken(final HttpServletRequest request)
             throws Exception {
         String tokenFromRequest = request.getHeader(XSRF_TOKEN_NAME);

@@ -63,7 +63,6 @@ public class MyAsyncRepositoryImpl extends JMSAsyncService<SampleDTO> implements
 	 */
 	@Override
 	public MessageConverter getMessageConverter() {
-		// TODO Auto-generated method stub
 		return messageConverter;
 	}
 

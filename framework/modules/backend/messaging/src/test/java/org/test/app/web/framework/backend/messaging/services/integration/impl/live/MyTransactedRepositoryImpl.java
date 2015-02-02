@@ -78,7 +78,6 @@ public class MyTransactedRepositoryImpl extends JMSAsyncService<SampleDTO> imple
 	 */
 	@Override
 	public MessageConverter getMessageConverter() {
-		// TODO Auto-generated method stub
 		return messageConverter;
 	}
 

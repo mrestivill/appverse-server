@@ -79,7 +79,6 @@ public class PresentationException extends AbstractException {
 
 	public PresentationException(long code, String message) {
 		super(code, message);
-		// TODO Auto-generated constructor stub
 	}
 
 	public PresentationException(long code, String message, Throwable cause) {
@@ -88,7 +87,6 @@ public class PresentationException extends AbstractException {
 
 	public PresentationException(long code, Throwable cause) {
 		super(code, cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	public PresentationException(final Long code,

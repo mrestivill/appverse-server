@@ -24,14 +24,8 @@
 package org.appverse.web.framework.backend.security.oauth2.provider.web.session;
 
 import org.springframework.context.ApplicationListener;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionDestroyedEvent;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.security.core.Authentication;
-
-import java.util.List;
 
 @Component
 public class OAuth2SessionExpiredListener implements ApplicationListener<SessionDestroyedEvent> {

@@ -23,6 +23,8 @@
  */
 package org.appverse.web.framework.backend.api.helpers.json;
 
+import java.io.IOException;
+
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
@@ -34,9 +36,6 @@ import org.owasp.esapi.Encoder;
 import org.owasp.esapi.reference.DefaultEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.Date;
 
 /**
  * This class is used by Appverse JacksonContextResolver to deserialize JSON String values.

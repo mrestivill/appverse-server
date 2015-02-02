@@ -23,16 +23,6 @@
  */
 package org.appverse.web.framework.backend.frontfacade.rest.authentication.controllers;
 
-import org.appverse.web.framework.backend.api.helpers.security.SecurityHelper;
-import org.appverse.web.framework.backend.api.model.presentation.AuthorizationDataVO;
-import org.appverse.web.framework.backend.api.services.presentation.AuthenticationServiceFacade;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.stereotype.Component;
-import sun.misc.BASE64Decoder;
-
 import javax.inject.Singleton;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +34,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.util.Random;
+
+import org.appverse.web.framework.backend.api.helpers.security.SecurityHelper;
+import org.appverse.web.framework.backend.api.model.presentation.AuthorizationDataVO;
+import org.appverse.web.framework.backend.api.services.presentation.AuthenticationServiceFacade;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.stereotype.Component;
+
+import sun.misc.BASE64Decoder;
 
 @Component
 @Singleton

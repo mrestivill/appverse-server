@@ -54,7 +54,6 @@ public class FileRetrievalController {
 	@RequestMapping(value = "/*.rpc", method = RequestMethod.POST)
 	public void handleFormUpload(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		@SuppressWarnings("unchecked")
 		Enumeration<String> parameterNames = request.getParameterNames();
 		Map<String, String> parameters = new HashMap<String, String>();
 		while (parameterNames.hasMoreElements()) {

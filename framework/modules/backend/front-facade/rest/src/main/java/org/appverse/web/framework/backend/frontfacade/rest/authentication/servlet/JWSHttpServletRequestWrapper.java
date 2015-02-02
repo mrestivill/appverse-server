@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;

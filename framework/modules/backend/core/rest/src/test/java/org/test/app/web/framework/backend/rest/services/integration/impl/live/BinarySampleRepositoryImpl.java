@@ -76,7 +76,6 @@ public class BinarySampleRepositoryImpl extends RestPersistenceService<SampleDTO
 
 	@Override
 	public List<SampleDTO> getTypeSafeList() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

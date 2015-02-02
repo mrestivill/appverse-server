@@ -93,7 +93,6 @@ public class JWSAuthenticationToken extends AbstractAuthenticationToken {
 
 	@Override
 	public Object getCredentials() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

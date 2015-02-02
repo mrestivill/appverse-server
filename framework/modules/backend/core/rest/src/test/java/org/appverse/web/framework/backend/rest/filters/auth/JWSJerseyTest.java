@@ -22,17 +22,17 @@ package org.appverse.web.framework.backend.rest.filters.auth;/*
  POSSIBILITY OF SUCH DAMAGE.
  */
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.validateMockitoUsage;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.security.Key;
+import java.security.KeyStore;
 
 import javax.ws.rs.RuntimeType;
 import javax.ws.rs.client.ClientRequestContext;
@@ -40,11 +40,15 @@ import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.FeatureContext;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.security.Key;
-import java.security.KeyStore;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class JWSJerseyTest {
