@@ -212,7 +212,6 @@
 
 	<modules>
 		<module>modules</module>
-		<module>archetypes</module>
 	</modules>
 
 	<build>
