@@ -951,12 +951,7 @@
                 <version>${nimbus.version}</version>
             </dependency>
 
-			<!-- JAX-RS 2 client api -->            
-			<dependency>
-	    		<groupId>org.glassfish.jersey.core</groupId>
-	    		<artifactId>jersey-client</artifactId>
-                <version>${jersey.version}</version>	    		
-			</dependency>     
+		
 
 			<!-- EHCache version -->
 			<dependency>
@@ -1106,33 +1101,13 @@
 				<artifactId>gwt-user</artifactId>
 				<version>${gwt.version}</version>
 			</dependency>
-
-<!-- https://agema.gft.com/jira/browse/APPWEB-250 
-			<dependency>
-				<groupId>com.googlecode.gwt-validation</groupId>
-				<artifactId>gwt-validation</artifactId>
-				<version>2.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.reflections</groupId>
-                        <artifactId>reflections</artifactId>
-                    </exclusion>
-                </exclusions>
-			</dependency>
--->			
+	
 			<dependency>
             	<groupId>com.google.gwt.inject</groupId>
             	<artifactId>gin</artifactId>
             	<version>${gin.version}</version>
             </dependency>
-			
-<!-- https://agema.gft.com/jira/browse/APPWEB-250 
-            <dependency>
-                <groupId>org.reflections</groupId>
-                <artifactId>reflections</artifactId>
-                <version>0.9.8</version>
-            </dependency>
--->            
+			      
             <dependency>
             	<groupId>com.google.guava</groupId>
             	<artifactId>guava</artifactId>
@@ -1243,21 +1218,7 @@
 	            <artifactId>arquillian-service-integration-spring-inject</artifactId>
 	            <version>1.0.0.Beta2</version>
 	        </dependency>
-	        <!--
-		    <dependency>
-				<groupId>org.jboss.as</groupId>
-				<artifactId>jboss-as-arquillian-container-managed</artifactId>
-				<scope>test</scope>
-				<version>7.1.1.Final</version>
-			</dependency>
-			 
-			<dependency>
-				<groupId>org.jboss.spec</groupId>
-				<artifactId>jboss-javaee-6.0</artifactId>
-				<version>3.0.2.Final</version>
-				<type>pom</type>
-			</dependency>
-			 -->
+
 			 
 			<dependency>
 				<groupId>org.wildfly</groupId>
@@ -1471,11 +1432,7 @@
             </dependency>
 
 
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.4</version>
-            </dependency>
+
 
             <dependency>
                 <groupId>org.apache.chemistry.opencmis</groupId>
