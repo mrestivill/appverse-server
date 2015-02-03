@@ -198,14 +198,13 @@
         <spring.oauth2.version>2.0.2.RELEASE</spring.oauth2.version>
         <jdk.source>1.8</jdk.source>
         <jdk.target>1.8</jdk.target>
-        <gwt.version>2.7</gwt.version>
+        <gwt.version>2.7.0</gwt.version>
 		<!--  GWT Native validation requires slf4j vresion 1.6.1, if this is changed, module frontend-gwt-api needs to be reviewed and tested -->
 		<slf4j.version>1.6.1</slf4j.version>
 		
 		<restygwt.version>1.4</restygwt.version>
 		<gin.version>1.5.0</gin.version>
 		<guava.version>14.0</guava.version>
-		<jsr311.version>2.0</jsr311.version>
 		<jersey.version>2.11</jersey.version>
        
         <owasp.esapi.version>2.1.0</owasp.esapi.version>
@@ -344,7 +343,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>aspectj-maven-plugin</artifactId>
-					<version>1-7</version>
+					<version>1.7</version>
 					<configuration>
 						<source>1.8</source>
 						<target>1.8</target>
@@ -483,7 +482,6 @@
                 <version>${framework.version}</version>
             </dependency>
 -->
-
             <dependency>
 				<groupId>org.appverse.web.framework.modules.frontend.gwt.theme</groupId>
 				<artifactId>appverse-web-modules-frontend-gwt-theme</artifactId>
@@ -497,6 +495,8 @@
 				<scope>provided</scope>
 			</dependency>			
 			<!-- END OF APPVERSE WEB FRAMEWORK MANAGED DEPENDENCIES -->
+
+
 
 			<!-- SPRING FRAMEWORK MANAGED DEPENDENCIES -->
 			<dependency>
@@ -633,51 +633,103 @@
             </dependency>
 			<!-- END OF SPRING FRAMEWORK MANAGED DEPENDENCIES -->
 
+
+
 			<!-- JEE MANAGED DEPENDENCIES -->
-
+			<!-- Java EE 7 (June 12, 2013) -->
+			<!--   Web Application Technologies -->
+			<!--     Java API for WebSocket JSR356 (Included in Web Profile) -->
+			<!--     Java API for JSON Processing JSR353 (Included in Web Profile) -->
+			<!--     Java Servlet 3.1 JSR340 (Included in Web Profile) -->
 			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.4.6</version>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.1.0</version>
+				<scope>provided</scope>
 			</dependency>
-
-			<dependency>
-				<groupId>javax.management.j2ee</groupId>
-				<artifactId>management-api</artifactId>
-				<version>1.1-rev-1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.xml.stream</groupId>
-				<artifactId>stax-api</artifactId>
-				<version>1.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.jws</groupId>
-				<artifactId>jsr181-api</artifactId>
-				<version>1.0-MR1</version>
-			</dependency>
-
+			<!--     JavaServer Faces (JSF)	2.2	JSR344 (Included in Web Profile) -->
+			<!--     Expression Language (EL) 3.0 JSR341 (Included in Web Profile) -->
+			<!--     JavaServer Pages (JSP)	2.3	JSR245 (Included in Web Profile) -->
+			<!--     JavaServer Pages Standard Tag Library (JSTL) 1.2 JSR52 (Included in Web Profile) -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jstl</artifactId>
 				<version>1.2</version>
 			</dependency>
-
+			
+			<!--   Enterprise Application Technologies -->
+			<!--     Batch Applications for the Java Platform JSR352 -->
+			<!--     Concurrency Utilities for Java EE 1.0 JSR236 -->
+			<!--     Contexts and Dependency Injection for Java	1.1	JSR346 (Included in Web Profile) -->
+			<!--     Dependency Injection are for Java	1.0	JSR330 (Included in Web Profile) -->
+			<!--     Bean Validation 1.1 JSR349 (Included in Web Profile)-->
+			<!--     Enterprise JavaBeans (EJB)	3.2	JSR345 (Included in Web Profile) -->
+			<!--     Interceptors 1.2 JSR318 (Included in Web Profile) -->	
+			<!--     Java EE Connector Architecture	1.7	JSR322 -->
+			<!--     Java Persistence API (JPA)	2.1	JSR338 (Included in Web Profile) -->
+			<!--     Common Annotations for the Java Platform 1.2 JSR250 (Included in Web Profile) -->
+			<!--     Java Message Service API (JMS)	2.0	JSR343 -->
+			<!--     Java Transaction API (JTA)	1.2	JSR907 (Included in Web Profile) -->
+			<!--     JavaMail API 1.5 JSR919 -->
 			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>3.0.1</version>
-				<scope>provided</scope>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.4.7</version>
+			</dependency>	
+					
+			<!--   Web Services Technologies -->
+			<!--     Java API for RESTful Web Services (JAX-RS)	2.0	JSR339 (Included in Web Profile) -->
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+			<!--     Implementing Enterprise Web Services 1.3 JSR109 -->
+			<!--     Java API for XML-Based Web Services (JAX-WS) 2.2 JSR224 -->
+			<!--     Web Services Metadata for the Java Platform JSR181 -->
+			<dependency>
+				<groupId>javax.jws</groupId>
+				<artifactId>jsr181-api</artifactId>
+				<version>1.0-MR1</version>
+			</dependency>
+			<!--     Java API for XML-based RPC (JAX-RPC) (Optional) 1.1 JSR10 -->
+			<!--     JavaBeans Activation Framework (JAF) 1.1 JSR925 -->
+			<!--     Java APIs for XML Messaging  1.3 JSR67 -->			
+			<!--     Java API for XML Registries (JAXR) 1.0 JSR93 -->				
+			
+			<!--   Management and Security Technologies -->
+			<!--     Java Authentication Service Provider Interface for Containers 1.1 JSR196 -->
+			<!--     Java Authorization Service Provider Contract for Containers 1.5 JSR115 -->
+			<!--     Java EE Application Deployment (Optional) 1.2 JSR88 -->
+			<!--     J2EE Management 1.1 JSR77 -->
+			<dependency>
+				<groupId>javax.management.j2ee</groupId>
+				<artifactId>management-api</artifactId>
+				<version>1.1-rev-1</version>
+			</dependency>
+			<!--     Debugging Support for Other Languages 1.0 JSR45 (Included in Web Profile) -->	
+					
+			<!-- Java EE-related Specs in Java SE -->
+			<!--     Java Architecture for XML Binding (JAXB) 2.2 JSR222 -->
+			<!--     Java API for XML Processing (JAXP)	1.3	JSR206 -->
+			<!--     Java Database Connectivity	4.0	JSR221 -->
+			<!--     Java Management Extensions (JMX) 2.0 JSR3 -->
+			<!--     JavaBeans Activation Framework (JAF) 1.1 JSR925 -->
+			<!--     Streaming API for XML (StAX) 1.0 JSR173 -->
+			<dependency>
+				<groupId>javax.xml.stream</groupId>
+				<artifactId>stax-api</artifactId>
+				<version>1.0-2</version>
 			</dependency>
 			<!-- END OF JEE MANAGED DEPENDENCIES -->
+
+
 
 			<!-- APACHE COMMONS MANAGED DEPENDENCIES -->
 			<dependency>
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
-				<version>1.8.3</version>
+				<version>1.9.2</version>
 				<exclusions>
 					<exclusion>
 						<artifactId>commons-logging</artifactId>
@@ -687,38 +739,59 @@
 			</dependency>
 
 			<dependency>
-				<groupId>commons-collections</groupId>
-				<artifactId>commons-collections</artifactId>
-				<version>3.2.1</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>4.0</version>
 			</dependency>
 
 			<dependency>
-				<groupId>commons-dbcp</groupId>
-				<artifactId>commons-dbcp</artifactId>
-				<version>1.4</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-dbcp2</artifactId>
+				<version>2.0.1</version>
 			</dependency>
 
 			<dependency>
 				<groupId>commons-fileupload</groupId>
 				<artifactId>commons-fileupload</artifactId>
-				<version>1.2.2</version>
+				<version>1.3.1</version>
 			</dependency>
 
 			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>2.6</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.3.2</version>
 			</dependency>
 			<!-- END OF APACHE COMMONS MANAGED DEPENDENCIES -->
-			<!--  JSR311 DEPENDENCIES -->
-			<dependency>
-				<groupId>javax.ws.rs</groupId>
-                <artifactId>javax.ws.rs-api</artifactId>
-				<!--<artifactId>jsr311-api</artifactId>-->
-				<version>${jsr311.version}</version>
-			</dependency>
-			<!--  END JSR311 DEPENDENCIES -->
-			<!-- JERSEY DEPENDENCIES -->
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core"  -->
