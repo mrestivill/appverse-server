@@ -639,53 +639,144 @@
 			<!-- Java EE 7 (June 12, 2013) -->
 			<!--   Web Application Technologies -->
 			<!--     Java API for WebSocket JSR356 (Included in Web Profile) -->
-			<!--     Java API for JSON Processing JSR353 (Included in Web Profile) -->
+			<!--     https://tyrus.java.net/ -->
+			<!--     Tyrus is the open source JSR 356 - Java API for WebSocket reference implementation for easy development of WebSocket applications. WebSocket protocol defined by IETF provides bi-directional communication between the server and the remote host. -->
+			<dependency> 
+			    <groupId>javax.websocket</groupId> 
+			    <artifactId>javax.websocket-api</artifactId> 
+			    <version>1.0</version>            
+			</dependency> 
+			<!--     Java API for JSON Processing JSR353 (Included in Web Profile) -->  
+			<!--     https://jsonp.java.net/-->
+			<!--     JSON Processing project is the open source reference implementation of JSR 353 - Java API for JSON Processing. The JSR provides portable APIs to parse, generate, transform, and query JSON using the streaming API or the object model API. -->
+			<dependency> 
+			    <groupId>javax.json</groupId> 
+			    <artifactId>javax.json-api</artifactId> 
+			    <version>1.0</version> 
+			</dependency> 
 			<!--     Java Servlet 3.1 JSR340 (Included in Web Profile) -->
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>3.1.0</version>
+			<dependency> 
+			    <groupId>javax.servlet</groupId> 
+			    <artifactId>javax.servlet-api</artifactId> 
+			    <version>3.1.0</version> 
 				<scope>provided</scope>
 			</dependency>
 			<!--     JavaServer Faces (JSF)	2.2	JSR344 (Included in Web Profile) -->
+			<!--     https://javaserverfaces-spec-public.java.net/ -->
+			<dependency> 
+			    <groupId>javax.faces</groupId> 
+			    <artifactId>javax.faces-api</artifactId> 
+			    <version>2.2</version> 
+			</dependency>
 			<!--     Expression Language (EL) 3.0 JSR341 (Included in Web Profile) -->
+			<!--  	 https://java.net/projects/el-spec/ -->
+			<dependency> 
+			    <groupId>javax.el</groupId> 
+			    <artifactId>javax.el-api</artifactId> 
+			    <version>3.0.0</version> 
+			</dependency> 
 			<!--     JavaServer Pages (JSP)	2.3	JSR245 (Included in Web Profile) -->
+			<dependency>
+				<groupId>javax.servlet.jsp</groupId>
+				<artifactId>javax.servlet.jsp-api</artifactId>
+				<version>2.3.1</version>
+			</dependency>
 			<!--     JavaServer Pages Standard Tag Library (JSTL) 1.2 JSR52 (Included in Web Profile) -->
 			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>jstl</artifactId>
-				<version>1.2</version>
+				<groupId>javax.servlet.jsp.jstl</groupId>
+				<artifactId>javax.servlet.jsp.jstl-api</artifactId>
+				<version>1.2.1</version>
 			</dependency>
 			
 			<!--   Enterprise Application Technologies -->
 			<!--     Batch Applications for the Java Platform JSR352 -->
+			<dependency> 
+			    <groupId>javax.batch</groupId> 
+			    <artifactId>javax.batch-api</artifactId> 
+			    <version>1.0</version> 
+			</dependency> 
 			<!--     Concurrency Utilities for Java EE 1.0 JSR236 -->
+			<dependency> 
+			    <groupId>javax.enterprise.concurrent</groupId> 
+			    <artifactId>javax.enterprise.concurrent-api</artifactId> 
+			    <version>1.0</version>        
+			</dependency> 
 			<!--     Contexts and Dependency Injection for Java	1.1	JSR346 (Included in Web Profile) -->
+			<dependency> 
+			    <groupId>javax.enterprise</groupId> 
+			    <artifactId>cdi-api</artifactId> 
+			    <version>1.1</version> 
+			</dependency> 
 			<!--     Dependency Injection are for Java	1.0	JSR330 (Included in Web Profile) -->
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>1</version>
+			</dependency>
 			<!--     Bean Validation 1.1 JSR349 (Included in Web Profile)-->
+			<dependency> 
+			    <groupId>javax.validation</groupId> 
+			    <artifactId>validation-api</artifactId> 
+			    <version>1.1.0.Final</version> 
+			</dependency> 
 			<!--     Enterprise JavaBeans (EJB)	3.2	JSR345 (Included in Web Profile) -->
+			<dependency>  
+			    <groupId>javax.ejb</groupId>  
+			    <artifactId>javax.ejb-api</artifactId>  
+			    <version>3.2</version>  
+			</dependency> 
 			<!--     Interceptors 1.2 JSR318 (Included in Web Profile) -->	
 			<!--     Java EE Connector Architecture	1.7	JSR322 -->
+			<dependency> 
+				<groupId>javax.resource</groupId> 
+				<artifactId>javax.resource-api</artifactId> 
+				<version>1.7</version> 
+			</dependency>
 			<!--     Java Persistence API (JPA)	2.1	JSR338 (Included in Web Profile) -->
+			<dependency>  
+  				<groupId>org.eclipse.persistence</groupId>  
+    			<artifactId>javax.persistence</artifactId>  
+    			<version>2.1.0</version>
+    		</dependency> 
 			<!--     Common Annotations for the Java Platform 1.2 JSR250 (Included in Web Profile) -->
+			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>javax.annotation-api</artifactId>
+				<version>1.2</version>
+			</dependency>
 			<!--     Java Message Service API (JMS)	2.0	JSR343 -->
+			<dependency> 
+			    <groupId>javax.jms</groupId> 
+			    <artifactId>javax.jms-api</artifactId> 
+			    <version>2.0</version> 
+			</dependency> 
 			<!--     Java Transaction API (JTA)	1.2	JSR907 (Included in Web Profile) -->
+			<dependency>  
+			    <groupId>javax.transaction</groupId>  
+			    <artifactId>javax.transaction-api</artifactId>  
+			    <version>1.2</version>             
+			</dependency> 
 			<!--     JavaMail API 1.5 JSR919 -->
 			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.4.7</version>
-			</dependency>	
+				<groupId>com.sun.mail</groupId>
+				<artifactId>javax.mail</artifactId>
+				<version>1.5.0</version>
+			</dependency>
 					
 			<!--   Web Services Technologies -->
 			<!--     Java API for RESTful Web Services (JAX-RS)	2.0	JSR339 (Included in Web Profile) -->
-			<dependency>
-				<groupId>javax.ws.rs</groupId>
-                <artifactId>javax.ws.rs-api</artifactId>
-				<version>2.0.1</version>
-			</dependency>
+			<dependency> 
+			    <groupId>javax.ws.rs</groupId> 
+			    <artifactId>javax.ws.rs-api</artifactId> 
+			    <version>2.0</version> 
+			</dependency> 
 			<!--     Implementing Enterprise Web Services 1.3 JSR109 -->
 			<!--     Java API for XML-Based Web Services (JAX-WS) 2.2 JSR224 -->
+			<dependency>
+				<groupId>javax.xml.ws</groupId>
+				<artifactId>jaxws-api</artifactId>
+				<version>2.2.8</version>
+			</dependency>
 			<!--     Web Services Metadata for the Java Platform JSR181 -->
 			<dependency>
 				<groupId>javax.jws</groupId>
@@ -693,24 +784,49 @@
 				<version>1.0-MR1</version>
 			</dependency>
 			<!--     Java API for XML-based RPC (JAX-RPC) (Optional) 1.1 JSR10 -->
+			<dependency>
+				<groupId>javax.xml.rpc</groupId>
+				<artifactId>javax.xml.rpc-api</artifactId>
+				<version>1.1.1</version>
+			</dependency>
 			<!--     JavaBeans Activation Framework (JAF) 1.1 JSR925 -->
 			<!--     Java APIs for XML Messaging  1.3 JSR67 -->			
-			<!--     Java API for XML Registries (JAXR) 1.0 JSR93 -->				
+			<!--     Java API for XML Registries (JAXR) 1.0 JSR93 -->	
+			<dependency>
+				<groupId>javax.xml.registry</groupId>
+				<artifactId>javax.xml.registry-api</artifactId>
+				<version>1.0.5</version>
+			</dependency>			
 			
 			<!--   Management and Security Technologies -->
 			<!--     Java Authentication Service Provider Interface for Containers 1.1 JSR196 -->
+			<dependency>
+				<groupId>javax.security.auth.message</groupId>
+				<artifactId>javax.security.auth.message-api</artifactId>
+				<version>1.1</version>
+			</dependency>
 			<!--     Java Authorization Service Provider Contract for Containers 1.5 JSR115 -->
+			<dependency>
+				<groupId>javax.security.jacc</groupId>
+				<artifactId>javax.security.jacc-api</artifactId>
+				<version>1.5</version>
+			</dependency>
 			<!--     Java EE Application Deployment (Optional) 1.2 JSR88 -->
 			<!--     J2EE Management 1.1 JSR77 -->
 			<dependency>
 				<groupId>javax.management.j2ee</groupId>
-				<artifactId>management-api</artifactId>
-				<version>1.1-rev-1</version>
+				<artifactId>javax.management.j2ee-api</artifactId>
+				<version>1.1.1</version>
 			</dependency>
 			<!--     Debugging Support for Other Languages 1.0 JSR45 (Included in Web Profile) -->	
 					
 			<!-- Java EE-related Specs in Java SE -->
 			<!--     Java Architecture for XML Binding (JAXB) 2.2 JSR222 -->
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api-osgi</artifactId>
+				<version>2.2.7</version>
+			</dependency>
 			<!--     Java API for XML Processing (JAXP)	1.3	JSR206 -->
 			<!--     Java Database Connectivity	4.0	JSR221 -->
 			<!--     Java Management Extensions (JMX) 2.0 JSR3 -->
