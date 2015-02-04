@@ -209,7 +209,6 @@
        
         <owasp.esapi.version>2.1.0</owasp.esapi.version>
         <org.jsoup.version>1.7.3</org.jsoup.version>
-        <nimbus.version>2.25</nimbus.version>
         <mockito.version>1.9.5</mockito.version>
         <dozer.version>5.5.1</dozer.version>
         <skipEcmTests>true</skipEcmTests>
@@ -873,52 +872,77 @@
 			</dependency>
 
 			<dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+
+			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
 				<version>3.3.2</version>
 			</dependency>
 			<!-- END OF APACHE COMMONS MANAGED DEPENDENCIES -->
 			
+			<!-- EXOTIC DEPENDENCIES -->
+			<dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>2.25</version>
+            </dependency>
+            
+            	<dependency>
+				<groupId>org.jboss.shrinkwrap.resolver</groupId>
+				<artifactId>shrinkwrap-resolver-bom</artifactId>
+				<version>2.0.2</version>
+				<scope>test</scope>
+				<type>pom</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>1.1.3.Final</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
 			
-			
+	        <dependency>
+	            <groupId>org.jboss.arquillian.extension</groupId>
+	            <artifactId>arquillian-service-deployer-spring-3</artifactId>
+	            <version>1.0.0.Beta2</version>
+	        </dependency>
+	
+	        <dependency>
+	            <groupId>org.jboss.arquillian.extension</groupId>
+	            <artifactId>arquillian-service-integration-spring-inject</artifactId>
+	            <version>1.0.0.Beta2</version>
+	        </dependency>
+
+			 
+			<dependency>
+				<groupId>org.wildfly</groupId>
+				<artifactId>wildfly-arquillian-container-managed</artifactId>
+				<version>8.0.0.Final</version>
+				<scope>test</scope>
+			</dependency>
 			
 			<dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.4</version>
-            </dependency>
+    			<groupId>org.apache.geronimo.specs</groupId>
+    			<artifactId>geronimo-jms_1.1_spec</artifactId>
+    			<version>1.1.1</version>
+  			</dependency>
+			<!-- END OF EXOTIC DEPENDENCIES -->		
 			
-				<!-- JAX-RS 2 client api -->            
+
+			
+		   <!-- JAX-RS 2 client api -->            
 			<dependency>
 	    		<groupId>org.glassfish.jersey.core</groupId>
 	    		<artifactId>jersey-client</artifactId>
                 <version>${jersey.version}</version>	    		
 			</dependency>     
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+						
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core"  -->
@@ -956,11 +980,6 @@
                 <version>${jersey.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.nimbusds</groupId>
-                <artifactId>nimbus-jose-jwt</artifactId>
-                <version>${nimbus.version}</version>
-            </dependency>
 
 		
 
@@ -970,14 +989,6 @@
 				<artifactId>ehcache</artifactId>
 				<version>2.9.0</version>
 			</dependency>
-
-			
-			<!-- Spring Instrument version, for aspectj load time weaving -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-instrument</artifactId>
-				<version>${spring.version}</version>
-			</dependency>			
 
 			<!-- Testing support -->			
 			
@@ -1013,6 +1024,9 @@
 				<version>${restygwt.version}</version>
 			</dependency>
 			<!-- END OF RESTY DEPENDENCIES -->
+			
+			
+			
 			<!-- LOGGING MANAGED DEPENDENCIES -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -1063,12 +1077,6 @@
 				<groupId>org.apache.axis2</groupId>
 				<artifactId>axis2-transport-local</artifactId>
 				<version>1.6.2</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.sun.xml.bind</groupId>
-				<artifactId>jaxb-impl</artifactId>
-				<version>2.2.6</version>
 			</dependency>
 
 			<dependency>
@@ -1169,11 +1177,6 @@
 			<!-- END OF REPORTING MANAGED DEPENDENCIES -->
 
 			<!-- PERSISTENCE MANAGED DEPENDENCIES -->
-			<dependency>
-				<groupId>org.eclipse.persistence</groupId>
-				<artifactId>javax.persistence</artifactId>
-				<version>2.0.0</version>
-			</dependency>
 
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
@@ -1202,47 +1205,7 @@
 
 			<!-- MESSAGING MANAGED DEPENDENCIES -->
 		
-			<dependency>
-				<groupId>org.jboss.shrinkwrap.resolver</groupId>
-				<artifactId>shrinkwrap-resolver-bom</artifactId>
-				<version>2.0.2</version>
-				<scope>test</scope>
-				<type>pom</type>
-			</dependency>
-
-			<dependency>
-				<groupId>org.jboss.arquillian</groupId>
-				<artifactId>arquillian-bom</artifactId>
-				<version>1.1.3.Final</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
-			
-	        <dependency>
-	            <groupId>org.jboss.arquillian.extension</groupId>
-	            <artifactId>arquillian-service-deployer-spring-3</artifactId>
-	            <version>1.0.0.Beta2</version>
-	        </dependency>
-	
-	        <dependency>
-	            <groupId>org.jboss.arquillian.extension</groupId>
-	            <artifactId>arquillian-service-integration-spring-inject</artifactId>
-	            <version>1.0.0.Beta2</version>
-	        </dependency>
-
-			 
-			<dependency>
-				<groupId>org.wildfly</groupId>
-				<artifactId>wildfly-arquillian-container-managed</artifactId>
-				<version>8.0.0.Final</version>
-				<scope>test</scope>
-			</dependency>
-			
-			<dependency>
-    			<groupId>org.apache.geronimo.specs</groupId>
-    			<artifactId>geronimo-jms_1.1_spec</artifactId>
-    			<version>1.1.1</version>
-  			</dependency>
+		
 			
 			<dependency>
                 <groupId>org.mockito</groupId>
