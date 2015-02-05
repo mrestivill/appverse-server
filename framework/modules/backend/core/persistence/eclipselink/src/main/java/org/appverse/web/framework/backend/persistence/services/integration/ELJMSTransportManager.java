@@ -24,6 +24,7 @@
 package org.appverse.web.framework.backend.persistence.services.integration;
 
 import javax.jms.Connection;
+import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.Topic;
 import javax.jms.TopicConnection;
@@ -71,6 +72,30 @@ public class ELJMSTransportManager extends JMSTopicTransportManager {
 		public TopicConnection createTopicConnection(String arg0, String arg1)
 				throws JMSException {
 			return factory.createTopicConnection(arg0, arg1);
+		}
+
+		@Override
+		public JMSContext createContext() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public JMSContext createContext(int arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public JMSContext createContext(String arg0, String arg1) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public JMSContext createContext(String arg0, String arg1, int arg2) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 
