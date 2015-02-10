@@ -366,13 +366,6 @@
 		<dependencies>
 			<!-- APPVERSE WEB FRAMEWORK MANAGED DEPENDENCIES -->
 			<dependency>
-				<groupId>org.appverse.web.framework.poms.modules.backend.dependencies</groupId>
-				<artifactId>appverse-web-modules-backend-dependencies-pom</artifactId>
-				<version>${framework.version}</version>
-				<type>pom</type>
-			</dependency>
-
-			<dependency>
 				<groupId>org.appverse.web.framework.modules.backend.aspect</groupId>
 				<artifactId>appverse-web-modules-backend-aspect</artifactId>
 				<version>${framework.version}</version>
@@ -391,6 +384,18 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.appverse.web.framework.modules.backend.core.cache</groupId>
+				<artifactId>appverse-web-modules-backend-core-cache</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.appverse.web.framework.modules.backend.core.persistence.jpacore</groupId>
+				<artifactId>appverse-web-modules-backend-core-persistence-jpacore</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>org.appverse.web.framework.modules.backend.core.persistence.eclipselink</groupId>
 				<artifactId>appverse-web-modules-backend-core-persistence-eclipselink</artifactId>
 				<version>${framework.version}</version>
@@ -403,12 +408,6 @@
             </dependency>
 
 			<dependency>
-				<groupId>org.appverse.web.framework.modules.backend.core.cache</groupId>
-				<artifactId>appverse-web-modules-backend-core-cache</artifactId>
-				<version>${framework.version}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>org.appverse.web.framework.modules.backend.core.ws</groupId>
 				<artifactId>appverse-web-modules-backend-core-ws</artifactId>
 				<version>${framework.version}</version>
@@ -417,24 +416,6 @@
             <dependency>
                 <groupId>org.appverse.web.framework.modules.backend.core.rest</groupId>
                 <artifactId>appverse-web-modules-backend-core-rest</artifactId>
-                <version>${framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.appverse.web.framework.modules.backend.ecm.core</groupId>
-                <artifactId>appverse-web-modules-backend-ecm-core</artifactId>
-                <version>${framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.appverse.web.framework.modules.backend.ecm.cmis</groupId>
-                <artifactId>appverse-web-modules-backend-ecm-cmis</artifactId>
-                <version>${framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.appverse.web.framework.modules.backend.ecm.filesystem</groupId>
-                <artifactId>appverse-web-modules-backend-ecm-cmis-filesystem</artifactId>
                 <version>${framework.version}</version>
             </dependency>
 
@@ -474,25 +455,23 @@
                 <version>${framework.version}</version>
             </dependency>
 
-<!--
             <dependency>
-                <groupId>org.appverse.web.framework.modules.backend.ecm</groupId>
-                <artifactId>appverse-web-modules-backend-ecm</artifactId>
+                <groupId>org.appverse.web.framework.modules.backend.ecm.core</groupId>
+                <artifactId>appverse-web-modules-backend-ecm-core</artifactId>
                 <version>${framework.version}</version>
             </dependency>
--->
-            <dependency>
-				<groupId>org.appverse.web.framework.modules.frontend.gwt.theme</groupId>
-				<artifactId>appverse-web-modules-frontend-gwt-theme</artifactId>
-				<version>${framework.version}</version>
-			</dependency>
 
-			<dependency>
-				<groupId>org.appverse.web.framework.modules.frontend.gwt.api</groupId>
-				<artifactId>appverse-web-modules-frontend-gwt-api</artifactId>
-				<version>${framework.version}</version>
-				<scope>provided</scope>
-			</dependency>			
+            <dependency>
+                <groupId>org.appverse.web.framework.modules.backend.ecm.cmis</groupId>
+                <artifactId>appverse-web-modules-backend-ecm-cmis</artifactId>
+                <version>${framework.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.appverse.web.framework.modules.backend.ecm.filesystem</groupId>
+                <artifactId>appverse-web-modules-backend-ecm-cmis-filesystem</artifactId>
+                <version>${framework.version}</version>
+            </dependency>
 			<!-- END OF APPVERSE WEB FRAMEWORK MANAGED DEPENDENCIES -->
 
 
@@ -884,6 +863,35 @@
 			</dependency>
 			<!-- END OF APACHE COMMONS MANAGED DEPENDENCIES -->
 			
+			
+			<!-- PERSISTENCE MANAGED DEPENDENCIES -->
+
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>eclipselink</artifactId>
+				<version>2.5.2</version>
+			</dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>4.3.8.Final</version>
+            </dependency>
+
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>3.2.7</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-spring</artifactId>
+				<version>1.2.2</version>
+			</dependency>
+			<!-- END OF PERSISTENCE MANAGED DEPENDENCIES -->
+			
+			
 			<!-- EXOTIC DEPENDENCIES -->
 			<dependency>
                 <groupId>com.nimbusds</groupId>
@@ -927,12 +935,49 @@
 				<scope>test</scope>
 			</dependency>
 			
+			
+			<dependency>
+				<groupId>org.codehaus.plexus</groupId>
+				<artifactId>plexus-utils</artifactId>
+				<version>3.0.9</version>
+			</dependency>
+
+            <dependency>
+                <groupId>org.jodd</groupId>
+                <artifactId>jodd</artifactId>
+                <version>3.3.8</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.3.4</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.owasp.esapi</groupId>
+                <artifactId>esapi</artifactId>
+                <version>${owasp.esapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${org.jsoup.version}</version>
+            </dependency>
 	
 			<!-- END OF EXOTIC DEPENDENCIES -->		
 			
 
 			
-		   <!-- JAX-RS 2 client api -->            
+		   <!-- JAX-RS 2 client api -->       
+		   
+		   			<dependency>
+			    <groupId>org.glassfish.jersey.media</groupId>
+			    <artifactId>jersey-media-moxy</artifactId>
+			    <version>${jersey.version}</version>
+			</dependency>		
+		        
 			<dependency>
 	    		<groupId>org.glassfish.jersey.core</groupId>
 	    		<artifactId>jersey-client</artifactId>
@@ -977,6 +1022,51 @@
             </dependency>
 
 
+
+
+			<!--  GWT Native validation does not work currently with hibernate-validator 4.1+.
+				If this is changed, module frontend-gwt-api needs to be reviewed and tested.
+				See: https://code.google.com/p/google-web-toolkit/issues/detail?id=7661 -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>4.3.1.Final</version>
+			</dependency>
+
+			<!--  GWT Native validation requires hibernate-validator sources and does not work 
+				currently with hibernate-validator 4.1+.
+				If this is changed, module frontend-gwt-api needs to be reviewed and tested.
+				See: https://code.google.com/p/google-web-toolkit/issues/detail?id=7661 -->			
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<classifier>sources</classifier>
+				<version>4.3.1.Final</version>
+			</dependency>			
+
+
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.12</version>
+			</dependency>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 
 			<!-- EHCache version -->
@@ -988,27 +1078,7 @@
 
 			<!-- Testing support -->			
 			
-			<!-- Use it ONLY if you want to include all Test Factories providers--> 
-	        <dependency>
-	            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-	            <artifactId>jersey-test-framework-provider-bundle</artifactId>
-	            <type>pom</type>
-                <version>${jersey.version}</version>	    		
-	        </dependency>
-	        
-	        <!--  Include both to use grizzly web container test factory-->
-			<dependency>
-				<groupId>org.glassfish.jersey.containers</groupId>
-				<artifactId>jersey-container-grizzly2-servlet</artifactId>
-				<version>${jersey.version}</version>
-			</dependency>
-	
-			<dependency>
-				<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-				<artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-				<version>${jersey.version}</version>
-			</dependency>	     
-			<!--  End Testing Support -->   
+			
 	        
 	        			       
             
@@ -1172,32 +1242,7 @@
 			</dependency>
 			<!-- END OF REPORTING MANAGED DEPENDENCIES -->
 
-			<!-- PERSISTENCE MANAGED DEPENDENCIES -->
 
-			<dependency>
-				<groupId>org.eclipse.persistence</groupId>
-				<artifactId>eclipselink</artifactId>
-				<version>2.3.3</version>
-			</dependency>
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-entitymanager</artifactId>
-                <version>4.3.0.Final</version>
-            </dependency>
-
-			<dependency>
-				<groupId>org.mybatis</groupId>
-				<artifactId>mybatis</artifactId>
-				<version>3.2.7</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.mybatis</groupId>
-				<artifactId>mybatis-spring</artifactId>
-				<version>1.2.2</version>
-			</dependency>
-			<!-- END OF PERSISTENCE MANAGED DEPENDENCIES -->
 
 			<!-- MESSAGING MANAGED DEPENDENCIES -->
 		
@@ -1277,31 +1322,7 @@
 		                <version>${dozer.version}</version>
 		        </dependency>
 
-			<!--  GWT Native validation does not work currently with hibernate-validator 4.1+.
-				If this is changed, module frontend-gwt-api needs to be reviewed and tested.
-				See: https://code.google.com/p/google-web-toolkit/issues/detail?id=7661 -->
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>4.3.1.Final</version>
-			</dependency>
 
-			<!--  GWT Native validation requires hibernate-validator sources and does not work 
-				currently with hibernate-validator 4.1+.
-				If this is changed, module frontend-gwt-api needs to be reviewed and tested.
-				See: https://code.google.com/p/google-web-toolkit/issues/detail?id=7661 -->			
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<classifier>sources</classifier>
-				<version>4.3.1.Final</version>
-			</dependency>			
-
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-asl</artifactId>
-				<version>1.9.12</version>
-			</dependency>
 
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
@@ -1351,58 +1372,6 @@
 				<artifactId>aspectjweaver</artifactId>
 				<version>1.7.1</version>
 			</dependency>
-
-			<dependency>
-				<groupId>org.apache.maven</groupId>
-				<artifactId>maven-plugin-api</artifactId>
-				<version>3.0.3</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.maven</groupId>
-				<artifactId>maven-project</artifactId>
-				<version>2.2.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.maven.plugin-tools</groupId>
-				<artifactId>maven-plugin-annotations</artifactId>
-				<version>3.3</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.codehaus.plexus</groupId>
-				<artifactId>plexus-utils</artifactId>
-				<version>3.0.9</version>
-			</dependency>
-
-            <dependency>
-                <groupId>org.jodd</groupId>
-                <artifactId>jodd</artifactId>
-                <version>3.3.8</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>4.3.4</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.owasp.esapi</groupId>
-                <artifactId>esapi</artifactId>
-                <version>${owasp.esapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jsoup</groupId>
-                <artifactId>jsoup</artifactId>
-                <version>${org.jsoup.version}</version>
-            </dependency>
-
-
-
 
             <dependency>
                 <groupId>org.apache.chemistry.opencmis</groupId>

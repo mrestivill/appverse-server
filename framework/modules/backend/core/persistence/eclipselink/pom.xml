@@ -150,7 +150,6 @@
 		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
 	</scm>
 
-    
 	<dependencies>
 		<dependency>
 			<groupId>org.appverse.web.framework.modules.backend.core.persistence.jpacore</groupId>

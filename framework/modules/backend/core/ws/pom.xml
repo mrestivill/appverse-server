@@ -134,89 +134,26 @@
 	</contributors>
 
 	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/Appverse/appverse-web/issues</url>
+		<system>Jira</system>
+		<url>https://appverse.gftlabs.com/tracker/browse/AWB/</url>
 	</issueManagement>
 
 	<ciManagement>
-		<system>Jenkins</system>
-		<url>https://appverseweb-ci.ci.cloudbees.com</url>
+		<system>Bamboo</system>
+		<url>https://appverse.gftlabs.com/builder/browse/APP</url>
 	</ciManagement>
 
-	<mailingLists>
-		<mailingList>
-			<name>User and Developers</name>
-			<subscribe>appverse+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Questions and Answers</name>
-			<subscribe>appverse-qa+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-qa+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-qa@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Commits</name>
-			<subscribe>appverse-commits+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-commits+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-commits@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Private</name>
-			<post>appverse-private@googlegroups.com</post>
-		</mailingList>
-	</mailingLists>
-
 	<scm>
-		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</connection>
-		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</developerConnection>
+		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</connection>
+		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
 		<tag>master</tag>
-		<url>https://github.com/Appverse/appverse-web</url>
+		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
 	</scm>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.appverse.web.framework.modules.backend.core.api</groupId>
 			<artifactId>appverse-web-modules-backend-core-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api-osgi</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-transport-http</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.xml.stream</groupId>
-			<artifactId>stax-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.jws</groupId>
-			<artifactId>jsr181-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-adb</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-transport-local</artifactId>
 		</dependency>
 	</dependencies>
 </project>
