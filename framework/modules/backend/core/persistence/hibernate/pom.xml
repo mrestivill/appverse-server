@@ -134,151 +134,55 @@
 	</contributors>
 
 	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/Appverse/appverse-web/issues</url>
+		<system>Jira</system>
+		<url>https://appverse.gftlabs.com/tracker/browse/AWB/</url>
 	</issueManagement>
 
 	<ciManagement>
-		<system>Jenkins</system>
-		<url>https://appverseweb-ci.ci.cloudbees.com</url>
+		<system>Bamboo</system>
+		<url>https://appverse.gftlabs.com/builder/browse/APP</url>
 	</ciManagement>
 
-	<mailingLists>
-		<mailingList>
-			<name>User and Developers</name>
-			<subscribe>appverse+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Questions and Answers</name>
-			<subscribe>appverse-qa+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-qa+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-qa@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Commits</name>
-			<subscribe>appverse-commits+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-commits+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-commits@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Private</name>
-			<post>appverse-private@googlegroups.com</post>
-		</mailingList>
-	</mailingLists>
-
 	<scm>
-		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</connection>
-		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</developerConnection>
+		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</connection>
+		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
 		<tag>master</tag>
-		<url>https://github.com/Appverse/appverse-web</url>
+		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
 	</scm>
-
-    <build>
-        <pluginManagement>
-            <!-- Copy jpscore sources as generated sources - setup -->
-            <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>1.7</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>add-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>target/generated-sources/jpacore</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <!-- Copy jpscore sources as generated sources -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <target>
-                                <copy todir="${basedir}/target/generated-sources/jpacore">
-                                    <fileset dir="../jpacore/src/main/java">
-                                        <include name="**/*" />
-                                    </fileset>
-                                </copy>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
+	
 	<dependencies>
 		<dependency>
-			<groupId>org.appverse.web.framework.modules.backend.core.api</groupId>
-			<artifactId>appverse-web-modules-backend-core-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-dbcp2</artifactId>
+			<groupId>org.appverse.web.framework.modules.backend.core.persistence.jpacore</groupId>
+			<artifactId>appverse-web-modules-backend-core-persistence-jpacore</artifactId>
 		</dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
         </dependency>
-
+        
 		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-spring</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<scope>test</scope>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms</artifactId>
-		</dependency>
- 		-->
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

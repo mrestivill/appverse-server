@@ -23,38 +23,18 @@
  */
 package org.appverse.web.framework.backend.persistence.services.integration.helpers;
 
-import org.hibernate.annotations.QueryHints;
+import org.eclipse.persistence.config.QueryHints;
 
-public class QueryJpaCallbackHint {
+public class QueryEclipseLinkCallbackHint extends QueryJpaCallbackHint{
 
-	private final String hint;
+	final static QueryEclipseLinkCallbackHint FETCH_SIZE_1024 = new QueryEclipseLinkCallbackHint(
+			QueryHints.JDBC_FETCH_SIZE, "1024");
 
-	private final String value;
+	public final static QueryEclipseLinkCallbackHint REFRESH = new QueryEclipseLinkCallbackHint(
+			QueryHints.REFRESH, "TRUE");
 
-	public final static QueryJpaCallbackHint FETCH_SIZE_1024 = new QueryJpaCallbackHint(
-			QueryHints.FETCH_SIZE, "1024");
-
-	public QueryJpaCallbackHint(String hint, String value) {
-		this.hint = hint;
-		this.value = value;
+	public QueryEclipseLinkCallbackHint(String hint, String value) {
+		super(hint,value);
 	}
 
-	public String getHint() {
-		return hint;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("QueryCallbackJPAHint [hint=");
-		builder.append(hint);
-		builder.append(", value=");
-		builder.append(value);
-		builder.append("]");
-		return builder.toString();
-	}
 }

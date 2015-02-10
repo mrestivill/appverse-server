@@ -21,37 +21,52 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.persistence.services.integration.impl.live;
+package org.appverse.web.framework.backend.persistence.services.integration.helpers;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.persistence.model.integration.UserDTO;
-import org.appverse.web.framework.backend.persistence.services.integration.UserRepository;
-import org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryEclipselinkCallback;
-import org.slf4j.Logger;
-import org.springframework.stereotype.Repository;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
-@Repository("userRepository")
-public class UserRepositoryImpl extends JPAPersistenceService<UserDTO>
-		implements UserRepository {
+public class QueryEclipselinkCallback<T> extends QueryJpaCallback<T>{
 
-	@AutowiredLogger
-	private static Logger logger;
 
-	@Override
-	public UserDTO loadUserByUsername(final String username) throws Exception {
-		final StringBuilder queryString = new StringBuilder();
-		queryString.append("select user from UserDTO user where user.email='")
-				.append(username).append("'");
-		final QueryEclipselinkCallback<UserDTO> query = new QueryEclipselinkCallback<UserDTO>(
-				queryString.toString(), false);
-		List<UserDTO> list = retrieveList(query);
+	private List<QueryJpaCallbackHint> hints;
 
-		if (list != null && list.size() > 0) {
-			return list.get(0);
-		} else {
-			return null;
+	
+	public QueryEclipselinkCallback(String queryString) {
+		this(queryString, true);
+	}
+	
+	public QueryEclipselinkCallback(String queryString, boolean standardHints) {
+		super( queryString,standardHints);
+		if(queryString==null || queryString.isEmpty()){
+			throw new PersistenceException("queryString cannot be null");
+		}
+		setQueryString(queryString);
+		if (standardHints) {
+			hints = new ArrayList<QueryJpaCallbackHint>();
+			hints.add(QueryEclipseLinkCallbackHint.FETCH_SIZE_1024);
+		} 
+	}
+	
+	public QueryEclipselinkCallback(Query query) {
+		this(query, true);
+	}
+	
+	public QueryEclipselinkCallback(Query query, boolean standardHints) {
+		super(query, standardHints);
+		if(query==null){
+			throw new PersistenceException("query cannot be null");
+		}
+		setQuery(query);
+		if (standardHints) {
+			hints = new ArrayList<QueryJpaCallbackHint>();
+			hints.add(QueryEclipseLinkCallbackHint.FETCH_SIZE_1024);
 		}
 	}
 }
