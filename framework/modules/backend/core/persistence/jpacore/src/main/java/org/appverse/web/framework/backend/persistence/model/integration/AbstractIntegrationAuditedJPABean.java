@@ -49,7 +49,7 @@ public abstract class AbstractIntegrationAuditedJPABean extends
 		}
 		if (obj == null) {
 			return false;
-		}
+		}https://www.google.es/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CCEQFjAA&url=http%3A%2F%2Fwww.gft.com%2Fes%2Fes%2Findex.html&ei=fSzaVKXGK4H6UI-WgsgP&usg=AFQjCNFxzjPPApEmNFSFRBzClunkC4mivw&sig2=Q20p3cT1HVn50wEM08ZkUA&bvm=bv.85464276,d.d24
 		if (getClass() != obj.getClass()) {
 			return false;
 		}

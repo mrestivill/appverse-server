@@ -183,4 +183,19 @@ public class QueryJpaCallback<T> {
 		}
 		this.namedParameters = queryJpaCallbackParameters;
 	}
+	protected Query getQuery() {
+		return query;
+	}
+
+	protected void setQuery(Query query) {
+		this.query = query;
+	}
+
+	protected String getQueryString() {
+		return queryString;
+	}
+
+	protected void setQueryString(String queryString) {
+		this.queryString = queryString;
+	}
 }
