@@ -134,48 +134,20 @@
 	</contributors>
 
 	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/Appverse/appverse-web/issues</url>
+		<system>Jira</system>
+		<url>https://appverse.gftlabs.com/tracker/browse/AWB/</url>
 	</issueManagement>
 
 	<ciManagement>
-		<system>Jenkins</system>
-		<url>https://appverseweb-ci.ci.cloudbees.com</url>
+		<system>Bamboo</system>
+		<url>https://appverse.gftlabs.com/builder/browse/APP</url>
 	</ciManagement>
 
-	<mailingLists>
-		<mailingList>
-			<name>User and Developers</name>
-			<subscribe>appverse+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Questions and Answers</name>
-			<subscribe>appverse-qa+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-qa+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-qa@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Commits</name>
-			<subscribe>appverse-commits+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-commits+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-commits@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Private</name>
-			<post>appverse-private@googlegroups.com</post>
-		</mailingList>
-	</mailingLists>
-
 	<scm>
-		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</connection>
-		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</developerConnection>
+		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</connection>
+		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
 		<tag>master</tag>
-		<url>https://github.com/Appverse/appverse-web</url>
+		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
 	</scm>
 
 	<dependencies>
@@ -183,28 +155,12 @@
             <groupId>org.appverse.web.framework.modules.backend.core.api</groupId>
             <artifactId>appverse-web-modules-backend-core-api</artifactId>
         </dependency>
-        <!-- JPA Core contains common JPA classes that both Hibernate and EclipseLink specific modules uses.
-             JPA Core requires JPA2 specification classes (javax.persistence) and specific appverse classes that are implementation
-             (Hibernate or EclipseLink) dependant.
-             For this reason JPA Core classes are copied to every module (Hibernate and EclipseLink) as generated sources and
-             compiled in the own module). JPA Core would not even need to be a Maven module as it just contains code to be
-             copied both to Hibernate and Eclipselink modules in order to avoid code duplication and maintenance.
-             The reason why the maven module exist is for being able to see the code in JPA modules in the IDES. So
-             this is possible, we need to include at least an "implementation".
-             That's why we add the EclipseLink and Appverse Web EclipseLink modules dependencies as 'provided'.
-             The fact that they are provided, will allow the IDE to show JPA Core without errors but the specific implementations
-             (Hibernate or Eclipse) link will include this code an compile it in their own module.
-             See hibernate and eclipselink module poms to see the copy of files as generated sources.
-             We use EclipseLink JPA2 API spec (javax.persistence) classes as EclipseLink is the reference implementation of JPA2 -->
-        <dependency>
+     
+       <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>javax.persistence</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.appverse.web.framework.modules.backend.core.persistence.eclipselink</groupId>
-            <artifactId>appverse-web-modules-backend-core-persistence-eclipselink</artifactId>
-            <scope>provided</scope>
-        </dependency>
+
     </dependencies>
 </project>

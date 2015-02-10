@@ -56,7 +56,6 @@ public class QueryJpaCallback<T> {
 		this.queryString = queryString;
 		if (standardHints) {
 			hints = new ArrayList<QueryJpaCallbackHint>();
-			hints.add(QueryJpaCallbackHint.FETCH_SIZE_1024);
 		} 
 	}
 	
@@ -72,7 +71,6 @@ public class QueryJpaCallback<T> {
 		this.query = query;
 		if (standardHints) {
 			hints = new ArrayList<QueryJpaCallbackHint>();
-			hints.add(QueryJpaCallbackHint.FETCH_SIZE_1024);
 		}
 	}
 	
