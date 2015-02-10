@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>7</version>
+		<version>9</version>
 	</parent>
 
 	<groupId>org.appverse.web.framework.poms.modules.backend.core.persistence</groupId>
@@ -134,49 +134,21 @@
 	</contributors>
 
 	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/Appverse/appverse-web/issues</url>
+		<system>Jira</system>
+		<url>https://appverse.gftlabs.com/tracker/browse/AWB/</url>
 	</issueManagement>
 
 	<ciManagement>
-		<system>Jenkins</system>
-		<url>https://appverseweb-ci.ci.cloudbees.com</url>
+		<system>Bamboo</system>
+		<url>https://appverse.gftlabs.com/builder/browse/APP</url>
 	</ciManagement>
 
-	<mailingLists>
-		<mailingList>
-			<name>User and Developers</name>
-			<subscribe>appverse+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Questions and Answers</name>
-			<subscribe>appverse-qa+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-qa+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-qa@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Commits</name>
-			<subscribe>appverse-commits+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-commits+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-commits@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Private</name>
-			<post>appverse-private@googlegroups.com</post>
-		</mailingList>
-	</mailingLists>
-
 	<scm>
-		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</connection>
-		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</developerConnection>
+		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</connection>
+		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
 		<tag>master</tag>
-		<url>https://github.com/Appverse/appverse-web</url>
-	</scm>
+		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
+	</scm>>
 
 	<modules>
         <module>jpacore</module>
