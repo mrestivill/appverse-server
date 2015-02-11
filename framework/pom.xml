@@ -474,8 +474,6 @@
             </dependency>
 			<!-- END OF APPVERSE WEB FRAMEWORK MANAGED DEPENDENCIES -->
 
-
-
 			<!-- SPRING FRAMEWORK MANAGED DEPENDENCIES -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -610,8 +608,6 @@
                 <version>2.0.6.RELEASE</version>
             </dependency>
 			<!-- END OF SPRING FRAMEWORK MANAGED DEPENDENCIES -->
-
-
 
 			<!-- JEE MANAGED DEPENDENCIES -->
 			<!-- Java EE 7 (June 12, 2013) -->
@@ -817,8 +813,6 @@
 			</dependency>
 			<!-- END OF JEE MANAGED DEPENDENCIES -->
 
-
-
 			<!-- APACHE COMMONS MANAGED DEPENDENCIES -->
 			<dependency>
 				<groupId>commons-beanutils</groupId>
@@ -861,11 +855,9 @@
 				<artifactId>commons-lang3</artifactId>
 				<version>3.3.2</version>
 			</dependency>
-			<!-- END OF APACHE COMMONS MANAGED DEPENDENCIES -->
-			
+			<!-- END OF APACHE COMMONS MANAGED DEPENDENCIES -->			
 			
 			<!-- PERSISTENCE MANAGED DEPENDENCIES -->
-
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>eclipselink</artifactId>
@@ -890,8 +882,41 @@
 				<version>1.2.2</version>
 			</dependency>
 			<!-- END OF PERSISTENCE MANAGED DEPENDENCIES -->
+
+		<!-- CACHING MANAGED DEPENDENCIES -->
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache</artifactId>
+				<version>2.9.0</version>
+			</dependency>
 			
-			
+			<dependency>
+				<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+				<artifactId>ehcache-spring-annotations</artifactId>
+				<version>1.2.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache-jmsreplication</artifactId>
+				<version>0.5</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>ehcache</artifactId>
+						<groupId>net.sf.ehcache</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- END OF CACHING MANAGED DEPENDENCIES -->
+		
+		
+		
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-client-impl</artifactId>
+                <version>0.11.0</version>
+            </dependency>		
+            
 			<!-- EXOTIC DEPENDENCIES -->
 			<dependency>
                 <groupId>com.nimbusds</groupId>
@@ -1024,25 +1049,7 @@
 
 
 
-			<!--  GWT Native validation does not work currently with hibernate-validator 4.1+.
-				If this is changed, module frontend-gwt-api needs to be reviewed and tested.
-				See: https://code.google.com/p/google-web-toolkit/issues/detail?id=7661 -->
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>4.3.1.Final</version>
-			</dependency>
-
-			<!--  GWT Native validation requires hibernate-validator sources and does not work 
-				currently with hibernate-validator 4.1+.
-				If this is changed, module frontend-gwt-api needs to be reviewed and tested.
-				See: https://code.google.com/p/google-web-toolkit/issues/detail?id=7661 -->			
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<classifier>sources</classifier>
-				<version>4.3.1.Final</version>
-			</dependency>			
+	
 
 
 			<dependency>
@@ -1069,16 +1076,8 @@
 
 		
 
-			<!-- EHCache version -->
-			<dependency>
-				<groupId>net.sf.ehcache</groupId>
-				<artifactId>ehcache</artifactId>
-				<version>2.9.0</version>
-			</dependency>
+			
 
-			<!-- Testing support -->			
-			
-			
 	        
 	        			       
             
@@ -1245,16 +1244,6 @@
 
 
 			<!-- MESSAGING MANAGED DEPENDENCIES -->
-		
-		
-			
-			<dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-                <scope>test</scope>
-            </dependency>
-			
 			<dependency>
 				<groupId>org.apache.activemq</groupId>
 				<artifactId>activemq-core</artifactId>
@@ -1291,25 +1280,7 @@
             </dependency>
             <!-- END OF CORS FILTER MANAGED DEPENDENCY -->
 
-			<!-- CACHING MANAGED DEPENDENCIES -->
-			<dependency>
-				<groupId>com.googlecode.ehcache-spring-annotations</groupId>
-				<artifactId>ehcache-spring-annotations</artifactId>
-				<version>1.2.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>net.sf.ehcache</groupId>
-				<artifactId>ehcache-jmsreplication</artifactId>
-				<version>0.5</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>ehcache</artifactId>
-						<groupId>net.sf.ehcache</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<!-- END OF CACHING MANAGED DEPENDENCIES -->
+			
 
 			<dependency>
 				<groupId>net.sf.dozer</groupId>
@@ -1340,12 +1311,22 @@
                 </exclusions>
 			</dependency>
 
+		
+
+		
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
 				<scope>test</scope>
 			</dependency>
+			
+			<dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
 
 			<dependency>
 				<groupId>org.hsqldb</groupId>
@@ -1360,24 +1341,6 @@
 				<version>5.1.31</version>
 				<scope>runtime</scope>
 			</dependency>
-
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjrt</artifactId>
-				<version>1.6.10</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjweaver</artifactId>
-				<version>1.7.1</version>
-			</dependency>
-
-            <dependency>
-                <groupId>org.apache.chemistry.opencmis</groupId>
-                <artifactId>chemistry-opencmis-client-impl</artifactId>
-                <version>0.11.0</version>
-            </dependency>
         </dependencies>
 	</dependencyManagement>
 
