@@ -171,6 +171,7 @@
 		<spring.version>4.1.4.RELEASE</spring.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <spring.oauth2.version>2.0.2.RELEASE</spring.oauth2.version>
+        
 		<slf4j.version>1.7.10</slf4j.version>	
 		<log4j.version>2.1</log4j.version>	
         <dozer.version>5.5.1</dozer.version>    
@@ -1075,18 +1076,26 @@
 			</dependency>
 			<!-- END OF GWT MANAGED DEPENDENCIES -->
 
+			<!-- REPORTING MANAGED DEPENDENCIES -->
             <dependency>
                 <groupId>org.apache.chemistry.opencmis</groupId>
                 <artifactId>chemistry-opencmis-client-impl</artifactId>
                 <version>0.11.0</version>
             </dependency>            
             
+
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
 				<version>1.9.12</version>
 			</dependency>
 			
+			<dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer-spring</artifactId>
+                <version>${dozer.version}</version>
+		 	</dependency>
+
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity</artifactId>
@@ -1183,6 +1192,12 @@
 			    <artifactId>jersey-media-moxy</artifactId>
 			    <version>${jersey.version}</version>
 			</dependency>		
+
+			<dependency>
+			    <groupId>org.glassfish.jersey.media</groupId>
+			    <artifactId>jersey-media-moxy</artifactId>
+			    <version>${jersey.version}</version>
+			</dependency>		
 		        
 			<dependency>
 	    		<groupId>org.glassfish.jersey.core</groupId>
@@ -1219,7 +1234,39 @@
                 <artifactId>jersey-media-multipart</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
+            
+          	<dependency>
+                <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+	            <artifactId>jersey-test-framework-provider-bundle</artifactId>
+	            <type>pom</type>
+                <version>${jersey.version}</version>	    		
+	        </dependency>
+	        
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-grizzly2-servlet</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>org.glassfish.jersey.test-framework.providers</groupId>
+				<artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>	     
            	<!-- JAX-RS 2 client api -->      
+		
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>1.6.10</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>1.7.1</version>
+			</dependency>
+		
 		
 			<dependency>
 				<groupId>junit</groupId>

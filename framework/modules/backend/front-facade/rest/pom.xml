@@ -212,10 +212,25 @@
             <artifactId>nimbus-jose-jwt</artifactId>
             <scope>provided</scope>
         </dependency>
-
+		<dependency> 
+			    <groupId>javax.el</groupId> 
+			    <artifactId>javax.el-api</artifactId> 
+	
+			</dependency> 
    
         <!--test dependencies-->
-
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<scope>test</scope>
+		</dependency>
+					
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<scope>test</scope>
+		</dependency> 
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

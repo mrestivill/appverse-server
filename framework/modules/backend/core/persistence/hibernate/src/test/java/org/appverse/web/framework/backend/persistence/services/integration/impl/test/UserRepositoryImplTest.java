@@ -40,12 +40,14 @@ import org.appverse.web.framework.backend.persistence.model.integration.UserDTO;
 import org.appverse.web.framework.backend.persistence.services.integration.UserRepository;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.util.Assert;
 
 @TransactionConfiguration(defaultRollback = false)
+@Ignore
 public class UserRepositoryImplTest extends AbstractTransactionalTest implements
 		JPATest {
 
