@@ -171,6 +171,7 @@
 		<spring.version>4.1.4.RELEASE</spring.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <spring.oauth2.version>2.0.2.RELEASE</spring.oauth2.version>
+        
 		<slf4j.version>1.7.10</slf4j.version>	
 		<log4j.version>2.1</log4j.version>	
         <dozer.version>5.5.1</dozer.version>    
@@ -1075,18 +1076,69 @@
 			</dependency>
 			<!-- END OF GWT MANAGED DEPENDENCIES -->
 
+			<!-- REPORTING MANAGED DEPENDENCIES -->
+			<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports</artifactId>
+				<version>5.0.1</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>bcmail-jdk14</artifactId>
+						<groupId>org.bouncycastle</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>bcmail-jdk14</artifactId>
+						<groupId>bouncycastle</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sourceforge.jexcelapi</groupId>
+				<artifactId>jxl</artifactId>
+				<version>2.6.12</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ar.com.fdvs</groupId>
+				<artifactId>DynamicJasper-core-fonts</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<!-- END OF REPORTING MANAGED DEPENDENCIES -->
+
+			<!-- MESSAGING MANAGED DEPENDENCIES -->
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-core</artifactId>
+				<version>5.5.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.fusesource.restygwt</groupId>
+				<artifactId>restygwt</artifactId>
+				<version>1.4</version>
+			</dependency>
+			<!-- END OF GWT MANAGED DEPENDENCIES -->
+
             <dependency>
                 <groupId>org.apache.chemistry.opencmis</groupId>
                 <artifactId>chemistry-opencmis-client-impl</artifactId>
                 <version>0.11.0</version>
             </dependency>            
             
+
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
 				<version>1.9.12</version>
 			</dependency>
 			
+			<dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer-spring</artifactId>
+                <version>${dozer.version}</version>
+		 	</dependency>
+
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity</artifactId>
