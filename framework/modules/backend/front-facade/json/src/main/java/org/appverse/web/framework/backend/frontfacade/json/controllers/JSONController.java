@@ -23,7 +23,24 @@
  */
 package org.appverse.web.framework.backend.frontfacade.json.controllers;
 
-import org.appverse.web.framework.backend.api.helpers.json.JacksonContextResolver;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.appverse.web.framework.backend.api.helpers.security.SecurityHelper;
 import org.appverse.web.framework.backend.api.services.presentation.AuthenticationServiceFacade;
 import org.appverse.web.framework.backend.frontfacade.json.controllers.exceptions.BadRequestException;
@@ -35,18 +52,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Singleton;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @Singleton
