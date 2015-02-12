@@ -134,73 +134,110 @@
 	</contributors>
 
 	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/Appverse/appverse-web/issues</url>
+		<system>Jira</system>
+		<url>https://appverse.gftlabs.com/tracker/browse/AWB/</url>
 	</issueManagement>
 
 	<ciManagement>
-		<system>Jenkins</system>
-		<url>https://appverseweb-ci.ci.cloudbees.com</url>
+		<system>Bamboo</system>
+		<url>https://appverse.gftlabs.com/builder/browse/APP</url>
 	</ciManagement>
 
-	<mailingLists>
-		<mailingList>
-			<name>User and Developers</name>
-			<subscribe>appverse+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Questions and Answers</name>
-			<subscribe>appverse-qa+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-qa+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-qa@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Commits</name>
-			<subscribe>appverse-commits+subscribe@googlegroups.com</subscribe>
-			<unsubscribe>appverse-commits+unsubscribe@googlegroups.com</unsubscribe>
-			<post>appverse-commits@googlegroups.com</post>
-		</mailingList>
-
-		<mailingList>
-			<name>Private</name>
-			<post>appverse-private@googlegroups.com</post>
-		</mailingList>
-	</mailingLists>
-
 	<scm>
-		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</connection>
-		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@github.com/Appverse/appverse-web.git</developerConnection>
+		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</connection>
+		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
 		<tag>master</tag>
-		<url>https://github.com/Appverse/appverse-web</url>
+		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
 	</scm>
 
-	<dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+                    <systemProperties>
+                        <property>
+                          <name>arquillian.launch</name>
+                          <value>jbossas-managed-wildfly-8</value>
+                        </property>                    
+                        <property>
+                          <name>java.util.logging.manager</name>
+                          <value>org.jboss.logmanager.LogManager</value>
+                        </property>
+                    </systemProperties>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                </configuration>				
+			</plugin>
 
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>process-test-classes</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.wildfly</groupId>
+									<artifactId>wildfly-dist</artifactId>
+									<version>8.0.0.Final</version>
+									<type>zip</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>target</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>						
+		    
+		    <plugin>
+		        <artifactId>maven-resources-plugin</artifactId>
+		        <executions>
+		          <execution>
+		            <id>copy-test-resources</id>
+		            <phase>process-test-classes</phase>
+		            <goals>
+		              <goal>copy-resources</goal>
+		            </goals>
+		            <configuration>
+		              <outputDirectory>${basedir}/target/wildfly-8.0.0.Final/standalone/configuration</outputDirectory>
+		              <resources>          
+		                <resource>
+		                  <directory>src/test/resources</directory>
+		                  <includes>
+		                  	<include>standalone.xml</include>
+		                  </includes>
+		                  <filtering>true</filtering>
+		                </resource>
+		              </resources>              
+		            </configuration>            
+		          </execution>
+		        </executions>
+		      </plugin>			
+		</plugins>
+	</build>
+
+	<dependencies>
 		<dependency>
 			<groupId>org.appverse.web.framework.modules.backend.core.api</groupId>
 			<artifactId>appverse-web-modules-backend-core-api</artifactId>
 		</dependency>
-		 
-		<dependency> 
-			    <groupId>javax.jms</groupId> 
-			    <artifactId>javax.jms-api</artifactId> 
-			</dependency> 
-		<!-- If running outside JEE container you should include your JMS implementation
-			dependency. -->
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jms</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-oxm</artifactId>
-		</dependency>
-			
+		 
+		<dependency> 
+		    <groupId>javax.jms</groupId> 
+		    <artifactId>javax.jms-api</artifactId> 
+		</dependency> 
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -243,135 +280,12 @@
                 </exclusion>
             </exclusions>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.wildfly</groupId>
-			<artifactId>wildfly-messaging</artifactId>
-			<scope>test</scope>
-		</dependency>
-		 -->		
 
 		<dependency>
 			<groupId>org.jboss.arquillian.protocol</groupId>
 			<artifactId>arquillian-protocol-servlet</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
-
-
-	<build>
-		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-
-				<configuration>
-                    <systemProperties>
-                        <property>
-                          <name>arquillian.launch</name>
-                          <value>jbossas-managed-wildfly-8</value>
-                        </property>                    
-                        <property>
-                          <name>java.util.logging.manager</name>
-                          <value>org.jboss.logmanager.LogManager</value>
-                        </property>
-                    </systemProperties>
-                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
-                </configuration>				
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>process-test-classes</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.wildfly</groupId>
-									<artifactId>wildfly-dist</artifactId>
-									<version>8.0.0.Final</version>
-									<type>zip</type>
-									<overWrite>false</overWrite>
-									<outputDirectory>target</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>						
-		      <plugin>
-		        <artifactId>maven-resources-plugin</artifactId>
-		        <executions>
-		          <execution>
-		            <id>copy-test-resources</id>
-		            <!-- here the phase you need -->
-		            <phase>process-test-classes</phase>
-		            <goals>
-		              <goal>copy-resources</goal>
-		            </goals>
-		            <configuration>
-		              <outputDirectory>${basedir}/target/wildfly-8.0.0.Final/standalone/configuration</outputDirectory>
-		              <resources>          
-		                <resource>
-		                  <directory>src/test/resources</directory>
-		                  <includes>
-		                  	<include>standalone.xml</include>
-		                  </includes>
-		                  <filtering>true</filtering>
-		                </resource>
-		              </resources>              
-		            </configuration>            
-		          </execution>
-		        </executions>
-		      </plugin>			
-
-
-
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.apache.maven.plugins
-										</groupId>
-										<artifactId>
-											maven-dependency-plugin
-										</artifactId>
-										<versionRange>
-											[2.1,)
-										</versionRange>
-										<goals>
-											<goal>unpack</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-
 
 </project>

@@ -822,7 +822,7 @@
 			</dependency>
 			<!-- END OF APACHE COMMONS MANAGED DEPENDENCIES -->			
 			
-			<!-- PERSISTENCE MANAGED DEPENDENCIES -->
+			<!-- PERSISTENCE MANAGED DEPENDENCIES (Revised)-->
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>eclipselink</artifactId>
@@ -838,7 +838,7 @@
 			<dependency>
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis</artifactId>
-				<version>3.2.7</version>
+				<version>3.2.8</version>
 			</dependency>
 
 			<dependency>
@@ -848,7 +848,7 @@
 			</dependency>
 			<!-- END OF PERSISTENCE MANAGED DEPENDENCIES -->
 
-			<!-- CONVERTER MANAGED DEPENDENCIES -->
+			<!-- CONVERTER MANAGED DEPENDENCIES (Revised)-->
 			<dependency>
 				<groupId>net.sf.dozer</groupId>
 				<artifactId>dozer</artifactId>
@@ -862,18 +862,12 @@
 		 	</dependency>
 			<!-- END OF CONVERTER MANAGED DEPENDENCIES -->		 	
 
-			<!-- CACHING MANAGED DEPENDENCIES -->
+			<!-- CACHING MANAGED DEPENDENCIES (Revised)-->
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
 				<artifactId>ehcache</artifactId>
 				<version>2.9.0</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>com.googlecode.ehcache-spring-annotations</groupId>
-				<artifactId>ehcache-spring-annotations</artifactId>
-				<version>1.2.0</version>
-			</dependency>
+			</dependency>			
 
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
@@ -881,14 +875,14 @@
 				<version>0.5</version>
 				<exclusions>
 					<exclusion>
-						<artifactId>ehcache</artifactId>
 						<groupId>net.sf.ehcache</groupId>
+						<artifactId>ehcache</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
 			<!-- END OF CACHING MANAGED DEPENDENCIES -->
 		
-			<!-- LOGGING MANAGED DEPENDENCIES -->
+			<!-- LOGGING MANAGED DEPENDENCIES (Revised)-->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
@@ -926,21 +920,11 @@
 			</dependency>
 			<!-- END OF LOGGING MANAGED DEPENDENCIES -->
 				
-			<!-- REPORTING MANAGED DEPENDENCIES -->
+			<!-- REPORTING MANAGED DEPENDENCIES (Revised)-->
 			<dependency>
 				<groupId>net.sf.jasperreports</groupId>
 				<artifactId>jasperreports</artifactId>
-				<version>5.0.1</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>bcmail-jdk14</artifactId>
-						<groupId>org.bouncycastle</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>bcmail-jdk14</artifactId>
-						<groupId>bouncycastle</groupId>
-					</exclusion>
-				</exclusions>
+				<version>6.0.3</version>
 			</dependency>
 
 			<dependency>
@@ -1076,7 +1060,6 @@
 			</dependency>
 			<!-- END OF GWT MANAGED DEPENDENCIES -->
 
-			<!-- REPORTING MANAGED DEPENDENCIES -->
             <dependency>
                 <groupId>org.apache.chemistry.opencmis</groupId>
                 <artifactId>chemistry-opencmis-client-impl</artifactId>

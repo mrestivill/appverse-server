@@ -157,11 +157,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
-			<artifactId>ehcache-spring-annotations</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-jmsreplication</artifactId>
 		</dependency>
