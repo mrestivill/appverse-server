@@ -41,6 +41,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.appverse.web.framework.backend.api.helpers.json.JacksonContextResolver;
 import org.appverse.web.framework.backend.api.helpers.security.SecurityHelper;
 import org.appverse.web.framework.backend.api.services.presentation.AuthenticationServiceFacade;
 import org.appverse.web.framework.backend.frontfacade.json.controllers.exceptions.BadRequestException;

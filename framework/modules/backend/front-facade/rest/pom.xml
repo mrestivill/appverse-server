@@ -98,9 +98,14 @@
 	
 	<dependencies>
         <dependency>
-            <groupId>org.appverse.web.framework.modules.backend.core.api</groupId>
-            <artifactId>appverse-web-modules-backend-core-api</artifactId>
+            <groupId>org.appverse.web.framework.modules.backend.core.cache</groupId>
+            <artifactId>appverse-web-modules-backend-core-cache</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>org.appverse.web.framework.modules.backend.core.rest</groupId>
+            <artifactId>appverse-web-modules-backend-core-rest</artifactId>
+        </dependency>   
 
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
