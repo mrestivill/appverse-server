@@ -32,9 +32,8 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
-import org.appverse.web.framework.backend.api.model.integration.IntegrationDataFilter;
-import org.appverse.web.framework.backend.api.model.integration.ResultIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.persistence.model.integration.IntegrationDataFilter;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryJpaCallback;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.UpdateJpaCallback;
 
@@ -79,7 +78,7 @@ public interface IJPAPersistenceService<T extends AbstractIntegrationBean> {
 
 	/**
 	 * This methods allows you to perform any JPA operation providing direct
-	 * access to the EntityManager by means a QueryJpaCallback<T> object for <T>
+	 * access to the EntityManager by means a QueryJpaCallback<T> object for <T>	
 	 * beans for a count operation. If you want predefined standard hints, set
 	 * QueryJPACallback "standardHints" boolean parameter to true.
 	 * 

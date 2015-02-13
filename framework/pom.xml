@@ -260,6 +260,24 @@
 				<artifactId>appverse-web-modules-backend-core-cache</artifactId>
 				<version>${framework.version}</version>
 			</dependency>
+	
+			<dependency>
+	  			<groupId>org.appverse.web.framework.modules.backend.core.enterprise.aop</groupId>
+	  			<artifactId>appverse-web-modules-backend-core-enterprise-aop</artifactId>
+	  			<version>${framework.version}</version>
+	  		</dependency>
+	
+			<dependency>
+			 	<groupId>org.appverse.web.framework.modules.backend.core.enterprise.converters</groupId>
+			  	<artifactId>appverse-web-modules-backend-core-enterprise-converters</artifactId>
+			  	<version>${framework.version}</version>
+			</dependency>
+	
+			<dependency>
+		  	  	<groupId>org.appverse.web.framework.modules.backend.core.enterprise.log</groupId>
+		  		<artifactId>appverse-web-modules-backend-core-enterprise-log</artifactId>
+		  		<version>${framework.version}</version>
+			</dependency>
 			
 			<dependency>
 				<groupId>org.appverse.web.framework.modules.backend.core.persistence.jpacore</groupId>
@@ -278,7 +296,13 @@
                 <artifactId>appverse-web-modules-backend-core-persistence-hibernate</artifactId>
                 <version>${framework.version}</version>
             </dependency>
-
+			
+			<dependency>
+				<groupId>org.appverse.web.framework.modules.backend.core.standard</groupId>
+				<artifactId>appverse-web-modules-backend-core-standard</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.appverse.web.framework.modules.backend.core.ws</groupId>
 				<artifactId>appverse-web-modules-backend-core-ws</artifactId>

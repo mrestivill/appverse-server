@@ -37,12 +37,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
-import org.appverse.web.framework.backend.api.model.integration.IntegrationDataFilter;
-import org.appverse.web.framework.backend.api.model.integration.IntegrationPaginatedDataFilter;
-import org.appverse.web.framework.backend.api.model.integration.ResultIntegrationBean;
-import org.appverse.web.framework.backend.api.services.integration.AbstractIntegrationService;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.services.AbstractIntegrationService;
+import org.appverse.web.framework.backend.persistence.model.integration.IntegrationDataFilter;
+import org.appverse.web.framework.backend.persistence.model.integration.IntegrationPaginatedDataFilter;
 import org.appverse.web.framework.backend.persistence.services.integration.IJPAPersistenceService;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.PersistenceMessageBundle;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryJpaCallback;

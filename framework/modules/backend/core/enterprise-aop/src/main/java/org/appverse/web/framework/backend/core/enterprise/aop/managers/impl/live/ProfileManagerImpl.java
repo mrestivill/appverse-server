@@ -28,16 +28,16 @@ import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.appverse.web.framework.backend.core.enterprise.aop.managers.ProfileManager;
 import org.appverse.web.framework.backend.core.services.AbstractBusinessService;
 import org.appverse.web.framework.backend.core.services.AbstractIntegrationService;
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
+import org.slf4j.Logger;
 
 public class ProfileManagerImpl implements ProfileManager {
-	@AutowiredLogger
+
 	private static Logger logger;
 
 	private boolean showObjects;
@@ -108,8 +108,7 @@ public class ProfileManagerImpl implements ProfileManager {
 				.getClass())) {
 			classTypeDescription = "Business";
 		} else if (AbstractIntegrationService.class.isAssignableFrom(mi
-				.getThis().getClass())
-				|| mi.getThis().getClass().isAnnotationPresent(Mapper.class)) {
+				.getThis().getClass())) {
 			classTypeDescription = "Integration";
 		} else {
 			classTypeDescription = "Unknown Type";

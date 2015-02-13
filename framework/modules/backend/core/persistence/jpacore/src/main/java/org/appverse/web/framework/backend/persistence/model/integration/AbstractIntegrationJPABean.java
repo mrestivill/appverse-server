@@ -1,8 +1,8 @@
 package org.appverse.web.framework.backend.persistence.model.integration;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
-
 import javax.persistence.MappedSuperclass;
+
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 @MappedSuperclass
 public class AbstractIntegrationJPABean extends

@@ -23,7 +23,7 @@
 			<url>http://appverse.org/legal/appverse-license/</url>
 			<distribution>repo</distribution>
 			<comments>
-	 		Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
+	 		 Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
 			
 			 This Source Code Form is subject to the terms of the Appverse Public License 
 			 Version 2.0 (“APL v2.0”). If a copy of the APL was not distributed with this 
@@ -53,20 +53,25 @@
 			<groupId>org.appverse.web.framework.modules.backend.core.standard</groupId>
 			<artifactId>appverse-web-modules-backend-core-standard</artifactId>
 		</dependency>
-		
+				
 		<dependency>
-			<groupId>net.sf.dozer</groupId>
-			<artifactId>dozer</artifactId>
-		</dependency>	
-		
-		<dependency>
-			<groupId>net.sf.dozer</groupId>
-			<artifactId>dozer-spring</artifactId>
-		</dependency>	
+	  		<groupId>org.appverse.web.framework.modules.backend.core.enterprise.log</groupId>
+			<artifactId>appverse-web-modules-backend-core-enterprise-log</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-		</dependency>			
+		</dependency>	
+
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer-spring</artifactId>
+		</dependency>	
+				
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+		</dependency>	
 	</dependencies>
 </project>

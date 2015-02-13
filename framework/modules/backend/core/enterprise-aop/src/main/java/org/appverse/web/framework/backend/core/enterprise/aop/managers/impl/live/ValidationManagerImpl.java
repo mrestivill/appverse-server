@@ -29,15 +29,14 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.appverse.web.framework.backend.api.aop.managers.ValidationManager;
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.model.presentation.AbstractPresentationBean;
-import org.appverse.web.framework.backend.api.services.presentation.PresentationException;
+import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
+import org.appverse.web.framework.backend.core.enterprise.aop.managers.ValidationManager;
+import org.appverse.web.framework.backend.core.exceptions.PresentationException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ValidationManagerImpl implements ValidationManager {
-	@AutowiredLogger
+	
 	private static Logger logger;
 
 	@Autowired

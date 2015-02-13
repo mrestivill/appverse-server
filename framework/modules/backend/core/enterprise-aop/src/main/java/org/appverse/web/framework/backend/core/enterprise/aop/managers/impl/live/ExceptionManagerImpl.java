@@ -24,15 +24,16 @@
 package org.appverse.web.framework.backend.core.enterprise.aop.managers.impl.live;
 
 import java.lang.reflect.Method;
-import java.util.logging.Logger;
 
 import org.appverse.web.framework.backend.core.enterprise.aop.managers.ExceptionManager;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.core.exceptions.BusinessException;
 import org.appverse.web.framework.backend.core.exceptions.IntegrationException;
 import org.appverse.web.framework.backend.core.exceptions.PresentationException;
 import org.appverse.web.framework.backend.core.services.AbstractBusinessService;
 import org.appverse.web.framework.backend.core.services.AbstractIntegrationService;
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
+import org.slf4j.Logger;
 
 public class ExceptionManagerImpl implements ExceptionManager {
 
@@ -62,8 +63,7 @@ public class ExceptionManagerImpl implements ExceptionManager {
 			}
 			if (ex instanceof IntegrationException) {
 				IntegrationException iex = (IntegrationException) ex;
-				BusinessException bex = new BusinessException(iex.getCode(),
-						iex.getParameters(), ex);
+				BusinessException bex = new BusinessException(ex);
 				bex.setStackTrace(iex.getStackTrace());
 				throw bex;
 			} else if (ex instanceof BusinessException) {
@@ -80,8 +80,7 @@ public class ExceptionManagerImpl implements ExceptionManager {
 			}
 			if (ex instanceof BusinessException) {
 				BusinessException bex = (BusinessException) ex;
-				PresentationException pex = new PresentationException(
-						bex.getCode(), bex.getParameters(), ex);
+				PresentationException pex = new PresentationException( ex);
 				pex.setStackTrace(bex.getStackTrace());
 				throw pex;
 			} else if (ex instanceof PresentationException) {
