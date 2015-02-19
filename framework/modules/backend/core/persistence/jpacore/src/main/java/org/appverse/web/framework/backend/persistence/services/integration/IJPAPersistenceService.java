@@ -34,6 +34,7 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 import org.appverse.web.framework.backend.persistence.model.integration.IntegrationDataFilter;
+import org.appverse.web.framework.backend.persistence.model.integration.ResultIntegrationBean;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryJpaCallback;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.UpdateJpaCallback;
 

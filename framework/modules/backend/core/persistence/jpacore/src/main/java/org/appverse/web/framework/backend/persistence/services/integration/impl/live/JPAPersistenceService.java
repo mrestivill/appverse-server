@@ -42,6 +42,7 @@ import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.core.services.AbstractIntegrationService;
 import org.appverse.web.framework.backend.persistence.model.integration.IntegrationDataFilter;
 import org.appverse.web.framework.backend.persistence.model.integration.IntegrationPaginatedDataFilter;
+import org.appverse.web.framework.backend.persistence.model.integration.ResultIntegrationBean;
 import org.appverse.web.framework.backend.persistence.services.integration.IJPAPersistenceService;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.PersistenceMessageBundle;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryJpaCallback;
@@ -66,7 +67,7 @@ import org.springframework.util.StringUtils;
  *            Abstract integration Bean the persistence service will deal with
  */
 public class JPAPersistenceService<T extends AbstractIntegrationBean> extends
-		AbstractIntegrationService<T> implements IJPAPersistenceService<T> {
+		AbstractIntegrationService implements IJPAPersistenceService<T> {
 
 	@Value("${db.pkName}")
 	// IMPORTANT NOTE: Take care that Eclipse "saveActions" (or the IDE you are

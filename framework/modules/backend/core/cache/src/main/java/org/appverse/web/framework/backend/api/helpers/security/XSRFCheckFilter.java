@@ -23,11 +23,6 @@
  */
 package org.appverse.web.framework.backend.api.helpers.security;
 
-import jodd.typeconverter.Convert;
-import jodd.typeconverter.TypeConversionException;
-import jodd.util.StringUtil;
-import jodd.util.Wildcard;
-
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -38,6 +33,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jodd.typeconverter.Convert;
+import jodd.typeconverter.TypeConversionException;
+import jodd.util.StringUtil;
+import jodd.util.Wildcard;
 
 /**
  * This filter checks the XSRF token is present in your request.

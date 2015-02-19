@@ -28,7 +28,10 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -40,13 +43,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
-import org.appverse.web.framework.backend.api.model.integration.IntegrationPaginatedDataFilter;
-import org.appverse.web.framework.backend.api.services.integration.AbstractIntegrationService;
-import org.appverse.web.framework.backend.api.services.integration.ServiceUnavailableException;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.services.AbstractIntegrationService;
 import org.appverse.web.framework.backend.rest.exceptions.RestWebAppException;
+import org.appverse.web.framework.backend.rest.exceptions.ServiceUnavailableException;
 import org.appverse.web.framework.backend.rest.managers.RestCachingManager;
+import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedDataFilter;
 import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedResult;
 import org.appverse.web.framework.backend.rest.model.integration.StatusResult;
 import org.appverse.web.framework.backend.rest.services.integration.IRestPersistenceService;
@@ -58,7 +61,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  */
 public abstract class RestPersistenceService<T extends AbstractIntegrationBean> extends
-		AbstractIntegrationService<T>
+		AbstractIntegrationService
 		implements IRestPersistenceService<T> {
 
 	public static final String MAX_RECORDS_PARAM_NAME = "maxRecords";
@@ -379,8 +382,7 @@ public abstract class RestPersistenceService<T extends AbstractIntegrationBean> 
             // Any other status will be considered an error (except NOT_MODIFIED)
             logger.error("Error with call {" + webClient.getUri()
                     + "} . Response status: " + resp.getStatus());
-            throw new RestWebAppException("Exception calling URI: " +
-                    webClient.getUri().toString() + ". Status code is: " + resp.getStatus(), resp.getStatus());
+            throw new RestWebAppException();
         }
 		return result;
 	}

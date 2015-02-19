@@ -26,7 +26,7 @@ package org.appverse.web.framework.backend.rest.model.business;
 import java.io.Serializable;
 import java.util.List;
 
-import org.appverse.web.framework.backend.api.model.business.AbstractBusinessBean;
+import org.appverse.web.framework.backend.core.beans.AbstractBusinessBean;
 
 /**
  * Page of data which contains also pagination information 

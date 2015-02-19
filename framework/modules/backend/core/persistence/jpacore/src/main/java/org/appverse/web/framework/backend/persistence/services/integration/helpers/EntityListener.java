@@ -21,27 +21,22 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.rest.aop.advices;
+package org.appverse.web.framework.backend.persistence.services.integration.helpers;
 
-import java.lang.reflect.Method;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
-import org.appverse.web.framework.backend.core.enterprise.aop.advices.technical.AbstractThrowsAOPAdvice;
-import org.appverse.web.framework.backend.rest.aop.managers.RestExceptionManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
-/**
- * Advice to intercept throwing of Rest exceptions
- *
- */
-public class RestExceptionAdvice extends AbstractThrowsAOPAdvice {
+public class EntityListener {
 
-	@Autowired
-	RestExceptionManager restExceptionManager;
+	
 
-	@Override
-	public void afterThrowing(final Method method, final Object[] args,
-			final Object target, final Throwable ex) throws Throwable {
-		restExceptionManager.convertAndRethrowException(method, args, target, ex);
+	@PrePersist
+	public void prePersist(AbstractIntegrationBean integrationBean) {
 	}
 
+	@PreUpdate
+	public void preUpdate(AbstractIntegrationBean integrationBean) {
+	}
 }

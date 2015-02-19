@@ -21,59 +21,76 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.rest.model.integration;
+package org.appverse.web.framework.backend.persistence.model.integration;
 
-import java.io.Serializable;
-import java.net.URI;
+import java.util.Date;
 
 import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
-/**
- * This bean should support return with Rest methods when only status return is desired
- *
- */
-public class StatusResult extends AbstractIntegrationBean implements Serializable {
+public abstract class AbstractIntegrationAuditedBean extends
+		AbstractIntegrationBean {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2353399245271295624L;
+	private static final long serialVersionUID = 5418930620393841222L;
 
-	private int status;
-	private String message;
-	private URI location;
+	protected Date created;
 
-	public StatusResult() {
+	protected String createdBy;
+
+	protected Date updated;
+
+	protected String updatedBy;
+	protected String status;
+	protected long version;
+
+	public static final String STATUS_ACTIVE = "a";
+	public static final String STATUS_INACTIVE = "i";
+
+	public Date getCreated() {
+		return created;
 	}
 
-	public StatusResult(final int status, final String message) {
-		super();
-		this.status = status;
-		this.message = message;
+	public String getCreatedBy() {
+		return createdBy;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(final int status) {
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public long getVersion() {
+		return version;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public String getMessage() {
-		return message;
+	public void setUpdated(Date updated) {
+		this.updated = updated;
 	}
 
-	public void setMessage(final String message) {
-		this.message = message;
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 
-	public URI getLocation() {
-		return location;
-	}
-
-	public void setLocation(final URI location) {
-		this.location = location;
+	public void setVersion(long version) {
+		this.version = version;
 	}
 
 }

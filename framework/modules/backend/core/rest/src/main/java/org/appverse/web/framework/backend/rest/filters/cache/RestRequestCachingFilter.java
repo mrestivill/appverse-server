@@ -38,7 +38,7 @@ import javax.ws.rs.ext.Provider;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.rest.helpers.cache.CacheEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

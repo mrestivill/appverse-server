@@ -25,7 +25,7 @@ package org.appverse.web.framework.backend.persistence.services.integration.impl
 
 import java.util.List;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.persistence.model.integration.UserDTO;
 import org.appverse.web.framework.backend.persistence.services.integration.UserRepository;
 import org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryJpaCallback;

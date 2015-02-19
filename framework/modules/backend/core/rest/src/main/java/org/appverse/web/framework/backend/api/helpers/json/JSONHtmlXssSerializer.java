@@ -22,6 +22,8 @@
  POSSIBILITY OF SUCH DAMAGE.
  */
 package org.appverse.web.framework.backend.api.helpers.json;
+import java.io.IOException;
+
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
@@ -32,8 +34,6 @@ import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Encoder;
 import org.owasp.esapi.reference.DefaultEncoder;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 
 @Component

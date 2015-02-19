@@ -21,27 +21,18 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.rest.aop.advices;
+package org.appverse.web.framework.backend.persistence.helpers.test;
 
-import java.lang.reflect.Method;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-import org.appverse.web.framework.backend.core.enterprise.aop.advices.technical.AbstractThrowsAOPAdvice;
-import org.appverse.web.framework.backend.rest.aop.managers.RestExceptionManager;
-import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * Advice to intercept throwing of Rest exceptions
- *
- */
-public class RestExceptionAdvice extends AbstractThrowsAOPAdvice {
-
-	@Autowired
-	RestExceptionManager restExceptionManager;
-
-	@Override
-	public void afterThrowing(final Method method, final Object[] args,
-			final Object target, final Throwable ex) throws Throwable {
-		restExceptionManager.convertAndRethrowException(method, args, target, ex);
-	}
+@ContextConfiguration(locations = { "classpath:/spring/application-config.xml" })
+@TransactionConfiguration(defaultRollback = true)
+@Transactional
+public abstract class AbstractTransactionalTest extends
+		AbstractTransactionalJUnit4SpringContextTests {
 
 }

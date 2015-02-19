@@ -21,27 +21,37 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.rest.aop.advices;
+package org.appverse.web.framework.backend.rest.model.integration;
 
-import java.lang.reflect.Method;
+public class IntegrationPaginatedDataFilter extends IntegrationDataFilter {
 
-import org.appverse.web.framework.backend.core.enterprise.aop.advices.technical.AbstractThrowsAOPAdvice;
-import org.appverse.web.framework.backend.rest.aop.managers.RestExceptionManager;
-import org.springframework.beans.factory.annotation.Autowired;
+	private static final long serialVersionUID = 5344577309428039854L;
 
-/**
- * Advice to intercept throwing of Rest exceptions
- *
- */
-public class RestExceptionAdvice extends AbstractThrowsAOPAdvice {
+	private int limit;
 
-	@Autowired
-	RestExceptionManager restExceptionManager;
+	private int offSet;
 
-	@Override
-	public void afterThrowing(final Method method, final Object[] args,
-			final Object target, final Throwable ex) throws Throwable {
-		restExceptionManager.convertAndRethrowException(method, args, target, ex);
+	public IntegrationPaginatedDataFilter() {
+		super();
 	}
 
+	public IntegrationPaginatedDataFilter(final String defaultConditionOperation) {
+		super(defaultConditionOperation);
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public int getOffset() {
+		return offSet;
+	}
+
+	public void setLimit(final int limit) {
+		this.limit = limit;
+	}
+
+	public void setOffset(final int offSet) {
+		this.offSet = offSet;
+	}
 }

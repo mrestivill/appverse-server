@@ -33,9 +33,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.appverse.web.framework.backend.api.helpers.test.AbstractTransactionalTest;
-import org.appverse.web.framework.backend.api.helpers.test.JPATest;
-import org.appverse.web.framework.backend.api.model.integration.IntegrationDataFilter;
+import org.appverse.web.framework.backend.persistence.helpers.test.AbstractTransactionalTest;
+import org.appverse.web.framework.backend.persistence.helpers.test.JPATest;
+import org.appverse.web.framework.backend.persistence.model.integration.IntegrationDataFilter;
 import org.appverse.web.framework.backend.persistence.model.integration.UserDTO;
 import org.appverse.web.framework.backend.persistence.services.integration.UserRepository;
 import org.junit.After;

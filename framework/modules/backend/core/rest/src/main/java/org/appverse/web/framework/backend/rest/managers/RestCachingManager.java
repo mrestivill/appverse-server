@@ -29,7 +29,7 @@ import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedResult;
 import org.appverse.web.framework.backend.rest.services.integration.IRestPersistenceService;
 

@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.rest.aop.managers.RestExceptionManager;
 import org.appverse.web.framework.backend.rest.exceptions.RestWebAppException;
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse;
@@ -45,7 +45,6 @@ public class RestExceptionManagerImpl implements RestExceptionManager {
 	@AutowiredLogger
 	private static Logger logger;
 
-	@Override
 	public void convertAndRethrowException(final Method method,
 			final Object[] args, final Object target, final Throwable ex)
 			throws Throwable {
@@ -57,10 +56,10 @@ public class RestExceptionManagerImpl implements RestExceptionManager {
 			Response response = wae.getResponse();
 			if (response instanceof OutboundJaxrsResponse)
 			{
-				throw new RestWebAppException("", response.getStatus(), wae);
+				throw new RestWebAppException();
 			}
 			String reason = response.readEntity(String.class);
-			RestWebAppException rex = new RestWebAppException(reason, response.getStatus(), wae);
+			RestWebAppException rex = new RestWebAppException();
 			throw rex;
 		}
 		else if (ex instanceof InvocationTargetException)
@@ -75,7 +74,7 @@ public class RestExceptionManagerImpl implements RestExceptionManager {
         {
             IllegalStateException ise = (IllegalStateException) ex;
             String reason = ise.getMessage();
-            RestWebAppException rex = new RestWebAppException(reason, 0, ise);
+            RestWebAppException rex = new RestWebAppException();
             throw rex;
         }
 		else

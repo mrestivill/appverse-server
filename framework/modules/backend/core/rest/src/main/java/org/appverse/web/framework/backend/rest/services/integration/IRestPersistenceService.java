@@ -30,8 +30,8 @@ import java.util.Map;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
-import org.appverse.web.framework.backend.api.model.integration.IntegrationPaginatedDataFilter;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedDataFilter;
 import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedResult;
 import org.appverse.web.framework.backend.rest.model.integration.StatusResult;
 

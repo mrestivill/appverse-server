@@ -37,8 +37,8 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.rest.annotations.RestCaching;
 import org.appverse.web.framework.backend.rest.helpers.cache.CacheEntry;
 import org.appverse.web.framework.backend.rest.managers.RestCachingManager;

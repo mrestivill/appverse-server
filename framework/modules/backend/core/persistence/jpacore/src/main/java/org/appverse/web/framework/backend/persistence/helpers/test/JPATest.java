@@ -21,37 +21,25 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.persistence.services.integration.impl.live;
+package org.appverse.web.framework.backend.persistence.helpers.test;
 
-import java.util.List;
+public interface JPATest {
 
-import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
-import org.appverse.web.framework.backend.persistence.model.integration.UserDTO;
-import org.appverse.web.framework.backend.persistence.services.integration.UserRepository;
-import org.appverse.web.framework.backend.persistence.services.integration.helpers.QueryEclipselinkCallback;
-import org.slf4j.Logger;
-import org.springframework.stereotype.Repository;
+	void delete() throws Exception;
 
-@Repository("userRepository")
-public class UserRepositoryImpl extends JPAPersistenceService<UserDTO>
-		implements UserRepository {
+	void deleteAll() throws Exception;
 
-	@AutowiredLogger
-	private static Logger logger;
+	void finalize() throws Exception;
 
-	@Override
-	public UserDTO loadUserByUsername(final String username) throws Exception {
-		final StringBuilder queryString = new StringBuilder();
-		queryString.append("select user from UserDTO user where user.email='")
-				.append(username).append("'");
-		final QueryEclipselinkCallback<UserDTO> query = new QueryEclipselinkCallback<UserDTO>(
-				queryString.toString(), false);
-		List<UserDTO> list = retrieveList(query);
+	void initialize() throws Exception;
 
-		if (list != null && list.size() > 0) {
-			return list.get(0);
-		} else {
-			return null;
-		}
-	}
+	void persist() throws Exception;
+
+	void retrieveAll() throws Exception;
+
+	void retrieveByBean() throws Exception;
+
+	void retrieveByFilter() throws Exception;
+
+	void retrieveByPk() throws Exception;	
 }
