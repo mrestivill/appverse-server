@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 /**
  * This bean should map paged info and data returned by server.

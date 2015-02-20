@@ -39,11 +39,14 @@
  */
 package org.test.app.web.framework.backend.rest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response.Status;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.services.integration.IntegrationException;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.exceptions.IntegrationException;
 import org.appverse.web.framework.backend.rest.model.integration.StatusResult;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -65,8 +68,6 @@ import org.test.app.web.framework.backend.rest.services.integration.SampleReposi
 
 import server.org.appverse.service.rest.sample.ExtendedGrizzlyTestContainerFactory;
 import server.org.appverse.service.rest.sample.SampleRestApplication;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Test class
@@ -162,7 +163,6 @@ public class SampleDeleteTest extends JerseyTest {
 		{
 			logger.info("WebAppException has been catched by advice and transformed in IntegrationException");
 			logger.info("Currently, Integration exception contains error code and reason");
-			logger.info("Error code::" + ie.getCode());
 			logger.info("Error code::" + ie.getMessage());
 		}
 
@@ -177,8 +177,6 @@ public class SampleDeleteTest extends JerseyTest {
 		} catch (IntegrationException ie)
 		{
 			logger.info("WebAppException has been catched by advice and transformed in IntegrationException");
-			logger.info("Currently, Integration exception contains error code and reason");
-			logger.info("Error code::" + ie.getCode());
 			logger.info("Error code::" + ie.getMessage());
 		}
 

@@ -36,8 +36,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.appverse.web.framework.backend.api.helpers.security.SecurityHelper;
-import org.appverse.web.framework.backend.api.model.presentation.AuthorizationDataVO;
-import org.appverse.web.framework.backend.api.services.presentation.AuthenticationServiceFacade;
+import org.appverse.web.framework.backend.frontfacade.rest.authentication.model.AuthorizationDataVO;
+import org.appverse.web.framework.backend.frontfacade.rest.services.presentation.AuthenticationServiceFacade;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -87,7 +87,7 @@ public class BasicAuthenticationRESTController implements ApplicationContextAwar
      * @param httpServletResponse
      * @return
      * @throws Exception
-     */
+     */	
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("login")

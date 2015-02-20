@@ -1,13 +1,5 @@
 package org.appverse.web.framework.backend.frontfacade.rest.authentication.business.impl.live;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.frontfacade.rest.authentication.business.CertService;
-import org.slf4j.Logger;
-import org.springframework.stereotype.Component;
-
-import javax.naming.InvalidNameException;
-import javax.naming.ldap.LdapName;
-import javax.naming.ldap.Rdn;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
@@ -15,6 +7,15 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
+
+import javax.naming.InvalidNameException;
+import javax.naming.ldap.LdapName;
+import javax.naming.ldap.Rdn;
+
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
+import org.appverse.web.framework.backend.frontfacade.rest.authentication.business.CertService;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
 
 @Component("certService")
 public class CertServiceImpl implements CertService

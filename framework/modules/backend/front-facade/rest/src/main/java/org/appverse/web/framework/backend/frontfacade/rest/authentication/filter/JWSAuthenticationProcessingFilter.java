@@ -14,7 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.frontfacade.rest.authentication.model.JWSAuthenticationToken;
 import org.slf4j.Logger;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -60,7 +60,7 @@ public class JWSAuthenticationProcessingFilter extends GenericFilterBean {
 				String token = authHeader.substring(pos + JWS_AUTH_HEADER_TOKEN_MARK.length());
                 if(logger.isDebugEnabled()){
                     logger.debug("JWS Token detected: {}", token);
-                }
+                }	
 				try
 				{
 					InputStream stream = req.getInputStream();

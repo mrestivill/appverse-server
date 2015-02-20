@@ -2,7 +2,7 @@ package org.test.app.web.framework.backend.rest.model.integration;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 @XmlRootElement(name = "sampleBean")
 public class SampleDTO extends AbstractIntegrationBean {

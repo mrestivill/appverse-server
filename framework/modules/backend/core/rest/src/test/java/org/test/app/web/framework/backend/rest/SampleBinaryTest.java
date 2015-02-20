@@ -39,11 +39,13 @@
  */
 package org.test.app.web.framework.backend.rest;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.InputStream;
 
 import javax.ws.rs.core.Application;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.rest.model.integration.StatusResult;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.test.JerseyTest;
@@ -64,8 +66,6 @@ import org.test.app.web.framework.backend.rest.services.integration.BinarySample
 
 import server.org.appverse.service.rest.sample.ExtendedGrizzlyTestContainerFactory;
 import server.org.appverse.service.rest.sample.SampleRestApplication;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * Test class

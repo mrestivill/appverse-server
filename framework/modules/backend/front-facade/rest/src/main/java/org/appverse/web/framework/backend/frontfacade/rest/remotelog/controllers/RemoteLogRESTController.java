@@ -23,9 +23,9 @@
  */
 package org.appverse.web.framework.backend.frontfacade.rest.remotelog.controllers;
 
-import org.appverse.web.framework.backend.api.model.presentation.RemoteLogRequestVO;
-import org.appverse.web.framework.backend.api.model.presentation.RemoteLogResponseVO;
-import org.appverse.web.framework.backend.api.services.presentation.RemoteLogServiceFacade;
+import org.appverse.web.framework.backend.frontfacade.rest.model.presentation.RemoteLogRequestVO;
+import org.appverse.web.framework.backend.frontfacade.rest.model.presentation.RemoteLogResponseVO;
+import org.appverse.web.framework.backend.frontfacade.rest.services.presentation.RemoteLogServiceFacade;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

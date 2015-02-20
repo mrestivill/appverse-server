@@ -43,8 +43,8 @@ import javax.ws.rs.core.Response;
 
 import org.appverse.web.framework.backend.api.helpers.json.JacksonContextResolver;
 import org.appverse.web.framework.backend.api.helpers.security.SecurityHelper;
-import org.appverse.web.framework.backend.api.services.presentation.AuthenticationServiceFacade;
 import org.appverse.web.framework.backend.frontfacade.json.controllers.exceptions.BadRequestException;
+import org.appverse.web.framework.backend.frontfacade.json.services.presentation.AuthenticationServiceFacade;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.BeansException;

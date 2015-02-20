@@ -22,10 +22,14 @@ package org.appverse.web.framework.backend.frontfacade.rest.authentication;
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-import com.nimbusds.jose.JWSObject;
-import com.nimbusds.jose.JWSVerifier;
-import com.nimbusds.jose.crypto.RSASSAVerifier;
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import java.security.PublicKey;
+import java.security.cert.X509Certificate;
+import java.security.interfaces.RSAPublicKey;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.frontfacade.rest.authentication.business.CertService;
 import org.appverse.web.framework.backend.frontfacade.rest.authentication.model.JWSAuthenticationToken;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -49,12 +53,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.StringUtils;
 
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
-import java.security.interfaces.RSAPublicKey;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
+import com.nimbusds.jose.JWSObject;
+import com.nimbusds.jose.JWSVerifier;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
 
 
 /**

@@ -72,7 +72,7 @@
 	</scm>	
 	
 	<modules>
-		<module>gwt</module>
+		<!-- <module>gwt</module> -->
 		<module>json</module>
         <module>rest</module>
 	</modules>

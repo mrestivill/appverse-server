@@ -30,7 +30,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.rest.model.integration.StatusResult;
 import org.appverse.web.framework.backend.rest.services.integration.IRestPersistenceService;
 import org.appverse.web.framework.backend.rest.services.integration.impl.live.RestPersistenceService;
