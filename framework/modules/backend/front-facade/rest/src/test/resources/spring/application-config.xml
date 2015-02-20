@@ -84,13 +84,7 @@
           </tx:attributes>
       </tx:advice>
  		-->
-      <bean id="profileManager" class="org.appverse.web.framework.backend.core.enterprise.aop.managers.impl.live.ProfileManagerImpl" />
-      <bean id="exceptionManager" class="org.appverse.web.framework.backend.rest.aop.managers.impl.live.RestExceptionManagerImpl" />
-      <!--<bean id="validationManager" class="org.appverse.web.framework.backend.core.aop.managers.impl.live.ValidationManagerImpl" />-->
-      <bean id="profilingAdvice" class="org.appverse.web.framework.backend.core.enterprise.aop.advices.ProfilingAdvice" /> 
-      <bean id="exceptionAdvice" class="org.appverse.web.framework.backend.core.enterprise.aop.advices.ExceptionAdvice" />
-      <!--<bean id="validationAdvice" class="org.appverse.web.framework.backend.core.enterprise.aop.advices.ValidationAdvice"/>-->
-
+      
 
 
       <!-- ============================================================================================= --> 
