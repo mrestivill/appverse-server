@@ -23,19 +23,19 @@
  */
 package test.app.web.framework.backend.ecm;
 
+import java.util.List;
+
 import org.apache.chemistry.opencmis.client.api.Session;
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.helpers.test.AbstractTest;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.ecm.core.model.integration.DocumentDTO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import test.app.web.framework.backend.ecm.model.integration.NodeDTO;
 import test.app.web.framework.backend.ecm.services.integration.DocumentRepository;
 import test.app.web.framework.backend.ecm.services.integration.SampleRepository;
-
-import java.util.List;
 
 public class CmisTest extends AbstractTest {
 

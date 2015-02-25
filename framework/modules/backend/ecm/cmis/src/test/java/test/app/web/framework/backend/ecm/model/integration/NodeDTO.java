@@ -23,7 +23,7 @@
  */
 package test.app.web.framework.backend.ecm.model.integration;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 /**
  * Example class that shows how to model your integration objects layer holding

@@ -23,9 +23,9 @@
  */
 package org.appverse.web.framework.backend.ecm.core.model.integration;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
-
 import java.util.Date;
+
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 /**
  * Base abstract class for document management

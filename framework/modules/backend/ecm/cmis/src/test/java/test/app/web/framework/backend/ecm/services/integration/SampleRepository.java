@@ -23,11 +23,12 @@
  */
 package test.app.web.framework.backend.ecm.services.integration;
 
+import java.util.List;
+
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.appverse.web.framework.backend.ecm.cmis.services.integration.ICMISService;
-import test.app.web.framework.backend.ecm.model.integration.NodeDTO;
 
-import java.util.List;
+import test.app.web.framework.backend.ecm.model.integration.NodeDTO;
 
 /**
  * This example interface defines two methods for its implementors.

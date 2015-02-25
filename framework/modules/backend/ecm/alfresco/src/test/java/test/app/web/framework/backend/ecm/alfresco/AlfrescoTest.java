@@ -23,19 +23,19 @@
  */
 package test.app.web.framework.backend.ecm.alfresco;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.helpers.test.AbstractTest;
-import org.appverse.web.framework.backend.api.model.integration.IntegrationPaginatedDataFilter;
-import org.appverse.web.framework.backend.api.services.integration.IntegrationException;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.exceptions.IntegrationException;
 import org.appverse.web.framework.backend.ecm.alfresco.model.integration.repository.links.LinkDTO;
 import org.appverse.web.framework.backend.ecm.alfresco.services.integration.repository.links.LinkRepository;
 import org.appverse.web.framework.backend.ecm.core.model.integration.DocumentDTO;
+import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedDataFilter;
 import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedResult;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import test.app.web.framework.backend.ecm.alfresco.services.integration.DocumentRepository;
 
 public class AlfrescoTest extends AbstractTest {

@@ -23,7 +23,7 @@
  */
 package org.appverse.web.framework.backend.ecm.core.services.integration;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 /**
  * This interface provides the basics methods for the simplest document management based on

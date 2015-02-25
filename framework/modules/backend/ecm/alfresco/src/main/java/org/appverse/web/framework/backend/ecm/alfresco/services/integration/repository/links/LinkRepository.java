@@ -23,9 +23,9 @@
  */
 package org.appverse.web.framework.backend.ecm.alfresco.services.integration.repository.links;
 
-import org.appverse.web.framework.backend.api.model.integration.IntegrationPaginatedDataFilter;
 import org.appverse.web.framework.backend.ecm.alfresco.model.integration.repository.links.LinkDTO;
 import org.appverse.web.framework.backend.rest.annotations.RestCaching;
+import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedDataFilter;
 import org.appverse.web.framework.backend.rest.model.integration.IntegrationPaginatedResult;
 
 /**

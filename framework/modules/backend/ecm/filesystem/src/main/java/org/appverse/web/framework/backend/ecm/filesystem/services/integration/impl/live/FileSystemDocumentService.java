@@ -23,17 +23,17 @@
  */
 package org.appverse.web.framework.backend.ecm.filesystem.services.integration.impl.live;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import java.io.File;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.nio.file.StandardCopyOption;
+
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.ecm.core.model.integration.AbstractDocumentIntegrationBean;
 import org.appverse.web.framework.backend.ecm.core.services.integration.IDocumentService;
 import org.slf4j.Logger;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.FileSystemUtils;
-
-import java.io.File;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.nio.file.StandardCopyOption;
 
 /**
  * This class provides a file system based implementation for IDocumentService

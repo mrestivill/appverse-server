@@ -23,14 +23,14 @@
  */
 package org.appverse.web.framework.backend.ecm.alfresco.model.integration.repository.links;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
-import org.codehaus.jackson.annotate.JsonAnyGetter;
-import org.codehaus.jackson.annotate.JsonAnySetter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
+import org.codehaus.jackson.annotate.JsonAnyGetter;
+import org.codehaus.jackson.annotate.JsonAnySetter;
 
 public class LinkDTO extends AbstractIntegrationBean {
 

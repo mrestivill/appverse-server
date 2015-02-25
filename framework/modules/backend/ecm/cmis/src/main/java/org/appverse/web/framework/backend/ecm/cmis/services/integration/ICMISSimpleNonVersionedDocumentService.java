@@ -1,7 +1,7 @@
 package org.appverse.web.framework.backend.ecm.cmis.services.integration;
 
 import org.apache.chemistry.opencmis.client.api.Session;
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 import org.appverse.web.framework.backend.ecm.core.services.integration.IDocumentService;
 
 /**

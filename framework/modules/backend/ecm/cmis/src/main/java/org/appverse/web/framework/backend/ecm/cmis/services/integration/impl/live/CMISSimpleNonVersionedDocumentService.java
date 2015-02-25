@@ -23,7 +23,20 @@
  */
 package org.appverse.web.framework.backend.ecm.cmis.services.integration.impl.live;
 
-import org.apache.chemistry.opencmis.client.api.*;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.chemistry.opencmis.client.api.CmisObject;
+import org.apache.chemistry.opencmis.client.api.Document;
+import org.apache.chemistry.opencmis.client.api.DocumentType;
+import org.apache.chemistry.opencmis.client.api.FileableCmisObject;
+import org.apache.chemistry.opencmis.client.api.Folder;
+import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.util.FileUtils;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
@@ -32,18 +45,10 @@ import org.apache.chemistry.opencmis.commons.enums.VersioningState;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
 import org.apache.commons.io.IOUtils;
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.ecm.cmis.services.integration.ICMISSimpleNonVersionedDocumentService;
 import org.appverse.web.framework.backend.ecm.core.model.integration.AbstractDocumentIntegrationBean;
 import org.slf4j.Logger;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Base implementation service that provides simple operations for non versioned documents.

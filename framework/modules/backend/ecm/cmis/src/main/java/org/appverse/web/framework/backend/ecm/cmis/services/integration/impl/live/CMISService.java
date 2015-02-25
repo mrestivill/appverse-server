@@ -24,8 +24,8 @@
 package org.appverse.web.framework.backend.ecm.cmis.services.integration.impl.live;
 
 import org.apache.chemistry.opencmis.client.api.Session;
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
-import org.appverse.web.framework.backend.api.services.integration.AbstractIntegrationService;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.services.AbstractIntegrationService;
 import org.appverse.web.framework.backend.ecm.cmis.managers.impl.live.CmisSessionManagerImpl;
 import org.appverse.web.framework.backend.ecm.cmis.services.integration.ICMISService;
 
@@ -33,7 +33,7 @@ import org.appverse.web.framework.backend.ecm.cmis.services.integration.ICMISSer
  * Base CMISService implementation providing access to a Session (delegating to the CmisSessionManager)
  */
 public class CMISService<T extends AbstractIntegrationBean> extends
-        AbstractIntegrationService<T> implements ICMISService<T> {
+        AbstractIntegrationService implements ICMISService<T> {
 
     private CmisSessionManagerImpl cmisSessionManager;
 

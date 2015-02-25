@@ -23,13 +23,17 @@
  */
 package org.appverse.web.framework.backend.ecm.cmis.managers.impl.live;
 
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.apache.chemistry.opencmis.client.api.Session;
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.ecm.cmis.factories.CmisSessionFactory;
 import org.appverse.web.framework.backend.ecm.cmis.managers.CmisSessionManager;
 import org.slf4j.Logger;
-
-import java.util.*;
 
 /**
  * CmisSessionManagerImpl implements a CMIS Session Manager that allows session reuse.
