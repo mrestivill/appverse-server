@@ -27,7 +27,7 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 @XmlTransient
 //Header is not be marshalled/unmarshalled. It is manually set up in JMS Headers

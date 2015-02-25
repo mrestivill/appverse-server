@@ -23,7 +23,7 @@
  */
 package org.test.app.web.framework.backend.messaging.services.integration.impl.live;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.messaging.services.integration.impl.live.JMSAsyncService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

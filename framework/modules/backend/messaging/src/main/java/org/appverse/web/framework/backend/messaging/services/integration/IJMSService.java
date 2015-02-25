@@ -23,7 +23,7 @@
  */
 package org.appverse.web.framework.backend.messaging.services.integration;
 
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 /**
  * Interface to provide integration with JMS Broker

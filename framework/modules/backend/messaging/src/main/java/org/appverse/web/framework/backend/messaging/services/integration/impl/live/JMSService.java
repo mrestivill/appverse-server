@@ -31,9 +31,9 @@ import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
-import org.appverse.web.framework.backend.api.services.integration.AbstractIntegrationService;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.services.AbstractIntegrationService;
 import org.appverse.web.framework.backend.messaging.services.integration.IJMSService;
 import org.slf4j.Logger;
 
@@ -43,7 +43,7 @@ import org.slf4j.Logger;
  * @param <T>
  */
 public abstract class JMSService<T extends AbstractIntegrationBean>
-		extends AbstractIntegrationService<T> implements IJMSService<T> {
+		extends AbstractIntegrationService implements IJMSService<T> {
 
 	@AutowiredLogger
 	private static Logger logger;

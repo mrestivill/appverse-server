@@ -26,8 +26,8 @@ package org.appverse.web.framework.backend.messaging.services.integration.impl.l
 import javax.jms.JMSException;
 import javax.jms.Message;
 
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.model.integration.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.messaging.services.integration.IJMSServiceConsumer;
 import org.appverse.web.framework.backend.messaging.services.integration.IJMSServicePublisher;
 import org.slf4j.Logger;
