@@ -23,6 +23,7 @@
  */
 package test.app.web.framework.backend.ecm.alfresco;
 
+import org.appverse.web.framework.backend.api.helpers.test.AbstractTest;
 import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.core.exceptions.IntegrationException;
 import org.appverse.web.framework.backend.ecm.alfresco.model.integration.repository.links.LinkDTO;
@@ -109,7 +110,7 @@ public class AlfrescoTest extends AbstractTest {
             result = linkRepository.retrievePagedLinks("webtestsite", "links", filter, "user", "wrongpassword");
         }
         catch (IntegrationException ie){
-            logger.info("Error code::" + ie.getCode());
+//            logger.info("Error code::" + ie.getCode());
             logger.info("Error code::" + ie.getMessage());
             e = ie;
         }

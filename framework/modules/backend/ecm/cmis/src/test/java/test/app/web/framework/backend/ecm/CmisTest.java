@@ -26,6 +26,7 @@ package test.app.web.framework.backend.ecm;
 import java.util.List;
 
 import org.apache.chemistry.opencmis.client.api.Session;
+import org.appverse.web.framework.backend.api.helpers.test.AbstractTest;
 import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.ecm.core.model.integration.DocumentDTO;
 import org.junit.Assert;
