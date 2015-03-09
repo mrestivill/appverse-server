@@ -22,7 +22,8 @@
  POSSIBILITY OF SUCH DAMAGE.
  --> 
 <module>
-  <inherits name="org.appverse.web.framework.backend.api.API"/>
+<!--   <inherits name="org.appverse.web.framework.backend.api.API"/> -->
+  <inherits name="org.appverse.web.framework.backend.API"/>
   <source path="common"/>
   <source path="model/presentation"/>
   <source path="services/presentation" excludes="impl/**/*Impl.java"/>
