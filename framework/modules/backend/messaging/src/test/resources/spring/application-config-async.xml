@@ -33,8 +33,7 @@
 	<!-- Autowired Logger BeanFactoryPostProcessor -->
 	<!-- ============================================================================================= -->
 
-	<bean
-		class="org.appverse.web.framework.backend.api.helpers.log.AutowiredLoggerBeanPostProcessor" />
+   <bean class="org.appverse.web.framework.backend.core.enterprise.log.AutowiredLoggerBeanPostProcessor" />         
 
 
 	<!-- ============================================================================================= -->
