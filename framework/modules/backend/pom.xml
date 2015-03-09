@@ -72,7 +72,7 @@
 	</scm>	
 
 	<modules>
-		<module>aspect</module>
+<!-- 		<module>aspect</module> -->
 		<module>batch</module>
 		<module>core</module>
 		<module>front-facade</module>
