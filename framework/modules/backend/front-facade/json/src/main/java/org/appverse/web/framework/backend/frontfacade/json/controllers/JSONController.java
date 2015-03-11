@@ -145,14 +145,15 @@ public class JSONController implements ApplicationContextAware {
         }
         if (presentationService instanceof AuthenticationServiceFacade
                 && requestMethodName.equals("getXSRFSessionToken")) {
-            ServletServerHttpResponse outputMessage = new ServletServerHttpResponse(
+            /*ServletServerHttpResponse outputMessage = new ServletServerHttpResponse(
                     response);
             customMappingJacksonHttpMessageConverter.write(
                         SecurityHelper.createXSRFToken(request),
                         org.springframework.http.MediaType.APPLICATION_JSON,
                         outputMessage);
             addDefaultResponseHeaders(response);
-            return "";
+            return "";*/
+        	return SecurityHelper.createXSRFToken(request);
 
         }
 
