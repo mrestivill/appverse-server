@@ -10,7 +10,7 @@
 		<relativePath>../../../..</relativePath>
 	</parent>
 
-	<groupId>org.appverse.web.framework.modules.backend.frontfacade.gwt</groupId>
+	<groupId>org.appverse.web.framework.modules.backend.frontfacade.gwt-json</groupId>
 	<artifactId>appverse-web-modules-backend-frontfacade-gwt-json</artifactId>
 	<packaging>jar</packaging>
 
@@ -227,4 +227,5 @@
 			<artifactId>javax.ws.rs-api</artifactId>
 		</dependency>
 	</dependencies>
+	<version>2.0.0-SNAPSHOT</version>
 </project>

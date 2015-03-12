@@ -125,4 +125,5 @@
             <artifactId>jersey-media-multipart</artifactId>
         </dependency>
 	</dependencies>
+	<version>2.0.0-SNAPSHOT</version>
 </project>
