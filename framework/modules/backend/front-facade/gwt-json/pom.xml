@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -203,12 +204,15 @@
 			<groupId>org.appverse.web.framework.modules.backend.core.api</groupId>
 			<artifactId>appverse-web-modules-backend-core-api</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.appverse.web.framework.modules.backend.frontfacade.json</groupId>
+			<artifactId>appverse-web-modules-backend-frontfacade-json</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.fusesource.restygwt</groupId>
 			<artifactId>restygwt</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
@@ -217,6 +221,10 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
 		</dependency>
 	</dependencies>
 </project>

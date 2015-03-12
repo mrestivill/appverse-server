@@ -25,11 +25,14 @@ package org.appverse.web.framework.backend.api.services.presentation;
 
 import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.appverse.web.framework.backend.api.model.presentation.AuthorizationDataVO;
-import org.appverse.web.framework.backend.api.model.presentation.UserInfoVO;
+import org.appverse.web.framework.backend.frontfacade.json.model.presentation.AuthorizationDataVO;
+import org.appverse.web.framework.backend.frontfacade.json.model.presentation.UserInfoVO;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 import org.fusesource.restygwt.client.TextCallback;
