@@ -42,8 +42,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.appverse.web.framework.backend.api.helpers.security.SecurityHelper;
-import org.appverse.web.framework.backend.api.services.presentation.IFileUploadPresentationService;
-import org.appverse.web.framework.backend.api.services.presentation.PresentationException;
+import org.appverse.web.framework.backend.core.exceptions.PresentationException;
 import org.appverse.web.framework.backend.frontfacade.gxt.services.presentation.GWTPresentationException;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;

@@ -23,7 +23,7 @@
  */
 package org.appverse.web.framework.backend.frontfacade.gxt.common;
 
-import org.appverse.web.framework.backend.api.common.AbstractException;
+import org.appverse.web.framework.backend.core.AbstractException;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

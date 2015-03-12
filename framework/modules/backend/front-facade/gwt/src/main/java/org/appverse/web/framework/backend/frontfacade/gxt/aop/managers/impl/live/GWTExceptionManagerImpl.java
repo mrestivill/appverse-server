@@ -25,9 +25,9 @@ package org.appverse.web.framework.backend.frontfacade.gxt.aop.managers.impl.liv
 
 import java.lang.reflect.Method;
 
-import org.appverse.web.framework.backend.api.aop.managers.impl.live.ExceptionManagerImpl;
-import org.appverse.web.framework.backend.api.helpers.log.AutowiredLogger;
-import org.appverse.web.framework.backend.api.services.presentation.PresentationException;
+import org.appverse.web.framework.backend.core.enterprise.aop.managers.impl.live.ExceptionManagerImpl;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
+import org.appverse.web.framework.backend.core.exceptions.PresentationException;
 import org.appverse.web.framework.backend.frontfacade.gxt.services.presentation.GWTPresentationException;
 import org.slf4j.Logger;
 
