@@ -73,13 +73,13 @@
 
 	<modules>
 <!-- 		<module>aspect</module> -->
-		<module>batch</module>
+<!-- 		<module>batch</module> -->
 		<module>core</module>
-		<module>front-facade</module>
-		<module>messaging</module>
-		<module>reporting</module>
-        <module>ecm</module>
-        <module>security</module>
+<!-- 		<module>front-facade</module> -->
+<!-- 		<module>messaging</module> -->
+<!-- 		<module>reporting</module> -->
+<!--         <module>ecm</module> -->
+<!--         <module>security</module> -->
 	</modules>
 
 </project>

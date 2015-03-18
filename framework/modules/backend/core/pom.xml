@@ -77,10 +77,10 @@
 		<module>enterprise-converters</module>
 		<module>enterprise-log</module>
 		<module>api</module>
-		<module>cache</module>
-		<module>persistence</module>
-		<module>ws</module>
-		<module>rest</module>
+<!-- 		<module>cache</module> -->
+<!-- 		<module>persistence</module> -->
+<!-- 		<module>ws</module> -->
+<!-- 		<module>rest</module> -->
 		<module>test</module>
 	</modules>
 
