@@ -33,8 +33,12 @@ import org.appverse.web.framework.backend.core.exceptions.PresentationException;
 import org.appverse.web.framework.backend.core.services.AbstractBusinessService;
 import org.appverse.web.framework.backend.core.services.AbstractIntegrationService;
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
+import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
 
+@Component
+@Aspect
 public class ExceptionManagerImpl implements ExceptionManager {
 
 	@AutowiredLogger

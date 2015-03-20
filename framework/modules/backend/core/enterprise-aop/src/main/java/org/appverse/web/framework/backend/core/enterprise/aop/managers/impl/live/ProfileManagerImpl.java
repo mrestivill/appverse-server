@@ -31,13 +31,21 @@ import java.io.Serializable;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.appverse.web.framework.backend.core.enterprise.aop.managers.ProfileManager;
+import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
 import org.appverse.web.framework.backend.core.services.AbstractBusinessService;
 import org.appverse.web.framework.backend.core.services.AbstractIntegrationService;
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
+import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
 
+@Component
+@Aspect
 public class ProfileManagerImpl implements ProfileManager {
 
+//	private static Logger logger;
+
+	@AutowiredLogger
 	private static Logger logger;
 
 	private boolean showObjects;
@@ -59,8 +67,13 @@ public class ProfileManagerImpl implements ProfileManager {
 			String targetMethodName, String targetArgs,
 			String targetReturnValue, String targetReturnValueSize,
 			Throwable thrown) {
+		if( logger != null ) {
+			logger.info("Testing logger");
+		} else {
+			System.out.println("Logger is null");
+		}
 
-		if (logger.isDebugEnabled()) {
+//		if (logger.isDebugEnabled()) {
 			StringBuilder b = new StringBuilder();
 			b.append(type).append("  ");
 			b.append(String.format(" Time:%6d ms  ", timeSpent)).append("  ");
@@ -81,8 +94,9 @@ public class ProfileManagerImpl implements ProfileManager {
 				b.append("  EXCEPTION: ").append(thrown.getMessage())
 						.append("[").append(thrown.getClass()).append("]");
 			}
-			logger.debug(b.toString());
-		}
+//			logger.debug(b.toString());
+			System.out.println(b.toString());
+//		}
 	}
 
 	public void setShowObjects(boolean showObjects) {
