@@ -26,8 +26,8 @@ import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 
 @Entity
-@Table(name = "CITY")
-public class CityDTO extends AbstractIntegrationBean {
+@Table(name = "TEST")
+public class TestDTO extends AbstractIntegrationBean {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,25 +36,10 @@ public class CityDTO extends AbstractIntegrationBean {
 	private Long id;
 
 	@Column(nullable = false)
-	private String name;
+	private String field1;
 
 	@Column(nullable = false)
-	private String state;
-
-	@Column(nullable = false)
-	private String country;
-
-	@Column(nullable = false)
-	private String map;
-
-	protected CityDTO() {
-	}
-
-	public CityDTO(String name, String country) {
-		super();
-		this.name = name;
-		this.country = country;
-	}
+	private String field2;
 
 	public Long getId() {
 		return id;
@@ -64,40 +49,25 @@ public class CityDTO extends AbstractIntegrationBean {
 		this.id = id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getField1() {
+		return field1;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setField1(String field1) {
+		this.field1 = field1;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public String getField2() {
+		return field2;
 	}
 
-	public void setMap(String map) {
-		this.map = map;
+	public void setField2(String field2) {
+		this.field2 = field2;
 	}
 
-	public String getName() {
-		return this.name;
-	}
-
-	public String getState() {
-		return this.state;
-	}
-
-	public String getCountry() {
-		return this.country;
-	}
-
-	public String getMap() {
-		return this.map;
-	}
 
 	@Override
 	public String toString() {
-		return getName() + "," + getState() + "," + getCountry();
+		return getField1() + "," + getField2();
 	}
 }

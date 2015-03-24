@@ -16,18 +16,18 @@
 
 package org.appverse.web.framework.backend.core.persistence.test.services.integration;
 
-import org.appverse.web.framework.backend.core.persistence.test.model.integration.CityDTO;
+import org.appverse.web.framework.backend.core.persistence.test.model.integration.TestDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CityRepository extends JpaRepository<CityDTO, Long> {
+public interface TestRepository extends JpaRepository<TestDTO, Long> {
 
-	Page<CityDTO> findAll(Pageable pageable);
+	Page<TestDTO> findAll(Pageable pageable);
 
-	Page<CityDTO> findByNameContainingAndCountryContainingAllIgnoringCase(String name,
-			String country, Pageable pageable);
+	Page<TestDTO> findByField1ContainingAndField2ContainingAllIgnoringCase(String field1,
+			String field2, Pageable pageable);
 
-	CityDTO findByNameAndCountryAllIgnoringCase(String name, String country);
+	TestDTO findByField1AndField2AllIgnoringCase(String field1, String field2);
 
 }

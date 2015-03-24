@@ -3,9 +3,9 @@ package org.appverse.web.framework.backend.core.persistence.services.integration
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.appverse.web.framework.backend.core.persistence.services.integration.OrmNativeAPIRepository;
+import org.appverse.web.framework.backend.core.persistence.services.integration.OrmNativeApiRepository;
 
-public class OrmNativeAPIRepositoryImpl implements OrmNativeAPIRepository {
+public class OrmNativeApiRepositoryImpl implements OrmNativeApiRepository {
 	
 	@PersistenceContext
 	private EntityManager em;

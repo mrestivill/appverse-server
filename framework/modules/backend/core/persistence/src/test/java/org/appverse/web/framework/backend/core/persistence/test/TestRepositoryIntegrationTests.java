@@ -15,8 +15,8 @@
  */
 package org.appverse.web.framework.backend.core.persistence.test;
 
-import org.appverse.web.framework.backend.core.persistence.test.model.integration.CityDTO;
-import org.appverse.web.framework.backend.core.persistence.test.services.integration.CityRepository;
+import org.appverse.web.framework.backend.core.persistence.test.model.integration.TestDTO;
+import org.appverse.web.framework.backend.core.persistence.test.services.integration.TestRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,22 +31,22 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Integration tests for {@link CityRepository}.
+ * Integration tests for {@link TestRepository}.
  *
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @SpringApplicationConfiguration(classes = TestConfiguration.class)
-public class CityRepositoryIntegrationTests {
+public class TestRepositoryIntegrationTests {
 
 	@Autowired
-	CityRepository repository;
+	TestRepository repository;
 
 	@Test
-	public void findsFirstPageOfCities() {
+	public void findsFirstPageOfTestObjects() {
 
-		Page<CityDTO> cities = this.repository.findAll(new PageRequest(0, 10));
-		assertThat(cities.getTotalElements(), is(greaterThan(20L)));
+		Page<TestDTO> cities = this.repository.findAll(new PageRequest(0, 10));
+		assertThat(cities.getTotalElements(), is(8L));
 	}
 }
