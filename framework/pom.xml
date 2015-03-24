@@ -89,6 +89,7 @@
 
 	<modules>
 		<module>modules</module>
+		<!-- <module>boot</module>  -->
 	</modules>
 
 	<build>
@@ -284,23 +285,11 @@
 			</dependency>
 			
 			<dependency>
-				<groupId>org.appverse.web.framework.modules.backend.core.persistence.jpacore</groupId>
-				<artifactId>appverse-web-modules-backend-core-persistence-jpacore</artifactId>
-				<version>${framework.version}</version>
-			</dependency>
+  				<groupId>org.appverse.web.framework.modules.backend.core.persistence</groupId>
+  				<artifactId>appverse-web-modules-backend-core-persistence</artifactId>
+  				<version>${framework.version}</version>
+			</dependency>			
 
-			<dependency>
-				<groupId>org.appverse.web.framework.modules.backend.core.persistence.eclipselink</groupId>
-				<artifactId>appverse-web-modules-backend-core-persistence-eclipselink</artifactId>
-				<version>${framework.version}</version>
-			</dependency>
-
-            <dependency>
-                <groupId>org.appverse.web.framework.modules.backend.core.persistence.hibernate</groupId>
-                <artifactId>appverse-web-modules-backend-core-persistence-hibernate</artifactId>
-                <version>${framework.version}</version>
-            </dependency>
-			
 			<dependency>
 				<groupId>org.appverse.web.framework.modules.backend.core.standard</groupId>
 				<artifactId>appverse-web-modules-backend-core-standard</artifactId>
