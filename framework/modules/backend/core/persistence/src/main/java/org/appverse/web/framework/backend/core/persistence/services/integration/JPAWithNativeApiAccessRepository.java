@@ -1,6 +1,6 @@
 package org.appverse.web.framework.backend.core.persistence.services.integration;
 
-public interface OrmNativeApiRepository {
+public interface JPAWithNativeApiAccessRepository {
 	
     /**
      * Wrapper of EntityManager unwrap method that provides the JPA provider

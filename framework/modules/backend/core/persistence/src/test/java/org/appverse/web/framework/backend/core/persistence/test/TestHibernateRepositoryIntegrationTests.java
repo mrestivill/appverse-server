@@ -17,6 +17,8 @@ package org.appverse.web.framework.backend.core.persistence.test;
 
 import org.appverse.web.framework.backend.core.persistence.test.model.integration.TestDTO;
 import org.appverse.web.framework.backend.core.persistence.test.services.integration.TestRepository;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -38,15 +39,21 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @SpringApplicationConfiguration(classes = TestConfiguration.class)
-public class TestRepositoryIntegrationTests {
+public class TestHibernateRepositoryIntegrationTests {
 
 	@Autowired
 	TestRepository repository;
 
 	@Test
 	public void findsFirstPageOfTestObjects() {
-
 		Page<TestDTO> cities = this.repository.findAll(new PageRequest(0, 10));
 		assertThat(cities.getTotalElements(), is(8L));
 	}
+	
+	@Test
+    public void findTestObjectcUsingNativeHibernateApi() {
+        Session session = repository.unwrap(org.hibernate.Session.class);
+        Criteria criteria = session.createCriteria(TestDTO.class);
+        assertThat(criteria.list().size(), is(8L));
+    }
 }

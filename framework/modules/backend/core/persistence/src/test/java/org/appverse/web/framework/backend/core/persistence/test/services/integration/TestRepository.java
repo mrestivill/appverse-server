@@ -16,12 +16,13 @@
 
 package org.appverse.web.framework.backend.core.persistence.test.services.integration;
 
+import org.appverse.web.framework.backend.core.persistence.services.integration.JPAWithNativeApiAccessRepository;
 import org.appverse.web.framework.backend.core.persistence.test.model.integration.TestDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TestRepository extends JpaRepository<TestDTO, Long> {
+public interface TestRepository extends JpaRepository<TestDTO, Long>, JPAWithNativeApiAccessRepository {
 
 	Page<TestDTO> findAll(Pageable pageable);
 

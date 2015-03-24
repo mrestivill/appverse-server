@@ -3,9 +3,11 @@ package org.appverse.web.framework.backend.core.persistence.services.integration
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.appverse.web.framework.backend.core.persistence.services.integration.OrmNativeApiRepository;
+import org.appverse.web.framework.backend.core.persistence.services.integration.JPAWithNativeApiAccessRepository;
+import org.springframework.stereotype.Repository;
 
-public class OrmNativeApiRepositoryImpl implements OrmNativeApiRepository {
+@Repository
+public class JPAWithNativeApiAccessRepositoryImpl implements JPAWithNativeApiAccessRepository {
 	
 	@PersistenceContext
 	private EntityManager em;
