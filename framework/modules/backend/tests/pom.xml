@@ -73,6 +73,7 @@
 	
 	<modules>
 		<module>persistence-jpa-hibernate</module>
+                <module>persistence-jpa-eclipselink</module>
 	</modules>
 
 </project>
