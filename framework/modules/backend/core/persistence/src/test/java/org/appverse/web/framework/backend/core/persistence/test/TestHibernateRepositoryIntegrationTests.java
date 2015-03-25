@@ -54,6 +54,6 @@ public class TestHibernateRepositoryIntegrationTests {
     public void findTestObjectcUsingNativeHibernateApi() {
         Session session = repository.unwrap(org.hibernate.Session.class);
         Criteria criteria = session.createCriteria(TestDTO.class);
-        assertThat(criteria.list().size(), is(8L));
+        assertThat(criteria.list().size(), is(8));
     }
 }
