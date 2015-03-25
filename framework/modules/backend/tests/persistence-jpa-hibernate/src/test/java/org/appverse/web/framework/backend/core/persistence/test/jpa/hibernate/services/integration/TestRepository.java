@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.appverse.web.framework.backend.core.persistence.test.services.integration;
+package org.appverse.web.framework.backend.core.persistence.test.jpa.hibernate.services.integration;
 
 import org.appverse.web.framework.backend.core.persistence.jpa.repository.JPAWithNativeApiAccessRepository;
-import org.appverse.web.framework.backend.core.persistence.test.model.integration.TestDTO;
+import org.appverse.web.framework.backend.core.persistence.test.jpa.hibernate.model.integration.TestDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

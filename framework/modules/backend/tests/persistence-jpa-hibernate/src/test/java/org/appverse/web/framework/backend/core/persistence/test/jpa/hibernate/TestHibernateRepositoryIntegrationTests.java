@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.appverse.web.framework.backend.core.persistence.test;
+package org.appverse.web.framework.backend.core.persistence.test.jpa.hibernate;
 
-import org.appverse.web.framework.backend.core.persistence.test.model.integration.TestDTO;
-import org.appverse.web.framework.backend.core.persistence.test.services.integration.TestRepository;
+import org.appverse.web.framework.backend.core.persistence.test.jpa.hibernate.model.integration.TestDTO;
+import org.appverse.web.framework.backend.core.persistence.test.jpa.hibernate.services.integration.TestRepository;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.junit.Test;

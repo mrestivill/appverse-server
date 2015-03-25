@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.appverse.web.framework.backend.core.persistence.test.model.integration;
+package org.appverse.web.framework.backend.core.persistence.test.jpa.hibernate.model.integration;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
