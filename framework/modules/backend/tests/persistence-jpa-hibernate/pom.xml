@@ -9,12 +9,12 @@
 		<relativePath>../../../..</relativePath>
 	</parent>
 
-  	<groupId>org.appverse.web.framework.modules.backend.core.persistence</groupId>
-  	<artifactId>appverse-web-modules-backend-core-persistence</artifactId>
+  	<groupId>org.appverse.web.framework.modules.backend.tests.persistence.jpa.hibernate</groupId>
+  	<artifactId>appverse-web-modules-backend-tests-persistence-jpa-hibernate</artifactId>
 	<packaging>jar</packaging>
 
-  	<name>Appverse Web Framework Backend Core Persistence Module</name>
-  	<description>Appverse Web Framework Backend Core Persistence Module</description>
+  	<name>Appverse Web Framework Backend Tests Persistence JPA Hibernate Module</name>
+  	<description>Appverse Web Framework Backend Tests Persistence JPA Hibernate Module</description>
 	<url>http://appverse.org/projects/appverse-web/</url>
 	<inceptionYear>2011</inceptionYear>
 
@@ -66,12 +66,22 @@
 		<dependency>
 			<groupId>org.appverse.web.framework.modules.backend.core.standard</groupId>
 			<artifactId>appverse-web-modules-backend-core-standard</artifactId>
-			<version>2.0.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+  			<groupId>org.appverse.web.framework.modules.backend.core.persistence</groupId>
+  			<artifactId>appverse-web-modules-backend-core-persistence</artifactId>
+  			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>		
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>	
         

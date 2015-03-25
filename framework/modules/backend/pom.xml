@@ -75,6 +75,7 @@
 <!-- 		<module>aspect</module> -->
 <!-- 		<module>batch</module> -->
 		<module>core</module>
+                <module>tests</module>
 <!-- 		<module>front-facade</module> -->
 <!-- 		<module>messaging</module> -->
 <!-- 		<module>reporting</module> -->
