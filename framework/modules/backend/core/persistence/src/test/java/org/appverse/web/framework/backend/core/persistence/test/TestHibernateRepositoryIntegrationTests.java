@@ -34,7 +34,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Integration tests for {@link TestRepository}.
  *
- * @author Oliver Gierke
+ * @author Miguel Fernandez
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -44,12 +44,18 @@ public class TestHibernateRepositoryIntegrationTests {
 	@Autowired
 	TestRepository repository;
 
+	/**
+	 * Tests calling a repository method with pagination
+	 */
 	@Test
 	public void findsFirstPageOfTestObjects() {
 		Page<TestDTO> cities = this.repository.findAll(new PageRequest(0, 10));
 		assertThat(cities.getTotalElements(), is(8L));
 	}
 	
+	/**
+	 * Tests unwrapping and calling the Hibernate native API to retrieve elements
+	 */
 	@Test
     public void findTestObjectcUsingNativeHibernateApi() {
         Session session = repository.unwrap(org.hibernate.Session.class);

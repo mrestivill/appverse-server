@@ -25,6 +25,12 @@ import javax.persistence.Table;
 import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 
 
+/**
+ * Simple JPA annotated DTO to support this module tests
+ * 
+ * @author Miguel Fernandez
+ *
+ */
 @Entity
 @Table(name = "TEST")
 public class TestDTO extends AbstractIntegrationBean {
