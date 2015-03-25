@@ -9,8 +9,8 @@
 		<relativePath>../../../..</relativePath>
 	</parent>
 
-  	<groupId>org.appverse.web.framework.modules.backend.core.persistence</groupId>
-  	<artifactId>appverse-web-modules-backend-core-persistence</artifactId>
+  	<groupId>org.appverse.web.framework.modules.backend.core.persistence.jpa</groupId>
+  	<artifactId>appverse-web-modules-backend-core-persistence-jpa</artifactId>
 	<packaging>jar</packaging>
 
   	<name>Appverse Web Framework Backend Core Persistence Module</name>
