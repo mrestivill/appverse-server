@@ -1,0 +1,8 @@
+insert into test(field1, field2) values ('pvxcvxcm', 'dsfsadfsadfsad')
+insert into test(field1, field2) values ('iopiwowp', 'fsdfsadfsawwew')
+insert into test(field1, field2) values ('nlrklnkl', 'xcvxzcvxzcvxzc')
+insert into test(field1, field2) values ('fiefd1', 'hufsaduisdhuis')
+insert into test(field1, field2) values ('fielad1', 'er213sadfsad')
+insert into test(field1, field2) values ('fielav1r', 'xvcxzcvxzc')
+insert into test(field1, field2) values ('fieladow', '24fsdfsadfsad')
+insert into test(field1, field2) values ('fielad1r', 'sdfsdafsadfsad')
