@@ -43,8 +43,6 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class ProfileManagerImpl implements ProfileManager {
 
-//	private static Logger logger;
-
 	@AutowiredLogger
 	private static Logger logger;
 

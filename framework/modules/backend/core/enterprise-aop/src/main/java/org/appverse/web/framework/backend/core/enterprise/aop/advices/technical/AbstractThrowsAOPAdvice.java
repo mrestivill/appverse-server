@@ -27,6 +27,17 @@ import java.lang.reflect.Method;
 
 import org.springframework.aop.ThrowsAdvice;
 
+/**
+ * Abstract AOP Advice extending ThrowsAdvice.
+ * This is equivalent to define the following configuration in your spring xml configuration file.
+ * {@code
+ * 		<aop:aspect id="someId" ref="ref_to_bean">
+			<aop:after-throwing method="afterThrowing" pointcut-ref="allServicesMethodsCalls" throwing="ex"/>
+		</aop:aspect>
+ * }
+ * @author RRBL
+ *
+ */
 public abstract class AbstractThrowsAOPAdvice extends AbstractAOPAdvice
 		implements ThrowsAdvice {
 

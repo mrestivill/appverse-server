@@ -21,24 +21,30 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.core.enterprise.aop.advices;
+package org.appverse.web.framework.backend.core.enterprise.aop.managers.impl.live;
 
-import java.lang.reflect.Method;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
 
-import org.appverse.web.framework.backend.core.enterprise.aop.advices.technical.AbstractThrowsAOPAdvice;
-import org.appverse.web.framework.backend.core.enterprise.aop.managers.ExceptionManager;
-import org.springframework.beans.factory.annotation.Autowired;
+@Component
+@Aspect
+public class ExampleAroundManagerImpl {
 
+//	private static Logger logger;
 
-public class ExceptionAdvice extends AbstractThrowsAOPAdvice {
+//	@AutowiredLogger
+//	private static Logger logger;
 
-	@Autowired
-	ExceptionManager exceptionManager;
-
-
-	public void afterThrowing(final Method method, final Object[] args,
-			final Object target, final Throwable ex) throws Throwable {
-		exceptionManager.logAndRethrowException(method, args, target, ex);
-	}
-
+    public Object exampleAroundAdvice(ProceedingJoinPoint proceedingJoinPoint){
+        System.out.println("exampleAroundAdvice:: Before invoking ["+proceedingJoinPoint.getSignature().toString()+"]");
+        Object value = null;
+        try {
+            value = proceedingJoinPoint.proceed();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        System.out.println("exampleAroundAdvice:: After invoking ["+proceedingJoinPoint.getSignature().toString()+"] return value ["+value+"]");
+        return value;
+    }
 }
