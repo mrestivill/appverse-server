@@ -29,4 +29,5 @@ public interface ExceptionManager {
 
 	void logAndRethrowException(final Method method, final Object[] args,
 			final Object target, final Throwable ex) throws Throwable;
+
 }

@@ -43,7 +43,7 @@ public class ExceptionManagerImpl implements ExceptionManager {
 
 	@AutowiredLogger
 	private static Logger logger;
-
+	
 	@Override
 	public void logAndRethrowException(final Method method,
 			final Object[] args, final Object target, final Throwable ex)
