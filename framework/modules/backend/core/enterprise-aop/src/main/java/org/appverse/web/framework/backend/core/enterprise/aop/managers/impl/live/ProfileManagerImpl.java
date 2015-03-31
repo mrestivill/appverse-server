@@ -41,6 +41,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
+/**
+ * This component if correctly configured outputs with debug log level information regarding the time spent for a service call and the size of the objects.
+ * The configuration should be:
+ * {@code
+ * <bean id="profilingAdvice"
+		class="org.appverse.web.framework.backend.core.enterprise.aop.advices.ProfilingAdvice" />
+	<aop:config>
+		<aop:pointcut id="allServicesMethodsCalls" expression="execution(* sample..*Service.*(..))" />
+		<aop:advisor advice-ref="profilingAdvice" pointcut-ref="allServicesMethodsCalls" />
+	</aop:config>
+ * }
+ * @author RRBL
+ *
+ */
 public class ProfileManagerImpl implements ProfileManager {
 
 	@AutowiredLogger
@@ -65,13 +79,8 @@ public class ProfileManagerImpl implements ProfileManager {
 			String targetMethodName, String targetArgs,
 			String targetReturnValue, String targetReturnValueSize,
 			Throwable thrown) {
-		if( logger != null ) {
-			logger.info("Testing logger");
-		} else {
-			System.out.println("Logger is null");
-		}
 
-//		if (logger.isDebugEnabled()) {
+		if (logger.isDebugEnabled()) {
 			StringBuilder b = new StringBuilder();
 			b.append(type).append("  ");
 			b.append(String.format(" Time:%6d ms  ", timeSpent)).append("  ");
@@ -92,9 +101,8 @@ public class ProfileManagerImpl implements ProfileManager {
 				b.append("  EXCEPTION: ").append(thrown.getMessage())
 						.append("[").append(thrown.getClass()).append("]");
 			}
-//			logger.debug(b.toString());
-			System.out.println(b.toString());
-//		}
+			logger.debug(b.toString());
+		}
 	}
 
 	public void setShowObjects(boolean showObjects) {
