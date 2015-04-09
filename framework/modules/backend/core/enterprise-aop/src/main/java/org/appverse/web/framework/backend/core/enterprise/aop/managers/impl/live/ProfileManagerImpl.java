@@ -80,7 +80,7 @@ public class ProfileManagerImpl implements ProfileManager {
 			String targetReturnValue, String targetReturnValueSize,
 			Throwable thrown) {
 
-		if (logger.isDebugEnabled()) {
+//		if (logger.isDebugEnabled()) {
 			StringBuilder b = new StringBuilder();
 			b.append(type).append("  ");
 			b.append(String.format(" Time:%6d ms  ", timeSpent)).append("  ");
@@ -102,7 +102,8 @@ public class ProfileManagerImpl implements ProfileManager {
 						.append("[").append(thrown.getClass()).append("]");
 			}
 			logger.debug(b.toString());
-		}
+			System.out.println(b.toString());
+//		}
 	}
 
 	public void setShowObjects(boolean showObjects) {
