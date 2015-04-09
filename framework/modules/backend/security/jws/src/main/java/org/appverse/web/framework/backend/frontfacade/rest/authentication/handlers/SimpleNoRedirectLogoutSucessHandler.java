@@ -21,33 +21,28 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.frontfacade.rest.application;
+package org.appverse.web.framework.backend.frontfacade.rest.authentication.handlers;
 
-/*
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
+import java.io.IOException;
 
-import org.appverse.web.framework.backend.api.helpers.security.XSSSecurityFilter;
-import org.glassfish.jersey.jackson.JacksonFeature;
-import org.glassfish.jersey.server.ResourceConfig;
-*/
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
- * Due to what seems a bug in Jersey 2.4 (already reported https://java.net/jira/browse/JERSEY-2174)
- * In order to make use of MultiPart in Jersey Resources we are forced to register it manually.
- * Therefore, we need to define a Jersey Application instead of using the package auto-discovery feature of resources in Jersey, and manually register the MultiPartFeature.class.
- *
- * Due to another Jersey bug https://java.net/jira/browse/JERSEY-2301
- * letting jersey scan resources invalidates AOP for those resources.
- * A workaround is to let Spring create the beans and register 'manually' those as jax-rs resources through ResourceConfig.
+ * Strategy that is called after a successful logout by the LogoutFilter, not to handle redirection or
+ * forwarding to another destination. It is specially thought for REST logout as the return will be 200 (OK)
+ * <p>
+ * Note that implements LogoutSuccessHandler
  *
  */
-public class JerseyInitRestApplication /*extends ResourceConfig */{
-/*
-	@Inject
-    public JerseyInitRestApplication(ServletContext servletContext) {
-        super(XSSSecurityFilter.class, JacksonFeature.class);
 
+public class SimpleNoRedirectLogoutSucessHandler implements LogoutSuccessHandler {
+    @Override
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        // Instead of redirecting like SimpleUrlLogoutSuccessHandler, we do nothing (no redirect) - will return status 200 (OK)
     }
-*/    
 }

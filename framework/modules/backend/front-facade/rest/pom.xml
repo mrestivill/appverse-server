@@ -71,128 +71,48 @@
 		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
 	</scm>	
 	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<!--<goal>generateAsync</goal>-->
-							<goal>resources</goal>
-						</goals>
-						<configuration>
-							<encoding>UTF-8</encoding>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+	<!--  TODO: This has to be moved to a higher level in a parent pom -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- Import dependency management from Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>1.2.1.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	
-	<dependencies>
-        <dependency>
-            <groupId>org.appverse.web.framework.modules.backend.core.cache</groupId>
-            <artifactId>appverse-web-modules-backend-core-cache</artifactId>
-        </dependency>
-           
-
+		
+	<dependencies>			
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-		</dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>			
 
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-		</dependency>
-
-
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
+		<dependency>         
+			<groupId>org.appverse.web.framework.modules.backend.core.standard</groupId>
+			<artifactId>appverse-web-modules-backend-core-standard</artifactId>
         </dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-		</dependency>
-        <!-- JERSEY DEPENDENCIES -->
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core"  -->
-            <artifactId>jersey-container-servlet</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-spring3</artifactId>
-        </dependency>
-
-        <!--JWS dependencies-->
-        <dependency>
-            <groupId>com.nimbusds</groupId>
-            <artifactId>nimbus-jose-jwt</artifactId>
-            <scope>provided</scope>
-        </dependency>
-		<dependency> 
-			    <groupId>javax.el</groupId> 
-			    <artifactId>javax.el-api</artifactId> 
-	
-			</dependency> 
+		<dependency>        
+  			<groupId>org.appverse.web.framework.modules.backend.core.enterprise.log</groupId>
+  			<artifactId>appverse-web-modules-backend-core-enterprise-log</artifactId>
+  		</dependency>
    
         <!--test dependencies-->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<scope>test</scope>
-		</dependency>
-					
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<scope>test</scope>
-		</dependency> 
-		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.appverse.web.framework.modules.backend.core.rest</groupId>
-            <artifactId>appverse-web-modules-backend-core-rest</artifactId>
-            <scope>test</scope>
-        </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>		
 
     </dependencies>
 </project>

@@ -21,33 +21,10 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.frontfacade.rest.application;
+package org.appverse.web.framework.backend.frontfacade.rest.authentication.userpassword.services;
 
-/*
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
+public class BasicAuthenticationRESTController {
+	
+	// Restore code again!
 
-import org.appverse.web.framework.backend.api.helpers.security.XSSSecurityFilter;
-import org.glassfish.jersey.jackson.JacksonFeature;
-import org.glassfish.jersey.server.ResourceConfig;
-*/
-
-/**
- * Due to what seems a bug in Jersey 2.4 (already reported https://java.net/jira/browse/JERSEY-2174)
- * In order to make use of MultiPart in Jersey Resources we are forced to register it manually.
- * Therefore, we need to define a Jersey Application instead of using the package auto-discovery feature of resources in Jersey, and manually register the MultiPartFeature.class.
- *
- * Due to another Jersey bug https://java.net/jira/browse/JERSEY-2301
- * letting jersey scan resources invalidates AOP for those resources.
- * A workaround is to let Spring create the beans and register 'manually' those as jax-rs resources through ResourceConfig.
- *
- */
-public class JerseyInitRestApplication /*extends ResourceConfig */{
-/*
-	@Inject
-    public JerseyInitRestApplication(ServletContext servletContext) {
-        super(XSSSecurityFilter.class, JacksonFeature.class);
-
-    }
-*/    
 }

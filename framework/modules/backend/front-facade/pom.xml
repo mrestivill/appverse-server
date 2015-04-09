@@ -72,10 +72,14 @@
 	</scm>	
 	
 	<modules>
-		<module>gwt</module>
-		<module>json</module>
-        <module>rest</module>
-        <module>gwt-json</module>
+            <!--
+            <module>gwt</module>
+            <module>json</module>
+            -->
+            <module>rest</module>
+            <!--
+            <module>gwt-json</module>
+            -->
 	</modules>
 
 </project>
