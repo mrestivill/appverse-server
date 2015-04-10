@@ -30,6 +30,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.ReflectionUtils;
 
+/**
+ * This bean post processor sets the Logger automatically taking into account the current class.
+ * It performs the following code automatically:
+ * <pre class="code">
+ * 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+ * </pre>
+ */
 public class AutowiredLoggerBeanPostProcessor implements BeanPostProcessor {
 
 	@Override

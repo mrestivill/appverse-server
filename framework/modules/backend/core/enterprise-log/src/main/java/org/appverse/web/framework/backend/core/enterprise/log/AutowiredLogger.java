@@ -28,6 +28,24 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Indicates that logger needs to be initialized automatically (as long as 
+ * autoconfiguration is enabled and you have this module (enterprise-core-log) as a 
+ * dependency).
+ * 
+ * You will only need to declare your logger like this: 
+ * 
+ * <pre class="code">
+ * 	&#064;AutowiredLogger
+ *	private static Logger logger;
+ * </pre>
+ *
+ * This is equivalent to standard code:
+ * 
+ * <pre class="code">
+ * 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+ * </pre>
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface AutowiredLogger {
