@@ -35,6 +35,7 @@ import org.appverse.web.framework.backend.core.services.AbstractIntegrationServi
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
+import org.springframework.data.repository.Repository;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -43,13 +44,13 @@ public class ExceptionManagerImpl implements ExceptionManager {
 
 	@AutowiredLogger
 	private static Logger logger;
-
+	
 	@Override
 	public void logAndRethrowException(final Method method,
 			final Object[] args, final Object target, final Throwable ex)
 			throws Throwable {
 
-		if (target instanceof AbstractIntegrationService) {
+		if (target instanceof AbstractIntegrationService || target instanceof Repository) {
 			logger.error(
 					"Integration Exception Executing Service: "
 							+ target.getClass().getSimpleName() + " Method: "

@@ -48,32 +48,50 @@
 			</comments>
 		</license>
 	</licenses>
+
+	<!-- TODO: This needs to be moved to a higher level -->	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- Import dependency management from Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>1.2.1.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	
 	<dependencies>	
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-		</dependency>
-		
+		  		<groupId>org.springframework.boot</groupId>
+		  		<artifactId>spring-boot-starter</artifactId>
+		  		<exclusions>
+		      		<exclusion>
+		          	<groupId>org.springframework.boot</groupId>
+		          	<artifactId>spring-boot-starter-logging</artifactId>
+		      	</exclusion>
+		  	</exclusions>
+		</dependency>		
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-log4j</artifactId>
 		</dependency>
-		
+		<!-- TODO: See if it is possible to avoid this dependency even for tests as this 
+		is a module that could be used outside a servlet container also -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-		
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<scope>test</scope>
+		</dependency>		
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-		</dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>						
 		
 	</dependencies>
+	
 </project>
