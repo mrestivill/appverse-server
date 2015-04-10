@@ -78,7 +78,20 @@
 		<dependency>
     		<groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-log4j</artifactId>
-		</dependency>				
+		</dependency>
+		<!-- TODO: See if it is possible to avoid this dependency even for tests as this 
+		is a module that could be used outside a servlet container also -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<scope>test</scope>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>						
+		
 	</dependencies>
 	
 </project>
