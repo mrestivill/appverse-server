@@ -1,45 +1,58 @@
 package org.appverse.web.framework.backend.frontfacade.rest.remotelog.services.presentation;
 
-import org.appverse.web.framework.backend.core.enterprise.log.AutowiredLogger;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
+import org.appverse.web.framework.backend.frontfacade.rest.remotelog.managers.RemoteLogManager;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogResponseVO;
-import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("remoteLogServiceFacade")
-public class RemoteLogServiceFacadeImpl extends AbstractPresentationService implements RemoteLogServiceFacade {
+// @Service
+@Path("/remotelog")
+/**
+ * This JAX-RS (Jersey) controller exposes a Remote Log REST service.
+ *
+ * Remember to register your controller using Jersey2 application in your project and JacksonFeature
+ * Example:
+ * register(JacksonFeature.class);
+ * register(RemoteLogRESTController.class);
+ */
+public class RemoteLogServiceFacadeImpl extends AbstractPresentationService implements  RemoteLogServiceFacade{
 
-    @AutowiredLogger
-    private static Logger logger;
 
-    @Override
-    public RemoteLogResponseVO writeLog(RemoteLogRequestVO remoteLogRequestVO) throws Exception {
-        RemoteLogResponseVO remoteLogResponseVO = new RemoteLogResponseVO();
-        remoteLogResponseVO.setStatus(RemoteLogResponseVO.OK);
-        String s = remoteLogRequestVO.getLogLevel().toUpperCase();
-        if(s.equals("DEBUG")){
-            logger.debug(remoteLogRequestVO.getMessage());
+    @Autowired
+    RemoteLogManager remoteLogManager;
+
+    /**
+     * Writes
+     * @param remoteLogRequestVO
+     * @return
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("log")
+    public Response writeRemoteLog(RemoteLogRequestVO remoteLogRequestVO) {
+        RemoteLogResponseVO remoteLogResponseVO = null;
+        try{
+            remoteLogResponseVO = remoteLogManager.writeLog(remoteLogRequestVO);
+            if (!remoteLogResponseVO.getStatus().equals(RemoteLogResponseVO.OK)){
+                // Error related to client call
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
         }
-        else if(s.equals("INFO")){
-            logger.info(remoteLogRequestVO.getMessage());
+        catch(Exception e){
+            // Server error
+            return Response.serverError().build();
         }
-        else if(s.equals("WARN")){
-            logger.warn(remoteLogRequestVO.getMessage());
-        }
-        else if(s.equals("ERROR")){
-            logger.error(remoteLogRequestVO.getMessage());
-        }
-        else if(s.equals("TRACE")){
-            logger.trace(remoteLogRequestVO.getMessage());
-        }
-        else{
-            // If the trace level is not recognized we write the log anyway with "DEBUG" level so we don't lose
-            // information in the log but we return an error
-            logger.debug(remoteLogRequestVO.getMessage());
-            remoteLogResponseVO.setStatus(RemoteLogResponseVO.ERROR);
-            remoteLogResponseVO.setMessage("Unrecognized log level. The log was written with default DEBUG level. Valid values are DEBUG, INFO, WARN, ERROR, TRACE");
-        }
-        return remoteLogResponseVO;
+        return Response.ok().build();
     }
+
 }

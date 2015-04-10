@@ -21,39 +21,42 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.authentication.model;
+package org.appverse.web.framework.backend.security.authentication.userpassword.model;
 
-import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
+import java.util.List;
 
-/**
- * TODO: Move this so the presentation layer (facade) uses it 
- */
+// import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
 
-public class UserInfoVO extends AbstractPresentationBean {
+public class AuthorizationData /*extends AbstractPresentationBean*/ {
 
-	private static final long serialVersionUID = 7431357982859482224L;
+	private static final long serialVersionUID = 3092856642031969497L;
 
-	private String user;
-	private String password;
+	private String username;
+	private List<String> roles;
 
-	public UserInfoVO() {
+	public AuthorizationData() {
 		super();
 	}
 
-	public String getUser() {
-		return user;
+	public AuthorizationData(List<String> roles, String username) {
+		this.roles = roles;
+		this.username = username;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public List<String> getRoles() {
+		return roles;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

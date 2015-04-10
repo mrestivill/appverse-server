@@ -21,12 +21,12 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.authentication.services.presentation;
+package org.appverse.web.framework.backend.security.authentication.userpassword.managers;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.appverse.web.framework.backend.security.authentication.model.AuthorizationData;
+import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 
 public interface UserAndPasswordAuthenticationManager {
 

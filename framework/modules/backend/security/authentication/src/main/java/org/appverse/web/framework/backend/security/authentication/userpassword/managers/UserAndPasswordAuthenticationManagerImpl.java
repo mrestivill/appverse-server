@@ -21,7 +21,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.authentication.services.presentation;
+package org.appverse.web.framework.backend.security.authentication.userpassword.managers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,8 +29,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
-import org.appverse.web.framework.backend.security.authentication.model.AuthorizationData;
-//import org.appverse.web.framework.backend.security.authentication.model.UserInfoVO;
+import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
+//import org.appverse.web.framework.backend.security.authentication.userpassword.model.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,8 +57,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
  *
  */
 
-public class UserAndPasswordAuthenticationManagerImpl extends
-		AbstractPresentationService implements UserAndPasswordAuthenticationManager {
+public class UserAndPasswordAuthenticationManagerImpl implements UserAndPasswordAuthenticationManager {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
