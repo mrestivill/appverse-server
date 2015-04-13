@@ -21,7 +21,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.internal.scanning.PackageNamesScanner;
 import org.springframework.context.annotation.Configuration;
 
-// TODO: We need to add this as autoconfiguration
+// TODO: We need to add this as a autoconfiguration
 
 @Configuration
 public class FrontFacadeRestJerseyConfig extends ResourceConfig {

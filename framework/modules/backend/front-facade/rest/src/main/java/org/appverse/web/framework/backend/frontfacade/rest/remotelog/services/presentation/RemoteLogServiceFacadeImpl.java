@@ -12,9 +12,7 @@ import org.appverse.web.framework.backend.frontfacade.rest.remotelog.managers.Re
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-// @Service
 @Path("/remotelog")
 /**
  * This JAX-RS (Jersey) controller exposes a Remote Log REST service.

@@ -21,7 +21,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.api.helpers.security;
+package org.appverse.web.framework.backend.security.xs;
 
 import java.io.IOException;
 import java.util.ArrayList;
