@@ -89,7 +89,6 @@
 
 	<modules>
 		<module>modules</module>
-		<!-- <module>boot</module>  -->
 	</modules>
 
 	<build>
@@ -285,8 +284,8 @@
 			</dependency>
 			
 			<dependency>
-  				<groupId>org.appverse.web.framework.modules.backend.core.persistence</groupId>
-  				<artifactId>appverse-web-modules-backend-core-persistence</artifactId>
+  				<groupId>org.appverse.web.framework.modules.backend.core.persistence.jpa</groupId>
+  				<artifactId>appverse-web-modules-backend-core-persistence-jpa</artifactId>
   				<version>${framework.version}</version>
 			</dependency>			
 
@@ -460,14 +459,6 @@
 				<artifactId>spring-batch-core</artifactId>
 				<version>3.0.3.RELEASE</version>
 			</dependency>
-
-			<!-- This will be provided by the Spring boot starters, otherwise you'll have version clashes 
-			<dependency>
-				<groupId>org.springframework.data</groupId>
-				<artifactId>spring-data-jpa</artifactId>
-				<version>1.7.2.RELEASE</version>
-			</dependency>
-			-->
 
 			<dependency>
 				<groupId>org.springframework.security</groupId>
