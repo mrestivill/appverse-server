@@ -23,11 +23,13 @@
  */
 package org.appverse.web.framework.backend.security.authentication.userpassword.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-// import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
-
-public class AuthorizationData /*extends AbstractPresentationBean*/ {
+/**
+ * Models a sucessful authentication response providing user name and list of roles
+ */
+public class AuthorizationData implements Serializable {
 
 	private static final long serialVersionUID = 3092856642031969497L;
 

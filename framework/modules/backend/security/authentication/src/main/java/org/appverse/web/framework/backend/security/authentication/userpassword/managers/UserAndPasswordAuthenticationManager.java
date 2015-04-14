@@ -28,6 +28,9 @@ import java.util.List;
 
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 
+/**
+ * UserAndPasswordAuthenticationManager (for user and password based authentication as the name indicates) 
+ */
 public interface UserAndPasswordAuthenticationManager {
 
 	public void authenticatePrincipal(String username, List<String> authorities);
@@ -35,12 +38,6 @@ public interface UserAndPasswordAuthenticationManager {
 	public AuthorizationData authenticatePrincipal(String username,
 			String password);
 
-	/**
-	 * This is a convenience method for making Rest and RPC interfaces of this service compatible.
-	public AuthorizationData authenticatePrincipal(UserInfoVO userInfo);
-	 */
-	
-	
 	public List<String> getAuthorities();
 
 	public String getPrincipal();

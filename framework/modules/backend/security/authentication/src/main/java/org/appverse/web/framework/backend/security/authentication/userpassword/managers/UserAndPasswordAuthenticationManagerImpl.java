@@ -47,14 +47,10 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
  * facades should do the conversion
  */
 
-
 /**
- * Authentication Service Implementation.
- * It is being used by gwt api in the module initialization phase.
- * @author RRBL
- *
+ * {@link UserAndPasswordAuthenticationManagerAuthentication} Service Implementation.
+ * In charge for XSRF Token generation.
  */
-
 public class UserAndPasswordAuthenticationManagerImpl implements UserAndPasswordAuthenticationManager {
 
 	@Autowired
@@ -69,15 +65,7 @@ public class UserAndPasswordAuthenticationManagerImpl implements UserAndPassword
 		Authentication authentication = new PreAuthenticatedAuthenticationToken(
 				user, credentials);
 		authenticationManager.authenticate(authentication);
-	}
-
-	/**
-	 * This is a convenience method for making Rest and RPC interfaces of this service compatible.
-	public AuthorizationData authenticatePrincipal(UserInfoVO userInfo) {
-		return authenticatePrincipal(userInfo.getUser(), userInfo.getPassword());
-	}
-	 */
-	
+	}	
 	
 	/**
 	 * Takes the username and password as provided and checks the validaty of
