@@ -111,14 +111,7 @@
 			<groupId>org.appverse.web.framework.modules.backend.security.xs</groupId>
 			<artifactId>appverse-web-modules-backend-security-xs</artifactId>
   		</dependency>
-  		
-		<!-- Not necessary as long as it depends on backend-security-xs
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>			
-		-->
-   
+  		   
         <!--test dependencies-->
         <dependency>
 			<groupId>org.springframework.boot</groupId>
