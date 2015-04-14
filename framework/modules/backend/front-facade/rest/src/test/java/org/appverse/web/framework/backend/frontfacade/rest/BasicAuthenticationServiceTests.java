@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import org.appverse.web.framework.backend.frontfacade.rest.application.FrontFacadeRestJerseyConfig;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.appverse.web.framework.backend.security.xs.SecurityHelper;
 import org.junit.Test;
@@ -29,7 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {BasicAuthenticationServiceTestsConfigurationApplication.class, FrontFacadeRestJerseyConfig.class})
+@SpringApplicationConfiguration(classes = {BasicAuthenticationServiceTestsConfigurationApplication.class})
 @WebIntegrationTest("security.basic.enabled=false")
 public class BasicAuthenticationServiceTests {
 	

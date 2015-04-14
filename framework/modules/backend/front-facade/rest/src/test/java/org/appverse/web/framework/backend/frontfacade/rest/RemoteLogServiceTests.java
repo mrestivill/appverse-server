@@ -2,7 +2,6 @@ package org.appverse.web.framework.backend.frontfacade.rest;
 
 import static org.junit.Assert.assertEquals;
 
-import org.appverse.web.framework.backend.frontfacade.rest.application.FrontFacadeRestJerseyConfig;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {RemoteLogServiceTestsConfigurationApplication.class, FrontFacadeRestJerseyConfig.class})
+@SpringApplicationConfiguration(classes = {RemoteLogServiceTestsConfigurationApplication.class})
 @WebIntegrationTest("security.basic.enabled=false")
 public class RemoteLogServiceTests {
 	

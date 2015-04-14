@@ -14,24 +14,31 @@
  * limitations under the License.
  */
 
-package org.appverse.web.framework.backend.frontfacade.rest.application;
+package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.internal.scanning.PackageNamesScanner;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 
-// TODO: We need to add this as a autoconfiguration
-
+/**
+ * {@link EnableAutoConfiguration Auto-configuration} for Front Facade module when Jersey is present.
+ */
 @Configuration
-public class FrontFacadeRestJerseyConfig extends ResourceConfig {
+@ConditionalOnClass(name = {
+		"org.glassfish.jersey.server.spring.SpringComponentProvider",
+		"javax.servlet.ServletRegistration" })
+@ConditionalOnBean(type = "org.glassfish.jersey.server.ResourceConfig")
+public class FrontFacadeRestJerseyAutoConfiguration extends ResourceConfig {
 
-	public FrontFacadeRestJerseyConfig() {
+	public FrontFacadeRestJerseyAutoConfiguration() {
         // Create a recursive package scanner
         PackageNamesScanner resourceFinder = new PackageNamesScanner(new String[]{"org.appverse.web.framework.backend.frontfacade.rest"}, true);
-        // Register the scanner with this Application
+        // Register the scanner with this Application and JacksonFeature
         registerFinder(resourceFinder);
 		register(JacksonFeature.class);
 	}
-
 }
