@@ -24,6 +24,7 @@
 package org.appverse.web.framework.backend.security.xs;
 
 import org.jsoup.Jsoup;
+
 import org.jsoup.safety.Whitelist;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
@@ -35,6 +36,13 @@ import javax.ws.rs.core.MultivaluedMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+/**
+ * TODO: Necessary to adapt this filter so that it can be registered "spring boot way" using FilterRegistrationBean.
+ * Tests need to be implemented also.
+ * Example how to do the test: GzipFilterAutoConfigurationTests
+ */
+
 
 /**
  * A Request Filter to filter out possible XSS attacks in the request query parameters or headers.

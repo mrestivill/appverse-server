@@ -342,6 +342,18 @@
 				<artifactId>appverse-web-modules-backend-reporting</artifactId>
 				<version>${framework.version}</version>
 			</dependency>
+			
+	  		<dependency>
+				<groupId>org.appverse.web.framework.modules.backend.security.authentication</groupId>
+				<artifactId>appverse-web-modules-backend-security-authentication</artifactId>
+				<version>${framework.version}</version>				
+  			</dependency>			
+
+            <dependency>			
+				<groupId>org.appverse.web.framework.modules.backend.security.xs</groupId>
+				<artifactId>appverse-web-modules-backend-security-xs</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
 
             <dependency>
                 <groupId>org.appverse.web.framework.modules.backend.security.oauth2</groupId>

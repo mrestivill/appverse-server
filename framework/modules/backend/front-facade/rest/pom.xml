@@ -92,11 +92,6 @@
 			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>			
-
 		<dependency>         
 			<groupId>org.appverse.web.framework.modules.backend.core.standard</groupId>
 			<artifactId>appverse-web-modules-backend-core-standard</artifactId>
@@ -106,6 +101,23 @@
   			<groupId>org.appverse.web.framework.modules.backend.core.enterprise.log</groupId>
   			<artifactId>appverse-web-modules-backend-core-enterprise-log</artifactId>
   		</dependency>
+  		
+  		<dependency>
+			<groupId>org.appverse.web.framework.modules.backend.security.authentication</groupId>
+			<artifactId>appverse-web-modules-backend-security-authentication</artifactId>
+  		</dependency>
+  		
+  		<dependency>
+			<groupId>org.appverse.web.framework.modules.backend.security.xs</groupId>
+			<artifactId>appverse-web-modules-backend-security-xs</artifactId>
+  		</dependency>
+  		
+		<!-- Not necessary as long as it depends on backend-security-xs
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>			
+		-->
    
         <!--test dependencies-->
         <dependency>

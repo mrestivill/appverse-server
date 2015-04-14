@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {TestsConfigurationApplication.class, FrontFacadeRestJerseyConfig.class})
+@SpringApplicationConfiguration(classes = {RemoteLogServiceTestsConfigurationApplication.class, FrontFacadeRestJerseyConfig.class})
 @WebIntegrationTest("security.basic.enabled=false")
 public class RemoteLogServiceTests {
 	

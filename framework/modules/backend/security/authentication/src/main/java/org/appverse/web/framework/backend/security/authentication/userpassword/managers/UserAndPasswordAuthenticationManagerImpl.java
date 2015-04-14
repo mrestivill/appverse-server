@@ -28,9 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
-//import org.appverse.web.framework.backend.security.authentication.userpassword.model.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
