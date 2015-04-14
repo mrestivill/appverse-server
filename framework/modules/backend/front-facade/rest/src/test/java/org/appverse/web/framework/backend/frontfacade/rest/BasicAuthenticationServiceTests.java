@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import org.appverse.web.framework.backend.frontfacade.rest.application.FrontFacadeRestJerseyConfig;
+import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.appverse.web.framework.backend.security.xs.SecurityHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,13 +49,19 @@ public class BasicAuthenticationServiceTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:" + port + "/sec/login", HttpMethod.POST, entity, String.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		
 		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
 		assertNotNull(xsrfTokenHeaders);
 		assertEquals(xsrfTokenHeaders.size(), 1);
 		assertNotNull(xsrfTokenHeaders.get(0));
+		AuthorizationData authorizationData = responseEntity.getBody();
+		assertNotNull(authorizationData);
+		List<String> roles = authorizationData.getRoles();
+		assertNotNull(roles);
+		assertEquals(roles.size(), 1);
+		assertEquals(roles.get(0), "ROLE_USER");
 	}
 	
 			

@@ -4,7 +4,8 @@ import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
 
 public class RemoteLogResponseVO extends AbstractPresentationBean{
 
-    // Valid statuses
+	private static final long serialVersionUID = 7731734462869651852L;
+	// Valid statuses
     public final static String OK = "OK";
     public final static String WARN = "WARN";
     public final static String ERROR = "ERROR";

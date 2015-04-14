@@ -53,12 +53,6 @@ import javax.ws.rs.core.Response;
  * username and password and delegates in a service that authenticates the user.
  * The controller creates an HttpSession so that the user is already authenticated in successive requests and adds a
  * "JSESSIONID" cookie to the response.
- *
- * Remember to register your controller using Jersey2 application in your project and JacksonFeature
- * Example:
- * register(JacksonFeature.class);
- * register(BasicAuthenticationServiceImpl.class);
- *
  */
 public class BasicAuthenticationServiceImpl implements BasicAuthenticationService {
 

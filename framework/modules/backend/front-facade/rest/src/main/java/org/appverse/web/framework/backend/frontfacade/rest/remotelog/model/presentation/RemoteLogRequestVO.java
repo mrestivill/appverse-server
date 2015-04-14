@@ -4,7 +4,9 @@ import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
 
 public class RemoteLogRequestVO extends AbstractPresentationBean{
 
-    String logLevel;
+	private static final long serialVersionUID = -4324332467995573556L;
+
+	String logLevel;
 
     String message;
 
