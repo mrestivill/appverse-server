@@ -1,7 +1,11 @@
 package org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation;
 
 import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
+import org.appverse.web.framework.backend.frontfacade.rest.remotelog.managers.RemoteLogManager;
 
+/**
+ * Models a remote log request to use with a {@link RemoteLogManager}
+ */
 public class RemoteLogRequestVO extends AbstractPresentationBean{
 
 	private static final long serialVersionUID = -4324332467995573556L;

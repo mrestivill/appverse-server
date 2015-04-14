@@ -1,14 +1,14 @@
 package org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation;
 
 import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
+import org.appverse.web.framework.backend.frontfacade.rest.remotelog.managers.RemoteLogManager;
 
+/**
+ * Models a remote log response to use with a {@link RemoteLogManager}
+ */
 public class RemoteLogResponseVO extends AbstractPresentationBean{
 
 	private static final long serialVersionUID = 7731734462869651852L;
-	// Valid statuses
-    public final static String OK = "OK";
-    public final static String WARN = "WARN";
-    public final static String ERROR = "ERROR";
 
     String status;
 

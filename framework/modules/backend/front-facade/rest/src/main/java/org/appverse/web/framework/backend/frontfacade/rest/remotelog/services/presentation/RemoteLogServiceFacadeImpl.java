@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
+import org.appverse.web.framework.backend.frontfacade.rest.remotelog.RemoteLogConstants;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.managers.RemoteLogManager;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogResponseVO;
@@ -15,12 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Path("/remotelog")
 /**
- * This JAX-RS (Jersey) controller exposes a Remote Log REST service.
- *
- * Remember to register your controller using Jersey2 application in your project and JacksonFeature
- * Example:
- * register(JacksonFeature.class);
- * register(RemoteLogRESTController.class);
+ * {@link RemoteLogServiceFacade} JAX-RS (Jersey) implementation that exposes a Remote Log REST service.
  */
 public class RemoteLogServiceFacadeImpl extends AbstractPresentationService implements  RemoteLogServiceFacade{
 
@@ -29,7 +25,7 @@ public class RemoteLogServiceFacadeImpl extends AbstractPresentationService impl
     RemoteLogManager remoteLogManager;
 
     /**
-     * Writes
+     * Writes a remote log
      * @param remoteLogRequestVO
      * @return
      */
@@ -41,7 +37,7 @@ public class RemoteLogServiceFacadeImpl extends AbstractPresentationService impl
         RemoteLogResponseVO remoteLogResponseVO = null;
         try{
             remoteLogResponseVO = remoteLogManager.writeLog(remoteLogRequestVO);
-            if (!remoteLogResponseVO.getStatus().equals(RemoteLogResponseVO.OK)){
+            if (!remoteLogResponseVO.getStatus().equals(RemoteLogConstants.OK)){
                 // Error related to client call
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }

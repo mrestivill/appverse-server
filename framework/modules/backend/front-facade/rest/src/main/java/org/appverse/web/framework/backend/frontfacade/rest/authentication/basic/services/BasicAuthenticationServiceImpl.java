@@ -48,7 +48,8 @@ import javax.ws.rs.core.Response;
 @Singleton
 @Path("/sec")
 /**
- * This JAX-RS (Jersey) controller exposes an Basic Autentication service for REST services providing a "login" service.
+ * {@link BasicAuthenticationService} based on JAX-RS (Jersey) implmentation. Exposes a Basic Autentication service for REST services 
+ * providing a "login" service.
  * The controller obtains "Authorization" header, accordding to Basic Authentication, from the request in order to obtain
  * username and password and delegates in a service that authenticates the user.
  * The controller creates an HttpSession so that the user is already authenticated in successive requests and adds a

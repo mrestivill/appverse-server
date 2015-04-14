@@ -39,7 +39,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
  * Note that implements LogoutSuccessHandler
  *
  */
-
 public class SimpleNoRedirectLogoutSucessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

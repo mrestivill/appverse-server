@@ -32,6 +32,11 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 */
 
+/*
+ * TODO: This is kept here just to remember that frontfacade rest must apply 
+ * XSSSecurityFilter automatically when the filter is ready
+ */
+
 /**
  * Due to what seems a bug in Jersey 2.4 (already reported https://java.net/jira/browse/JERSEY-2174)
  * In order to make use of MultiPart in Jersey Resources we are forced to register it manually.
