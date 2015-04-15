@@ -56,7 +56,9 @@ public class UserAndPasswordAuthenticationManagerImpl implements UserAndPassword
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
-
+	/**
+	 * TODO: Review this method that can be used with PreAuthentication as the 
+	 */
 	@Override
 	public void authenticatePrincipal(String principal, List<String> credentials) {
 
@@ -123,6 +125,8 @@ public class UserAndPasswordAuthenticationManagerImpl implements UserAndPassword
 	}
 
 	/**
+	 * TODO: See if we can remove this method
+	 * 
 	 * Geneates a cross site request forgivery token, saves it at the current
 	 * session and returns the token to the frontend site.
 	 * 
