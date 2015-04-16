@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {RemoteLogServiceTestsConfigurationApplication.class})
-@WebIntegrationTest("security.basic.enabled=false")
+@WebIntegrationTest(randomPort= true, value="security.basic.enabled=false")
 public class RemoteLogServiceTests {
 	
 	@Autowired

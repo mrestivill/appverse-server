@@ -29,7 +29,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {BasicAuthenticationServiceTestsConfigurationApplication.class})
-@WebIntegrationTest("security.basic.enabled=false")
+@WebIntegrationTest(randomPort= true, value="security.basic.enabled=false")
 public class BasicAuthenticationServiceTests {
 	
 	@Autowired
