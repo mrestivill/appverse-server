@@ -82,7 +82,6 @@
 <!-- 		<module>persistence</module> -->
 <!-- 		<module>ws</module> -->
 <!-- 		<module>rest</module> -->
-		<module>test</module>
 	</modules>
 
 </project>
