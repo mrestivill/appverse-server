@@ -49,21 +49,6 @@
 		</license>
 	</licenses>
 
-	<!-- TODO: This needs to be moved to a higher level -->	
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<!-- Import dependency management from Spring Boot -->
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>1.2.1.RELEASE</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	
-	
 	<dependencies>	
 		<dependency>
 		  		<groupId>org.springframework.boot</groupId>

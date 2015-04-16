@@ -49,27 +49,7 @@
 		</license>
 	</licenses>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<!-- Import dependency management from Spring Boot -->
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>1.2.1.RELEASE</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
-	
-<!-- Should be provided by spring boot starters       
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-		</dependency>
--->		
 	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -81,12 +61,6 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		
-<!-- Should be provided by spring boot starter         
-       	<dependency> 
-		    <groupId>javax.ws.rs</groupId> 
-		    <artifactId>javax.ws.rs-api</artifactId>  
-		</dependency>         
--->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jersey</artifactId>
