@@ -87,6 +87,7 @@
         <jdk.target>1.8</jdk.target>
 	
 		<framework.version>2.0.0-SNAPSHOT</framework.version>
+		<spring.boot.version>1.2.1.RELEASE</spring.boot.version>
 		<spring.version>4.1.4.RELEASE</spring.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <spring.oauth2.version>2.0.2.RELEASE</spring.oauth2.version>
@@ -103,10 +104,9 @@
 	</modules>
 	
 	<!--  As we don't inherit spring-boot-starter-parent we need to add our own build setup -->
-	<!-- Build section copied from spring-parent-pom as we don't use it as a parent and 
-	 build setup is not inherited otherwise. Added maven filters and auto-reload -->
 	<build>
-	
+		<defaultGoal>clean install</defaultGoal>
+		
 		<!-- Turn on filtering by default for application properties -->
 		<resources>
 			<resource>
@@ -317,6 +317,15 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- SPRING BOOT -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		
 			<!-- APPVERSE WEB FRAMEWORK MANAGED DEPENDENCIES -->
 			<dependency>
 				<groupId>org.appverse.web.framework.modules.backend.aspect</groupId>
@@ -333,11 +342,6 @@
 			<dependency>
 				<groupId>org.appverse.web.framework.modules.backend.core.api</groupId>
 				<artifactId>appverse-web-modules-backend-core-api</artifactId>
-				<version>${framework.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.appverse.web.framework.modules.backend.core.test</groupId>
-				<artifactId>appverse-web-modules-backend-core-test</artifactId>
 				<version>${framework.version}</version>
 			</dependency>
 			<dependency>
@@ -462,6 +466,7 @@
 			<!-- END OF APPVERSE WEB FRAMEWORK MANAGED DEPENDENCIES -->
 
 			<!-- SPRING FRAMEWORK MANAGED DEPENDENCIES -->
+			<!-- Managed now by Spring Boot
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aop</artifactId>
@@ -576,7 +581,7 @@
 				<artifactId>spring-security-web</artifactId>
 				<version>${spring.security.version}</version>
 			</dependency>
-
+			-->
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
