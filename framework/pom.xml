@@ -99,10 +99,12 @@
 		<module>modules</module>
 	</modules>
 	
-	<!--  As we don't inherit spring-boot-starter-parent we need to add our own build setup -->
+	<!--  As we don't inherit spring-boot-starter-parent we need to add our own build setup.
+	Copied from spring-boot-starter-parent -->
 	<build>
+	
 		<defaultGoal>clean install</defaultGoal>
-		
+	
 		<!-- Turn on filtering by default for application properties -->
 		<resources>
 			<resource>
@@ -123,6 +125,19 @@
 		</resources>
 		<pluginManagement>
 			<plugins>
+				<!-- Apply more sensible defaults for user projects -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>${start-class}</mainClass>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
@@ -138,6 +153,26 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<archive>
+							<manifest>
+								<mainClass>${start-class}</mainClass>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<configuration>
+						<mainClass>${start-class}</mainClass>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.6</version>
 					<configuration>
@@ -146,21 +181,93 @@
 						</delimiters>
 					</configuration>
 				</plugin>
-				<!-- TODO: This should be added at project level (optional)
+				<plugin>
+					<groupId>pl.project13.maven</groupId>
+					<artifactId>git-commit-id-plugin</artifactId>
+					<version>2.1.11</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>revision</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<verbose>true</verbose>
+						<dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
+						<generateGitPropertiesFile>true</generateGitPropertiesFile>
+						<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					</configuration>
+				</plugin>
+				<!-- Support our own plugin -->
+				<!-- This has to be specified by the project itself
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
-					 This dependency enables hot source code replacement (including changes
-						in classes and methods signatures) very handy for development
+					<version>${spring-boot.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>					 
+					<configuration>
+						<mainClass>${start-class}</mainClass>
+					</configuration>
+				</plugin>
+				--> 				
+				<!-- Support shade packaging (if the user does not want to use our plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
 					<dependencies>
 						<dependency>
-							<groupId>org.springframework</groupId>
-							<artifactId>springloaded</artifactId>
-							<version>1.2.1.RELEASE</version>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-maven-plugin</artifactId>
+							<version>${spring-boot.version}</version>
 						</dependency>
 					</dependencies>
+					<configuration>
+						<keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+						<createDependencyReducedPom>true</createDependencyReducedPom>
+						<filters>
+							<filter>
+								<artifact>*:*</artifact>
+								<excludes>
+									<exclude>META-INF/*.SF</exclude>
+									<exclude>META-INF/*.DSA</exclude>
+									<exclude>META-INF/*.RSA</exclude>
+								</excludes>
+							</filter>
+						</filters>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>shade</goal>
+							</goals>
+							<configuration>
+								<transformers>
+									<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+										<resource>META-INF/spring.handlers</resource>
+									</transformer>
+									<transformer implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+										<resource>META-INF/spring.factories</resource>
+									</transformer>
+									<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+										<resource>META-INF/spring.schemas</resource>
+									</transformer>
+									<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+									<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+										<mainClass>${start-class}</mainClass>
+									</transformer>
+								</transformers>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
-				 -->				
 			</plugins>
 		</pluginManagement>
 	</build>
