@@ -19,18 +19,27 @@ package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@ConfigurationProperties(prefix = "service", ignoreUnknownFields = false)
+@ConfigurationProperties(prefix = "appverse.frontfacade.rest", ignoreUnknownFields = false)
 @Component
 public class FrontFacadeAutoconfigurationProperties {
 
-	private String name = "World";
+	private boolean remoteLogEndpointEnabled = true;
+	private boolean basicAuthenticationEndpointEnabled = true;
 
-	public String getName() {
-		return this.name;
+	public boolean isBasicAuthenticationEndpointEnabled() {
+		return basicAuthenticationEndpointEnabled;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setBasicAuthenticationEndpointEnabled(
+			boolean basicAuthenticationEndpointEnabled) {
+		this.basicAuthenticationEndpointEnabled = basicAuthenticationEndpointEnabled;
 	}
 
+	public boolean isRemoteLogEndpointEnabled() {
+		return remoteLogEndpointEnabled;
+	}
+
+	public void setRemoteLogEndpointEnabled(boolean remoteLogEndpointEnabled) {
+		this.remoteLogEndpointEnabled = remoteLogEndpointEnabled;
+	}
 }

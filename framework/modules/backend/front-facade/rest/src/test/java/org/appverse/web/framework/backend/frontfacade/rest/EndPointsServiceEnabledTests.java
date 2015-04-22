@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.appverse.web.framework.backend.security.xs.SecurityHelper;
 import org.junit.Test;
@@ -28,14 +29,25 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {BasicAuthenticationServiceTestsConfigurationApplication.class})
+@SpringApplicationConfiguration(classes = {FrontFacadeModuleTestsConfigurationApplication.class})
 @WebIntegrationTest(randomPort= true, value="security.basic.enabled=false")
-public class BasicAuthenticationServiceTests {
+public class EndPointsServiceEnabledTests {
 	
 	@Autowired
-	private AnnotationConfigEmbeddedWebApplicationContext context;	
-
+	private AnnotationConfigEmbeddedWebApplicationContext context;
+	
 	RestTemplate restTemplate = new TestRestTemplate();
+	
+	@Test
+	public void remoteLogServiceEnabledTest() {
+		int port = context.getEmbeddedServletContainer().getPort();
+		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
+		logRequestVO.setMessage("Test mesage!");
+		logRequestVO.setLogLevel("DEBUG");
+		 
+		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/remotelog/log", logRequestVO, String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+	}
 	
 	@Test
 	public void basicAuthenticationServiceTest() throws Exception{
@@ -73,7 +85,6 @@ public class BasicAuthenticationServiceTests {
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
 			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 		}
-
 	}
 
 }

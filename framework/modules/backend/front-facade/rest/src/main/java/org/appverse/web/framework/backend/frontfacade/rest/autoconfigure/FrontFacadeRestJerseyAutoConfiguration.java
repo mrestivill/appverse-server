@@ -18,9 +18,10 @@ package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 
 import javax.annotation.PostConstruct;
 
+import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.BasicAuthenticationServiceImpl;
+import org.appverse.web.framework.backend.frontfacade.rest.remotelog.services.presentation.RemoteLogServiceFacadeImpl;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.internal.scanning.PackageNamesScanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -39,21 +40,24 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(FrontFacadeAutoconfigurationProperties.class)
 public class FrontFacadeRestJerseyAutoConfiguration extends ResourceConfig {
 	
-	// This is the reason why frontServiceProperties are null
-	// http://stackoverflow.com/questions/25764459/spring-boot-application-properties-value-not-populating
-	
 	@Autowired 
 	FrontFacadeAutoconfigurationProperties frontFacadeAutoconfigurationProperties;
 
 	public FrontFacadeRestJerseyAutoConfiguration() {
 	}
 	
+	/*
+	 * Init method requires to be annotated with {@link PostConstruct} as we need properties to be injected 
+	 */
 	@PostConstruct
 	public void init() {
-		// 	Create a recursive package scanner
-		PackageNamesScanner resourceFinder = new PackageNamesScanner(new String[]{"org.appverse.web.framework.backend.frontfacade.rest"}, true);
-		// Register the scanner with this Application and JacksonFeature
-		registerFinder(resourceFinder);
+		// Register the modules endpoints if enabled and JacksonFeature	
+		if (frontFacadeAutoconfigurationProperties.isRemoteLogEndpointEnabled()){
+			register(RemoteLogServiceFacadeImpl.class);
+		}
+		if (frontFacadeAutoconfigurationProperties.isBasicAuthenticationEndpointEnabled()){
+			register(BasicAuthenticationServiceImpl.class);			
+		}		
 		register(JacksonFeature.class);
 	}
 

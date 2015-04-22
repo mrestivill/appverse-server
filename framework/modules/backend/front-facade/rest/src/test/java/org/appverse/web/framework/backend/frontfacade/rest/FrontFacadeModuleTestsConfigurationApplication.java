@@ -5,16 +5,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class BasicAuthenticationServiceTestsConfigurationApplication extends SpringBootServletInitializer {
+public class FrontFacadeModuleTestsConfigurationApplication extends SpringBootServletInitializer {
 	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(BasicAuthenticationServiceTestsConfigurationApplication.class);
+		return application.sources(FrontFacadeModuleTestsConfigurationApplication.class);
 	}
 
 	public static void main(String[] args) {
-		new BasicAuthenticationServiceTestsConfigurationApplication().configure(
-				new SpringApplicationBuilder(BasicAuthenticationServiceTestsConfigurationApplication.class)).run(args);
+		new FrontFacadeModuleTestsConfigurationApplication().configure(
+				new SpringApplicationBuilder(FrontFacadeModuleTestsConfigurationApplication.class)).run(args);
 	}
 
 }
