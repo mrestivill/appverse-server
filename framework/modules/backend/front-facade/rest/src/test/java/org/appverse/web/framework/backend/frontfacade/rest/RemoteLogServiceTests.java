@@ -21,9 +21,12 @@ import org.springframework.web.client.RestTemplate;
 public class RemoteLogServiceTests {
 	
 	@Autowired
-	private AnnotationConfigEmbeddedWebApplicationContext context;	
-
+	private AnnotationConfigEmbeddedWebApplicationContext context;
+	
 	RestTemplate restTemplate = new TestRestTemplate();
+	
+	
+	// http://blog.codeleak.pl/2014/09/using-configurationproperties-in-spring.html
 	
 	@Test
 	public void remoteLogServiceTest() {
