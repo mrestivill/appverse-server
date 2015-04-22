@@ -5,10 +5,9 @@ import org.appverse.web.framework.backend.core.enterprise.aop.managers.impl.live
 import org.springframework.context.annotation.Bean;
 
 
-public class EnterpriseAOPAutoConfiguration {
+public class AOPProfileManagerAutoConfiguration {
 	@Bean
 	public static ProfileManager profileManager() {
 		return new ProfileManagerImpl();
 	}
-	
 }

@@ -1,1 +1,4 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=sample.manager.ServiceManagerAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.appverse.web.framework.backend.core.enterprise.aop.autoconfigure.AOPExceptionManagerAutoConfiguration,\
+org.appverse.web.framework.backend.core.enterprise.aop.autoconfigure.AOPProfileManagerAutoConfiguration,\
+org.appverse.web.framework.backend.core.enterprise.aop.autoconfigure.AOPValidationManagerAutoConfiguration
