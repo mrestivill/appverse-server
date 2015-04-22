@@ -44,14 +44,7 @@ import org.springframework.stereotype.Component;
 /**
  * This component if correctly configured outputs with debug log level information regarding the time spent for a service call and the size of the objects.
  * The configuration should be:
- * {@code
- * <bean id="profilingAdvice"
-		class="org.appverse.web.framework.backend.core.enterprise.aop.advices.ProfilingAdvice" />
-	<aop:config>
-		<aop:pointcut id="allServicesMethodsCalls" expression="execution(* sample..*Service.*(..))" />
-		<aop:advisor advice-ref="profilingAdvice" pointcut-ref="allServicesMethodsCalls" />
-	</aop:config>
- * }
+ * TODO
  * @author RRBL
  *
  */
