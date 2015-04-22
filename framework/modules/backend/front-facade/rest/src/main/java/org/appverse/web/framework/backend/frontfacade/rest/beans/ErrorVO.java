@@ -2,6 +2,11 @@ package org.appverse.web.framework.backend.frontfacade.rest.beans;
 
 import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
 
+/**
+ * Class to represent an error with a code and message.
+ * @author RRBL
+ *
+ */
 public class ErrorVO extends AbstractPresentationBean {
     /**
      * Error Code for error handling. 0 for success.
