@@ -34,7 +34,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 /*
  * TODO: This is kept here just to remember that frontfacade rest must apply 
- * XSSSecurityFilter automatically when the filter is ready
+ * XSSSecurityFilter automatically when the filter is ready. This class needs to be removed later
  */
 
 /**

@@ -37,13 +37,13 @@ import org.springframework.context.annotation.Configuration;
 		"org.glassfish.jersey.server.spring.SpringComponentProvider",
 		"javax.servlet.ServletRegistration" })
 @ConditionalOnBean(type = "org.glassfish.jersey.server.ResourceConfig")
-@EnableConfigurationProperties(FrontFacadeAutoconfigurationProperties.class)
-public class FrontFacadeRestJerseyAutoConfiguration extends ResourceConfig {
+@EnableConfigurationProperties(FrontFacadeRestAutoconfigurationProperties.class)
+public class FrontFacadeRestAutoConfiguration extends ResourceConfig {
 	
 	@Autowired 
-	FrontFacadeAutoconfigurationProperties frontFacadeAutoconfigurationProperties;
+	FrontFacadeRestAutoconfigurationProperties frontFacadeRestAutoconfigurationProperties;
 
-	public FrontFacadeRestJerseyAutoConfiguration() {
+	public FrontFacadeRestAutoConfiguration() {
 	}
 	
 	/*
@@ -52,10 +52,10 @@ public class FrontFacadeRestJerseyAutoConfiguration extends ResourceConfig {
 	@PostConstruct
 	public void init() {
 		// Register the modules endpoints if enabled and JacksonFeature	
-		if (frontFacadeAutoconfigurationProperties.isRemoteLogEndpointEnabled()){
+		if (frontFacadeRestAutoconfigurationProperties.isRemoteLogEndpointEnabled()){
 			register(RemoteLogServiceFacadeImpl.class);
 		}
-		if (frontFacadeAutoconfigurationProperties.isBasicAuthenticationEndpointEnabled()){
+		if (frontFacadeRestAutoconfigurationProperties.isBasicAuthenticationEndpointEnabled()){
 			register(BasicAuthenticationServiceImpl.class);			
 		}		
 		register(JacksonFeature.class);

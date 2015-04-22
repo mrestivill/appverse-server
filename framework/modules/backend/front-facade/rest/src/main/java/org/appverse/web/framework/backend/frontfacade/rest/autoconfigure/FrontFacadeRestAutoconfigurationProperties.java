@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Properties for configuring {@link FrontFacadeRestAutoConfiguration}.
+ */
 @ConfigurationProperties(prefix = "appverse.frontfacade.rest", ignoreUnknownFields = false)
 @Component
-public class FrontFacadeAutoconfigurationProperties {
+public class FrontFacadeRestAutoconfigurationProperties {
 
 	private boolean remoteLogEndpointEnabled = true;
 	private boolean basicAuthenticationEndpointEnabled = true;
