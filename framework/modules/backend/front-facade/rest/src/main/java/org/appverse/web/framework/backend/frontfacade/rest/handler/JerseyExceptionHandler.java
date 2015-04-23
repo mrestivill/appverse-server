@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Provider
 @Repository
-//TODO autoconfiguration.... enabled:true/false (register or not) - and relate to the FrontFacadeRestJerseyAutoConfiguration 
+//TODO autoconfiguration.... enabled:true/false (register or not) - and relate to the FrontFacadeRestAutoConfiguration 
 //TODO provide default implementation that might be extender by the project.
 public class JerseyExceptionHandler implements ExceptionMapper<Exception> {
 

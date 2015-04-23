@@ -21,21 +21,22 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.frontfacade.rest.remotelog;
+package org.appverse.web.framework.backend.frontfacade.rest;
 
-/**
- * Constants for remote log module
- */
-public class RemoteLogConstants {
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
+
+@SpringBootApplication
+public class FrontFacadeModuleTestsConfigurationApplication extends SpringBootServletInitializer {
 	
-	// Valid Log levels (mimics slf4j levels)
-    public final static String LEVEL_WARN = "WARN";
-    public final static String LEVEL_INFO = "INFO";
-    public final static String LEVEL_TRACE = "TRACE";
-    public final static String LEVEL_DEBUG = "DEBUG";
-    public final static String LEVEL_ERROR = "ERROR";
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(FrontFacadeModuleTestsConfigurationApplication.class);
+	}
 
-    // Valid return statuses
-    public final static String OK = "OK";
-    public final static String ERROR = "ERROR";
+	public static void main(String[] args) {
+		new FrontFacadeModuleTestsConfigurationApplication().configure(
+				new SpringApplicationBuilder(FrontFacadeModuleTestsConfigurationApplication.class)).run(args);
+	}
 }

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.appverse.web.framework.backend.frontfacade.rest.autoconfigure.FrontFacadeRestJerseyAutoConfiguration
+org.appverse.web.framework.backend.frontfacade.rest.autoconfigure.FrontFacadeRestAutoConfiguration
