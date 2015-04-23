@@ -25,6 +25,9 @@ package org.appverse.web.framework.backend.core.services;
 
 import org.appverse.web.framework.backend.core.AbstractService;
 
+/**
+ * Top hierarchy class for presentation layer services specialization
+ */
 public abstract class AbstractPresentationService extends AbstractService {
 
 }

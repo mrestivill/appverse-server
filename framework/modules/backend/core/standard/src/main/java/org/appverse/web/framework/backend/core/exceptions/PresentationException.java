@@ -25,27 +25,54 @@ package org.appverse.web.framework.backend.core.exceptions;
 
 import org.appverse.web.framework.backend.core.AbstractException;
 
+/**
+ * Top hierarchy class for presentation exceptions. Please note it extends
+ * {@link AbstractException} and so extends from an unchecked exception
+ */
 public class PresentationException extends AbstractException {
 
 	private static final long serialVersionUID = -3402638561770230154L;
 	
+	/**
+	 * Default constructor
+	 */
 	public PresentationException() {
 		super();
 	}
 
+	/**
+	 * Builds a PresentationException with the following parameters
+	 * @param message
+	 * @param cause
+	 * @param enableSuppression
+	 * @param writableStackTrace
+	 */
 	public PresentationException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
+	/**
+	 * Builds a PresentationException with the following parameters
+	 * @param message
+	 * @param cause
+	 */
 	public PresentationException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
+	/**
+	 * Builds a PresentationException with the following parameters
+	 * @param message
+	 */
 	public PresentationException(String message) {
 		super(message);
 	}
 
+	/**
+	 * Builds a PresentationException with the following parameters
+	 * @param cause
+	 */
 	public PresentationException(Throwable cause) {
 		super(cause);
 	}

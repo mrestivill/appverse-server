@@ -25,27 +25,54 @@ package org.appverse.web.framework.backend.core.exceptions;
 
 import org.appverse.web.framework.backend.core.AbstractException;
 
+/**
+ * Top hierarchy class for integration exceptions. Please note it extends
+ * {@link AbstractException} and so extends from an unchecked exception
+ */
 public class IntegrationException extends AbstractException {
 
 	private static final long serialVersionUID = 6686537232895433864L;
 	
+	/**
+	 * Default constructor
+	 */
 	public IntegrationException() {
 		super();
 	}
 
+	/**
+	 * Builds a IntegrationException with the following parameters
+	 * @param message
+	 * @param cause
+	 * @param enableSuppression
+	 * @param writableStackTrace
+	 */
 	public IntegrationException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
+	/**
+	 * Builds a IntegrationException with the following parameters
+	 * @param message
+	 * @param cause
+	 */
 	public IntegrationException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
+	/**
+	 * Builds a IntegrationException with the following parameters
+	 * @param message
+	 */
 	public IntegrationException(String message) {
 		super(message);
 	}
 
+	/**
+	 * Builds a IntegrationException with the following parameters
+	 * @param cause
+	 */
 	public IntegrationException(Throwable cause) {
 		super(cause);
 

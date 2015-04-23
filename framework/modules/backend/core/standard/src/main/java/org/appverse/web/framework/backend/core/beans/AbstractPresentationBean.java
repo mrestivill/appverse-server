@@ -25,6 +25,9 @@ package org.appverse.web.framework.backend.core.beans;
 
 import org.appverse.web.framework.backend.core.AbstractBean;
 
+/**
+ * Top hierarchy class for presentation layer model objects specialization
+ */
 public abstract class AbstractPresentationBean extends AbstractBean {
 
 	private static final long serialVersionUID = -4240583084420322769L;

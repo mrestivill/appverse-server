@@ -19,6 +19,7 @@ package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 import javax.annotation.PostConstruct;
 
 import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.BasicAuthenticationServiceImpl;
+import org.appverse.web.framework.backend.frontfacade.rest.handler.JerseyExceptionHandler;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.services.presentation.RemoteLogServiceFacadeImpl;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -57,7 +58,10 @@ public class FrontFacadeRestAutoConfiguration extends ResourceConfig {
 		}
 		if (frontFacadeRestAutoconfigurationProperties.isBasicAuthenticationEndpointEnabled()){
 			register(BasicAuthenticationServiceImpl.class);			
-		}		
+		}
+		if( frontFacadeRestAutoconfigurationProperties.isJerseyExceptionHandlerEnabled()) {
+			register(JerseyExceptionHandler.class);
+		}
 		register(JacksonFeature.class);
 	}
 

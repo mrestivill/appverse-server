@@ -25,27 +25,54 @@ package org.appverse.web.framework.backend.core.exceptions;
 
 import org.appverse.web.framework.backend.core.AbstractException;
 
+/**
+ * Top hierarchy class for business exceptions. Please note it extends
+ * {@link AbstractException} and so extends from an unchecked exception
+ */
 public class BusinessException extends AbstractException {
 
 	private static final long serialVersionUID = 154648249763058696L;
 
+	/**
+	 * Default constructor
+	 */
 	public BusinessException() {
 		super();
 	}
 
+	/**
+	 * Builds a BusinessException with the following parameters
+	 * @param message
+	 * @param cause
+	 * @param enableSuppression
+	 * @param writableStackTrace
+	 */
 	public BusinessException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
+	/**
+	 * Builds a BusinessException with the following parameters
+	 * @param message
+	 * @param cause
+	 */
 	public BusinessException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
+	/**
+	 * Builds a BusinessException with the following parameters
+	 * @param message
+	 */
 	public BusinessException(String message) {
 		super(message);
 	}
 
+	/**
+	 * Builds a BusinessException with the following parameters
+	 * @param cause
+	 */
 	public BusinessException(Throwable cause) {
 		super(cause);
 	}
