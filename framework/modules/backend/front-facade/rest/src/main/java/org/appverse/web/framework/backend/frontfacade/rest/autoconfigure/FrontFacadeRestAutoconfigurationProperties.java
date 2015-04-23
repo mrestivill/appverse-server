@@ -20,6 +20,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * Properties for configuring {@link FrontFacadeRestAutoConfiguration}.
+ * List of properties
+ * - appverse.frontfacade.rest.remoteLogEndpointEnabled: boolean (true / false). Default: true
+ * - appverse.frontfacade.rest.basicAuthenticationEndpointEnabled: boolean (true / false). Default: true
  */
 @ConfigurationProperties(prefix = "appverse.frontfacade.rest", ignoreUnknownFields = false)
 @Component
