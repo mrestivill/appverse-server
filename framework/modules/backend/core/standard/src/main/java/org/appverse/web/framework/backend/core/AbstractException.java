@@ -23,27 +23,53 @@
  */
 package org.appverse.web.framework.backend.core;
 
+/**
+ * Base class for unchecked exceptions
+ */
 public abstract class AbstractException extends RuntimeException{
 
 	private static final long serialVersionUID = -5547004129911718577L;
 
+	/**
+	 * Default constructor
+	 */
 	public AbstractException() {
 		super();
 	}
 
+	/**
+	 * Builds an AbstractException with the following parameters
+	 * @param message
+	 * @param cause
+	 * @param enableSuppression
+	 * @param writableStackTrace
+	 */
 	public AbstractException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
+	/**
+	 * Builds an AbstractException with the following parameters
+	 * @param message
+	 * @param cause
+	 */
 	public AbstractException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
+	/**
+	 * Builds an AbstractException with the following parameters
+	 * @param message
+	 */
 	public AbstractException(String message) {
 		super(message);
 	}
 
+	/**
+	 * Builds an AbstractException with the following parameters
+	 * @param cause
+	 */
 	public AbstractException(Throwable cause) {
 		super(cause);
 	}

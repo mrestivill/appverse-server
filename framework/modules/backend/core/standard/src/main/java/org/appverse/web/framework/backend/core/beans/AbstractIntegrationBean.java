@@ -25,6 +25,9 @@ package org.appverse.web.framework.backend.core.beans;
 
 import org.appverse.web.framework.backend.core.AbstractBean;
 
+/**
+ * Top hierarchy class for integration layer model objects specialization
+ */
 public abstract class AbstractIntegrationBean extends AbstractBean {
 
 	private static final long serialVersionUID = -6709830736654772812L;

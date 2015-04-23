@@ -2,7 +2,7 @@
  Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
 
  This Source Code Form is subject to the terms of the Appverse Public License 
- Version 2.0 (“APL v2.0�?). If a copy of the APL was not distributed with this 
+ Version 2.0 (“APL v2.0�?). If a copy of the APL was not distributed with this 
  file, You can obtain one at http://www.appverse.mobi/licenses/apl_v2.0.pdf. [^]
 
  Redistribution and use in source and binary forms, with or without modification, 
@@ -25,6 +25,9 @@ package org.appverse.web.framework.backend.core;
 
 import java.io.Serializable;
 
+/**
+ * Base class for model objects
+ */
 public abstract class AbstractBean implements Serializable{
 
 	private static final long serialVersionUID = -5467523387637637615L;
