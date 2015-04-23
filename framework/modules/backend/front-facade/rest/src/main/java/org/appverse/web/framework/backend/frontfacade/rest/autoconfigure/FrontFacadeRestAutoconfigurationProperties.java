@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
  * List of properties
  * - appverse.frontfacade.rest.remoteLogEndpointEnabled: boolean (true / false). Default: true
  * - appverse.frontfacade.rest.basicAuthenticationEndpointEnabled: boolean (true / false). Default: true
+ * - appverse.frontfacade.rest.jerseyExceptionHandlerEnabled: boolean (true / false). Default: true
  */
 @ConfigurationProperties(prefix = "appverse.frontfacade.rest", ignoreUnknownFields = false)
 @Component
@@ -30,6 +31,7 @@ public class FrontFacadeRestAutoconfigurationProperties {
 
 	private boolean remoteLogEndpointEnabled = true;
 	private boolean basicAuthenticationEndpointEnabled = true;
+	private boolean jerseyExceptionHandlerEnabled = true;
 
 	public boolean isBasicAuthenticationEndpointEnabled() {
 		return basicAuthenticationEndpointEnabled;
@@ -46,5 +48,14 @@ public class FrontFacadeRestAutoconfigurationProperties {
 
 	public void setRemoteLogEndpointEnabled(boolean remoteLogEndpointEnabled) {
 		this.remoteLogEndpointEnabled = remoteLogEndpointEnabled;
+	}
+
+	public boolean isJerseyExceptionHandlerEnabled() {
+		return jerseyExceptionHandlerEnabled;
+	}
+
+	public void setJerseyExceptionHandlerEnabled(
+			boolean jerseyExceptionHandlerEnabled) {
+		this.jerseyExceptionHandlerEnabled = jerseyExceptionHandlerEnabled;
 	}
 }
