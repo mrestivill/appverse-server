@@ -60,7 +60,7 @@ public class RemoteLogServiceFacadeImpl extends AbstractPresentationService impl
         RemoteLogResponseVO remoteLogResponseVO = null;
         try{
             remoteLogResponseVO = remoteLogManager.writeLog(remoteLogRequestVO);
-            if (!remoteLogResponseVO.getStatus().equals(RemoteLogConstants.OK)){
+            if (!(remoteLogResponseVO.getErrorVO().getCode() == 0)){
                 // Error related to client call
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }

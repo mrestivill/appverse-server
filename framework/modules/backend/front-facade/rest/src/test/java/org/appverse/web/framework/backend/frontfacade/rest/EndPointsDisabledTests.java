@@ -25,8 +25,8 @@ package org.appverse.web.framework.backend.frontfacade.rest;
 
 import static org.junit.Assert.assertEquals;
 
+import org.appverse.web.framework.backend.frontfacade.rest.beans.ResponseDataVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
-import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +75,9 @@ public class EndPointsDisabledTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
+//		ResponseEntity<ResponseDataVO> responseEntity = restTemplate.exchange("http://localhost:" + port + "/sec/login", HttpMethod.POST, entity, ResponseDataVO.class);
+    	ResponseEntity<ResponseDataVO> responseEntity = restTemplate.postForEntity("http://localhost:" + port + "/sec/login", entity, ResponseDataVO.class);
+
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 	}
 }
