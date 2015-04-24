@@ -76,6 +76,8 @@ public class EndPointsDisabledTests {
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
 		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
+//    	ResponseEntity<ResponseDataVO> responseEntity = restTemplate.postForEntity("http://localhost:" + port + "/sec/login", entity, ResponseDataVO.class);
+
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 	}
 }

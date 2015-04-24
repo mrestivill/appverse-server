@@ -28,6 +28,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import javax.ws.rs.core.Response;
+
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.appverse.web.framework.backend.security.xs.SecurityHelper;
@@ -67,9 +69,10 @@ public class EndPointsServiceEnabledTests {
 		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
-		 
-		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/remotelog/log", logRequestVO, String.class);
-		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(logRequestVO);
+//		ResponseEntity<Response> responseEntity = restTemplate.exchange("http://localhost:" + port + "/remotelog/log", HttpMethod.POST, entity, Response.class);
+		ResponseEntity<Response> responseEntity = restTemplate.postForEntity("http://localhost:" + port + "/remotelog/log", logRequestVO, Response.class);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	}
 	
 	@Test

@@ -44,7 +44,7 @@ public class RemoteLogManagerImpl extends AbstractPresentationService implements
     @Override
     public RemoteLogResponseVO writeLog(RemoteLogRequestVO remoteLogRequestVO) throws Exception {
         RemoteLogResponseVO remoteLogResponseVO = new RemoteLogResponseVO();
-        remoteLogResponseVO.setStatus(RemoteLogConstants.OK);
+        remoteLogResponseVO.getErrorVO().setCode(0);
         String s = remoteLogRequestVO.getLogLevel().toUpperCase();
         if(s.equals(RemoteLogConstants.LEVEL_DEBUG)){
             logger.debug(remoteLogRequestVO.getMessage());
@@ -65,8 +65,8 @@ public class RemoteLogManagerImpl extends AbstractPresentationService implements
             // If the trace level is not recognized we write the log anyway with "DEBUG" level so we don't lose
             // information in the log but we return an error
             logger.debug(remoteLogRequestVO.getMessage());
-            remoteLogResponseVO.setStatus(RemoteLogConstants.ERROR);
-            remoteLogResponseVO.setMessage("Unrecognized log level. The log was written with default DEBUG level. Valid values are DEBUG, INFO, WARN, ERROR, TRACE");
+            remoteLogResponseVO.getErrorVO().setCode(500);
+            remoteLogResponseVO.getErrorVO().setMessage("Unrecognized log level. The log was written with default DEBUG level. Valid values are DEBUG, INFO, WARN, ERROR, TRACE");
         }
         return remoteLogResponseVO;
     }
