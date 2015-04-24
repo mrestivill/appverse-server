@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {FrontFacadeModuleTestsConfigurationApplication.class})
-@WebIntegrationTest(randomPort= true, value={"security.basic.enabled=false","server.servlet-path=/spring"})
+@WebIntegrationTest(randomPort= true, value={"security.basic.enabled=false"/*,"server.servlet-path=/spring"*/})
 public class JerseyExceptionHandlerTests {
 	@Autowired
 	private AnnotationConfigEmbeddedWebApplicationContext context;

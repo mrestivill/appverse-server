@@ -11,7 +11,7 @@ import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
  */
 public class ResponseDataVO extends AbstractPresentationBean {
 
-	private ErrorVO errorVO;
+	private ErrorVO errorVO = new ErrorVO();
 	
 	public ResponseDataVO() {
 		
