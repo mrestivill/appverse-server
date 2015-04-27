@@ -35,11 +35,11 @@ import org.springframework.stereotype.Component;
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for Front Facade module when Jersey is present.
  */
-@Component
+//@Component
 @Configuration
 @ConditionalOnClass(name = {
 		"org.glassfish.jersey.server.spring.SpringComponentProvider",
-		"javax.servlet.ServletRegistration", "org.glassfish.jersey.server.ResourceConfig" })
+		"javax.servlet.ServletRegistration" })
 //@ConditionalOnBean(type = "org.glassfish.jersey.server.ResourceConfig")
 @EnableConfigurationProperties(FrontFacadeRestAutoconfigurationProperties.class)
 @AutoConfigureBefore(JerseyAutoConfiguration.class)
