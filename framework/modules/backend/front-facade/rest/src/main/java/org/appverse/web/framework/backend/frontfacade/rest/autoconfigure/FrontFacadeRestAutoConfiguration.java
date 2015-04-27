@@ -23,9 +23,10 @@ import org.appverse.web.framework.backend.frontfacade.rest.remotelog.services.pr
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.jersey.JerseyAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,9 +36,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass(name = {
 		"org.glassfish.jersey.server.spring.SpringComponentProvider",
-		"javax.servlet.ServletRegistration" })
-@ConditionalOnBean(type = "org.glassfish.jersey.server.ResourceConfig")
+		"javax.servlet.ServletRegistration"})
 @EnableConfigurationProperties(FrontFacadeRestAutoconfigurationProperties.class)
+@AutoConfigureBefore(JerseyAutoConfiguration.class)
 public class FrontFacadeRestAutoConfiguration extends ResourceConfig {
 	
 	@Autowired 
