@@ -54,14 +54,11 @@ public class FrontFacadeRestAutoConfiguration extends ResourceConfig {
 	 */
 	@PostConstruct
 	public void init() {
-		System.out.println("*************** FrontFacadeRestAutoConfiguration init!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		// Register the modules endpoints if enabled and JacksonFeature	
 		if (frontFacadeRestAutoconfigurationProperties.isRemoteLogEndpointEnabled()){
-			System.out.println("*************** Register RemoteLogServiceFacadeImpl !!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			register(RemoteLogServiceFacadeImpl.class);
 		}
 		if (frontFacadeRestAutoconfigurationProperties.isBasicAuthenticationEndpointEnabled()){
-			System.out.println("*************** Register BasicAuthenticationServiceImpl !!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			register(BasicAuthenticationServiceImpl.class);			
 		}		
 		register(JacksonFeature.class);
