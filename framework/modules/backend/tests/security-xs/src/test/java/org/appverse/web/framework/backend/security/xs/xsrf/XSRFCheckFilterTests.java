@@ -28,18 +28,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.Proxy.Type;
 import java.util.List;
 
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.appverse.web.framework.backend.security.xs.SecurityHelper;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -49,6 +52,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.crypto.codec.Base64;
@@ -147,6 +151,20 @@ public class XSRFCheckFilterTests {
 		assertEquals(HttpStatus.OK, entityResponse.getStatusCode());
 	}
 	
+	/*
+	 * Enable this init method if you need to use a proxy to debug (fiddler, for instance)
+	 * This is required as passing regular JVM arguments for proxy setup seems not to work with RestTemplate
+	 * as it uses Apache HttpClient 
+	 */
+    @Before
+    public void initProxy(){    	
+		SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+	    Proxy proxy= new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888));
+	    requestFactory.setProxy(proxy);
+	    restTemplate = new RestTemplate(requestFactory);    	
+    }
+	
+	
 	@Test
 	public void testFilterWithCorrectXSRFToken() throws Exception{		
 		this.context.register(AuthenticationManagerCustomizer.class);
@@ -174,27 +192,18 @@ public class XSRFCheckFilterTests {
 		assertEquals(roles.get(0), "ROLE_USER");
 		
 		// Step 2: Using the XSRF Token calling a protected resource
-		String token = xsrfTokenHeaders.get(0);
 		headers = new HttpHeaders();
-		/*
-		final String JSESSIONID_HEADER = responseEntity.getHeaders().getFirst("Set-Cookie");		
+		String JSESSIONID_HEADER = responseEntity.getHeaders().getFirst("Set-Cookie");		
 		headers.set(HttpHeaders.COOKIE, JSESSIONID_HEADER);
-		*/
-		String cookie = responseEntity.getHeaders().getFirst("Set-Cookie");
-		headers.set("Cookie", cookie);
-		System.out.println("****** Cokie set: " + cookie);
 		
 		// Content type need to be specified otherwise we receive a 415
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		
-		entity = new HttpEntity<String>("headers", headers);
-				
 		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
 		
-		// ResponseEntity<String> logResponseEntity = restTemplate.postForEntity("http://localhost:" + port + "/remotelog/log", logRequestVO, String.class);
-		ResponseEntity<String> logResponseEntity = restTemplate.exchange("http://localhost:" + port + "/remotelog/log", HttpMethod.POST, entity, String.class, logRequestVO);
+		ResponseEntity<String> logResponseEntity = restTemplate.exchange("http://localhost:" + port + "/remotelog/log", HttpMethod.POST, new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers), String.class);
 		assertEquals(HttpStatus.OK, logResponseEntity.getStatusCode());
 	}
 			
