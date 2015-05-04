@@ -28,6 +28,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.jersey.JerseyAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -39,6 +40,7 @@ import org.springframework.context.annotation.Configuration;
 		"javax.servlet.ServletRegistration"})
 @EnableConfigurationProperties(FrontFacadeRestAutoconfigurationProperties.class)
 @AutoConfigureBefore(JerseyAutoConfiguration.class)
+@ComponentScan("org.appverse.web.framework.backend.frontfacade.rest")
 public class FrontFacadeRestAutoConfiguration extends ResourceConfig {
 	
 	@Autowired 
@@ -52,11 +54,14 @@ public class FrontFacadeRestAutoConfiguration extends ResourceConfig {
 	 */
 	@PostConstruct
 	public void init() {
+		System.out.println("*************** FrontFacadeRestAutoConfiguration init!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		// Register the modules endpoints if enabled and JacksonFeature	
 		if (frontFacadeRestAutoconfigurationProperties.isRemoteLogEndpointEnabled()){
+			System.out.println("*************** Register RemoteLogServiceFacadeImpl !!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			register(RemoteLogServiceFacadeImpl.class);
 		}
 		if (frontFacadeRestAutoconfigurationProperties.isBasicAuthenticationEndpointEnabled()){
+			System.out.println("*************** Register BasicAuthenticationServiceImpl !!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			register(BasicAuthenticationServiceImpl.class);			
 		}		
 		register(JacksonFeature.class);
