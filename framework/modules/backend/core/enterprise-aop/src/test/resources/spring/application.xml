@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- ============================================================================================= -->
+	<!-- Dozer converter -->
+	<!-- ============================================================================================= -->
+
+	<bean id="appverseConvertersService" class="org.dozer.spring.DozerBeanMapperFactoryBean"
+		p:mappingFiles="classpath*:dozer/*bean-mappings.xml" />
+	<!-- ============================================================================================= -->
+	<!-- Autowired Logger BeanFactoryPostProcessor -->
+	<!-- ============================================================================================= -->
+
+<!--  TODO Autowired logger no need this line anymore... check with MLFD what he is doing on this regard. -->
+	<bean
+		class="org.appverse.web.framework.backend.core.enterprise.log.AutowiredLoggerBeanPostProcessor" />
+  	  <!-- ============================================================================================= --> 
+ 	  <!-- Transaction Manager		                                       						         -->
+  	  <!-- ============================================================================================= --> 
+       
+       <bean id="transactionManager" 
+    	     class="org.springframework.orm.jpa.JpaTransactionManager" />
+
+
+	<aop:config>
+<!-- 		<aop:pointcut id="allServicesMethodsCalls" expression="execution(* org.appverse.ms.registration.services..*.*.*(..))" /> -->
+<!--         <aop:pointcut id="allServicesMethodsCalls" expression="execution(* org.appverse.web.showcases.gwtshowcase.backend.services..*.*(..))"/>  -->
+	<!--  disable this advisor if AOPProfileManagerAutoConfiguration is excluded from RegistrationApplication -->
+		<aop:advisor advice-ref="profilingAdvice" pointcut="org.appverse.web.framework.backend.core.enterprise.aop.pointcut.AppverseAOPPointcuts.allServicesCalls()" />
+	<!--  disable this advisor if AOPExceptionManagerAutoConfiguration is excluded from RegistrationApplication -->
+		<aop:advisor advice-ref="exceptionAdvice" pointcut="org.appverse.web.framework.backend.core.enterprise.aop.pointcut.AppverseAOPPointcuts.allServicesCalls()" />
+	</aop:config>
+</beans>
