@@ -75,6 +75,7 @@
 		<module>persistence-jpa-hibernate</module>
 		<module>persistence-jpa-eclipselink</module>
                 <module>security-xs</module>
+                <module>oauth2</module>
 	</modules>
 
 </project>

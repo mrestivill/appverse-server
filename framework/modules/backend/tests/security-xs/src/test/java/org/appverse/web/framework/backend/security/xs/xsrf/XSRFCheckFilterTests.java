@@ -137,6 +137,7 @@ public class XSRFCheckFilterTests {
 				equalTo(""));
 	}
 	
+/*	
 	@Test
 	public void remoteLogServiceEnabledTest() {
 		int port = context.getEmbeddedServletContainer().getPort();
@@ -150,6 +151,7 @@ public class XSRFCheckFilterTests {
 		ResponseEntity<String> entityResponse =  restTemplate.exchange("http://localhost:" + port + "/remotelog/log", HttpMethod.POST,  entity, String.class, logRequestVO);
 		assertEquals(HttpStatus.OK, entityResponse.getStatusCode());
 	}
+*/	
 	
 	/*
 	 * Enable this init method if you need to use a proxy to debug (fiddler, for instance)
