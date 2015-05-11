@@ -74,6 +74,13 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
+		<!-- This makes the tests not to work. I guess because is enabling Jersey 
+		and it must be crash with Spring MVC that OAuth2 uses 
+        <dependency>
+			<groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
+			<artifactId>appverse-web-modules-backend-frontfacade-rest</artifactId>
+		</dependency>
+		-->
 		
 		<!-- 
 		<dependency>
@@ -85,11 +92,6 @@
 		-->
 
 		<!--test dependencies-->        
-        <dependency>
-			<groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
-			<artifactId>appverse-web-modules-backend-frontfacade-rest</artifactId>
-			<scope>test</scope>
-		</dependency>        
         <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
