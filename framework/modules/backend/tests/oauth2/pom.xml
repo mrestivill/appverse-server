@@ -75,12 +75,11 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 		<!-- This makes the tests not to work. I guess because is enabling Jersey 
-		and it must be crash with Spring MVC that OAuth2 uses 
+		and it must be crash with Spring MVC that OAuth2 uses --> 
         <dependency>
 			<groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
 			<artifactId>appverse-web-modules-backend-frontfacade-rest</artifactId>
 		</dependency>
-		-->
 		
 		<!-- 
 		<dependency>
@@ -97,6 +96,16 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!--  Added in tests scope because of exactly this problem:
+			http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate
+		 -->
+		<dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpclient</artifactId>
+        	<scope>test</scope>
+    	</dependency>		
+		
 		
 	</dependencies>
 

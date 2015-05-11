@@ -17,6 +17,7 @@
 package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.ApplicationPath;
 
 import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.BasicAuthenticationServiceImpl;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.services.presentation.RemoteLogServiceFacadeImpl;
@@ -41,6 +42,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(FrontFacadeRestAutoconfigurationProperties.class)
 @AutoConfigureBefore(JerseyAutoConfiguration.class)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.rest")
+@ApplicationPath("jersey")
 public class FrontFacadeRestAutoConfiguration extends ResourceConfig {
 	
 	@Autowired 

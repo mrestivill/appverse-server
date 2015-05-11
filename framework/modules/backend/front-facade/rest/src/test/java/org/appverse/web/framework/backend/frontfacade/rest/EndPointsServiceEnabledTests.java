@@ -68,7 +68,7 @@ public class EndPointsServiceEnabledTests {
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
 		 
-		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/remotelog/log", logRequestVO, String.class);
+		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/jersey/remotelog/log", logRequestVO, String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 	}
 	
@@ -83,7 +83,7 @@ public class EndPointsServiceEnabledTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/jersey/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		
 		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
