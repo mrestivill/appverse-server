@@ -63,7 +63,7 @@ public class EndPointsDisabledTests {
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
 		 
-		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/remotelog/log", logRequestVO, String.class);
+		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/api/remotelog/log", logRequestVO, String.class);
 		assertEquals(HttpStatus.NOT_FOUND, entity.getStatusCode());
 	}
 	
@@ -75,7 +75,7 @@ public class EndPointsDisabledTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/api/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 	}
 }

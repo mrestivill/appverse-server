@@ -99,7 +99,7 @@
 
 		<!--  Added in tests scope because of exactly this problem:
 			http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate
-		 -->
+		-->
 		<dependency>
         	<groupId>org.apache.httpcomponents</groupId>
         	<artifactId>httpclient</artifactId>

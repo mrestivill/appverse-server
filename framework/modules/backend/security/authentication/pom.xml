@@ -64,13 +64,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		
-        <!--test dependencies-->
-  		<dependency>
-			<groupId>org.appverse.web.framework.modules.backend.security.authentication</groupId>
-			<artifactId>appverse-web-modules-backend-security-authentication</artifactId>
-			<scope>test</scope>
-  		</dependency>
         
         <dependency>
 			<groupId>org.springframework.boot</groupId>

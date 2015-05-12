@@ -5,27 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.Proxy.Type;
-import java.util.List;
-
-
-
-
-
-
-
-
-
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
-/*
-import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
-import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
-import org.appverse.web.framework.backend.security.xs.SecurityHelper;
-*/
-// import org.appverse.web.framework.backend.security.xs.xsrf.XSRFCheckFilterTests.AuthenticationManagerCustomizer;
-import org.junit.Before;
+import org.appverse.web.framework.backend.security.oauth2.common.AbstractIntegrationTests;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.aop.support.AopUtils;
@@ -60,7 +41,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @IntegrationTest("server.port=0")
-public class Oauth2ProtectedRemoteLogTests extends AbstractIntegrationTests {
+public class Oauth2RESTProtectedAPITests extends AbstractIntegrationTests {
 	
 	@Autowired
     private FilterChainProxy springSecurityFilterChain;
@@ -76,19 +57,6 @@ public class Oauth2ProtectedRemoteLogTests extends AbstractIntegrationTests {
 	
 	RestTemplate restTemplate = new TestRestTemplate();
 	
-	/*
-	 * Enable this init method if you need to use a proxy to debug (fiddler, for instance)
-	 * This is required as passing regular JVM arguments for proxy setup seems not to work with RestTemplate
-	 * as it uses Apache HttpClient 
-    @Before
-    public void initProxy(){    	
-		SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-	    Proxy proxy= new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888));
-	    requestFactory.setProxy(proxy);
-	    restTemplate = new RestTemplate(requestFactory);    	
-    }
-	 */
-    
 	protected String getPassword() {
 		return "secret";
 	}
@@ -102,15 +70,7 @@ public class Oauth2ProtectedRemoteLogTests extends AbstractIntegrationTests {
 		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof JdbcTokenStore);
 		assertTrue("Wrong client details type: " + clientDetailsService, JdbcClientDetailsService.class.isAssignableFrom(AopUtils.getTargetClass(clientDetailsService)));
 	}
-	
-	/* Crash with MVC
-	 * 
-	 * http://forum.spring.io/forum/spring-projects/security/oauth/109730-oauth-2-without-spring-mvc
-	 * http://stackoverflow.com/questions/21907777/spring-security-oauth-basic-access-authentication-needed-when-sending-token-re
-	 * http://stackoverflow.com/questions/24920373/how-to-override-the-spring-boot-default-oauthtokenendpoint
-	 * http://stackoverflow.com/questions/29948154/cant-get-spring-security-oauth2-login-to-trigger
-	 */
-	
+		
 	@Test
 	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
 	public void testPostForNonAutomaticApprovalToken() throws Exception {
@@ -174,7 +134,7 @@ public class Oauth2ProtectedRemoteLogTests extends AbstractIntegrationTests {
         
         int port = server.getEmbeddedServletContainer().getPort();
         
-        ResponseEntity<String> result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + "/jersey/remotelog/log", remoteLogRequest, String.class);
+        ResponseEntity<String> result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + "/api/remotelog/log", remoteLogRequest, String.class);
         assertEquals(HttpStatus.OK, result2.getStatusCode());
 	}
 	
@@ -186,7 +146,7 @@ public class Oauth2ProtectedRemoteLogTests extends AbstractIntegrationTests {
         
         int port = server.getEmbeddedServletContainer().getPort();
 		
-		ResponseEntity<String> response = http.getRestTemplate().postForEntity("http://localhost:" + port + "/jersey/remotelog/log", remoteLogRequest, String.class);
+		ResponseEntity<String> response = http.getRestTemplate().postForEntity("http://localhost:" + port + "/api/remotelog/log", remoteLogRequest, String.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));

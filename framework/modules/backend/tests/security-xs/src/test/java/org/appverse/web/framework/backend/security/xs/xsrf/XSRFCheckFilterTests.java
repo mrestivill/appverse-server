@@ -157,7 +157,6 @@ public class XSRFCheckFilterTests {
 	 * Enable this init method if you need to use a proxy to debug (fiddler, for instance)
 	 * This is required as passing regular JVM arguments for proxy setup seems not to work with RestTemplate
 	 * as it uses Apache HttpClient 
-	 */
     @Before
     public void initProxy(){    	
 		SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
@@ -165,6 +164,7 @@ public class XSRFCheckFilterTests {
 	    requestFactory.setProxy(proxy);
 	    restTemplate = new RestTemplate(requestFactory);    	
     }
+	 */
 	
 	
 	@Test
@@ -178,7 +178,7 @@ public class XSRFCheckFilterTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/api/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		
 		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
@@ -205,7 +205,7 @@ public class XSRFCheckFilterTests {
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
 		
-		ResponseEntity<String> logResponseEntity = restTemplate.exchange("http://localhost:" + port + "/remotelog/log", HttpMethod.POST, new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers), String.class);
+		ResponseEntity<String> logResponseEntity = restTemplate.exchange("http://localhost:" + port + "/api/remotelog/log", HttpMethod.POST, new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers), String.class);
 		assertEquals(HttpStatus.OK, logResponseEntity.getStatusCode());
 	}
 			

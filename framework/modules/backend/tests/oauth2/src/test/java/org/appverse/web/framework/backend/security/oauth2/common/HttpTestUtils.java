@@ -1,4 +1,4 @@
-package org.appverse.web.framework.backend.security.oauth2;
+package org.appverse.web.framework.backend.security.oauth2.common;
 
 import java.net.URI;
 import java.util.Arrays;

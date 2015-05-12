@@ -42,7 +42,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(FrontFacadeRestAutoconfigurationProperties.class)
 @AutoConfigureBefore(JerseyAutoConfiguration.class)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.rest")
-@ApplicationPath("jersey")
+@ApplicationPath("api")
 public class FrontFacadeRestAutoConfiguration extends ResourceConfig {
 	
 	@Autowired 
