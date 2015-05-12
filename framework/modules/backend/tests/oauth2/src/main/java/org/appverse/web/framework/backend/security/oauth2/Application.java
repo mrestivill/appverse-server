@@ -2,6 +2,7 @@ package org.appverse.web.framework.backend.security.oauth2;
 
 import javax.sql.DataSource;
 
+import org.appverse.web.framework.backend.security.oauth2.configuration.AuthorizationServerWithJDBCStoreServerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -63,53 +64,20 @@ public class Application {
 		}
 
 	}
-
+	
 	@Configuration
-	@EnableAuthorizationServer
-	protected static class OAuth2Config extends
-			AuthorizationServerConfigurerAdapter {
-
-		@Autowired
-		private AuthenticationManager auth;
-
-		@Autowired
-		private DataSource dataSource;
-
-		private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-		@Bean
-		public JdbcTokenStore tokenStore() {
-			return new JdbcTokenStore(dataSource);
-		}
-
-		@Bean
-		protected AuthorizationCodeServices authorizationCodeServices() {
-			return new JdbcAuthorizationCodeServices(dataSource);
-		}
-
-		@Override
-		public void configure(AuthorizationServerSecurityConfigurer security)
-				throws Exception {
-			security.passwordEncoder(passwordEncoder);
-		}
-
-		@Override
-		public void configure(AuthorizationServerEndpointsConfigurer endpoints)
-				throws Exception {
-			endpoints.authorizationCodeServices(authorizationCodeServices())
-					.authenticationManager(auth).tokenStore(tokenStore())
-					.approvalStoreDisabled();
-		}
-
+	@EnableAuthorizationServer	
+	public static class AuthorizationServerConfig extends AuthorizationServerWithJDBCStoreServerAdapter{
+		
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients)
 				throws Exception {
 			// @formatter:off
 			clients.jdbc(dataSource)
-					.passwordEncoder(passwordEncoder)
-					.withClient("my-trusted-client")
-					.authorizedGrantTypes("password", "authorization_code",
-							"refresh_token", "implicit")
+			.passwordEncoder(passwordEncoder)
+			.withClient("my-trusted-client")
+			.authorizedGrantTypes("password", "authorization_code",
+					"refresh_token", "implicit")
 					.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
 					.scopes("read", "write", "trust")
 					.resourceIds("oauth2-resource")
@@ -125,8 +93,7 @@ public class Application {
 					.resourceIds("oauth2-resource").secret("secret");
 			// @formatter:on
 		}
-
-	}
+	}	
 
 	// Global authentication configuration ordered *after* the one in Spring
 	// Boot (so the settings here overwrite the ones in Boot). The explicit
