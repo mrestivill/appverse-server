@@ -30,6 +30,8 @@ public abstract class AbstractException extends RuntimeException{
 
 	private static final long serialVersionUID = -5547004129911718577L;
 
+    private static Long code;
+
 	/**
 	 * Default constructor
 	 */
@@ -73,5 +75,50 @@ public abstract class AbstractException extends RuntimeException{
 	public AbstractException(Throwable cause) {
 		super(cause);
 	}
+
+    /**
+     * Builds an AbstractException with the following parameters
+     * @param code
+     * @param cause
+     */
+    public AbstractException(Long code, Throwable cause) {
+        this(cause);
+        setCode(code);
+    }
+
+    /**
+     * Builds an AbstractException with the following parameters
+     * @param code
+     * @param cause
+     */
+    public AbstractException(Long code, String message, Throwable cause) {
+        this(message, cause);
+        setCode(code);
+    }
+
+    /**
+     * Builds an AbstractException with the following parameters
+     * @param code
+     * @param message
+     */
+    public AbstractException(Long code, String message) {
+        this(message);
+        setCode(code);
+    }
+
+    /**
+     * Obtains the error code
+     * @return
+     */
+    public Long getCode(){
+        return code;
+    }
+    /**
+     * Sets the error code
+     * @return
+     */
+    public void setCode(Long code){
+        this.code = code;
+    }
 	
 }
