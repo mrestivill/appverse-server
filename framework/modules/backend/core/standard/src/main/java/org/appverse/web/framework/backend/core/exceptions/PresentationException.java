@@ -77,4 +77,33 @@ public class PresentationException extends AbstractException {
 		super(cause);
 	}
 
+	/**
+	 * Builds an PresentationException with the following parameters
+	 * @param code
+	 * @param cause
+	 */
+	public PresentationException(Long code, Throwable cause) {
+		this(cause);
+		setCode(code);
+	}
+
+	/**
+	 * Builds an PresentationException with the following parameters
+	 * @param code
+	 * @param cause
+	 */
+	public PresentationException(Long code, String message, Throwable cause) {
+		this(message, cause);
+		setCode(code);
+	}
+
+	/**
+	 * Builds an PresentationException with the following parameters
+	 * @param code
+	 * @param message
+	 */
+	public PresentationException(Long code, String message) {
+		this(message);
+		setCode(code);
+	}
 }

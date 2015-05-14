@@ -30,6 +30,7 @@ import javax.annotation.Resource;
 
 import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
+import org.appverse.web.framework.backend.core.exceptions.BusinessException;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 
@@ -50,6 +51,7 @@ public class AbstractDozerP2IBeanConverter<PresentationBean extends AbstractPres
 
 	@Override
 	public PresentationBean convert(IntegrationBean bean) throws Exception {
+		new BusinessException(1l);
 		return convert(bean, ConversionType.Complete);
 	}
 

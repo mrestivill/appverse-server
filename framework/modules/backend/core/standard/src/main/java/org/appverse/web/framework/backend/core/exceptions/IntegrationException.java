@@ -78,4 +78,33 @@ public class IntegrationException extends AbstractException {
 
 	}
 
+	/**
+	 * Builds an IntegrationException with the following parameters
+	 * @param code
+	 * @param cause
+	 */
+	public IntegrationException(Long code, Throwable cause) {
+		this(cause);
+		setCode(code);
+	}
+
+	/**
+	 * Builds an IntegrationException with the following parameters
+	 * @param code
+	 * @param cause
+	 */
+	public IntegrationException(Long code, String message, Throwable cause) {
+		this(message, cause);
+		setCode(code);
+	}
+
+	/**
+	 * Builds an IntegrationException with the following parameters
+	 * @param code
+	 * @param message
+	 */
+	public IntegrationException(Long code, String message) {
+		this(message);
+		setCode(code);
+	}
 }
