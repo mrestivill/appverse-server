@@ -79,6 +79,15 @@ public class IntegrationException extends AbstractException {
 	}
 
 	/**
+	 * Builds an BusinessException with the following parameters
+	 * @param code
+	 */
+	public IntegrationException(Long code) {
+		this();
+		setCode(code);
+	}
+
+	/**
 	 * Builds an IntegrationException with the following parameters
 	 * @param code
 	 * @param cause

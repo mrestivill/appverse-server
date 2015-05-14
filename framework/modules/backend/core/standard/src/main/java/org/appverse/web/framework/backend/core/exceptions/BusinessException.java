@@ -76,7 +76,14 @@ public class BusinessException extends AbstractException {
 	public BusinessException(Throwable cause) {
 		super(cause);
 	}
-
+    /**
+     * Builds an BusinessException with the following parameters
+     * @param code
+     */
+    public BusinessException(Long code) {
+        this();
+        setCode(code);
+    }
     /**
      * Builds an BusinessException with the following parameters
      * @param code

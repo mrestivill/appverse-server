@@ -80,6 +80,14 @@ public class PresentationException extends AbstractException {
 	/**
 	 * Builds an PresentationException with the following parameters
 	 * @param code
+	 */
+	public PresentationException(Long code) {
+		this();
+		setCode(code);
+	}
+	/**
+	 * Builds an PresentationException with the following parameters
+	 * @param code
 	 * @param cause
 	 */
 	public PresentationException(Long code, Throwable cause) {

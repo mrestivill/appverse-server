@@ -79,6 +79,15 @@ public abstract class AbstractException extends RuntimeException{
     /**
      * Builds an AbstractException with the following parameters
      * @param code
+     */
+    public AbstractException(Long code) {
+        this();
+        setCode(code);
+    }
+
+    /**
+     * Builds an AbstractException with the following parameters
+     * @param code
      * @param cause
      */
     public AbstractException(Long code, Throwable cause) {
