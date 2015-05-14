@@ -51,7 +51,6 @@ public class AbstractDozerP2IBeanConverter<PresentationBean extends AbstractPres
 
 	@Override
 	public PresentationBean convert(IntegrationBean bean) throws Exception {
-		new BusinessException(1l);
 		return convert(bean, ConversionType.Complete);
 	}
 
