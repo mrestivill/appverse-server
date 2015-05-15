@@ -72,8 +72,6 @@
 	</scm>
 
 	<properties>
-		<spring-boot.version>1.2.1.RELEASE</spring-boot.version>
-		
 		<!-- TODO (APPS-53): We can't remove this for now as the spring dependencies that are not handled
 		by spring boot starters require the version to be specified.
 		The property spring.version is specified in spring-boot-dependencies which appverse imports. However only dependency management is imported, 
@@ -88,7 +86,7 @@
         <jdk.target>1.8</jdk.target>
 	
 		<framework.version>2.0.0-SNAPSHOT</framework.version>
-		<spring.boot.version>1.2.1.RELEASE</spring.boot.version>
+		<spring.boot.version>1.2.3.RELEASE</spring.boot.version>
         <spring.oauth2.version>2.0.2.RELEASE</spring.oauth2.version>
         
         <dozer.version>5.5.1</dozer.version>    

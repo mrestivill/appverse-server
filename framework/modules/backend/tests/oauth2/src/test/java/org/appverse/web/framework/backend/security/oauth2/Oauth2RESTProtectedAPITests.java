@@ -117,7 +117,7 @@ public class Oauth2RESTProtectedAPITests extends AbstractIntegrationTests {
 	static class NonAutoApproveImplicit extends ImplicitResourceDetails {
 		public NonAutoApproveImplicit(Object target) {
 			super();
-			setClientId("my-trusted-client");
+			setClientId("test-client");
 			setId(getClientId());
 			setPreEstablishedRedirectUri("http://anywhere");
 		}

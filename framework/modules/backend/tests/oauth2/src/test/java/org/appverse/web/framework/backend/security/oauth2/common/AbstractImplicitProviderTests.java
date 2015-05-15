@@ -58,9 +58,9 @@ public abstract class AbstractImplicitProviderTests extends AbstractIntegrationT
 	static class NonAutoApproveImplicit extends ImplicitResourceDetails {
 		public NonAutoApproveImplicit(Object target) {
 			super();
-			setClientId("my-trusted-client");
+			setClientId("test-client");
 			setId(getClientId());
-			setPreEstablishedRedirectUri("http://anywhere");
+			setPreEstablishedRedirectUri("http://yourredirecturihere");
 		}
 	}
 

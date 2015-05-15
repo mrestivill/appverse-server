@@ -59,26 +59,15 @@ public class Application {
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients)
 				throws Exception {
-			// @formatter:off
 			clients.jdbc(dataSource)
 			.passwordEncoder(passwordEncoder)
-			.withClient("my-trusted-client")
+			.withClient("test-client")
 			.authorizedGrantTypes("password", "authorization_code",
 					"refresh_token", "implicit")
 					.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
 					.scopes("read", "write", "trust")
 					.resourceIds("oauth2-resource")
-					.accessTokenValiditySeconds(60).and()
-					.withClient("my-client-with-registered-redirect")
-					.authorizedGrantTypes("authorization_code")
-					.authorities("ROLE_CLIENT").scopes("read", "trust")
-					.resourceIds("oauth2-resource")
-					.redirectUris("http://anywhere?key=value").and()
-					.withClient("my-client-with-secret")
-					.authorizedGrantTypes("client_credentials", "password")
-					.authorities("ROLE_CLIENT").scopes("read")
-					.resourceIds("oauth2-resource").secret("secret");
-			// @formatter:on
+					.accessTokenValiditySeconds(60);
 		}
 	}	
 
@@ -97,10 +86,8 @@ public class Application {
 
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			// @formatter:off
 			auth.jdbcAuthentication().dataSource(dataSource).withUser("admin")
 					.password("admin").roles("USER");
-			// @formatter:on
 		}
 
 	}

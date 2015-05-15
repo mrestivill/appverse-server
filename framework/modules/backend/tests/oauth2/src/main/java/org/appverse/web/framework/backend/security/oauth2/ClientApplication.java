@@ -105,7 +105,7 @@ public class ClientApplication {
 		AuthorizationCodeResourceDetails resource = new AuthorizationCodeResourceDetails();
 		resource.setAccessTokenUri(tokenUrl);
 		resource.setUserAuthorizationUri(authorizeUrl);
-		resource.setClientId("my-trusted-client");
+		resource.setClientId("test-client");
 		return resource;
 	}
 
