@@ -21,39 +21,39 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2;
+package org.appverse.web.framework.backend.security.oauth2.configuration;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
-@IntegrationTest("server.port=0")
-public class ApplicationTests {
-	
+/**
+ * Convenient setup for an OAuth2 Resource Server that uses a
+ * JdbcTokenStore to keep the tokens. This way you only need to override
+ * configure method if you want to change default HttpSecurity (by default requiring 
+ * authentication for any request)
+ * 
+ * JDBCTokenStore requires a particular database model provided by Spring as an SQL script
+ * that you need to create in your database schema.
+ * You can find a schema example here:
+ * https://github.com/spring-projects/spring-security-oauth/blob/master/spring-security-oauth2/src/test/resources/schema.sql 
+ */
+public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServerConfigurerAdapter {
+
 	@Autowired
 	private TokenStore tokenStore;
 
-	@Autowired
-	private ClientDetailsService clientDetailsService;
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources)
+			throws Exception {
+		resources.tokenStore(tokenStore);
+	}
 
-	@Test
-	public void contextLoads() {
-		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof JdbcTokenStore);
-		assertTrue("Wrong client details type: " + clientDetailsService, JdbcClientDetailsService.class.isAssignableFrom(AopUtils.getTargetClass(clientDetailsService)));
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests().anyRequest().authenticated();
 	}
 
 }
