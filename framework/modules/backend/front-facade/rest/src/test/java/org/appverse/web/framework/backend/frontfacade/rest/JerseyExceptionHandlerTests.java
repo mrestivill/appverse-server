@@ -37,7 +37,7 @@ public class JerseyExceptionHandlerTests {
     @Test
     public void test() {
     	int port = context.getEmbeddedServletContainer().getPort();
-    	String s = restTemplate.getForEntity("http://localhost:"+port+"/hello", String.class).getBody();
+    	String s = restTemplate.getForEntity("http://localhost:"+port+"/api/hello", String.class).getBody();
         assertEquals("Hello World!", s);
     }
     
@@ -47,7 +47,7 @@ public class JerseyExceptionHandlerTests {
     @Test
     public void testExceptionHandler() {
     	int port = context.getEmbeddedServletContainer().getPort();
-    	ResponseDataVO s = restTemplate.getForEntity("http://localhost:"+port+"/exc", ResponseDataVO.class).getBody();
+    	ResponseDataVO s = restTemplate.getForEntity("http://localhost:"+port+"/api/exc", ResponseDataVO.class).getBody();
     	assertEquals(500, s.getErrorVO().getCode());
     }
 }

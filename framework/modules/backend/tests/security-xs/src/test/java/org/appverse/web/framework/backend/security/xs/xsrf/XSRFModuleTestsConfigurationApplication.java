@@ -2,7 +2,7 @@
  Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
 
  This Source Code Form is subject to the terms of the Appverse Public License 
- Version 2.0 (“APL v2.0”). If a copy of the APL was not distributed with this 
+ Version 2.0 (“APL v2.0�?). If a copy of the APL was not distributed with this 
  file, You can obtain one at http://www.appverse.mobi/licenses/apl_v2.0.pdf. [^]
 
  Redistribution and use in source and binary forms, with or without modification, 
@@ -21,42 +21,22 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.core.persistence.jpa.repository;
+package org.appverse.web.framework.backend.security.xs.xsrf;
 
-import java.io.Serializable;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 
-import javax.persistence.EntityManager;
-
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.stereotype.Repository;
-
-/**
- * {@link JPAWithNativeApiAccessRepository} implementation.
- * 
- * @author Miguel Fernandez
- */
-@Repository
-public class JPAWithNativeApiAccessRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements JPAWithNativeApiAccessRepository<T, ID> {
-
-	private final EntityManager entityManager;
-
-
-	/**
-	 * Creates a new {@link JPAWithNativeApiAccessRepository}.
-	 * @param domainClass
-	 * @param entityManager
-	 */
-	public JPAWithNativeApiAccessRepositoryImpl(Class<T> domainClass, EntityManager entityManager) {
-		super(domainClass, entityManager);
-		this.entityManager = entityManager;
+@SpringBootApplication
+public class XSRFModuleTestsConfigurationApplication extends SpringBootServletInitializer {
+	
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(XSRFModuleTestsConfigurationApplication.class);
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see org.appverse.web.framework.backend.core.persistence.jpa.repository.JPAWithNativeApiAccessRepository#unwrap(java.lang.Class)
-	 */
-	@Override
-	public <C> C unwrap(Class<C> cls) {
-		return entityManager.unwrap(cls);
+	public static void main(String[] args) {
+		new XSRFModuleTestsConfigurationApplication().configure(
+				new SpringApplicationBuilder(XSRFModuleTestsConfigurationApplication.class)).run(args);
 	}
 }

@@ -72,10 +72,10 @@
 	</scm>	
 	
 	<modules>
-		<!-- <module>oauth2</module> -->
-			<module>authentication</module>
-		<!-- <module>jws</module> -->
-            <module>cross-site</module>
+		<module>oauth2</module>
+                <module>authentication</module>		
+                <module>cross-site</module>
+                <!-- <module>jws</module> -->
 	</modules>
 
 </project>
