@@ -28,21 +28,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.Proxy.Type;
 import java.util.List;
 
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.appverse.web.framework.backend.security.xs.SecurityHelper;
-import org.junit.Before;
+import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.BasicAuthenticationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -52,30 +50,28 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.client.RestTemplate;
 
+/**
+ * IMPORTANT: If you use an authentication method that relies on JSESSIONID, you need to set the Spring Boot property
+ * that controls http session creation strategy as:
+ * security.sessions=NEVER
+ * This mean that Spring will never create an HttpSession proactively but if it exists it will use it.
+ * Spring default value is 'STATELESS' which means that Spring will never create an HttpSession proactively and it will
+ * never use it.
+ * This test uses Appverse Web {@link BasicAuthenticationService} for basic authentication and for XSRF token creation.
+ * It relies on JSESSIONID so we have added the property to application.properties.
+ * 
+ * Necessary to have httpclient for this tests (with scope tests) so that the http returns are handle correctly.
+ * Otherwise you will experience exactly the problem described here:
+ * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {XSRFModuleTestsConfigurationApplication.class})
-@WebIntegrationTest(randomPort= true, 
-					value={"debug=",		
-							/* TODO: FrontFacade should specify session management strategy. Spring boot default is STATELESS, we need NEVER */
-							"security.sessions=NEVER",
-							"logging.level.org.springframework: DEBUG",
-							"security.basic.enabled=true", 
-						   "spring.jersey.init.jersey.config.server.tracing=ALL",
-						   "logging.level.org.glassfish.jersey=DEBUG"})
-/* properties... "security.basic.enabled=false",
-"appverse.security.xs.xsrffilter.urlPattern=/rest/*",
-"appverse.security.xs.xsrffilter.match=*",
-"appverse.security.xs.xsrffilter.exclude=",
-"appverse.security.xs.xsrffilter.wildcards=false",
-"appverse.security.xs.xsrffilter.getXsrfPath=getXSRFSessionToken"
-*/
+@WebIntegrationTest(randomPort= true)
 
 public class XSRFCheckFilterTests {
 	
@@ -83,10 +79,11 @@ public class XSRFCheckFilterTests {
 	private AnnotationConfigEmbeddedWebApplicationContext context;
 	
 	// Be Careful!!! TestRestTemplate ignores cookies
-	// RestTemplate restTemplate = new TestRestTemplate();
-	RestTemplate restTemplate = new RestTemplate();
+	TestRestTemplate restTemplate = new TestRestTemplate();
 	
-	/*
+	/* Former filter configuration is now perform by means XSRFFilterAutoConfiguration which provides
+	  default setup and allows you to override properties using standard Spring Boot way 
+	  (application.properties, for instance) 
 	 <filter>
         <filter-name>XSRFFilter</filter-name>
         <filter-class>org.appverse.web.framework.backend.api.helpers.security.XSRFCheckFilter</filter-class>
@@ -107,26 +104,16 @@ public class XSRFCheckFilterTests {
     	<filter-name>XSRFFilter</filter-name>
     	<url-pattern>/admin/rest/*</url-pattern>
     </filter-mapping>
-    
-	private Boolean wildcards;
-	
-	private String match;
-	
-	private String exclude;
-	
-	private String getXsrfPath;
-	
-	private String urlPattern;    
 	 */	
 	
 	
 	@Test
 	public void testInitParameterConfiguration() {
-		FilterRegistrationBean registrationBean = this.context.getBean("gzipFilter",
+		FilterRegistrationBean registrationBean = this.context.getBean("xsrfFilter",
 				FilterRegistrationBean.class);
 		assertThat(registrationBean.getInitParameters().size(), equalTo(5));
 		assertThat(registrationBean.getInitParameters().get("urlPattern"),
-				equalTo("/rest/*"));		
+				equalTo("/api/*"));		
 		assertThat(registrationBean.getInitParameters().get("match"),
 				equalTo("*"));
 		assertThat(registrationBean.getInitParameters().get("wildcards"),
@@ -134,24 +121,9 @@ public class XSRFCheckFilterTests {
 		assertThat(registrationBean.getInitParameters().get("getXsrfPath"),
 				equalTo("getXSRFSessionToken"));
 		assertThat(registrationBean.getInitParameters().get("exclude"),
-				equalTo(""));
+				equalTo("/api/sec/login"));
 	}
 	
-/*	
-	@Test
-	public void remoteLogServiceEnabledTest() {
-		int port = context.getEmbeddedServletContainer().getPort();
-		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
-		logRequestVO.setMessage("Test mesage!");
-		logRequestVO.setLogLevel("DEBUG");
-		
-		HttpEntity<String> entity = new HttpEntity<String>(null,null);
-		 
-		// ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/remotelog/log", logRequestVO, String.class);
-		ResponseEntity<String> entityResponse =  restTemplate.exchange("http://localhost:" + port + "/remotelog/log", HttpMethod.POST,  entity, String.class, logRequestVO);
-		assertEquals(HttpStatus.OK, entityResponse.getStatusCode());
-	}
-*/	
 	
 	/*
 	 * Enable this init method if you need to use a proxy to debug (fiddler, for instance)
@@ -166,9 +138,8 @@ public class XSRFCheckFilterTests {
     }
 	 */
 	
-	
 	@Test
-	public void testFilterWithCorrectXSRFToken() throws Exception{		
+	public void testFilterWithoutXSRFToken() throws Exception{		
 		this.context.register(AuthenticationManagerCustomizer.class);
 		
 		int port = context.getEmbeddedServletContainer().getPort();
@@ -193,10 +164,55 @@ public class XSRFCheckFilterTests {
 		assertEquals(roles.size(), 1);
 		assertEquals(roles.get(0), "ROLE_USER");
 		
+		// Step 2: Calling a protected resource without using the XSRF Token
+		headers = new HttpHeaders();
+		String JSESSIONID_HEADER = responseEntity.getHeaders().getFirst("Set-Cookie");		
+		headers.set(HttpHeaders.COOKIE, JSESSIONID_HEADER);
+		
+		// Content type need to be specified otherwise we receive a 415
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
+		logRequestVO.setMessage("Test mesage!");
+		logRequestVO.setLogLevel("DEBUG");
+		
+		ResponseEntity<String> logResponseEntity = restTemplate.exchange("http://localhost:" + port + "/api/remotelog/log", HttpMethod.POST, new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers), String.class);
+		assertEquals(HttpStatus.UNAUTHORIZED, logResponseEntity.getStatusCode());
+	}		
+	
+	@Test
+	public void testFilterWithCorrectXSRFToken() throws Exception{		
+		this.context.register(AuthenticationManagerCustomizer.class);
+		
+		int port = context.getEmbeddedServletContainer().getPort();
+		
+		// Step 1: Login and obtaining a XSRF Token
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
+		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
+
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/api/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		
+		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
+		assertNotNull(xsrfTokenHeaders);
+		assertEquals(xsrfTokenHeaders.size(), 1);
+		assertNotNull(xsrfTokenHeaders.get(0));
+		String xsrfToken = xsrfTokenHeaders.get(0);
+				
+		AuthorizationData authorizationData = responseEntity.getBody();
+		assertNotNull(authorizationData);
+		List<String> roles = authorizationData.getRoles();
+		assertNotNull(roles);
+		assertEquals(roles.size(), 1);
+		assertEquals(roles.get(0), "ROLE_USER");
+		
 		// Step 2: Using the XSRF Token calling a protected resource
 		headers = new HttpHeaders();
 		String JSESSIONID_HEADER = responseEntity.getHeaders().getFirst("Set-Cookie");		
 		headers.set(HttpHeaders.COOKIE, JSESSIONID_HEADER);
+		headers.set(SecurityHelper.XSRF_TOKEN_NAME, xsrfToken);
+		
 		
 		// Content type need to be specified otherwise we receive a 415
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -218,30 +234,5 @@ public class XSRFCheckFilterTests {
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
 			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 		}
-	}
-	
-	/*
-	@Test
-	public void remoteLogServiceDisabledTest() {
-		int port = context.getEmbeddedServletContainer().getPort();
-		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
-		logRequestVO.setMessage("Test mesage!");
-		logRequestVO.setLogLevel("DEBUG");
-		 
-		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/remotelog/log", logRequestVO, String.class);
-		assertEquals(HttpStatus.NOT_FOUND, entity.getStatusCode());
-	}
-	
-	@Test
-	public void basicAuthenticationServiceTest() throws Exception{
-		int port = context.getEmbeddedServletContainer().getPort();
-		 
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
-		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
-
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
-		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-	}
-	*/
+	}	
 }

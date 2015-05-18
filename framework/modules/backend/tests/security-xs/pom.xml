@@ -61,6 +61,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!--  Added in tests scope because of exactly this problem:
+			http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate
+		-->
+		<dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpclient</artifactId>
+        	<scope>test</scope>
+    	</dependency>
 	</dependencies>
         
 </project>

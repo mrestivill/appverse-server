@@ -16,44 +16,17 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(XSRFCheckFilterProperties.class)
 public class XSRFFilterAutoConfiguration {
 	
-	private String DEFAULT_URL_PATTERN = "/rest/*";
+	private String DEFAULT_URL_PATTERN = "/api/*";
 	private String DEFAULT_MATCH = "*";
-	private String DEFAULT_EXCLUDE = "";
+	private String DEFAULT_EXCLUDE = null;
 	private Boolean DEFAULT_WILCARDS = Boolean.FALSE;
 	private String DEFAULT_GET_XSRF_PATH = "getXSRFSessionToken";
 	
-	/*
-	 *     
-	 <filter>
-        <filter-name>XSRFFilter</filter-name>
-        <filter-class>org.appverse.web.framework.backend.api.helpers.security.XSRFCheckFilter</filter-class>
-             <init-param>
-                <param-name>match</param-name>
-                <param-value>*</param-value>
-            </init-param>
-            <init-param>
-            	<param-name>wildcards</param-name>
-            	<param-value>false</param-value>
-            </init-param>
-            <init-param>
-                <param-name>getXsrfPath</param-name>
-                <param-value>getXSRFSessionToken</param-value>
-            </init-param>
-    </filter>
-    <filter-mapping>
-    	<filter-name>XSRFFilter</filter-name>
-    	<url-pattern>/admin/rest/*</url-pattern>
-    </filter-mapping>
-	*/
-	
-	
-	
-
 	@Autowired
 	private XSRFCheckFilterProperties properties;
 
 	@Bean
-	public FilterRegistrationBean gzipFilter() {
+	public FilterRegistrationBean xsrfFilter() {
 		FilterRegistrationBean registration = new FilterRegistrationBean(new XSRFCheckFilter());
 		
 		// Default values if not set

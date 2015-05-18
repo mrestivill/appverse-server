@@ -41,14 +41,6 @@ import jodd.typeconverter.TypeConversionException;
 import jodd.util.StringUtil;
 import jodd.util.Wildcard;
 
-
-/**
- * TODO: Necessary to adapt this filter so that it can be registered "spring boot way" using FilterRegistrationBean.
- * Tests need to be implemented also.
- * Example how to do the test: GzipFilterAutoConfigurationTests
- */
-
-
 /**
  * This filter checks the XSRF token is present in your request.
  * Otherwise it returns an HTTP 401 - Unauthorized status code.

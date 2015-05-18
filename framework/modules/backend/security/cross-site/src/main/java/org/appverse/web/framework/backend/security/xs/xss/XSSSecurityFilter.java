@@ -38,16 +38,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO: Necessary to adapt this filter so that it can be registered "spring boot way" using FilterRegistrationBean.
- * Tests need to be implemented also.
- * Example how to do the test: GzipFilterAutoConfigurationTests
- */
-
-
-/**
  * A Request Filter to filter out possible XSS attacks in the request query parameters or headers.
  */
-
 public class XSSSecurityFilter implements ContainerRequestFilter
 {
     //private static final Logger LOG = LoggerFactory.getLogger(XSSSecurityFilter.class);
