@@ -33,6 +33,19 @@ import org.springframework.security.oauth2.client.test.OAuth2ContextConfiguratio
 import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitResourceDetails;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 
+/* TODO
+ * Take into account that this common test classes are taken from:
+ * https://github.com/spring-projects/spring-security-oauth/tree/master/tests/annotation/jdbc
+ * by Dave Syer.
+ * In this test project there are not license headers (maybe the same license that applies to the complete
+ * spring-oauth2 project?). Before making this public we need to clarify (a good way would be to ask Dave 
+ * directly) if it is possible to copy here this code and use it as a common class for our tests as he 
+ * does in his example.
+ * It would have been ideal to directly add a test dependency directly including the artifact that has the
+ * example to use the classes for tests but the problem is that they seem not to be published.
+ * Not even in the spring repositories that are enabled when you run the example with -Bootstrap profile
+ * IMPORTANT!!! We need to clarify this before publishing anything.
+ */
 public abstract class AbstractImplicitProviderTests extends AbstractIntegrationTests {
 
 	@Test

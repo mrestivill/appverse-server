@@ -46,6 +46,19 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriTemplate;
 
+/* TODO
+ * Take into account that this common test classes are taken from:
+ * https://github.com/spring-projects/spring-security-oauth/tree/master/tests/annotation/jdbc
+ * by Dave Syer.
+ * In this test project there are not license headers (maybe the same license that applies to the complete
+ * spring-oauth2 project?). Before making this public we need to clarify (a good way would be to ask Dave 
+ * directly) if it is possible to copy here this code and use it as a common class for our tests as he 
+ * does in his example.
+ * It would have been ideal to directly add a test dependency directly including the artifact that has the
+ * example to use the classes for tests but the problem is that they seem not to be published.
+ * Not even in the spring repositories that are enabled when you run the example with -Bootstrap profile
+ * IMPORTANT!!! We need to clarify this before publishing anything.
+ */
 /**
  * <p>
  * A rule that provides HTTP connectivity to test cases on the assumption that the server is available when test methods
