@@ -35,6 +35,17 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * configure method if you want to change default HttpSecurity (by default requiring 
  * authentication for any request)
  * 
+ * Take into account that ClientDetailsStore, TokenStore, AuthorizationCodeStore
+ * etc, could be in-memory instead of be persisted in database if you had just a
+ * node for the AuthorizationServer (for instance). You can use the setup
+ * provided by this class but remember that you need to assess your scenario
+ * taking into account how you are going to scale your Authorization and
+ * Resource server, performance requirements, etc. Depending on this you will be
+ * able to use in-memory or not and you will need to think if you require sticky
+ * sessions (for Authorization server if you are using stateful grant types) or
+ * need to use another solution as Spring Session in combination with this
+ * setup. Take this setup just as an starting point. 
+ * 
  * JDBCTokenStore requires a particular database model provided by Spring as an SQL script
  * that you need to create in your database schema.
  * You can find a schema example here:

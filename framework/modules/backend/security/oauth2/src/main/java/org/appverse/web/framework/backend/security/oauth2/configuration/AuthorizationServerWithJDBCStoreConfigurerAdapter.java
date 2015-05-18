@@ -39,22 +39,32 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 /**
  * Convinient setup for an OAuth2 Authorization Server that uses a
  * JdbcTokenStore to keep the tokens. This way you only need to override
- * configure method to register the clients. Example:
+ * configure method to register the clients as shown in the following example.
+ * 
+ * Take into account that ClientDetailsStore, TokenStore, AuthorizationCodeStore
+ * etc, could be in-memory instead of be persisted in database if you had just a
+ * node for the AuthorizationServer (for instance). You can use the setup
+ * provided by this class but remember that you need to assess your scenario
+ * taking into account how you are going to scale your Authorization and
+ * Resource server, performance requirements, etc. Depending on this you will be
+ * able to use in-memory or not and you will need to think if you require sticky
+ * sessions (for Authorization server if you are using stateful grant types) or
+ * need to use another solution as Spring Session in combination with this
+ * setup. Take this setup just as an starting point.
  * 
  * @Override public void configure(ClientDetailsServiceConfigurer clients)
- *           throws Exception { 
- *           clients.jdbc(dataSource)
+ *           throws Exception { clients.jdbc(dataSource)
  *           .passwordEncoder(passwordEncoder) .withClient("my-trusted-client")
  *           .authorizedGrantTypes("password", "authorization_code",
  *           "refresh_token", "implicit") .authorities("ROLE_CLIENT",
  *           "ROLE_TRUSTED_CLIENT") .scopes("read", "write", "trust")
- *           .resourceIds("oauth2-resource")
- *           .accessTokenValiditySeconds(60);
- *           }
- * JDBCTokenStore requires a particular database model provided by Spring as an SQL script
- * that you need to create in your database schema.
- * You can find a schema example here:
- * https://github.com/spring-projects/spring-security-oauth/blob/master/spring-security-oauth2/src/test/resources/schema.sql 
+ *           .resourceIds("oauth2-resource") .accessTokenValiditySeconds(60); }
+ *           JDBCTokenStore requires a particular database model provided by
+ *           Spring as an SQL script that you need to create in your database
+ *           schema. You can find a schema example here:
+ *           https://github.com/spring
+ *           -projects/spring-security-oauth/blob/master
+ *           /spring-security-oauth2/src/test/resources/schema.sql
  */
 public class AuthorizationServerWithJDBCStoreConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
