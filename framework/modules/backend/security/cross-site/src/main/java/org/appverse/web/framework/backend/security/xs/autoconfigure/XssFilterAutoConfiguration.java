@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass(XssFilter.class)
 @EnableConfigurationProperties(XssFilterProperties.class)
-@ComponentScan("org.appverse.web.framework.backend.security.xs.xss")
 public class XssFilterAutoConfiguration {
 	
 	private String DEFAULT_URL_PATTERN = "/*";
