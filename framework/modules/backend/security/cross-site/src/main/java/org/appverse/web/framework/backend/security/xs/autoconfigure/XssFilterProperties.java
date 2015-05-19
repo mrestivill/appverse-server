@@ -1,4 +1,4 @@
-package org.appverse.web.framework.backend.security.xs.xss;
+package org.appverse.web.framework.backend.security.xs.autoconfigure;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +61,7 @@ public class XssFilterProperties {
 		this.getXsrfPath = getXsrfPath;
 	}
 	
-	Map<String, String> getAsInitParameters() {
+	public Map<String, String> getAsInitParameters() {
 		return this.initParameters;
 	}
 	

@@ -1,8 +1,9 @@
-package org.appverse.web.framework.backend.security.xs.xsrf;
+package org.appverse.web.framework.backend.security.xs.autoconfigure;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.appverse.web.framework.backend.security.xs.xsrf.XsrfFilter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -59,7 +60,7 @@ public class XsrfFilterProperties {
 		this.getXsrfPath = getXsrfPath;
 	}
 	
-	Map<String, String> getAsInitParameters() {
+	public Map<String, String> getAsInitParameters() {
 		return this.initParameters;
 	}
 	
