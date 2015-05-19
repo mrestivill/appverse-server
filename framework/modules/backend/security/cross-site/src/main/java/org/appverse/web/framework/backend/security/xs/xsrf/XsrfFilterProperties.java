@@ -6,10 +6,10 @@ import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Properties for configuring {@link XSRFCheckFilter}.
+ * Properties for configuring {@link XsrfFilter}.
  */
-@ConfigurationProperties(prefix = "appverse.security.xs.xsrffilter")
-public class XSRFCheckFilterProperties {
+@ConfigurationProperties(prefix = "appverse.security.xs.xsrf.filter")
+public class XsrfFilterProperties {
 	
 	private final Map<String, String> initParameters = new HashMap<String, String>();
 

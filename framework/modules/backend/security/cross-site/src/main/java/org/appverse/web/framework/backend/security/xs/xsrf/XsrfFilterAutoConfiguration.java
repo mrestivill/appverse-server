@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * {@link EnableAutoConfiguration Auto-configuration} for {@link XSRFCheckFilter}.
+ * {@link EnableAutoConfiguration Auto-configuration} for {@link XsrfFilter}.
  */
 @Configuration
-@ConditionalOnClass(XSRFCheckFilter.class)
-@EnableConfigurationProperties(XSRFCheckFilterProperties.class)
-public class XSRFFilterAutoConfiguration {
+@ConditionalOnClass(XsrfFilter.class)
+@EnableConfigurationProperties(XsrfFilterProperties.class)
+public class XsrfFilterAutoConfiguration {
 	
 	private String DEFAULT_URL_PATTERN = "/api/*";
 	private String DEFAULT_MATCH = "*";
@@ -23,11 +23,11 @@ public class XSRFFilterAutoConfiguration {
 	private String DEFAULT_GET_XSRF_PATH = "getXSRFSessionToken";
 	
 	@Autowired
-	private XSRFCheckFilterProperties properties;
+	private XsrfFilterProperties properties;
 
 	@Bean
 	public FilterRegistrationBean xsrfFilter() {
-		FilterRegistrationBean registration = new FilterRegistrationBean(new XSRFCheckFilter());
+		FilterRegistrationBean registration = new FilterRegistrationBean(new XsrfFilter());
 		
 		// Default values if not set
 		if (properties.getUrlPattern() == null ||  properties.getUrlPattern().isEmpty()){

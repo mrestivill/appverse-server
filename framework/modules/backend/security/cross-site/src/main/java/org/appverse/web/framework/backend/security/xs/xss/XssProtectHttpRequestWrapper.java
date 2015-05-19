@@ -16,9 +16,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.owasp.esapi.ESAPI;
 
-public class XSSProtectHttpRequestWrapper extends HttpServletRequestWrapper {
+public class XssProtectHttpRequestWrapper extends HttpServletRequestWrapper {
 
-	public XSSProtectHttpRequestWrapper(HttpServletRequest request) {
+	public XssProtectHttpRequestWrapper(HttpServletRequest request) {
 		super(request);
 	}
 	
