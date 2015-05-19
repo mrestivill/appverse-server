@@ -31,7 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
@@ -70,15 +69,10 @@ public class Application {
 					.accessTokenValiditySeconds(60);
 		}
 	}	
-
-	// Global authentication configuration ordered *after* the one in Spring
-	// Boot (so the settings here overwrite the ones in Boot). The explicit
-	// order is not needed in Spring Boot 1.2.3 or greater. (Actually with Boot
-	// 1.2.3 you don't need this inner class at all and you can just @Autowired
-	// the AuthenticationManagerBuilder).
+	
 	@Configuration
-	@Order(Ordered.LOWEST_PRECEDENCE - 20)
-	protected static class AuthenticationManagerConfiguration extends
+	@Order(-1)
+	protected static class AuthenticationManagerCustomizer extends
 			GlobalAuthenticationConfigurerAdapter {
 
 		@Autowired
@@ -89,7 +83,5 @@ public class Application {
 			auth.jdbcAuthentication().dataSource(dataSource).withUser("admin")
 					.password("admin").roles("USER");
 		}
-
 	}
-
 }
