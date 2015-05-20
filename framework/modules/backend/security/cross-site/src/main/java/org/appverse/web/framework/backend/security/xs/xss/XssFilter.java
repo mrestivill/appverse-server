@@ -19,7 +19,7 @@ public class XssFilter implements Filter {
 	
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
-        if (isXsrfCheckEligible(req)){
+        if (isXssCheckEligible(req)){
         	chain.doFilter(new XssProtectHttpRequestWrapper(req), response);
         }
         else{
@@ -71,7 +71,7 @@ public class XssFilter implements Filter {
     /**
      * Determine if uri is eligible for being checked against XSRF attacks
      */
-    private boolean isXsrfCheckEligible(HttpServletRequest req) {
+    private boolean isXssCheckEligible(HttpServletRequest req) {
         String uri = req.getRequestURI();
         if (uri == null) {
             return false;

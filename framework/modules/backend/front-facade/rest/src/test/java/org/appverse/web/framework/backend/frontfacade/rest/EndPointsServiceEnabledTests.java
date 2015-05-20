@@ -28,8 +28,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.appverse.web.framework.backend.security.xs.SecurityHelper;

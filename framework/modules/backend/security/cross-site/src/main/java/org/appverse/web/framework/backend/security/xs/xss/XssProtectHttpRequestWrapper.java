@@ -16,6 +16,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.owasp.esapi.ESAPI;
 
+
+// http://ricardozuasti.com/2012/stronger-anti-cross-site-scripting-xss-filter-for-java-web-apps/
+	
+	
 public class XssProtectHttpRequestWrapper extends HttpServletRequestWrapper {
 
 	public XssProtectHttpRequestWrapper(HttpServletRequest request) {
