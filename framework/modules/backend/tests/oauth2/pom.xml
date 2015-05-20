@@ -54,6 +54,14 @@
 			<groupId>org.appverse.web.framework.modules.backend.security.oauth2</groupId>
 			<artifactId>appverse-web-modules-backend-security-oauth2</artifactId>
 		</dependency>
+        <dependency>
+			<groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
+			<artifactId>appverse-web-modules-backend-frontfacade-rest</artifactId>
+		</dependency>
+		<dependency>        
+  			<groupId>org.appverse.web.framework.modules.backend.core.enterprise.log</groupId>
+  			<artifactId>appverse-web-modules-backend-core-enterprise-log</artifactId>
+  		</dependency>		
 		<!-- TEST DEPENDENCIES -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -63,13 +71,6 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- This makes the tests not to work. I guess because is enabling Jersey 
-		and it must be crash with Spring MVC that OAuth2 uses --> 
-        <dependency>
-			<groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
-			<artifactId>appverse-web-modules-backend-frontfacade-rest</artifactId>
 			<scope>test</scope>
 		</dependency>
         <dependency>
