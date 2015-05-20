@@ -20,9 +20,7 @@ public class XssFilterProperties {
 	private String match;
 	
 	private String exclude;
-	
-	private String getXsrfPath;
-	
+		
 	private String urlPattern;
 	
 	public Boolean getWildcards() {
@@ -52,15 +50,6 @@ public class XssFilterProperties {
 		this.exclude = exclude;
 	}
 
-	public String getGetXsrfPath() {
-		return getXsrfPath;
-	}
-
-	public void setGetXsrfPath(String getXsrfPath) {
-		this.addInitParameter("getXsrfPath", getXsrfPath);
-		this.getXsrfPath = getXsrfPath;
-	}
-	
 	public Map<String, String> getAsInitParameters() {
 		return this.initParameters;
 	}

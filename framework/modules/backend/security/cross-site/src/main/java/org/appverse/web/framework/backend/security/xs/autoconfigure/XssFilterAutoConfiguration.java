@@ -26,7 +26,7 @@ public class XssFilterAutoConfiguration {
 	private XssFilterProperties properties;	
 	
 	@Bean
-	public FilterRegistrationBean xssSecurityFilter() {
+	public FilterRegistrationBean xssFilter() {
 		FilterRegistrationBean registration = new FilterRegistrationBean(new XssFilter());
 
 		// Default values if not set
