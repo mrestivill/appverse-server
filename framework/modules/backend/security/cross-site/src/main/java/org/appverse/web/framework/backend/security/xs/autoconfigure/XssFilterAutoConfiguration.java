@@ -4,6 +4,7 @@ import org.appverse.web.framework.backend.security.xs.xss.XssFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(XssFilter.class)
+@ConditionalOnProperty(value="appverse.security.xs.xss.filter.enabled", matchIfMissing=true)
 @EnableConfigurationProperties(XssFilterProperties.class)
 public class XssFilterAutoConfiguration {
 	

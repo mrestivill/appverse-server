@@ -74,7 +74,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {XsrfTestsConfigurationApplication.class})
-@WebIntegrationTest(randomPort= true)
+@WebIntegrationTest(randomPort= true, 
+					value={"security.sessions=NEVER", 
+						   "appverse.security.xs.xsrf.filter.exclude=/api/sec/login"})
 public class XsrfFilterTests {
 	
 	@Autowired

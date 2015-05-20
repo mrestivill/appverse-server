@@ -27,7 +27,6 @@ import javax.sql.DataSource;
 
 import org.appverse.web.framework.backend.security.oauth2.configuration.AuthorizationServerWithJDBCStoreConfigurerAdapter;
 import org.appverse.web.framework.backend.security.oauth2.configuration.ResourceServerWithJDBCStoreConfigurerAdapter;
-import org.appverse.web.framework.backend.security.xs.autoconfigure.XsrfFilterAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -40,7 +39,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @Configuration
-@EnableAutoConfiguration(exclude={XsrfFilterAutoConfiguration.class})
+@EnableAutoConfiguration()
 public class Application {
 
 	public static void main(String[] args) {

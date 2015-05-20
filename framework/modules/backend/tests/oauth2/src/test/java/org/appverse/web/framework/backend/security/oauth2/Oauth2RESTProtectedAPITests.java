@@ -63,7 +63,8 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
-@IntegrationTest("server.port=0")
+@IntegrationTest(value={"server.port=0",
+		         "appverse.security.xs.xsrf.filter.enabled=false"})
 public class Oauth2RESTProtectedAPITests extends AbstractIntegrationTests {
 	
 	@Autowired

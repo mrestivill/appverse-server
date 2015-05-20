@@ -4,6 +4,7 @@ import org.appverse.web.framework.backend.security.xs.xsrf.XsrfFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(XsrfFilter.class)
+@ConditionalOnProperty(value="appverse.security.xs.xsrf.filter.enabled", matchIfMissing=true)
 @EnableConfigurationProperties(XsrfFilterProperties.class)
 public class XsrfFilterAutoConfiguration {
 	
@@ -29,7 +31,7 @@ public class XsrfFilterAutoConfiguration {
 	@Bean
 	public FilterRegistrationBean xsrfFilter() {
 		FilterRegistrationBean registration = new FilterRegistrationBean(new XsrfFilter());
-		
+
 		// Default values if not set
 		if (properties.getUrlPattern() == null ||  properties.getUrlPattern().isEmpty()){
 			properties.setUrlPattern(DEFAULT_URL_PATTERN);
@@ -50,5 +52,4 @@ public class XsrfFilterAutoConfiguration {
 		registration.setInitParameters(properties.getAsInitParameters());
 		return registration;
 	}
-
 }
