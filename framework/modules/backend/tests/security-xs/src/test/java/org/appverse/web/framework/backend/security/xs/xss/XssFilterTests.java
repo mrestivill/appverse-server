@@ -23,23 +23,44 @@
  */
 package org.appverse.web.framework.backend.security.xs.xss;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.Proxy.Type;
+
 import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.BasicAuthenticationService;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.test.OutputCapture;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.stereotype.Controller;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * IMPORTANT: If you use an authentication method that relies on JSESSIONID, you need to set the Spring Boot property
@@ -59,17 +80,49 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {XssTestsConfigurationApplication.class})
+@SpringApplicationConfiguration
 @WebIntegrationTest(randomPort= true, 
-					value={"security.sessions=NEVER",
+					value={"security.basic.enabled=false",
+						   "security.sessions=NEVER",
 						   "appverse.security.xs.xsrf.filter.enabled=false"})
 public class XssFilterTests {
 	
 	@Autowired
 	private AnnotationConfigEmbeddedWebApplicationContext context;
 	
+	@Rule
+	public OutputCapture capture = new OutputCapture();	
+	
 	// Be Careful!!! TestRestTemplate ignores cookies
-	TestRestTemplate restTemplate = new TestRestTemplate();	
+	RestTemplate restTemplate = new RestTemplate();	
+	
+	@Configuration
+	@EnableAutoConfiguration
+	@RestController
+	//@Controller
+	public static class ApplicationTest {
+
+		public static void main(String[] args) {
+			SpringApplication.run(ApplicationTest.class, args);
+		}
+
+		@RequestMapping(value="/test", method = RequestMethod.POST)
+		public void test(@RequestHeader("testHeader") String testHeader,
+				         @RequestBody String requestBody){
+			System.out.println(testHeader);
+			System.out.println(requestBody);			
+		}
+		
+		@RequestMapping(value="/test/{var}", method = RequestMethod.GET)
+		public String test2(@RequestHeader("testHeader") String testHeader,
+				          @PathVariable String var){
+			System.out.println(testHeader);
+			System.out.println(var);
+			return "";
+		}
+	}
+	
+	
 	
 	@Test
 	public void testInitParameterConfiguration() {
@@ -90,7 +143,8 @@ public class XssFilterTests {
 	/*
 	 * Enable this init method if you need to use a proxy to debug (fiddler, for instance)
 	 * This is required as passing regular JVM arguments for proxy setup seems not to work with RestTemplate
-	 * as it uses Apache HttpClient 
+	 * as it uses Apache HttpClient
+	 */ 
     @Before
     public void initProxy(){    	
 		SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
@@ -98,21 +152,29 @@ public class XssFilterTests {
 	    requestFactory.setProxy(proxy);
 	    restTemplate = new RestTemplate(requestFactory);    	
     }
-	 */
 	
 	@Test
-	public void testXssFilter() throws Exception{		
-
-	}		
-				
-	@Configuration
-	@Order(-1)
-	protected static class AuthenticationManagerCustomizer extends
-			GlobalAuthenticationConfigurerAdapter {
-
-		@Override
-		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-		}
-	}	
+	public void testXssFilterPost() throws Exception{
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("testHeader", "add here xss");
+		HttpEntity<String> entity = new HttpEntity<String>("testParamInBody1=testvalue1", headers);
+		
+		int port = context.getEmbeddedServletContainer().getPort();
+		ResponseEntity<String> entityResult = restTemplate.postForEntity("http://localhost:" + port + "/test", entity, String.class);		
+		assertThat(capture.toString(), containsString("add here xss"));
+		assertThat(capture.toString(), containsString("testParamInBody1=testvalue1"));
+	}
+	
+	@Test
+	public void testXssFilterGet() throws Exception{
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("testHeader", "add here xss");
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		
+		int port = context.getEmbeddedServletContainer().getPort();
+		restTemplate.exchange("http://localhost:" + port + "/test/blabla", HttpMethod.GET, entity, String.class);
+		//ResponseEntity<String> entityResult = restTemplate.getForEntity("http://localhost:" + port + "/test/blabla", String.class, entity);		
+		assertThat(capture.toString(), containsString("add here xss"));
+		assertThat(capture.toString(), containsString("blabla"));
+	}
 }
