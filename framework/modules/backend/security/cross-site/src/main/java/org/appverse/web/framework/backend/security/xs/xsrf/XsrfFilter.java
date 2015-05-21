@@ -54,7 +54,7 @@ import jodd.util.Wildcard;
  * - exludes: comma separated string patterns to be excluded if found in uri for using XSRFCheckFilter. It is applied only if all urls are matched.
  * - genXsrfPath: Single path which will generate the XSRF Token.
  */
-public class XSRFCheckFilter implements Filter {
+public class XsrfFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;

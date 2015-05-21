@@ -52,9 +52,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -76,9 +73,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {XSRFModuleTestsConfigurationApplication.class})
-@WebIntegrationTest(randomPort= true)
-public class XSRFCheckFilterTests {
+@SpringApplicationConfiguration(classes = {XsrfTestsConfigurationApplication.class})
+@WebIntegrationTest(randomPort= true, 
+					value={"security.sessions=NEVER", 
+						   "appverse.security.xs.xsrf.filter.exclude=/api/sec/login"})
+public class XsrfFilterTests {
 	
 	@Autowired
 	private AnnotationConfigEmbeddedWebApplicationContext context;

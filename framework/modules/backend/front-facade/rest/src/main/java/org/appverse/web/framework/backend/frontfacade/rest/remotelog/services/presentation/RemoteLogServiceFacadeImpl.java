@@ -32,7 +32,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
-import org.appverse.web.framework.backend.frontfacade.rest.remotelog.RemoteLogConstants;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.managers.RemoteLogManager;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogResponseVO;

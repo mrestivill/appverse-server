@@ -28,16 +28,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 
 @SpringBootApplication
-
-public class XSRFModuleTestsConfigurationApplication extends SpringBootServletInitializer {
+public class XsrfTestsConfigurationApplication extends SpringBootServletInitializer {
 	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(XSRFModuleTestsConfigurationApplication.class);
+		return application.sources(XsrfTestsConfigurationApplication.class);
 	}
 
 	public static void main(String[] args) {
-		new XSRFModuleTestsConfigurationApplication().configure(
-				new SpringApplicationBuilder(XSRFModuleTestsConfigurationApplication.class)).run(args);
+		new XsrfTestsConfigurationApplication().configure(
+				new SpringApplicationBuilder(XsrfTestsConfigurationApplication.class)).run(args);
 	}
 }
