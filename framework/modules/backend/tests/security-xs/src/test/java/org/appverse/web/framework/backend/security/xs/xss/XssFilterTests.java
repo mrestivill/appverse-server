@@ -107,19 +107,35 @@ public class XssFilterTests {
 		}
 
 		@RequestMapping(value="/test", method = RequestMethod.POST)
-		public void test(@RequestHeader("testHeader") String testHeader,
+		public void test(@RequestHeader("testRiskyHeader") String testRiskyHeader,
+						 @RequestHeader("testSafeHeader") String testSafeHeader,
 				         @RequestBody String requestBody){
-			System.out.println(testHeader);
+			System.out.println(testRiskyHeader);
+			System.out.println(testSafeHeader);
 			System.out.println(requestBody);			
 		}
 		
-		@RequestMapping(value="/test/{var}", method = RequestMethod.GET)
-		public String test2(@RequestHeader("testHeader") String testHeader,
-				          @PathVariable String var){
-			System.out.println(testHeader);
-			System.out.println(var);
+		@RequestMapping(value="/test/{testSafeUrlpath}/{testRiskyUrlpath}", method = RequestMethod.GET)
+		public String test2(@RequestHeader("testSafeHeader") String testSafeHeader,
+				          @PathVariable String testSafeUrlpath,
+				          @PathVariable String testRiskyUrlpath){
+			System.out.println(testSafeHeader);
+			System.out.println(testSafeUrlpath);
+			System.out.println(testRiskyUrlpath);
 			return "";
 		}
+		
+		@RequestMapping(value="/test/{testSafeUrlpath}", method = RequestMethod.GET)
+		public String test3(@RequestHeader("testSafeHeader") String testSafeHeader,
+				          @PathVariable String testSafeUrlpath,
+				          @RequestParam String safeQueryStringParam,
+				          @RequestParam String riskyQueryStringParam){
+			System.out.println(testSafeHeader);
+			System.out.println(testSafeUrlpath);
+			System.out.println(safeQueryStringParam);
+			System.out.println(riskyQueryStringParam);
+			return "";
+		}		
 	}
 	
 	
@@ -154,27 +170,52 @@ public class XssFilterTests {
     }
 	
 	@Test
-	public void testXssFilterPost() throws Exception{
+	public void testXssFilterInHeader() throws Exception{
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("testHeader", "add here xss");
+		headers.set("testRiskyHeader", "<script>alert(document.cookie);</script>");
+		headers.set("testSafeHeader", "safeHeader");
 		HttpEntity<String> entity = new HttpEntity<String>("testParamInBody1=testvalue1", headers);
 		
 		int port = context.getEmbeddedServletContainer().getPort();
 		ResponseEntity<String> entityResult = restTemplate.postForEntity("http://localhost:" + port + "/test", entity, String.class);		
-		assertThat(capture.toString(), containsString("add here xss"));
+		// Risky header has been skipped
+		assertThat(capture.toString(), containsString(""));
+		// Safe header is kept
+		assertThat(capture.toString(), containsString("safeHeader"));
+		// Safe body is kept
 		assertThat(capture.toString(), containsString("testParamInBody1=testvalue1"));
 	}
 	
 	@Test
-	public void testXssFilterGet() throws Exception{
+	public void testXssFilterInUrlQueryString() throws Exception{
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("testHeader", "add here xss");
+		headers.set("testSafeHeader", "safeHeader");
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		
 		int port = context.getEmbeddedServletContainer().getPort();
-		restTemplate.exchange("http://localhost:" + port + "/test/blabla", HttpMethod.GET, entity, String.class);
-		//ResponseEntity<String> entityResult = restTemplate.getForEntity("http://localhost:" + port + "/test/blabla", String.class, entity);		
-		assertThat(capture.toString(), containsString("add here xss"));
-		assertThat(capture.toString(), containsString("blabla"));
+		restTemplate.exchange("http://localhost:" + port + "/test/safeurlpath?safeQueryStringParam=safeQueryStringParam&riskyQueryStringParam=<script>alert(document.cookie);</script>", HttpMethod.GET, entity, String.class);
+		// Safe header is kept
+		assertThat(capture.toString(), containsString("safeHeader"));
+		// Safe url path is kept
+		assertThat(capture.toString(), containsString("safeurlpath"));
+		// Safe query string parameter is kept
+		assertThat(capture.toString(), containsString("safeQueryStringParam"));	
+		// Risky query string parameter has been skipped
+		assertThat(capture.toString(), containsString(""));				
+	}
+	
+	
+	@Test
+	public void testXssFilterInUrlPath() throws Exception{
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("testSafeHeader", "safeHeader");
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		
+		int port = context.getEmbeddedServletContainer().getPort();
+		restTemplate.exchange("http://localhost:" + port + "/test/safeurlpath/<script>alert(document.cookie);</script>", HttpMethod.GET, entity, String.class);
+		// Safe header is kept
+		assertThat(capture.toString(), containsString("safeHeader"));
+		// Safe url path is kept
+		assertThat(capture.toString(), containsString("safeurlpath"));
 	}
 }
