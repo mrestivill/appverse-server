@@ -8,6 +8,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 /**
  * Properties for configuring {@link XsrfFilter}.
+ * urlPattern: the filter URL pattern
+ * match: comma separated string patterns to be found in the uri for using XSRFCheckFilter. Only uris that match these patterns will be checked. Use '*' to enable default matching.
+ * widlcards {true|false}  boolean that specifies wildcard matching for string patterns. by default false. 
+ * exludes: comma separated string patterns to be excluded if found in uri for using xss filter. It is applied only if all urls are matched.
  */
 @ConfigurationProperties(prefix = "appverse.security.xs.xss.filter")
 @EnableConfigurationProperties(XssFilterProperties.class)
