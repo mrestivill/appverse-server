@@ -76,6 +76,22 @@ public class XssProtectHttpRequestWrapper extends HttpServletRequestWrapper {
     	}
     	return Collections.enumeration(cleanValues);
     }
+    
+    @Override
+    public String getQueryString() {
+    	return sanitize(super.getQueryString());
+    }
+    
+    @Override
+    public StringBuffer getRequestURL() {
+    	return new StringBuffer(sanitize(super.getRequestURL().toString()));
+    }
+    
+    @Override
+    public String getContextPath() {
+    	return sanitize(super.getContextPath());
+    }
+    
 	
 	private String sanitize(String value) {
         if( value != null )

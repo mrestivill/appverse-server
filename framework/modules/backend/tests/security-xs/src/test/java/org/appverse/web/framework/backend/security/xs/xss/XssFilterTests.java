@@ -42,17 +42,14 @@ import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebAppl
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.test.OutputCapture;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.security.crypto.codec.Base64;
-import org.springframework.stereotype.Controller;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -99,7 +96,6 @@ public class XssFilterTests {
 	@Configuration
 	@EnableAutoConfiguration
 	@RestController
-	//@Controller
 	public static class ApplicationTest {
 
 		public static void main(String[] args) {
@@ -135,7 +131,15 @@ public class XssFilterTests {
 			System.out.println(safeQueryStringParam);
 			System.out.println(riskyQueryStringParam);
 			return "";
-		}		
+		}
+		
+		@RequestMapping(value="/test", method = RequestMethod.GET)
+		public String test4(@CookieValue(value="safeCookie") String safeCookie,
+							@CookieValue(value="riskyCookie", required=false) String riskyCookie){
+			System.out.println(safeCookie);
+			System.out.println(riskyCookie);
+			return "";
+		}				
 	}
 	
 	
@@ -160,7 +164,6 @@ public class XssFilterTests {
 	 * Enable this init method if you need to use a proxy to debug (fiddler, for instance)
 	 * This is required as passing regular JVM arguments for proxy setup seems not to work with RestTemplate
 	 * as it uses Apache HttpClient
-	 */ 
     @Before
     public void initProxy(){    	
 		SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
@@ -168,6 +171,7 @@ public class XssFilterTests {
 	    requestFactory.setProxy(proxy);
 	    restTemplate = new RestTemplate(requestFactory);    	
     }
+	 */ 
 	
 	@Test
 	public void testXssFilterInHeader() throws Exception{
@@ -177,13 +181,27 @@ public class XssFilterTests {
 		HttpEntity<String> entity = new HttpEntity<String>("testParamInBody1=testvalue1", headers);
 		
 		int port = context.getEmbeddedServletContainer().getPort();
-		ResponseEntity<String> entityResult = restTemplate.postForEntity("http://localhost:" + port + "/test", entity, String.class);		
+		restTemplate.postForEntity("http://localhost:" + port + "/test", entity, String.class);		
 		// Risky header has been skipped
 		assertThat(capture.toString(), containsString(""));
 		// Safe header is kept
 		assertThat(capture.toString(), containsString("safeHeader"));
 		// Safe body is kept
 		assertThat(capture.toString(), containsString("testParamInBody1=testvalue1"));
+	}
+	
+	@Test
+	public void testXssFilterInCookie() throws Exception{
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Cookie","safeCookie=safeCookie,riskyCookie=<script>alert(document.cookie);</script>");
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		
+		int port = context.getEmbeddedServletContainer().getPort();
+		restTemplate.exchange("http://localhost:" + port + "/test", HttpMethod.GET, entity, String.class);
+		// Safe cookie has been kept
+		assertThat(capture.toString(), containsString("safeCookie"));
+		// Risky cookie has been skipped
+		assertThat(capture.toString(), not(containsString("<script>alert(document.cookie);</script>")));
 	}
 	
 	@Test
@@ -201,7 +219,7 @@ public class XssFilterTests {
 		// Safe query string parameter is kept
 		assertThat(capture.toString(), containsString("safeQueryStringParam"));	
 		// Risky query string parameter has been skipped
-		assertThat(capture.toString(), containsString(""));				
+		assertThat(capture.toString(), not(containsString("<script>alert(document.cookie);</script>")));				
 	}
 	
 	
@@ -212,10 +230,13 @@ public class XssFilterTests {
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		
 		int port = context.getEmbeddedServletContainer().getPort();
-		restTemplate.exchange("http://localhost:" + port + "/test/safeurlpath/<script>alert(document.cookie);</script>", HttpMethod.GET, entity, String.class);
+		restTemplate.exchange("http://localhost:" + port + "/test/safeurlpath/document.cookie", HttpMethod.GET, entity, String.class);
 		// Safe header is kept
 		assertThat(capture.toString(), containsString("safeHeader"));
 		// Safe url path is kept
 		assertThat(capture.toString(), containsString("safeurlpath"));
+		// Risky URK path is skipped
+		assertThat(capture.toString(), not(containsString("document.cookie")));
+		
 	}
 }
