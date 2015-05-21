@@ -36,10 +36,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Helper class holding static methods related to security 
+ */
 public class SecurityHelper {
 
     public static final String XSRF_TOKEN_NAME = "XSRF-TOKEN";
 
+    /**
+     * Retrieves the authorities list corresponding to the currently authenticated principal
+     * @return the authorities granted to the principal
+     */
     @SuppressWarnings("unchecked")
     public static List<String> getAuthorities() {
         final Authentication authentication = SecurityContextHolder
@@ -53,13 +60,21 @@ public class SecurityHelper {
         return credentials;
     }
 
+    /**
+     * Retrieves the authenticated principal from security context
+     * @return the principal name
+     */    
     public static String getPrincipal() {
         final Authentication authentication = SecurityContextHolder
                 .getContext().getAuthentication();
         return authentication.getName();
     }
 
-
+    /**
+     * Creates a new XSRF token and stores it in session (HttpSession) preventing
+     * session fixation attack
+     * @return the XSRF token
+     */    
     public static String createXSRFToken(final HttpServletRequest request)
             throws IOException {
         // getSession(false) as this method never creates a new session
@@ -80,7 +95,8 @@ public class SecurityHelper {
     }
 
     /**
-     *
+     * Checks that an HttpServletRequest contains the correct XSRF token that has 
+     * to match the one stored in session
      * @param request
      * @throws Exception
      */
@@ -91,6 +107,13 @@ public class SecurityHelper {
         checkXSRFToken(tokenFromRequest, request);
     }
 
+    /**
+     * Checks that an HttpServletRequest contains the correct XSRF token that has 
+     * to match the one stored in session 
+     * @param xsrfToken
+     * @param request
+     * @throws Exception
+     */
     public static void checkXSRFToken(final String xsrfToken, final HttpServletRequest request)
             throws Exception {
         String sessionValue = (String) request.getSession().getAttribute(SecurityHelper.XSRF_TOKEN_NAME);

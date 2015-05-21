@@ -26,12 +26,7 @@ package org.appverse.web.framework.backend.security.xs.xss;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.Proxy.Type;
-
 import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.BasicAuthenticationService;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +42,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
