@@ -35,7 +35,8 @@ public class FrontFacadeRestAutoConfiguration /*extends ResourceConfig*/ {
 	 */
 	@PostConstruct
 	public void init() {
-		/* TODO: We need a different solution for this now (to enable - disable)
+		/* TODO: We need a different solution for this now (to enable - disable).
+		 * We might need to register Exception Handlers here
 		// Register the modules endpoints if enabled and JacksonFeature	
 		if (frontFacadeRestAutoconfigurationProperties.isRemoteLogEndpointEnabled()){
 			register(RemoteLogServiceFacadeImpl.class);
