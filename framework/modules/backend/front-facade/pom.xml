@@ -77,6 +77,7 @@
             <module>json</module>
             -->
             <module>rest</module>
+            <module>mvc</module>
             <!--
             <module>gwt-json</module>
             -->
