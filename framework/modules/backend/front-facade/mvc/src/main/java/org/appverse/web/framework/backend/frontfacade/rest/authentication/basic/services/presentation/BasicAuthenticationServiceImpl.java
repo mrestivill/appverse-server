@@ -52,9 +52,6 @@ import javax.servlet.http.HttpSession;
  * "JSESSIONID" cookie to the response.
  */
 public class BasicAuthenticationServiceImpl implements BasicAuthenticationService {
-	
-	
-	// http://stackoverflow.com/questions/29958231/can-a-spring-boot-restcontroller-be-enabled-disabled-using-properties
 
     @Autowired
 	private UserAndPasswordAuthenticationManager userAndPasswordAuthenticationManager;
