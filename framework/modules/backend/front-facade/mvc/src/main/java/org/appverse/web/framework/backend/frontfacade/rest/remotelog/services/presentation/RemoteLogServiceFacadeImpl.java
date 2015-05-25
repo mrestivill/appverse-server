@@ -52,7 +52,7 @@ public class RemoteLogServiceFacadeImpl extends AbstractPresentationService impl
      * @param remoteLogRequestVO
      * @return
      */
-    @RequestMapping(value = "${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/remotelog/log}", method = RequestMethod.POST)
+    @RequestMapping(value = "${appverse.frontfacade.rest.remoteLogEndpoint.path:/api/remotelog/log}", method = RequestMethod.POST)
     public ResponseEntity<Void> writeRemoteLog(@RequestBody RemoteLogRequestVO remoteLogRequestVO) {
         RemoteLogResponseVO remoteLogResponseVO = null;
         try{
