@@ -376,6 +376,12 @@
 				<artifactId>appverse-web-modules-backend-frontfacade-json</artifactId>
 				<version>${framework.version}</version>
 			</dependency>
+			
+            <dependency>
+                <groupId>org.appverse.web.framework.modules.backend.frontfacade.mvc</groupId>
+                <artifactId>appverse-web-modules-backend-frontfacade-mvc</artifactId>
+                <version>${framework.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
