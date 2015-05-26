@@ -17,15 +17,18 @@
 package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 
 import javax.annotation.PostConstruct;
-
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for Front Facade module when Jersey is present.
  */
 @Configuration
-public class FrontFacadeRestAutoConfiguration /*extends ResourceConfig*/ {
+@ConditionalOnClass(FrontFacadeRestAutoConfiguration.class)
+@ComponentScan("org.appverse.web.framework.backend.frontfacade.rest")
+public class FrontFacadeRestAutoConfiguration {
 	
 	public FrontFacadeRestAutoConfiguration() {
 	}

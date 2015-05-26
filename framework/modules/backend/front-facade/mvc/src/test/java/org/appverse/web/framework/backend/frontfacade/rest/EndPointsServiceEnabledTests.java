@@ -54,7 +54,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {FrontFacadeModuleTestsConfigurationApplication.class})
-@WebIntegrationTest(randomPort= true, value={"security.basic.enabled=false"})
+@WebIntegrationTest(randomPort= true)
 public class EndPointsServiceEnabledTests {
 	
 	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}")
