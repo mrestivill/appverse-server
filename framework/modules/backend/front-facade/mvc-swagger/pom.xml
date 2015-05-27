@@ -96,7 +96,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.ajar</groupId>
-			<artifactId>swagger-spring-mvc-ui</artifactId>
+			<artifactId>swagger-spring-mvc-ui</artifactId>			
 		</dependency>
 	</dependencies>
 </project>
