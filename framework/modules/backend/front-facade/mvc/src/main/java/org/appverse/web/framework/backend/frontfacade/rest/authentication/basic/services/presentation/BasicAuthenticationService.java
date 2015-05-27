@@ -34,5 +34,5 @@ import org.springframework.http.ResponseEntity;
  */
 public interface BasicAuthenticationService {
 	
-    ResponseEntity<AuthorizationData> login(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception;
+    ResponseEntity<AuthorizationData> login(String authorizationHeader, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception;
 }
