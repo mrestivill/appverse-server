@@ -32,6 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.codec.Base64;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,7 +65,7 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
      * @throws Exception
      */
     @RequestMapping(value = "${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}", method = RequestMethod.POST)
-    public ResponseEntity<AuthorizationData> login(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    public ResponseEntity<AuthorizationData> login(@RequestHeader("Authorization") String authorizationHeader, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
         String[] userNameAndPassword;
 
