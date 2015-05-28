@@ -40,7 +40,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @EntityListeners({ AuditingEntityListener.class })
 @MappedSuperclass
-public class AuditableEntity extends AbstractIntegrationBean {
+public class AuditingAbstractIntegrationBean extends AbstractIntegrationBean {
     private static final long serialVersionUID = -4532840221913116181L;
     private Date created;
     private Date updated;
