@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {UserAndPasswordAuthenticationTestsConfigurationApplication.class})
-@WebIntegrationTest
+@WebIntegrationTest(value="server.port=0")
 public class UserAndPasswordAuthenticationTests {
 	
 	@Autowired

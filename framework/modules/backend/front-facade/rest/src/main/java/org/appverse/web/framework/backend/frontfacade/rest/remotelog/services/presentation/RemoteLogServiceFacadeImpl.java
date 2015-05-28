@@ -23,6 +23,7 @@
  */
 package org.appverse.web.framework.backend.frontfacade.rest.remotelog.services.presentation;
 
+import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,12 +32,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.appverse.web.framework.backend.core.services.AbstractPresentationService;
-import org.appverse.web.framework.backend.frontfacade.rest.remotelog.RemoteLogConstants;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.managers.RemoteLogManager;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
+@Singleton
 @Path("/remotelog")
 /**
  * {@link RemoteLogServiceFacade} JAX-RS (Jersey) implementation that exposes a Remote Log REST service.

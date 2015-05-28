@@ -77,6 +77,8 @@
             <module>json</module>
             -->
             <module>rest</module>
+            <module>mvc</module>
+            <module>mvc-swagger</module>
             <!--
             <module>gwt-json</module>
             -->

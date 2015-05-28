@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.appverse.web.framework.backend.security.xs.autoconfigure.XsrfFilterAutoConfiguration,\
+org.appverse.web.framework.backend.security.xs.autoconfigure.XssFilterAutoConfiguration

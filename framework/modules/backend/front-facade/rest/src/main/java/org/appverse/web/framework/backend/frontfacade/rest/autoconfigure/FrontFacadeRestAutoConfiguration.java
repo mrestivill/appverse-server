@@ -17,6 +17,7 @@
 package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.ApplicationPath;
 
 import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.BasicAuthenticationServiceImpl;
 import org.appverse.web.framework.backend.frontfacade.rest.handler.JerseyExceptionHandler;
@@ -29,20 +30,20 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.jersey.JerseyAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for Front Facade module when Jersey is present.
  */
-//@Component
 @Configuration
 @ConditionalOnClass(name = {
 		"org.glassfish.jersey.server.spring.SpringComponentProvider",
 		"javax.servlet.ServletRegistration" })
-//@ConditionalOnBean(type = "org.glassfish.jersey.server.ResourceConfig")
 @EnableConfigurationProperties(FrontFacadeRestAutoconfigurationProperties.class)
 @AutoConfigureBefore(JerseyAutoConfiguration.class)
+@ComponentScan("org.appverse.web.framework.backend.frontfacade.rest")
+@ApplicationPath("api")
 public class FrontFacadeRestAutoConfiguration extends ResourceConfig {
 	
 	@Autowired 

@@ -49,41 +49,18 @@
 		</license>
 	</licenses>
 
-	<organization>
-		<name>Appverse</name>
-		<url>http://appverse.org</url>
-	</organization>
-
-		<issueManagement>
-		<system>Jira</system>
-		<url>https://appverse.gftlabs.com/tracker/browse/AWB/</url>
-	</issueManagement>
-
-	<ciManagement>
-		<system>Bamboo</system>
-		<url>https://appverse.gftlabs.com/builder/browse/APP</url>
-	</ciManagement>
-
-	<scm>
-		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</connection>
-		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
-		<tag>master</tag>
-		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
-	</scm>	
-
 	<dependencies>
-
-        <!-- OAuth 2.0 -->
-        <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
-        </dependency>
-
-        <!-- Servlet API dependency -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-	</dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+		</dependency>
+	</dependencies>	    
 </project>

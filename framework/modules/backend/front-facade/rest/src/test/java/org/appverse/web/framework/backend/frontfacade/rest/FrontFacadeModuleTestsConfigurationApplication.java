@@ -23,11 +23,14 @@
  */
 package org.appverse.web.framework.backend.frontfacade.rest;
 
+import org.appverse.web.framework.backend.security.xs.autoconfigure.XsrfFilterAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 
 @SpringBootApplication
+@EnableAutoConfiguration(exclude={XsrfFilterAutoConfiguration.class})
 public class FrontFacadeModuleTestsConfigurationApplication extends SpringBootServletInitializer {
 	
 	@Override
