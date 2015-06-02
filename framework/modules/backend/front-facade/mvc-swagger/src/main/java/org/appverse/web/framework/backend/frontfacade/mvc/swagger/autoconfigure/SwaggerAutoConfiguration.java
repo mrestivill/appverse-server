@@ -1,41 +1,34 @@
 package org.appverse.web.framework.backend.frontfacade.mvc.swagger.autoconfigure;
 
-import com.mangofactory.swagger.authorization.AuthorizationContext;
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
-import com.mangofactory.swagger.models.dto.builder.OAuthBuilder;
 import com.mangofactory.swagger.plugin.EnableSwagger;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
 import com.mangofactory.swagger.models.dto.ApiInfo;
-import com.mangofactory.swagger.models.dto.Authorization;
-import com.mangofactory.swagger.models.dto.AuthorizationCodeGrant;
-import com.mangofactory.swagger.models.dto.AuthorizationScope;
-import com.mangofactory.swagger.models.dto.AuthorizationType;
-import com.mangofactory.swagger.models.dto.GrantType;
-import com.mangofactory.swagger.models.dto.ImplicitGrant;
-import com.mangofactory.swagger.models.dto.LoginEndpoint;
-import com.mangofactory.swagger.models.dto.OAuth;
-import com.mangofactory.swagger.models.dto.TokenEndpoint;
-import com.mangofactory.swagger.models.dto.TokenRequestEndpoint;
 
 import org.ajar.swaggermvcui.SwaggerSpringMvcUi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.bind.RelaxedPropertyResolver;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 @EnableSwagger
 @Configuration
 @ConditionalOnClass(SwaggerSpringMvcUi.class)
-public class SwaggerAutoConfiguration {
+public class SwaggerAutoConfiguration implements EnvironmentAware {
 
   private SpringSwaggerConfig springSwaggerConfig;
+  
+  private RelaxedPropertyResolver propertyResolver;
+  
+  @Override
+  public void setEnvironment(Environment environment) {
+      this.propertyResolver = new RelaxedPropertyResolver(environment, "swagger.");
+  }
 
   @Autowired
   public void setSpringSwaggerConfig(SpringSwaggerConfig springSwaggerConfig) {
@@ -45,8 +38,8 @@ public class SwaggerAutoConfiguration {
   @Bean
   public SwaggerSpringMvcPlugin swaggerSpringMvcPlugin() {
     return new SwaggerSpringMvcPlugin(springSwaggerConfig)
-    		//.swaggerGroup("business-api")
-            /*
+    		/* Example: including groups and patterns
+    		.swaggerGroup("group")
             .includePatterns(
                     "/business.*",
                     "/some.*",
@@ -57,7 +50,7 @@ public class SwaggerAutoConfiguration {
             )
             */
             .apiInfo(apiInfo())
-            /*
+            /* TODO: Review this when we enable OAUth2 in Swagger
             .authorizationTypes(authorizationTypes())
             .authorizationContext(authorizationContext())
             */
@@ -78,18 +71,16 @@ public class SwaggerAutoConfiguration {
             "http://www.apache.org/licenses/LICENSE-2.0.html"
     );
     */
-	    ApiInfo apiInfo = new ApiInfo(
-	            "Default AppverseWeb Swagger configuration",
-	            "Showing your API below",
-	            "",
-	            "",
-	            "",
-	            ""
-	    );
-    return apiInfo;
+      return new ApiInfo(
+              propertyResolver.getProperty("title"),
+              propertyResolver.getProperty("description"),
+              propertyResolver.getProperty("termsOfServiceUrl"),
+              propertyResolver.getProperty("contact"),
+              propertyResolver.getProperty("license"),
+              propertyResolver.getProperty("licenseUrl"));
   }
 
-/*
+/* TODO: Review this when we enable OAUth2 in Swagger
   private List<AuthorizationType> authorizationTypes() {
     ArrayList<AuthorizationType> authorizationTypes = new ArrayList<AuthorizationType>();
 
@@ -115,9 +106,7 @@ public class SwaggerAutoConfiguration {
     authorizationTypes.add(oAuth);
     return authorizationTypes;
   }
-*/
-  
-/*  
+
   @Bean
   public AuthorizationContext authorizationContext() {
     List<Authorization> authorizations = newArrayList();
@@ -136,4 +125,5 @@ public class SwaggerAutoConfiguration {
     multipartResolver.setMaxUploadSize(500000);
     return multipartResolver;
   }
+
 }
