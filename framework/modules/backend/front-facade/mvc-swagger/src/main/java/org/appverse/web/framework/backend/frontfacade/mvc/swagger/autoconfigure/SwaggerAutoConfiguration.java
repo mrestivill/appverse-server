@@ -1,5 +1,7 @@
 package org.appverse.web.framework.backend.frontfacade.mvc.swagger.autoconfigure;
 
+import java.util.ArrayList;
+
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.plugin.EnableSwagger;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
@@ -49,12 +51,25 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
                     "/test.*"
             )
             */
+    		.includePatterns(getIncludePatterns())
             .apiInfo(apiInfo())
             /* TODO: Review this when we enable OAUth2 in Swagger
             .authorizationTypes(authorizationTypes())
             .authorizationContext(authorizationContext())
             */
             .build();
+  }
+
+  /**
+   * Patterns to be included to appear in the swagger-ui page
+   */
+  private String[] getIncludePatterns(){
+	  String includePatterns = propertyResolver.getProperty("includePatterns");
+	  if (includePatterns == null){
+		  String[] pattern = {".*?"};
+		  return pattern;
+	  }
+	  return includePatterns.split(",");		 
   }
 
   /**
