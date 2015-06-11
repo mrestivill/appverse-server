@@ -21,8 +21,9 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.presentation;
+package org.appverse.web.framework.backend.frontfacade.rest.authentication.simple.services.presentation;
 
+import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.presentation.BasicAuthenticationService;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.managers.UserAndPasswordAuthenticationManager;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
@@ -45,16 +46,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@ConditionalOnProperty(value="appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled", matchIfMissing=true)
+@ConditionalOnProperty(value="appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled", matchIfMissing=true)
 /**
- * {@link BasicAuthenticationService} Spring MVC implementation. Exposes a Basic Autentication service for REST services 
+ * {@link BasicAuthenticationService} Spring MVC implementation. Exposes a Basic Autentication service for REST services
  * providing a "login" service.
  * The controller obtains "Authorization" header, accordding to Basic Authentication, from the request in order to obtain
  * username and password and delegates in a service that authenticates the user.
  * The controller creates an HttpSession so that the user is already authenticated in successive requests and adds a
  * "JSESSIONID" cookie to the response.
  */
-public class BasicAuthenticationServiceImpl implements BasicAuthenticationService {
+public class SimpleAuthenticationServiceImpl implements SimpleAuthenticationService {
 
     @Autowired
 	private UserAndPasswordAuthenticationManager userAndPasswordAuthenticationManager;
@@ -66,24 +67,12 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}", method = RequestMethod.POST)
-    public ResponseEntity<AuthorizationData> login(@RequestHeader("Authorization") String authorizationHeader, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-
-        String[] userNameAndPassword;
+    @RequestMapping(value = "${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/simplelogin}", method = RequestMethod.POST)
+    public ResponseEntity<AuthorizationData> login(CredentialsVO credentials, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
         // Invalidate session if exists
         HttpSession httpSession = httpServletRequest.getSession(false);
         if (httpSession != null) httpSession.invalidate();
-
-        //validate format
-        try{
-            userNameAndPassword = obtainUserAndPasswordFromBasicAuthenticationHeader(httpServletRequest);
-        }
-        catch (BadCredentialsException e){
-            httpServletResponse.addHeader("WWW-Authenticate", "Basic");
-            return new ResponseEntity<AuthorizationData>(HttpStatus.UNAUTHORIZED);
-        }
-        //validate user
 
         //Create and set the cookie
         httpServletRequest.getSession(true);
@@ -95,42 +84,18 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
         String xsrfToken = SecurityHelper.createXSRFToken(httpServletRequest);
         httpServletResponse.addHeader(SecurityHelper.XSRF_TOKEN_NAME, xsrfToken);
         try{
+            if (credentials == null || credentials.getUsername() == null) {
+                throw new BadCredentialsException("Invalid parameters");
+            }
             // Authenticate principal and return authorization data
-            AuthorizationData authData = userAndPasswordAuthenticationManager.authenticatePrincipal(userNameAndPassword[0], userNameAndPassword[1]);
+            AuthorizationData authData = userAndPasswordAuthenticationManager.authenticatePrincipal(credentials.getUsername(),credentials.getPassword());
             // AuthorizationDataVO
             return new ResponseEntity<AuthorizationData>(authData, HttpStatus.OK);
         }
         catch (AuthenticationException e){
-            httpServletResponse.addHeader("WWW-Authenticate", "Basic");
             return new ResponseEntity<AuthorizationData>(HttpStatus.UNAUTHORIZED);
         }
         //return Response.status(Response.Status.OK).entity(authData).build();
     }
 
-
-    private String[] obtainUserAndPasswordFromBasicAuthenticationHeader(HttpServletRequest httpServletRequest) throws Exception{
-        // Authorization header
-        String authHeader = httpServletRequest.getHeader("Authorization");
-
-        if (authHeader == null) {
-            throw new BadCredentialsException("Authorization header not found");
-        }
-
-        // Decode the authorization string
-        String token;
-        try{
-            //Excluded "Basic " initial string
-            byte[] decoded = Base64.decode(authHeader.substring(6).getBytes());
-            token = new String(decoded);
-        } catch (IllegalArgumentException e) {
-            throw new BadCredentialsException("Failed to decode basic authentication token");
-        }
-
-        int separator = token.indexOf(":");
-
-        if (separator == -1) {
-            throw new BadCredentialsException("Invalid basic authentication token");
-        }
-        return new String[] {token.substring(0, separator), token.substring(separator + 1)};
-    }    
 }

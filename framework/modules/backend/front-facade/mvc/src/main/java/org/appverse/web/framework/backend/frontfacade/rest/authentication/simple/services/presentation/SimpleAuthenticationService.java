@@ -1,8 +1,8 @@
-/*
+package org.appverse.web.framework.backend.frontfacade.rest.authentication.simple.services.presentation;/*
  Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
 
  This Source Code Form is subject to the terms of the Appverse Public License 
- Version 2.0 (“APL v2.0�?). If a copy of the APL was not distributed with this 
+ Version 2.0 (“APL v2.0”). If a copy of the APL was not distributed with this 
  file, You can obtain one at http://www.appverse.mobi/licenses/apl_v2.0.pdf. [^]
 
  Redistribution and use in source and binary forms, with or without modification, 
@@ -21,20 +21,14 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.presentation;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.springframework.http.ResponseEntity;
 
-/**
- * Basic Authentication REST service 
- */
-public interface BasicAuthenticationService {
-	
-    ResponseEntity<AuthorizationData> login(String authorizationHeader, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+public interface SimpleAuthenticationService {
+ ResponseEntity<AuthorizationData> login(CredentialsVO credentials, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception;
 }
