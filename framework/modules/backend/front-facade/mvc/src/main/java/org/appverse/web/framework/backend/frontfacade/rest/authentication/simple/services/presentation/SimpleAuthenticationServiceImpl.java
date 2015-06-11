@@ -35,10 +35,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.codec.Base64;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +65,7 @@ public class SimpleAuthenticationServiceImpl implements SimpleAuthenticationServ
      * @throws Exception
      */
     @RequestMapping(value = "${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/simplelogin}", method = RequestMethod.POST)
-    public ResponseEntity<AuthorizationData> login(CredentialsVO credentials, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    public ResponseEntity<AuthorizationData> login(@RequestBody CredentialsVO credentials, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
         // Invalidate session if exists
         HttpSession httpSession = httpServletRequest.getSession(false);

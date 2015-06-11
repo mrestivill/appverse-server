@@ -25,6 +25,7 @@ package org.appverse.web.framework.backend.frontfacade.rest;
 
 import static org.junit.Assert.assertEquals;
 
+import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.junit.Test;
@@ -53,6 +54,9 @@ public class EndPointsDisabledTests {
 	
 	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}")
 	private String basicAuthenticationEndpointPath;
+
+	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/api/sec/simplelogin}")
+	private String simpleAuthenticationEndpointPath;
 	
 	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/api/remotelog/log}")
 	private String remoteLogEndpointPath;
@@ -87,5 +91,20 @@ public class EndPointsDisabledTests {
 		// TODO!!Why when the controller is disbled by property returns 405 instead of 404? 
 		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+	}
+	@Test
+	public void simpleAuthenticationServiceTest() throws Exception{
+		int port = context.getEmbeddedServletContainer().getPort();
+
+		CredentialsVO credentialsVO = new CredentialsVO();
+		credentialsVO.setUsername("user");
+		credentialsVO.setPassword("password");
+		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
+
+
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		// TODO!!Why when the controller is disbled by property returns 401 instead of 404?
+		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 	}
 }

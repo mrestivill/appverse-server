@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.appverse.web.framework.backend.security.xs.SecurityHelper;
@@ -59,6 +60,9 @@ public class EndPointsServiceEnabledTests {
 	
 	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}")
 	private String basicAuthenticationEndpointPath;
+
+	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/api/sec/simplelogin}")
+	private String simpleAuthenticationEndpointPath;
 	
 	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/api/remotelog/log}")
 	private String remoteLogEndpointPath;
@@ -77,6 +81,20 @@ public class EndPointsServiceEnabledTests {
 		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + remoteLogEndpointPath, logRequestVO, String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 	}
+
+	@Test
+	public void basicAuthenticationServiceTestInvalidCredentials() throws Exception{
+		this.context.register(AuthenticationManagerCustomizer.class);
+
+		int port = context.getEmbeddedServletContainer().getPort();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Basic " + new String(Base64.encode("user:badpassword".getBytes("UTF-8"))));
+		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
+
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+	}
 	
 	@Test
 	public void basicAuthenticationServiceTest() throws Exception{
@@ -92,6 +110,60 @@ public class EndPointsServiceEnabledTests {
 		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		
+		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
+		assertNotNull(xsrfTokenHeaders);
+		assertEquals(xsrfTokenHeaders.size(), 1);
+		assertNotNull(xsrfTokenHeaders.get(0));
+		AuthorizationData authorizationData = responseEntity.getBody();
+		assertNotNull(authorizationData);
+		List<String> roles = authorizationData.getRoles();
+		assertNotNull(roles);
+		assertEquals(roles.size(), 1);
+		assertEquals(roles.get(0), "ROLE_USER");
+	}
+
+	@Test
+	public void simpleAuthenticationServiceTestNoCredentials() throws Exception{
+		this.context.register(AuthenticationManagerCustomizer.class);
+
+		int port = context.getEmbeddedServletContainer().getPort();
+
+		CredentialsVO credentialsVO = new CredentialsVO();
+		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
+
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+	}
+	@Test
+	public void simpleAuthenticationServiceTestInvalidCredentials() throws Exception{
+		this.context.register(AuthenticationManagerCustomizer.class);
+
+		int port = context.getEmbeddedServletContainer().getPort();
+
+		CredentialsVO credentialsVO = new CredentialsVO();
+		credentialsVO.setUsername("user");
+		credentialsVO.setPassword("badpassword");
+		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
+
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+	}
+
+	@Test
+	public void simpleAuthenticationServiceTest() throws Exception{
+
+		this.context.register(AuthenticationManagerCustomizer.class);
+
+		int port = context.getEmbeddedServletContainer().getPort();
+
+		CredentialsVO credentialsVO = new CredentialsVO();
+		credentialsVO.setUsername("user");
+		credentialsVO.setPassword("password");
+		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
+
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
 		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
 		assertNotNull(xsrfTokenHeaders);
 		assertEquals(xsrfTokenHeaders.size(), 1);
