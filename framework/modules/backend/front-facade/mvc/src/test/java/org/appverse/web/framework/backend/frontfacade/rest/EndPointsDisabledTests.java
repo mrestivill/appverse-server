@@ -49,7 +49,8 @@ import org.springframework.web.client.RestTemplate;
 @SpringApplicationConfiguration(classes = {FrontFacadeModuleTestsConfigurationApplication.class})
 @WebIntegrationTest(randomPort= true, 
 					value={"appverse.frontfacade.rest.remoteLogEndpoint.enabled=false",
-						   "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false"})
+						    "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
+							"appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false"})
 public class EndPointsDisabledTests {
 	
 	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}")
@@ -103,8 +104,8 @@ public class EndPointsDisabledTests {
 
 
 		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
-		// TODO!!Why when the controller is disbled by property returns 401 instead of 404?
+		// TODO!!Why when the controller is disbled by property returns 405 instead of 404?
 		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
 	}
 }
