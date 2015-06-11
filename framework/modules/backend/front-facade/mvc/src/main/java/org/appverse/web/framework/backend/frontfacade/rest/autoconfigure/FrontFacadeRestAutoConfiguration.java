@@ -19,6 +19,7 @@ package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 import javax.annotation.PostConstruct;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 

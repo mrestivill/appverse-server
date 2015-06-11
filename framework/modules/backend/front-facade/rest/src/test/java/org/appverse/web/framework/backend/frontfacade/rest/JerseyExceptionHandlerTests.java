@@ -38,12 +38,19 @@ public class JerseyExceptionHandlerTests {
      * Test if response is the one expected from the jersey resource..
      */
     @Test
-    public void test() {
+    public void testOk() {
     	int port = context.getEmbeddedServletContainer().getPort();
         ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/api/hello", String.class);
     	String data = response.getBody();
         assertEquals("Hello World!", data);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    @Test
+    public void testNotFound() {
+        int port = context.getEmbeddedServletContainer().getPort();
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/api/badurl", String.class);
+        String data = response.getBody();
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
     
     /**

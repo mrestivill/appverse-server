@@ -23,8 +23,6 @@
  */
 package org.appverse.web.framework.backend.frontfacade.rest;
 
-import static org.junit.Assert.assertEquals;
-
 import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
@@ -45,12 +43,16 @@ import org.springframework.security.crypto.codec.Base64;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
+import static org.junit.Assert.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {FrontFacadeModuleTestsConfigurationApplication.class})
 @WebIntegrationTest(randomPort= true, 
 					value={"appverse.frontfacade.rest.remoteLogEndpoint.enabled=false",
 						    "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
-							"appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false"})
+							"appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false",
+							"appverse.frontfacade.rest.exceptionHandler.enabled=false"
+					})
 public class EndPointsDisabledTests {
 	
 	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}")
@@ -107,5 +109,17 @@ public class EndPointsDisabledTests {
 		// TODO!!Why when the controller is disbled by property returns 405 instead of 404?
 		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+	}
+
+	@Test
+	public void testExceptionHandler() {
+		int port = context.getEmbeddedServletContainer().getPort();
+		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:"+port+"/api/exc", String.class);
+		String data = response.getBody();
+		assertNotNull("contains  message", data);
+		assertTrue("contains default message", data.contains("timestamp"));
+		assertTrue("contains message message", data.contains("kk"));
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+
 	}
 }

@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 
+import org.appverse.web.framework.backend.core.AbstractException;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ErrorVO;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ResponseDataVO;
 
@@ -27,16 +28,18 @@ public class JerseyExceptionHandler implements ExceptionMapper<Exception> {
 		ErrorVO error = new ErrorVO();
 		ResponseDataVO data = new ResponseDataVO();
 		data.setErrorVO(error);
+		long code = 500L;
 		Response.Status statusResponse = Status.INTERNAL_SERVER_ERROR; // DEFAULT
 		if (exception instanceof NotFoundException) {
 			statusResponse = Status.NOT_FOUND;
-			error.setCode(((NotFoundException) exception).getResponse()
-					.getStatus());
-			error.setMessage(exception.getMessage());
-		} else {
-			error.setCode(500L);
-			error.setMessage(exception.getMessage());
+			code = statusResponse.getStatusCode();
+		}  else if(exception instanceof AbstractException) {
+			if (((AbstractException) exception).getCode() != null) {
+				code = ((AbstractException) exception).getCode();
+			}
 		}
+		error.setCode(code);
+		error.setMessage(exception.getMessage());
 
 		/**
 		 * TODO Might be interesting the Status Code could be

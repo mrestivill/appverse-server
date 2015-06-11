@@ -47,6 +47,14 @@ public class MvcExceptionHandlerTests {
         assertEquals("Hello World!", data);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
+    @Test
+    public void testNotFound() {
+        int port = context.getEmbeddedServletContainer().getPort();
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/api/badurl", String.class);
+        String data = response.getBody();
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
     
     /**
      * Test if the response comes from JerseyExceptionHandler.

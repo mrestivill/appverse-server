@@ -25,6 +25,7 @@ package org.appverse.web.framework.backend.frontfacade.rest.handler;/*
 import org.appverse.web.framework.backend.core.AbstractException;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ErrorVO;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ResponseDataVO;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+@ConditionalOnProperty(value="appverse.frontfacade.rest.exceptionHandler.enabled", matchIfMissing=true)
 @ControllerAdvice(annotations = {RestController.class, Controller.class})
 public class MvcExceptionHandler {
 
