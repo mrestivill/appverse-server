@@ -105,5 +105,25 @@ public class AuditingAbstractIntegrationBean extends AbstractIntegrationBean {
     public void setId(long id) {
         this.id = id;
     }
-
+    
+	// Always add condition "if (id == 0 || id != other.id)" so in case that
+	// Dozer non-cummulative collections and remove-orphans in mappings works
+	// fine
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		AuditingAbstractIntegrationBean other = (AuditingAbstractIntegrationBean) obj;
+		if (id == 0 || id != other.id) {
+			return false;
+		}
+		return true;
+	}
 }
