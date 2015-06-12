@@ -25,8 +25,8 @@ package org.appverse.web.framework.backend.security.oauth2;
 
 import javax.sql.DataSource;
 
-import org.appverse.web.framework.backend.security.oauth2.configuration.AuthorizationServerWithJDBCStoreConfigurerAdapter;
-import org.appverse.web.framework.backend.security.oauth2.configuration.ResourceServerWithJDBCStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore.ResourceServerWithJDBCStoreConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -68,7 +68,7 @@ public class Application {
 					.resourceIds("oauth2-resource")
 					.accessTokenValiditySeconds(60);
 		}
-	}	
+	}
 	
 	@Configuration
 	@Order(-1)
