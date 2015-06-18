@@ -23,7 +23,6 @@
  */
 package org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.presentation;
 
-import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.managers.UserAndPasswordAuthenticationManager;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.appverse.web.framework.backend.security.xs.SecurityHelper;
@@ -46,6 +45,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @ConditionalOnProperty(value="appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled", matchIfMissing=true)
+@RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}", method = RequestMethod.POST)
 /**
  * {@link BasicAuthenticationService} Spring MVC implementation. Exposes a Basic Autentication service for REST services 
  * providing a "login" service.
@@ -66,7 +66,7 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}", method = RequestMethod.POST)
+    @RequestMapping(value = "${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/sec/login}", method = RequestMethod.POST)
     public ResponseEntity<AuthorizationData> login(@RequestHeader("Authorization") String authorizationHeader, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
         String[] userNameAndPassword;

@@ -55,13 +55,16 @@ import static org.junit.Assert.*;
 					})
 public class EndPointsDisabledTests {
 	
-	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}")
+	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
+	private String baseApiPath;
+	
+	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/sec/login}")
 	private String basicAuthenticationEndpointPath;
 
-	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/api/sec/simplelogin}")
+	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/sec/simplelogin}")
 	private String simpleAuthenticationEndpointPath;
 	
-	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/api/remotelog/log}")
+	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}")
 	private String remoteLogEndpointPath;
 	
 	@Autowired
@@ -76,7 +79,7 @@ public class EndPointsDisabledTests {
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
 		 
-		ResponseEntity<String> responseEntity = restTemplate.postForEntity("http://localhost:" + port + remoteLogEndpointPath, logRequestVO, String.class);
+		ResponseEntity<String> responseEntity = restTemplate.postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, logRequestVO, String.class);
 		// TODO!!Why when the controller is disbled by property returns 405 instead of 404? 
 		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
@@ -90,7 +93,7 @@ public class EndPointsDisabledTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		// TODO!!Why when the controller is disbled by property returns 405 instead of 404? 
 		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
@@ -105,7 +108,7 @@ public class EndPointsDisabledTests {
 		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
 
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		// TODO!!Why when the controller is disbled by property returns 405 instead of 404?
 		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
@@ -114,7 +117,7 @@ public class EndPointsDisabledTests {
 	@Test
 	public void testExceptionHandler() {
 		int port = context.getEmbeddedServletContainer().getPort();
-		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:"+port+"/api/exc", String.class);
+		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + baseApiPath + "/exc", String.class);
 		String data = response.getBody();
 		assertNotNull("contains  message", data);
 		assertTrue("contains default message", data.contains("timestamp"));

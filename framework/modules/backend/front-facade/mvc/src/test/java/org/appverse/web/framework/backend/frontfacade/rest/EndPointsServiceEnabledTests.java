@@ -58,13 +58,16 @@ import org.springframework.web.client.RestTemplate;
 @WebIntegrationTest(randomPort= true)
 public class EndPointsServiceEnabledTests {
 	
-	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}")
+	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
+	private String baseApiPath;
+	
+	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/sec/login}")
 	private String basicAuthenticationEndpointPath;
 
-	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/api/sec/simplelogin}")
+	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/sec/simplelogin}")
 	private String simpleAuthenticationEndpointPath;
 	
-	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/api/remotelog/log}")
+	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}")
 	private String remoteLogEndpointPath;
 	
 	@Autowired
@@ -78,7 +81,7 @@ public class EndPointsServiceEnabledTests {
 		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
-		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + remoteLogEndpointPath, logRequestVO, String.class);
+		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, logRequestVO, String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 	}
 
@@ -92,7 +95,7 @@ public class EndPointsServiceEnabledTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:badpassword".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 	}
 	
@@ -107,7 +110,7 @@ public class EndPointsServiceEnabledTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		
 		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
@@ -131,7 +134,7 @@ public class EndPointsServiceEnabledTests {
 		CredentialsVO credentialsVO = new CredentialsVO();
 		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 	}
 	@Test
@@ -145,7 +148,7 @@ public class EndPointsServiceEnabledTests {
 		credentialsVO.setPassword("badpassword");
 		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 	}
 
@@ -161,7 +164,7 @@ public class EndPointsServiceEnabledTests {
 		credentialsVO.setPassword("password");
 		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
 		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);

@@ -34,6 +34,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -66,6 +67,12 @@ import org.springframework.web.client.RestTemplate;
 @IntegrationTest(value={"server.port=0",
 		         "appverse.security.xs.xsrf.filter.enabled=false"})
 public class Oauth2RESTProtectedAPITests extends AbstractIntegrationTests {
+	
+	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
+	private String baseApiPath;
+		
+	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}")
+	private String remoteLogEndpointPath;
 	
 	@Autowired
     private FilterChainProxy springSecurityFilterChain;
@@ -158,7 +165,7 @@ public class Oauth2RESTProtectedAPITests extends AbstractIntegrationTests {
         
         int port = server.getEmbeddedServletContainer().getPort();
         
-        ResponseEntity<String> result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + "/api/remotelog/log", remoteLogRequest, String.class);
+        ResponseEntity<String> result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
         assertEquals(HttpStatus.OK, result2.getStatusCode());
 	}
 	
@@ -170,7 +177,7 @@ public class Oauth2RESTProtectedAPITests extends AbstractIntegrationTests {
         
         int port = server.getEmbeddedServletContainer().getPort();
 		
-		ResponseEntity<String> response = http.getRestTemplate().postForEntity("http://localhost:" + port + "/api/remotelog/log", remoteLogRequest, String.class);
+		ResponseEntity<String> response = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));
