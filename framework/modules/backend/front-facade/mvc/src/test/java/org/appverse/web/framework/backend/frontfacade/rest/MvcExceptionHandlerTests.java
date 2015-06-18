@@ -4,6 +4,7 @@ import org.appverse.web.framework.backend.frontfacade.rest.beans.ResponseDataVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
@@ -25,6 +26,10 @@ import static org.junit.Assert.assertTrue;
         "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
         "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false"})
 public class MvcExceptionHandlerTests {
+	
+	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
+	private String baseApiPath;
+	
 	@Autowired
 	private AnnotationConfigEmbeddedWebApplicationContext context;
 	
@@ -35,14 +40,13 @@ public class MvcExceptionHandlerTests {
     public void init() {
     }
  
- 
     /**
      * Test if response is the one expected from the jersey resource..
      */
     @Test
     public void test() {
     	int port = context.getEmbeddedServletContainer().getPort();
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/api/hello", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + baseApiPath + "/hello", String.class);
         String data = response.getBody();
         assertEquals("Hello World!", data);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -51,7 +55,7 @@ public class MvcExceptionHandlerTests {
     @Test
     public void testNotFound() {
         int port = context.getEmbeddedServletContainer().getPort();
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/api/badurl", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + baseApiPath +  "/badurl", String.class);
         String data = response.getBody();
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -62,7 +66,7 @@ public class MvcExceptionHandlerTests {
     @Test
     public void testExceptionHandler() {
     	int port = context.getEmbeddedServletContainer().getPort();
-        ResponseEntity<ResponseDataVO> response = restTemplate.getForEntity("http://localhost:"+port+"/api/exc", ResponseDataVO.class);
+        ResponseEntity<ResponseDataVO> response = restTemplate.getForEntity("http://localhost:" + port + baseApiPath + "/exc", ResponseDataVO.class);
         ResponseDataVO data = response.getBody();
         assertEquals(500, data.getErrorVO().getCode());
         assertTrue("contains message", data.getErrorVO().getMessage().contains("kk"));

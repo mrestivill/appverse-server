@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}", method = RequestMethod.POST)
 public class TestExceptionHandlingResource extends AbstractPresentationService{
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)

@@ -37,6 +37,7 @@ import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -79,6 +80,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 						   "appverse.security.xs.xsrf.filter.exclude=/api/sec/login"})
 public class XsrfFilterTests {
 	
+	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
+	private String baseApiPath;
+	
+	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/sec/login}")
+	private String basicAuthenticationEndpointPath;
+	
+	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}")
+	private String remoteLogEndpointPath;
+	
 	@Autowired
 	private AnnotationConfigEmbeddedWebApplicationContext context;
 	
@@ -117,7 +127,7 @@ public class XsrfFilterTests {
 				FilterRegistrationBean.class);
 		assertThat(registrationBean.getInitParameters().size(), equalTo(5));
 		assertThat(registrationBean.getInitParameters().get("urlPattern"),
-				equalTo("/api/*"));		
+				equalTo(baseApiPath + "/*"));		
 		assertThat(registrationBean.getInitParameters().get("match"),
 				equalTo("*"));
 		assertThat(registrationBean.getInitParameters().get("wildcards"),
@@ -125,7 +135,7 @@ public class XsrfFilterTests {
 		assertThat(registrationBean.getInitParameters().get("getXsrfPath"),
 				equalTo("getXSRFSessionToken"));
 		assertThat(registrationBean.getInitParameters().get("exclude"),
-				equalTo("/api/sec/login"));
+				equalTo(baseApiPath + basicAuthenticationEndpointPath));
 	}
 	
 	
@@ -153,7 +163,7 @@ public class XsrfFilterTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/api/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		
 		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
@@ -180,7 +190,7 @@ public class XsrfFilterTests {
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
 		
-		ResponseEntity<String> logResponseEntity = restTemplate.exchange("http://localhost:" + port + "/api/remotelog/log", HttpMethod.POST, new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers), String.class);
+		ResponseEntity<String> logResponseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, HttpMethod.POST, new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers), String.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, logResponseEntity.getStatusCode());
 	}		
 	
@@ -195,7 +205,7 @@ public class XsrfFilterTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + "/api/sec/login", HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		
 		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
@@ -225,7 +235,7 @@ public class XsrfFilterTests {
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
 		
-		ResponseEntity<String> logResponseEntity = restTemplate.exchange("http://localhost:" + port + "/api/remotelog/log", HttpMethod.POST, new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers), String.class);
+		ResponseEntity<String> logResponseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, HttpMethod.POST, new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers), String.class);
 		assertEquals(HttpStatus.OK, logResponseEntity.getStatusCode());
 	}
 			
