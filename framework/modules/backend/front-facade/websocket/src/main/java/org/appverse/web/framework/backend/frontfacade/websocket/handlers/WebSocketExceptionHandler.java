@@ -25,6 +25,7 @@ package org.appverse.web.framework.backend.frontfacade.websocket.handlers;/*
 import org.appverse.web.framework.backend.core.AbstractException;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ErrorVO;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ResponseDataVO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @ConditionalOnProperty(value="appverse.frontfacade.websocket.exceptionHandler.enabled", matchIfMissing=true)
 public class WebSocketExceptionHandler {
+
     @MessageExceptionHandler()
-    @SendToUser("/queue/errors")
+    @SendToUser("${appverse.frontfacade.websocket.exceptionHandler.path:/queue/errors}")
     public ResponseEntity<ResponseDataVO> handleError(HttpServletRequest req, Exception exception) {
         ResponseDataVO data = new ResponseDataVO();
         ErrorVO error = new ErrorVO();

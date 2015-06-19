@@ -31,11 +31,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 @Configuration
 @ConditionalOnProperty(value="appverse.frontfacade.websocket.enabled", matchIfMissing=true)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.websocket")
+@EnableWebSocketMessageBroker
 public class FrontFacadeWebSocketAutoConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
     private static final Logger logger = LoggerFactory.getLogger(FrontFacadeWebSocketAutoConfiguration.class);
 
@@ -43,6 +45,8 @@ public class FrontFacadeWebSocketAutoConfiguration extends AbstractWebSocketMess
     private String defaultwebsocketEndpointPath;
     @Value("${appverse.frontfacade.websocket.simpleBrokerEndpoint.path:/topic/}")
     private String simpleBrokerEndpointPath;
+    @Value("${appverse.frontfacade.websocket.queueBrokerEndpoint.path:/queue/}")
+    private String queueBrokerEndpointPath;
     @Value("${appverse.frontfacade.websocket.applicationDestinationEndpoint.path:/app}")
     private String applicationDestinationEndpointPath;
 
@@ -53,7 +57,7 @@ public class FrontFacadeWebSocketAutoConfiguration extends AbstractWebSocketMess
     }
     @Override
     public void configureMessageBroker(final MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker(simpleBrokerEndpointPath); // destination prefix
+        registry.enableSimpleBroker(simpleBrokerEndpointPath, queueBrokerEndpointPath); // destination prefix
         registry.setApplicationDestinationPrefixes(applicationDestinationEndpointPath);
     }
 }
