@@ -27,6 +27,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -40,5 +44,16 @@ public class FrontFacadeModuleTestsConfigurationApplication extends SpringBootSe
 	public static void main(String[] args) {
 		new FrontFacadeModuleTestsConfigurationApplication().configure(
 				new SpringApplicationBuilder(FrontFacadeModuleTestsConfigurationApplication.class)).run(args);
+	}
+	
+	@Configuration
+	@Order(-1)
+	protected static class AuthenticationManagerCustomizer extends
+			GlobalAuthenticationConfigurerAdapter {
+
+		@Override
+		public void init(AuthenticationManagerBuilder auth) throws Exception {
+			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+		}
 	}
 }

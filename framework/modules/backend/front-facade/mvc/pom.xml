@@ -95,7 +95,7 @@
   		<dependency>
 			<groupId>org.appverse.web.framework.modules.backend.security.xs</groupId>
 			<artifactId>appverse-web-modules-backend-security-xs</artifactId>
-  		</dependency>
+  		</dependency>  		
   		   
         <!--test dependencies-->
         <dependency>
@@ -103,6 +103,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpclient</artifactId>
+        	<scope>test</scope>
+    	</dependency>
 	</dependencies>
 </project>

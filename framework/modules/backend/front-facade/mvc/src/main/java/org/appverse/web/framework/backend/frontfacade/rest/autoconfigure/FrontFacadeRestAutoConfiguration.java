@@ -17,11 +17,18 @@
 package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 
 import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for Front Facade module when Jersey is present.
@@ -39,20 +46,39 @@ public class FrontFacadeRestAutoConfiguration {
 	 */
 	@PostConstruct
 	public void init() {
-		/* TODO: We need a different solution for this now (to enable - disable).
-		 * We might need to register Exception Handlers here
-		// Register the modules endpoints if enabled and JacksonFeature	
-		if (frontFacadeRestAutoconfigurationProperties.isRemoteLogEndpointEnabled()){
-			register(RemoteLogServiceFacadeImpl.class);
-		}
-		if (frontFacadeRestAutoconfigurationProperties.isBasicAuthenticationEndpointEnabled()){
-			register(BasicAuthenticationServiceImpl.class);			
-		}
-		if( frontFacadeRestAutoconfigurationProperties.isJerseyExceptionHandlerEnabled()) {
-			register(JerseyExceptionHandler.class);
-		}
-		register(JacksonFeature.class);
-		*/
 	}
+	
+	@Configuration
+	@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+	@ConditionalOnProperty(value="appverse.frontfacade.rest.basicAuthentication.enabled", matchIfMissing=true)
+	protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
+		
+		@Value("${appverse.frontfacade.rest.api.basepath:/api}")
+		private String baseApiPath;
+		
+		@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/sec/login}")
+		private String basicAuthenticationEndpointPath;
 
+		@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/sec/simplelogin}")
+		private String simpleAuthenticationEndpointPath;
+				
+		@Autowired
+		private SecurityProperties security;
+		
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+	        http
+	        .csrf()
+	        	.disable()
+	        .authorizeRequests()
+	        	.antMatchers(baseApiPath + basicAuthenticationEndpointPath).permitAll()
+	        	.antMatchers(baseApiPath + simpleAuthenticationEndpointPath).permitAll()
+                .antMatchers(baseApiPath + "/**").fullyAuthenticated()
+                .antMatchers("/").permitAll()
+                .and()
+            .logout()
+                .permitAll().and()
+            .httpBasic();
+		}
+	}	
 }
