@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -86,8 +86,8 @@
         <jdk.target>1.8</jdk.target>
 	
 		<framework.version>2.0.0-SNAPSHOT</framework.version>
-		<spring.boot.version>1.2.3.RELEASE</spring.boot.version>
-        <spring.oauth2.version>2.0.2.RELEASE</spring.oauth2.version>
+		<spring.boot.version>1.2.4.RELEASE</spring.boot.version>
+        <spring.oauth2.version>2.0.6.RELEASE</spring.oauth2.version>
         
         <dozer.version>5.5.1</dozer.version>    
         <gwt.version>2.7.0</gwt.version>	
@@ -448,7 +448,7 @@
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
-                <version>2.0.6.RELEASE</version>
+                <version>${spring.oauth2.version}</version>
             </dependency>
 			<!-- END OF SPRING FRAMEWORK MANAGED DEPENDENCIES -->
 
@@ -931,6 +931,12 @@
 				<groupId>com.mangofactory</groupId>
 				<artifactId>swagger-springmvc</artifactId>
 				<version>1.0.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.3.1</version>
 			</dependency>
 
 			<dependency>
