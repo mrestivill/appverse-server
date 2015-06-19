@@ -387,9 +387,15 @@
 				<groupId>org.appverse.web.framework.modules.backend.frontfacade.mvc.swagger</groupId>
 				<artifactId>appverse-web-modules-backend-frontfacade-mvc-swagger</artifactId>
 				<version>${framework.version}</version>
-			</dependency>                        
+			</dependency>
 
-            <dependency>
+			<dependency>
+				<groupId>org.appverse.web.framework.modules.backend.frontfacade.websocket</groupId>
+				<artifactId>appverse-web-modules-backend-frontfacade-websocket</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+
+			<dependency>
                 <groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
                 <artifactId>appverse-web-modules-backend-frontfacade-rest</artifactId>
                 <version>${framework.version}</version>
