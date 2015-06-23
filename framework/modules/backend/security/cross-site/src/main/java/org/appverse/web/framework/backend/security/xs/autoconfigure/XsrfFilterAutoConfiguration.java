@@ -2,6 +2,7 @@ package org.appverse.web.framework.backend.security.xs.autoconfigure;
 
 import org.appverse.web.framework.backend.security.xs.xsrf.XsrfFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,7 +20,9 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(XsrfFilterProperties.class)
 public class XsrfFilterAutoConfiguration {
 	
-	private String DEFAULT_URL_PATTERN = "/api/*";
+	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
+	private String baseApiPath;
+	
 	private String DEFAULT_MATCH = "*";
 	private String DEFAULT_EXCLUDE = null;
 	private Boolean DEFAULT_WILCARDS = Boolean.FALSE;
@@ -34,7 +37,7 @@ public class XsrfFilterAutoConfiguration {
 
 		// Default values if not set
 		if (properties.getUrlPattern() == null ||  properties.getUrlPattern().isEmpty()){
-			properties.setUrlPattern(DEFAULT_URL_PATTERN);
+			properties.setUrlPattern(baseApiPath + "/*");
 		}
 		if (properties.getMatch() == null ||  properties.getMatch().isEmpty()){
 			properties.setMatch(DEFAULT_MATCH);

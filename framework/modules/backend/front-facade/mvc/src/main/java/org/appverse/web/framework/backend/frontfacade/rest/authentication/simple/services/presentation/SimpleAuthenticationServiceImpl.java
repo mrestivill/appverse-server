@@ -44,6 +44,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @ConditionalOnProperty(value="appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled", matchIfMissing=true)
+@RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}", method = RequestMethod.POST)
 /**
  * {@link BasicAuthenticationService} Spring MVC implementation. Exposes a Basic Autentication service for REST services
  * providing a "login" service.
@@ -64,7 +65,7 @@ public class SimpleAuthenticationServiceImpl implements SimpleAuthenticationServ
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/simplelogin}", method = RequestMethod.POST)
+    @RequestMapping(value = "${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/sec/simplelogin}", method = RequestMethod.POST)
     public ResponseEntity<AuthorizationData> login(@RequestBody CredentialsVO credentials, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
         // Invalidate session if exists

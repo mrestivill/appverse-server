@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @ConditionalOnProperty(value="appverse.frontfacade.rest.remoteLogEndpoint.enabled", matchIfMissing=true)
+@RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}")
 /**
  * {@link RemoteLogServiceFacade} Spring MVC implementation that exposes a Remote Log REST service.
  */
@@ -52,7 +53,7 @@ public class RemoteLogServiceFacadeImpl extends AbstractPresentationService impl
      * @param remoteLogRequestVO
      * @return
      */
-    @RequestMapping(value = "${appverse.frontfacade.rest.remoteLogEndpoint.path:/api/remotelog/log}", method = RequestMethod.POST)
+    @RequestMapping(value = "${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}", method = RequestMethod.POST)
     public ResponseEntity<Void> writeRemoteLog(@RequestBody RemoteLogRequestVO remoteLogRequestVO) {
         RemoteLogResponseVO remoteLogResponseVO = null;
         try{

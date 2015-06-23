@@ -16,12 +16,14 @@
 
 package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 
-import javax.annotation.PostConstruct;
+import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.configuration.AppverseBasicAuthenticationConfigurerAdapter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for Front Facade module when Jersey is present.
@@ -31,28 +33,9 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.rest")
 public class FrontFacadeRestAutoConfiguration {
 	
-	public FrontFacadeRestAutoConfiguration() {
-	}
-	
-	/*
-	 * Init method requires to be annotated with {@link PostConstruct} as we need properties to be injected 
-	 */
-	@PostConstruct
-	public void init() {
-		/* TODO: We need a different solution for this now (to enable - disable).
-		 * We might need to register Exception Handlers here
-		// Register the modules endpoints if enabled and JacksonFeature	
-		if (frontFacadeRestAutoconfigurationProperties.isRemoteLogEndpointEnabled()){
-			register(RemoteLogServiceFacadeImpl.class);
-		}
-		if (frontFacadeRestAutoconfigurationProperties.isBasicAuthenticationEndpointEnabled()){
-			register(BasicAuthenticationServiceImpl.class);			
-		}
-		if( frontFacadeRestAutoconfigurationProperties.isJerseyExceptionHandlerEnabled()) {
-			register(JerseyExceptionHandler.class);
-		}
-		register(JacksonFeature.class);
-		*/
-	}
-
+	@Configuration
+	@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+	@ConditionalOnProperty(value="appverse.frontfacade.rest.basicAuthentication.enabled", matchIfMissing=true)
+	protected static class AppverseWebBasicAuthConfiguration extends AppverseBasicAuthenticationConfigurerAdapter {		
+	}	
 }

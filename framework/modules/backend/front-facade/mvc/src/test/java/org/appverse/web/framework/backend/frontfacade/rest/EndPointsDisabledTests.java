@@ -48,20 +48,24 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {FrontFacadeModuleTestsConfigurationApplication.class})
 @WebIntegrationTest(randomPort= true, 
-					value={"appverse.frontfacade.rest.remoteLogEndpoint.enabled=false",
-						    "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
-							"appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false",
-							"appverse.frontfacade.rest.exceptionHandler.enabled=false"
+					value={"appverse.frontfacade.rest.basicAuthentication.enabled=true",
+						   "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
+						   "appverse.frontfacade.rest.remoteLogEndpoint.enabled=false",
+						   "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false",
+						   "appverse.frontfacade.rest.exceptionHandler.enabled=false"
 					})
 public class EndPointsDisabledTests {
 	
-	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/api/sec/login}")
+	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
+	private String baseApiPath;
+	
+	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/sec/login}")
 	private String basicAuthenticationEndpointPath;
 
-	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/api/sec/simplelogin}")
+	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/sec/simplelogin}")
 	private String simpleAuthenticationEndpointPath;
 	
-	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/api/remotelog/log}")
+	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}")
 	private String remoteLogEndpointPath;
 	
 	@Autowired
@@ -70,13 +74,18 @@ public class EndPointsDisabledTests {
 	RestTemplate restTemplate = new TestRestTemplate();
 	
 	@Test
-	public void remoteLogServiceDisabledTest() {
+	public void remoteLogServiceDisabledTest() throws Exception {
 		int port = context.getEmbeddedServletContainer().getPort();
 		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
+		HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		
 		 
-		ResponseEntity<String> responseEntity = restTemplate.postForEntity("http://localhost:" + port + remoteLogEndpointPath, logRequestVO, String.class);
+		ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, HttpMethod.POST, entity, String.class);
 		// TODO!!Why when the controller is disbled by property returns 405 instead of 404? 
 		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
@@ -90,7 +99,7 @@ public class EndPointsDisabledTests {
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		// TODO!!Why when the controller is disbled by property returns 405 instead of 404? 
 		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
@@ -105,21 +114,9 @@ public class EndPointsDisabledTests {
 		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
 
 
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		// TODO!!Why when the controller is disbled by property returns 405 instead of 404?
 		// assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
-	}
-
-	@Test
-	public void testExceptionHandler() {
-		int port = context.getEmbeddedServletContainer().getPort();
-		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:"+port+"/api/exc", String.class);
-		String data = response.getBody();
-		assertNotNull("contains  message", data);
-		assertTrue("contains default message", data.contains("timestamp"));
-		assertTrue("contains message message", data.contains("kk"));
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-
 	}
 }
