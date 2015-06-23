@@ -22,5 +22,20 @@ package org.appverse.web.framework.backend.frontfacade.websocket.support;/*
  POSSIBILITY OF SUCH DAMAGE.
  */
 
+import org.springframework.messaging.Message;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.simp.stomp.StompSession;
+
 public interface StompMessageHandler {
+
+ void afterConnected(StompSession session, StompHeaderAccessor headers);
+
+ void handleMessage(Message<byte[]> message);
+
+ void handleReceipt(String receiptId);
+
+ void handleError(Message<byte[]> message);
+
+ void afterDisconnected();
+
 }

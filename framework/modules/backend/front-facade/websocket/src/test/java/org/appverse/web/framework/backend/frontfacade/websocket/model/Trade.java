@@ -22,7 +22,7 @@ package org.appverse.web.framework.backend.frontfacade.websocket.model;/*
  POSSIBILITY OF SUCH DAMAGE.
  */
 
-public class entity {
+public class Trade {
 
  private String ticker;
 

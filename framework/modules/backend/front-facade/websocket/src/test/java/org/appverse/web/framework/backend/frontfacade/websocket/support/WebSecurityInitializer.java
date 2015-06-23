@@ -22,5 +22,7 @@ package org.appverse.web.framework.backend.frontfacade.websocket.support;/*
  POSSIBILITY OF SUCH DAMAGE.
  */
 
-public class WebSecurityInitializer {
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+
+public class WebSecurityInitializer extends AbstractSecurityWebApplicationInitializer {
 }

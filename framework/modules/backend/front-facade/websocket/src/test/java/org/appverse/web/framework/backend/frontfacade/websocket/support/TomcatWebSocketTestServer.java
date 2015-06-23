@@ -23,29 +23,38 @@ package org.appverse.web.framework.backend.frontfacade.websocket.support;/*
  */
 
 import org.apache.catalina.Context;
+import org.apache.catalina.Wrapper;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.apache.tomcat.websocket.server.WsContextListener;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.SocketUtils;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.apache.tomcat.util.descriptor.web.ApplicationParameter;
+import org.springframework.web.SpringServletContainerInitializer;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 
-public class TomcatWebSocketTestServer implements InitializingBean, DisposableBean {
+public class TomcatWebSocketTestServer implements WebSocketTestServer {
+
+ private static final String WS_APPLICATION_LISTENER =
+         WsContextListener.class.getName();
 
  private final Tomcat tomcatServer;
 
  private final int port;
 
- private final AnnotationConfigWebApplicationContext serverContext;
+ private Context context;
 
- public TomcatWebSocketTestServer(Class<?>... serverConfigs) {
-  this.port = SocketUtils.findAvailableTcpPort();
+
+ public TomcatWebSocketTestServer(int port) {
+
+  this.port = port;
+
   Connector connector = new Connector(Http11NioProtocol.class.getName());
   connector.setPort(this.port);
 
@@ -57,19 +66,11 @@ public class TomcatWebSocketTestServer implements InitializingBean, DisposableBe
   this.tomcatServer.setPort(this.port);
   this.tomcatServer.getService().addConnector(connector);
   this.tomcatServer.setConnector(connector);
-
-  this.serverContext = new AnnotationConfigWebApplicationContext();
-  this.serverContext.register(serverConfigs);
-
-  Context context = this.tomcatServer.addContext("", System.getProperty("java.io.tmpdir"));
-  context.addApplicationListener(WsContextListener.class.getName());
-  Tomcat.addServlet(context, "dispatcherServlet", new DispatcherServlet(this.serverContext)).setAsyncSupported(true);
-  context.addServletMapping("/", "dispatcherServlet");
  }
 
  private File createTempDir(String prefix) {
   try {
-   File tempFolder = File.createTempFile(prefix + ".", "." + this.port);
+   File tempFolder = File.createTempFile(prefix + ".", "." + getPort());
    tempFolder.delete();
    tempFolder.mkdir();
    tempFolder.deleteOnExit();
@@ -80,21 +81,46 @@ public class TomcatWebSocketTestServer implements InitializingBean, DisposableBe
   }
  }
 
- public AnnotationConfigWebApplicationContext getServerContext() {
-  return this.serverContext;
- }
-
- public String getWsBaseUrl() {
-  return "ws://localhost:" + this.port;
+ public int getPort() {
+  return this.port;
  }
 
  @Override
- public void afterPropertiesSet() throws Exception {
+ public void deployConfig(WebApplicationContext cxt) {
+  this.context = this.tomcatServer.addContext("", System.getProperty("java.io.tmpdir"));
+  this.context.addApplicationListener(WS_APPLICATION_LISTENER);
+  Tomcat.addServlet(context, "dispatcherServlet", new DispatcherServlet(cxt));
+  this.context.addServletMapping("/", "dispatcherServlet");
+ }
+
+ public void deployConfig(Class<? extends WebApplicationInitializer>... initializers) {
+
+  this.context = this.tomcatServer.addContext("", System.getProperty("java.io.tmpdir"));
+
+  // Add Tomcat's DefaultServlet
+  Wrapper defaultServlet = this.context.createWrapper();
+  defaultServlet.setName("default");
+  defaultServlet.setServletClass("org.apache.catalina.servlets.DefaultServlet");
+  this.context.addChild(defaultServlet);
+
+  // Ensure WebSocket support
+  this.context.addApplicationListener(WS_APPLICATION_LISTENER);
+
+  this.context.addServletContainerInitializer(
+          new SpringServletContainerInitializer(), new HashSet<Class<?>>(Arrays.asList(initializers)));
+ }
+
+ public void undeployConfig() {
+  if (this.context != null) {
+   this.tomcatServer.getHost().removeChild(this.context);
+  }
+ }
+
+ public void start() throws Exception {
   this.tomcatServer.start();
  }
 
- @Override
- public void destroy() throws Exception {
+ public void stop() throws Exception {
   this.tomcatServer.stop();
  }
 

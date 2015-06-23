@@ -22,6 +22,8 @@ package org.appverse.web.framework.backend.frontfacade.websocket.config;/*
  POSSIBILITY OF SUCH DAMAGE.
  */
 
+import org.appverse.web.framework.backend.frontfacade.websocket.autoconfigure.FrontFacadeWebSocketAutoConfiguration;
+import org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletRegistration;
@@ -35,7 +37,7 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 
  @Override
  protected Class<?>[] getServletConfigClasses() {
-  return new Class<?>[] { WebConfig.class, WebSocketConfig.class };
+  return new Class<?>[] { DelegatingWebMvcConfiguration.class, FrontFacadeWebSocketAutoConfiguration.class };
  }
 
  @Override

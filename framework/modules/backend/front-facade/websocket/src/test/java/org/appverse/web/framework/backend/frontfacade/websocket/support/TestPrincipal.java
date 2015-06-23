@@ -22,5 +22,20 @@ package org.appverse.web.framework.backend.frontfacade.websocket.support;/*
  POSSIBILITY OF SUCH DAMAGE.
  */
 
-public class TestPrincipal {
+import java.security.Principal;
+
+public class TestPrincipal  implements Principal {
+
+ private final String name;
+
+
+ public TestPrincipal(String name) {
+  this.name = name;
+ }
+
+ @Override
+ public String getName() {
+  return this.name;
+ }
+
 }

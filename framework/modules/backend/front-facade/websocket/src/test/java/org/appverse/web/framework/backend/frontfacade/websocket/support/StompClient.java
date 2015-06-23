@@ -23,4 +23,7 @@ package org.appverse.web.framework.backend.frontfacade.websocket.support;/*
  */
 
 public interface StompClient {
+
+ void connect(StompMessageHandler messageHandler);
+
 }
