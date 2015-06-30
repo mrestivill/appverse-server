@@ -66,16 +66,6 @@
 			<groupId>org.appverse.web.framework.modules.backend.frontfacade.mvc</groupId>
 			<artifactId>appverse-web-modules-backend-frontfacade-mvc</artifactId>
 		</dependency>		
-		<!-- 
-        <dependency>
-			<groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
-			<artifactId>appverse-web-modules-backend-frontfacade-rest</artifactId>
-		</dependency>
-		<dependency>        
-  			<groupId>org.appverse.web.framework.modules.backend.core.enterprise.log</groupId>
-  			<artifactId>appverse-web-modules-backend-core-enterprise-log</artifactId>
-  		</dependency>
-  		 -->		
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
