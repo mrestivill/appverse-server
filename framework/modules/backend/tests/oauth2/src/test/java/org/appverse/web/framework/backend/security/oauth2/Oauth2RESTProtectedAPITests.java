@@ -65,7 +65,9 @@ import org.springframework.web.client.RestTemplate;
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @IntegrationTest(value={"server.port=0",
-		         "appverse.security.xs.xsrf.filter.enabled=false"})
+		         "appverse.security.xs.xsrf.filter.enabled=false",
+		         "appverse.frontfacade.oauth2.apiprotection.enabled=true",
+		         "appverse.frontfacade.rest.basicAuthentication.enabled=false"})
 public class Oauth2RESTProtectedAPITests extends AbstractIntegrationTests {
 	
 	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
