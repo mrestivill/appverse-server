@@ -424,6 +424,12 @@
                 <artifactId>appverse-web-modules-backend-security-oauth2</artifactId>
                 <version>${framework.version}</version>
             </dependency>
+            
+            <dependency>
+  				<groupId>org.appverse.web.framework.modules.backend.tests.test-utilities.oauth2</groupId>
+  				<artifactId>appverse-web-modules-backend-test-utilities-oauth2</artifactId>
+                <version>${framework.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.appverse.web.framework.modules.backend.ecm.core</groupId>

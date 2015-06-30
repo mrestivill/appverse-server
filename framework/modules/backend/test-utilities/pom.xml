@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -8,13 +8,13 @@
 		<version>9</version>
 	</parent>
 
-	<groupId>org.appverse.web.framework.poms.modules.backend</groupId>
-	<artifactId>appverse-web-modules-backend-pom</artifactId>
+	<groupId>org.appverse.web.framework.poms.modules.backend.test-utilities</groupId>
+	<artifactId>appverse-web-modules-backend-test-utilities-pom</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Appverse Web Framework Modules Backend POM</name>
-	<description>Appverse Web Framework Modules Backend POM</description>
+	<name>Appverse Web Framework Modules Backend Test Utilities POM</name>
+	<description>Appverse Web Framework Modules Backend Test Utilities POM</description>
 	<url>http://appverse.org/projects/appverse-web/</url>
 	<inceptionYear>2011</inceptionYear>
 
@@ -69,19 +69,10 @@
 		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
 		<tag>master</tag>
 		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
-	</scm>	
-
+	</scm>
+	
 	<modules>
-<!-- 		<module>aspect</module> -->
-<!-- 		<module>batch</module> -->
-		<module>core</module>
-                <module>tests</module>
- 		<module>front-facade</module>
-                <module>test-utilities</module>
-<!-- 		<module>messaging</module> -->
-<!-- 		<module>reporting</module> -->
-<!--         <module>ecm</module> -->
-                <module>security</module>
+		<module>oauth2</module>
 	</modules>
 
 </project>
