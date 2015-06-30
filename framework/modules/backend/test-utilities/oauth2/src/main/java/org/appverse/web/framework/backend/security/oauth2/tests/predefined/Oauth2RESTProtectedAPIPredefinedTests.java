@@ -56,7 +56,7 @@ import org.springframework.web.client.RestTemplate;
  * Otherwise you will experience exactly the problem described here:
  * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 
  */
-public class Oauth2RESTProtectedAPIPredefinedTests extends AbstractIntegrationTests {
+public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractIntegrationTests {
 	
 	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
 	private String baseApiPath;
@@ -78,14 +78,6 @@ public class Oauth2RESTProtectedAPIPredefinedTests extends AbstractIntegrationTe
 	
 	RestTemplate restTemplate = new TestRestTemplate();
 	
-	protected String getPassword() {
-		return "password";
-	}
-
-	protected String getUsername() {
-		return "user";
-	}	
-
 	@Test
 	public void contextLoads() {
 		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof JdbcTokenStore);
@@ -172,5 +164,9 @@ public class Oauth2RESTProtectedAPIPredefinedTests extends AbstractIntegrationTe
 		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));
 	}
+
+	protected abstract String getPassword();
+
+	protected abstract String getUsername();
 	
 }

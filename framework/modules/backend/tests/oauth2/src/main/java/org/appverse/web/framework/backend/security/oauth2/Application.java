@@ -82,8 +82,8 @@ public class Application {
 
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.jdbcAuthentication().dataSource(dataSource).withUser("admin")
-					.password("admin").roles("USER");
+			auth.jdbcAuthentication().dataSource(dataSource).withUser("user")
+					.password("password").roles("USER");
 		}
 	}
 }

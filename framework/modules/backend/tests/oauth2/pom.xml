@@ -54,10 +54,6 @@
 			<groupId>org.appverse.web.framework.modules.backend.security.oauth2</groupId>
 			<artifactId>appverse-web-modules-backend-security-oauth2</artifactId>
 		</dependency>
-        <dependency>
-			<groupId>org.appverse.web.framework.modules.backend.frontfacade.mvc</groupId>
-			<artifactId>appverse-web-modules-backend-frontfacade-mvc</artifactId>
-		</dependency>
 		<dependency>        
   			<groupId>org.appverse.web.framework.modules.backend.core.enterprise.log</groupId>
   			<artifactId>appverse-web-modules-backend-core-enterprise-log</artifactId>

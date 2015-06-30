@@ -179,15 +179,7 @@ public abstract class AbstractIntegrationTests {
 	protected Collection<? extends HttpMessageConverter<?>> getAdditionalConverters() {
 		return Collections.emptySet();
 	}
-
-	protected String getPassword() {
-		return security.getUser().getPassword();
-	}
-
-	protected String getUsername() {
-		return security.getUser().getName();
-	}
-
+	
 	public interface DoNotOverride {
 
 	}
@@ -272,5 +264,9 @@ public abstract class AbstractIntegrationTests {
 	public static String authorizePath() {
 		return globalAuthorizePath;
 	}
+	
+	protected abstract String getPassword();
+
+	protected abstract String getUsername();
 
 }
