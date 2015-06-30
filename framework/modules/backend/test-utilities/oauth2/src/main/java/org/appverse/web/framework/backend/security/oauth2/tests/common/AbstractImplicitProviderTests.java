@@ -21,7 +21,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.common;
+package org.appverse.web.framework.backend.security.oauth2.tests.common;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
