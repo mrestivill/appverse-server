@@ -1,20 +1,21 @@
-﻿<?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>9</version>
+		<groupId>org.appverse.web.framework.poms</groupId>
+		<artifactId>appverse-web-masterpom</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+		<relativePath>../../../..</relativePath>
 	</parent>
 
-	<groupId>org.appverse.web.framework.poms.modules.backend.test-utilities</groupId>
-	<artifactId>appverse-web-modules-backend-test-utilities-pom</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<groupId>org.appverse.web.framework.modules.backend.tests.test-utilities.frontfacade-mvc</groupId>
+	<artifactId>appverse-web-modules-backend-test-utilities-frontfacade-mvc</artifactId>
+	<packaging>jar</packaging>
 
-	<name>Appverse Web Framework Modules Backend Test Utilities POM</name>
-	<description>Appverse Web Framework Modules Backend Test Utilities POM</description>
+	<name>Appverse Web Framework Backend Test Utilities Frontfacade MVC</name>
+	<description>Appverse Web Framework Backend Test Utilities Frontfacade MVC</description>
 	<url>http://appverse.org/projects/appverse-web/</url>
 	<inceptionYear>2011</inceptionYear>
 
@@ -24,7 +25,7 @@
 			<url>http://appverse.org/legal/appverse-license/</url>
 			<distribution>repo</distribution>
 			<comments>
-	 		Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
+	 		 Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
 			
 			 This Source Code Form is subject to the terms of the Appverse Public License 
 			 Version 2.0 (“APL v2.0”). If a copy of the APL was not distributed with this 
@@ -49,31 +50,21 @@
 		</license>
 	</licenses>
 
-	<organization>
-		<name>Appverse</name>
-		<url>http://appverse.org</url>
-	</organization>
-
-	<issueManagement>
-		<system>Jira</system>
-		<url>https://appverse.gftlabs.com/tracker/browse/AWB/</url>
-	</issueManagement>
-
-	<ciManagement>
-		<system>Bamboo</system>
-		<url>https://appverse.gftlabs.com/builder/browse/APP</url>
-	</ciManagement>
-
-	<scm>
-		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</connection>
-		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
-		<tag>master</tag>
-		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
-	</scm>
-	
-	<modules>
-		<module>oauth2</module>
-                <module>frontfacade-mvc</module>
-	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.appverse.web.framework.modules.backend.frontfacade.mvc</groupId>
+			<artifactId>appverse-web-modules-backend-frontfacade-mvc</artifactId>
+		</dependency>
+		<!-- Added in tests scope because of exactly this problem: http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 </project>

@@ -2,7 +2,7 @@
  Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
 
  This Source Code Form is subject to the terms of the Appverse Public License 
- Version 2.0 (“APL v2.0”). If a copy of the APL was not distributed with this 
+ Version 2.0 (“APL v2.0�?). If a copy of the APL was not distributed with this 
  file, You can obtain one at http://www.appverse.mobi/licenses/apl_v2.0.pdf. [^]
 
  Redistribution and use in source and binary forms, with or without modification, 
@@ -21,23 +21,13 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2;
+package org.appverse.web.framework.backend.frontfacade.rest;
 
-import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.Oauth2RESTProtectedAPIPredefinedTests;
-import org.springframework.boot.test.IntegrationTest;
+import org.appverse.web.framework.backend.test.util.frontfacade.mvc.tests.predefined.BasicAuthEndPointsDisabledPredefinedTests;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 
-/**
- * Necessary to have httpclient for this tests (with scope tests) so that the http returns are handle correctly.
- * Otherwise you will experience exactly the problem described here:
- * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 
- */
-@SpringApplicationConfiguration(classes = Application.class)
-@IntegrationTest(value={"server.port=0",
-		         "appverse.security.xs.xsrf.filter.enabled=false",
-		         "appverse.frontfacade.oauth2.apiprotection.enabled=true",
-		         "appverse.frontfacade.rest.basicAuthentication.enabled=false"})
-public class Oauth2RESTProtectedAPITests extends Oauth2RESTProtectedAPIPredefinedTests {
+@SpringApplicationConfiguration(classes = {FrontFacadeModuleTestsConfigurationApplication.class})
+public class BasicAuthEndPointsDisabledTests extends BasicAuthEndPointsDisabledPredefinedTests {
 
 	@Override
 	protected String getPassword() {
@@ -46,7 +36,6 @@ public class Oauth2RESTProtectedAPITests extends Oauth2RESTProtectedAPIPredefine
 
 	@Override
 	protected String getUsername() {
-		return "user";
+		return"user";
 	}
-
 }

@@ -76,6 +76,7 @@
 		<module>persistence-jpa-eclipselink</module>
                 <module>security-xs</module>
                 <module>oauth2</module>
+                <module>frontfacade-mvc</module>
 	</modules>
 
 </project>

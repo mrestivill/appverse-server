@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -69,44 +70,32 @@
 		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
 		<tag>master</tag>
 		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
-	</scm>	
-	
-	<dependencies>			
+	</scm>
+
+	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<dependency>         
+		<dependency>
 			<groupId>org.appverse.web.framework.modules.backend.core.standard</groupId>
 			<artifactId>appverse-web-modules-backend-core-standard</artifactId>
-        </dependency>
+		</dependency>
 
-		<dependency>        
-  			<groupId>org.appverse.web.framework.modules.backend.core.enterprise.log</groupId>
-  			<artifactId>appverse-web-modules-backend-core-enterprise-log</artifactId>
-  		</dependency>
-  		
-  		<dependency>
+		<dependency>
+			<groupId>org.appverse.web.framework.modules.backend.core.enterprise.log</groupId>
+			<artifactId>appverse-web-modules-backend-core-enterprise-log</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.appverse.web.framework.modules.backend.security.authentication</groupId>
 			<artifactId>appverse-web-modules-backend-security-authentication</artifactId>
-  		</dependency>
-  		
-  		<dependency>
+		</dependency>
+
+		<dependency>
 			<groupId>org.appverse.web.framework.modules.backend.security.xs</groupId>
 			<artifactId>appverse-web-modules-backend-security-xs</artifactId>
-  		</dependency>  		
-  		   
-        <!--test dependencies-->
-        <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
-		<dependency>
-        	<groupId>org.apache.httpcomponents</groupId>
-        	<artifactId>httpclient</artifactId>
-        	<scope>test</scope>
-    	</dependency>
 	</dependencies>
 </project>
