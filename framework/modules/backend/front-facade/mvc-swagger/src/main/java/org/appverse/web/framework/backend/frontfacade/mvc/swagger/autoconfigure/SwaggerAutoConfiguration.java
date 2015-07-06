@@ -10,6 +10,7 @@ import com.mangofactory.swagger.models.dto.ApiInfo;
 import org.ajar.swaggermvcui.SwaggerSpringMvcUi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @EnableSwagger
 @Configuration
-@ConditionalOnClass(SwaggerSpringMvcUi.class)
+@ConditionalOnProperty(value="swagger.enabled", matchIfMissing=true)
 public class SwaggerAutoConfiguration implements EnvironmentAware {
 
   private SpringSwaggerConfig springSwaggerConfig;
