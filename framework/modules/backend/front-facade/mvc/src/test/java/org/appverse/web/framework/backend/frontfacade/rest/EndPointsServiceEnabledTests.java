@@ -40,15 +40,11 @@ import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebAppl
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
@@ -76,19 +72,22 @@ public class EndPointsServiceEnabledTests {
 	RestTemplate restTemplate = new TestRestTemplate();
 	
 	@Test
-	public void remoteLogServiceEnabledTest() {
+	public void remoteLogServiceEnabledTest() throws Exception {
 		int port = context.getEmbeddedServletContainer().getPort();
 		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
 		logRequestVO.setMessage("Test mesage!");
 		logRequestVO.setLogLevel("DEBUG");
-		ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, logRequestVO, String.class);
-		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Basic " + new String(Base64.encode("user:password".getBytes("UTF-8"))));
+		HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		 
+		ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, HttpMethod.POST, entity, String.class);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	}
 
 	@Test
 	public void basicAuthenticationServiceTestInvalidCredentials() throws Exception{
-		this.context.register(AuthenticationManagerCustomizer.class);
-
 		int port = context.getEmbeddedServletContainer().getPort();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -101,9 +100,6 @@ public class EndPointsServiceEnabledTests {
 	
 	@Test
 	public void basicAuthenticationServiceTest() throws Exception{
-		
-		this.context.register(AuthenticationManagerCustomizer.class);
-		
 		int port = context.getEmbeddedServletContainer().getPort();
 		 
 		HttpHeaders headers = new HttpHeaders();
@@ -127,8 +123,6 @@ public class EndPointsServiceEnabledTests {
 
 	@Test
 	public void simpleAuthenticationServiceTestNoCredentials() throws Exception{
-		this.context.register(AuthenticationManagerCustomizer.class);
-
 		int port = context.getEmbeddedServletContainer().getPort();
 
 		CredentialsVO credentialsVO = new CredentialsVO();
@@ -139,8 +133,6 @@ public class EndPointsServiceEnabledTests {
 	}
 	@Test
 	public void simpleAuthenticationServiceTestInvalidCredentials() throws Exception{
-		this.context.register(AuthenticationManagerCustomizer.class);
-
 		int port = context.getEmbeddedServletContainer().getPort();
 
 		CredentialsVO credentialsVO = new CredentialsVO();
@@ -154,9 +146,6 @@ public class EndPointsServiceEnabledTests {
 
 	@Test
 	public void simpleAuthenticationServiceTest() throws Exception{
-
-		this.context.register(AuthenticationManagerCustomizer.class);
-
 		int port = context.getEmbeddedServletContainer().getPort();
 
 		CredentialsVO credentialsVO = new CredentialsVO();
@@ -177,16 +166,5 @@ public class EndPointsServiceEnabledTests {
 		assertNotNull(roles);
 		assertEquals(roles.size(), 1);
 		assertEquals(roles.get(0), "ROLE_USER");
-	}
-			
-	@Configuration
-	@Order(-1)
-	protected static class AuthenticationManagerCustomizer extends
-			GlobalAuthenticationConfigurerAdapter {
-
-		@Override
-		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-		}
-	}
+	}			
 }

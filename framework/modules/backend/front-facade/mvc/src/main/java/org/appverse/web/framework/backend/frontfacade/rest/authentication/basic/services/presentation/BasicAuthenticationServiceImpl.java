@@ -45,7 +45,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @ConditionalOnProperty(value="appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled", matchIfMissing=true)
-@RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}", method = RequestMethod.POST)
+@RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}")
 /**
  * {@link BasicAuthenticationService} Spring MVC implementation. Exposes a Basic Autentication service for REST services 
  * providing a "login" service.
