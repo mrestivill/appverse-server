@@ -99,7 +99,7 @@ public class Oauth2RESTProtectedAPITests extends AbstractIntegrationTests {
 	@Test
 	public void contextLoads() {
 		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof JdbcTokenStore);
-		assertTrue("Wrong client details type: " + clientDetailsService, JdbcClientDetailsService.class.isAssignableFrom(AopUtils.getTargetClass(clientDetailsService)));
+		assertTrue("Wrong client details type: " + clientDetailsService, ClientDetailsService.class.isAssignableFrom(AopUtils.getTargetClass(clientDetailsService)));
 	}
 		
 	@Test

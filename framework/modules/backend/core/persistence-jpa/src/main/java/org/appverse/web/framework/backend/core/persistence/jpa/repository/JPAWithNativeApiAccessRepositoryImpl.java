@@ -27,8 +27,11 @@ import java.io.Serializable;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.data.jpa.provider.PersistenceProvider;
+import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 /**
  * {@link JPAWithNativeApiAccessRepository} implementation.
@@ -41,11 +44,21 @@ public class JPAWithNativeApiAccessRepositoryImpl<T, ID extends Serializable> ex
 	private final EntityManager entityManager;
 
 
-	/**
-	 * Creates a new {@link JPAWithNativeApiAccessRepository}.
-	 * @param domainClass
-	 * @param entityManager
-	 */
+    /**
+     * Creates a new {@link JPAWithNativeApiAccessRepository}.
+     * @param entityInformation
+     * @param entityManager
+     */
+    public JPAWithNativeApiAccessRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+     super(entityInformation, entityManager);
+     this.entityManager = entityManager;
+    }
+
+    /**
+     * Creates a new {@link JPAWithNativeApiAccessRepository}.
+     * @param domainClass
+     * @param entityManager
+     */
 	public JPAWithNativeApiAccessRepositoryImpl(Class<T> domainClass, EntityManager entityManager) {
 		super(domainClass, entityManager);
 		this.entityManager = entityManager;

@@ -86,9 +86,10 @@
         <jdk.target>1.8</jdk.target>
 	
 		<framework.version>2.0.0-SNAPSHOT</framework.version>
-		<spring.boot.version>1.2.4.RELEASE</spring.boot.version>
+
+		<spring.boot.version>1.3.0.M1</spring.boot.version>
         <spring.oauth2.version>2.0.6.RELEASE</spring.oauth2.version>
-        
+
         <dozer.version>5.5.1</dozer.version>    
         <gwt.version>2.7.0</gwt.version>	
     </properties>
@@ -387,9 +388,15 @@
 				<groupId>org.appverse.web.framework.modules.backend.frontfacade.mvc.swagger</groupId>
 				<artifactId>appverse-web-modules-backend-frontfacade-mvc-swagger</artifactId>
 				<version>${framework.version}</version>
-			</dependency>                        
+			</dependency>
 
-            <dependency>
+			<dependency>
+				<groupId>org.appverse.web.framework.modules.backend.frontfacade.websocket</groupId>
+				<artifactId>appverse-web-modules-backend-frontfacade-websocket</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+
+			<dependency>
                 <groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
                 <artifactId>appverse-web-modules-backend-frontfacade-rest</artifactId>
                 <version>${framework.version}</version>
@@ -666,7 +673,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
-                <version>4.3.8.Final</version>
+                <version>4.3.10.Final</version>
             </dependency>
 
 			<dependency>

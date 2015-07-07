@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.appverse.web.framework.backend.frontfacade.websocket.autoconfigure.FrontFacadeWebSocketAutoConfiguration
