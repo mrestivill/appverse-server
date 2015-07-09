@@ -161,20 +161,7 @@
 							<exclude>**/Abstract*.java</exclude>
 						</excludes>
 					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<configuration>
-						<failOnMissingWebXml>false</failOnMissingWebXml>
-						<archive>
-							<manifest>
-								<mainClass>${start-class}</mainClass>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							</manifest>
-						</archive>
-					</configuration>
-				</plugin>
+				</plugin>				
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>exec-maven-plugin</artifactId>					
@@ -210,16 +197,6 @@
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
-					<executions>
-						<execution>
-							<goals>
-								<goal>repackage</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<mainClass>${start-class}</mainClass>
-					</configuration>
 					<!-- This dependency enables hot source code replacement (including changes
 						in classes and methods signatures) very handy for development -->
 					<dependencies>
