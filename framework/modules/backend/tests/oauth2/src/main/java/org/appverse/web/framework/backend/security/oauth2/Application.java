@@ -26,7 +26,6 @@ package org.appverse.web.framework.backend.security.oauth2;
 import javax.sql.DataSource;
 
 import org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
-import org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore.ResourceServerWithJDBCStoreConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -36,7 +35,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @Configuration
 @EnableAutoConfiguration()
@@ -46,10 +44,14 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
+	/* Example, you can override ResourceServerWithJDBCStoreConfigurerAdapter configure(http) method to set
+	   your own security config. Otherwise ResourceServerWithJDBCStoreConfigurerAdapter is autoconfigured
+	   by default if you have enabled OAuth2 to secure your api
 	@Configuration
 	@EnableResourceServer
 	public static class ResourceServerConfig extends ResourceServerWithJDBCStoreConfigurerAdapter{
 	}
+	*/
 	
 	@Configuration
 	@EnableAuthorizationServer	
@@ -80,8 +82,8 @@ public class Application {
 
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.jdbcAuthentication().dataSource(dataSource).withUser("admin")
-					.password("admin").roles("USER");
+			auth.jdbcAuthentication().dataSource(dataSource).withUser("user")
+					.password("password").roles("USER");
 		}
 	}
 }

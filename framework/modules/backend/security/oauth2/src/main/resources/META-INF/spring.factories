@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.appverse.web.framework.backend.security.oauth2.autoconfigure.OAuth2APIProtectionAutoConfiguration

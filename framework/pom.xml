@@ -431,7 +431,7 @@
                 <artifactId>appverse-web-modules-backend-security-oauth2</artifactId>
                 <version>${framework.version}</version>
             </dependency>
-
+            
             <dependency>
                 <groupId>org.appverse.web.framework.modules.backend.ecm.core</groupId>
                 <artifactId>appverse-web-modules-backend-ecm-core</artifactId>
@@ -449,6 +449,20 @@
                 <artifactId>appverse-web-modules-backend-ecm-cmis-filesystem</artifactId>
                 <version>${framework.version}</version>
             </dependency>
+            
+            <dependency>
+  				<groupId>org.appverse.web.framework.modules.backend.tests.test-utilities.oauth2</groupId>
+  				<artifactId>appverse-web-modules-backend-test-utilities-oauth2</artifactId>
+                <version>${framework.version}</version>
+            </dependency>
+
+            <dependency>
+				<groupId>org.appverse.web.framework.modules.backend.tests.test-utilities.frontfacade-mvc</groupId>
+				<artifactId>appverse-web-modules-backend-test-utilities-frontfacade-mvc</artifactId>
+                <version>${framework.version}</version>
+            </dependency>
+            
+            
 			<!-- END OF APPVERSE WEB FRAMEWORK MANAGED DEPENDENCIES -->
 
 			<!-- SPRING FRAMEWORK MANAGED DEPENDENCIES -->
