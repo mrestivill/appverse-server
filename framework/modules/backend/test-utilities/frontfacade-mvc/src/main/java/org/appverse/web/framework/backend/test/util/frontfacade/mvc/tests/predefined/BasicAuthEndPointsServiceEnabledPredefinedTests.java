@@ -28,10 +28,11 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
-import org.appverse.web.framework.backend.security.xs.SecurityHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,47 +48,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebIntegrationTest(randomPort= true)
-public abstract class BasicAuthEndPointsServiceEnabledPredefinedTests {
-	
-	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
-	private String baseApiPath;
-	
-	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/sec/login}")
-	private String basicAuthenticationEndpointPath;
-
-	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/sec/simplelogin}")
-	private String simpleAuthenticationEndpointPath;
+@WebIntegrationTest(randomPort= true, value="appverse.security.xs.xsrf.filter.enabled=false")
+public abstract class BasicAuthEndPointsServiceEnabledPredefinedTests extends BaseAbstractAuthenticationRequiredTest {
 	
 	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}")
-	private String remoteLogEndpointPath;
+	protected String remoteLogEndpointPath;	
 	
-	@Autowired
-	private AnnotationConfigEmbeddedWebApplicationContext context;
-	
-	RestTemplate restTemplate = new TestRestTemplate();
+	/*
+	 * Basic Authentication endpoint tests
+	 */
 	
 	@Test
-	public void remoteLogServiceEnabledTest() throws Exception {
-		int port = context.getEmbeddedServletContainer().getPort();
-		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
-		logRequestVO.setMessage("Test mesage!");
-		logRequestVO.setLogLevel("DEBUG");
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Basic " + new String(Base64.encode((getUsername() + ":" + getPassword()).getBytes("UTF-8"))));
-		HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
-		 
-		ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, HttpMethod.POST, entity, String.class);
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	public void basicAuthenticationServiceTest() throws Exception{
+		login();
 	}
-
+	
 	@Test
 	public void basicAuthenticationServiceTestInvalidCredentials() throws Exception{
-		int port = context.getEmbeddedServletContainer().getPort();
-
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "Basic " + new String(Base64.encode("user:badpassword".getBytes("UTF-8"))));
 		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
@@ -96,33 +76,84 @@ public abstract class BasicAuthEndPointsServiceEnabledPredefinedTests {
 		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 	}
 	
+	
 	@Test
-	public void basicAuthenticationServiceTest() throws Exception{
-		int port = context.getEmbeddedServletContainer().getPort();
-		 
+	public void basicAuthenticationRemoteLogServiceEnabledTest() throws Exception {
+		TestLoginInfo loginInfo = login();
+		
+		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
+		logRequestVO.setMessage("Test mesage!");
+		logRequestVO.setLogLevel("DEBUG");
+	
+		// This test requires the test CSRF Token. This implies passing JSESSIONID and CSRF Token
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Cookie", loginInfo.getJsessionid());
+		HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath)
+				.queryParam(DEFAULT_CSRF_PARAMETER_NAME, loginInfo.getXsrfToken());
+		ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	}
+	
+	@Test
+	public void basicAuthenticationRemoteLogServiceEnabledWithoutCsrfTokenTest() throws Exception {
+		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
+		logRequestVO.setMessage("Test mesage!");
+		logRequestVO.setLogLevel("DEBUG");
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "Basic " + new String(Base64.encode((getUsername() + ":" + getPassword()).getBytes("UTF-8"))));
-		HttpEntity<String> entity = new HttpEntity<String>("headers", headers);
-
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + basicAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
 		
-		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
-		assertNotNull(xsrfTokenHeaders);
-		assertEquals(xsrfTokenHeaders.size(), 1);
-		assertNotNull(xsrfTokenHeaders.get(0));
-		AuthorizationData authorizationData = responseEntity.getBody();
-		assertNotNull(authorizationData);
-		List<String> roles = authorizationData.getRoles();
-		assertNotNull(roles);
-		assertEquals(roles.size() > 0, true);
-		assertEquals(roles.contains(getAnUserRole()), true);
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+		ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
+		assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
 	}
+				
+	
+	@Test
+	public void basicAuthenticationFlowTest() throws Exception{
+		// Login first
+		TestLoginInfo loginInfo = login();
+
+		// Calling protected remotelog service
+		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
+		logRequestVO.setMessage("Test mesage!");
+		logRequestVO.setLogLevel("DEBUG");		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Cookie", loginInfo.getJsessionid());
+		HttpEntity<RemoteLogRequestVO> entityRemotelog = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+		// Try without token first - It should be 'Forbidden'
+		// http://springinpractice.com/2012/04/08/sending-cookies-with-resttemplate		
+		ResponseEntity<String> responseEntityRemotelog = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entityRemotelog, String.class);
+		assertEquals(HttpStatus.FORBIDDEN, responseEntityRemotelog.getStatusCode());
+
+		// Try now with the CSRF token - It should work well
+		// This implies passing JSESSIONID and CSRF Token
+		headers.set(DEFAULT_CSRF_HEADER_NAME, loginInfo.getXsrfToken());
+		entityRemotelog = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		responseEntityRemotelog = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entityRemotelog, String.class);
+		assertEquals(HttpStatus.OK, responseEntityRemotelog.getStatusCode());
+		
+		// TODO
+		// Calling here logout
+		
+	}
+	
+	/*
+	 * Simple Authentication (for testing and swagger purposes) endpoint tests
+	 */
+	
+	@Test
+	public void simpleAuthenticationServiceTest() throws Exception{
+		simpleLogin();
+	}		
 
 	@Test
 	public void simpleAuthenticationServiceTestNoCredentials() throws Exception{
-		int port = context.getEmbeddedServletContainer().getPort();
-
 		CredentialsVO credentialsVO = new CredentialsVO();
 		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
 
@@ -131,8 +162,6 @@ public abstract class BasicAuthEndPointsServiceEnabledPredefinedTests {
 	}
 	@Test
 	public void simpleAuthenticationServiceTestInvalidCredentials() throws Exception{
-		int port = context.getEmbeddedServletContainer().getPort();
-
 		CredentialsVO credentialsVO = new CredentialsVO();
 		credentialsVO.setUsername("user");
 		credentialsVO.setPassword("badpassword");
@@ -141,35 +170,71 @@ public abstract class BasicAuthEndPointsServiceEnabledPredefinedTests {
 		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 	}
-
+	
 	@Test
-	public void simpleAuthenticationServiceTest() throws Exception{
-		int port = context.getEmbeddedServletContainer().getPort();
-
-		CredentialsVO credentialsVO = new CredentialsVO();
-		credentialsVO.setUsername(getUsername());
-		credentialsVO.setPassword(getPassword());
-		HttpEntity<CredentialsVO> entity = new HttpEntity<CredentialsVO>(credentialsVO);
-
-		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange("http://localhost:" + port + baseApiPath + simpleAuthenticationEndpointPath, HttpMethod.POST, entity, AuthorizationData.class);
+	public void simpleAuthenticationRemoteLogServiceEnabledTest() throws Exception {
+		TestLoginInfo loginInfo = simpleLogin();
+		
+		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
+		logRequestVO.setMessage("Test mesage!");
+		logRequestVO.setLogLevel("DEBUG");
+	
+		// This test requires the test CSRF Token. This implies passing JSESSIONID and CSRF Token
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Cookie", loginInfo.getJsessionid());
+		HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath)
+				.queryParam(DEFAULT_CSRF_PARAMETER_NAME, loginInfo.getXsrfToken());
+		ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	}
+	
+	@Test
+	public void simpleAuthenticationRemoteLogServiceEnabledWithoutCsrfTokenTest() throws Exception {
+		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
+		logRequestVO.setMessage("Test mesage!");
+		logRequestVO.setLogLevel("DEBUG");
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Basic " + new String(Base64.encode((getUsername() + ":" + getPassword()).getBytes("UTF-8"))));
+		HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+		ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
+		assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+	}
+				
+	
+	@Test
+	public void simpleAuthenticationFlowTest() throws Exception{
+		// Login first
+		TestLoginInfo loginInfo = login();
 
-		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(SecurityHelper.XSRF_TOKEN_NAME);
-		assertNotNull(xsrfTokenHeaders);
-		assertEquals(xsrfTokenHeaders.size(), 1);
-		assertNotNull(xsrfTokenHeaders.get(0));
-		AuthorizationData authorizationData = responseEntity.getBody();
-		assertNotNull(authorizationData);
-		List<String> roles = authorizationData.getRoles();
-		assertNotNull(roles);
-		assertEquals(roles.size() > 0, true);
-		assertEquals(roles.contains(getAnUserRole()), true);
-	}			
-	
-	protected abstract String getPassword();
+		// Calling protected remotelog service
+		RemoteLogRequestVO logRequestVO = new RemoteLogRequestVO();
+		logRequestVO.setMessage("Test mesage!");
+		logRequestVO.setLogLevel("DEBUG");		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Cookie", loginInfo.getJsessionid());
+		HttpEntity<RemoteLogRequestVO> entityRemotelog = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+		// Try without token first - It should be 'Forbidden'
+		// http://springinpractice.com/2012/04/08/sending-cookies-with-resttemplate		
+		ResponseEntity<String> responseEntityRemotelog = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entityRemotelog, String.class);
+		assertEquals(HttpStatus.FORBIDDEN, responseEntityRemotelog.getStatusCode());
 
-	protected abstract String getUsername();
-	
-	protected abstract String getAnUserRole();
-	
+		// Try now with the CSRF token - It should work well
+		// This implies passing JSESSIONID and CSRF Token
+		headers.set(DEFAULT_CSRF_HEADER_NAME, loginInfo.getXsrfToken());
+		entityRemotelog = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		responseEntityRemotelog = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entityRemotelog, String.class);
+		assertEquals(HttpStatus.OK, responseEntityRemotelog.getStatusCode());
+		
+		// TODO
+		// Calling here logout
+		
+	}
+			
 }

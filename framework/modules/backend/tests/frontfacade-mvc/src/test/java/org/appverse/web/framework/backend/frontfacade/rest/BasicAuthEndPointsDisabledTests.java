@@ -36,6 +36,11 @@ public class BasicAuthEndPointsDisabledTests extends BasicAuthEndPointsDisabledP
 
 	@Override
 	protected String getUsername() {
-		return"user";
+		return "user";
 	}
+
+	@Override
+	protected String getAnUserRole() {
+		return "ROLE_USER";
+	}			
 }

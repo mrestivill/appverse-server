@@ -23,6 +23,8 @@
  */
 package org.appverse.web.framework.backend.frontfacade.rest;
 
+import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.configuration.AppverseBasicAuthenticationConfigurerAdapter;
+import org.appverse.web.framework.backend.test.util.frontfacade.mvc.tests.predefined.TestCsrfTokenRepository;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -31,6 +33,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -56,4 +59,19 @@ public class FrontFacadeModuleTestsConfigurationApplication extends SpringBootSe
 			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 		}
 	}
+
+	// This configuration needs to be included just for tests
+	// https://github.com/dsyer/spring-security-angular/blob/master/vanilla/ui/src/main/java/demo/UiApplication.java
+
+	/* This will not be necessary as we want to remove the TestCsrfTokenRepository
+	@Configuration
+	@Order(-1)
+	protected static class basicAuthenticationTestConfigurerAdapter extends AppverseBasicAuthenticationConfigurerAdapter{
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			super.configure(http);
+			http.csrf().csrfTokenRepository(new TestCsrfTokenRepository());			
+		}
+	}
+	*/
 }

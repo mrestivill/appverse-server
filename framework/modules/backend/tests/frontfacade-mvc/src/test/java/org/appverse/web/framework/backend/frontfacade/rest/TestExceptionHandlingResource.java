@@ -26,5 +26,6 @@ public class TestExceptionHandlingResource extends AbstractPresentationService{
     }
     
     public class SimpleBean extends ResponseDataVO {
+		private static final long serialVersionUID = 3762709404320890375L;
     }
 }

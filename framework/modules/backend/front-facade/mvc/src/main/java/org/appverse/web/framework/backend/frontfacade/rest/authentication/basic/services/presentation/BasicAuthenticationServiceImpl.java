@@ -25,7 +25,6 @@ package org.appverse.web.framework.backend.frontfacade.rest.authentication.basic
 
 import org.appverse.web.framework.backend.security.authentication.userpassword.managers.UserAndPasswordAuthenticationManager;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
-import org.appverse.web.framework.backend.security.xs.SecurityHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
@@ -33,15 +32,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.codec.Base64;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @RestController
 @ConditionalOnProperty(value="appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled", matchIfMissing=true)
@@ -51,13 +49,19 @@ import javax.servlet.http.HttpSession;
  * providing a "login" service.
  * The controller obtains "Authorization" header, accordding to Basic Authentication, from the request in order to obtain
  * username and password and delegates in a service that authenticates the user.
- * The controller creates an HttpSession so that the user is already authenticated in successive requests and adds a
- * "JSESSIONID" cookie to the response.
+ * It requires Spring Security CSRF to be enabled as this authentication endpoint (login) has to provide CSRF token for 
+ * the next requests.
+ * Session fixation it is NOT implemented in this service directly as in most of the cases it will be used in combination 
+ * with {@link AppverseBasicAuthenticationConfigurerAdapter} which provides the proper setup in order to prevent session
+ * fixation attacks. If you wanted to use this service without the aforementioned auto-configuration you should implement
+ * session fixation protection.
  */
 public class BasicAuthenticationServiceImpl implements BasicAuthenticationService {
 
     @Autowired
 	private UserAndPasswordAuthenticationManager userAndPasswordAuthenticationManager;
+    
+    private static final String CSRF_TOKEN_SESSION_ATTRIBUTE = "org.springframework.security.web.csrf.CsrfToken";
 
     /**
      * Authenticates an user. Requires basic authentication header.
@@ -71,11 +75,6 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
 
         String[] userNameAndPassword;
 
-        // Invalidate session if exists
-        HttpSession httpSession = httpServletRequest.getSession(false);
-        if (httpSession != null) httpSession.invalidate();
-
-        //validate format
         try{
             userNameAndPassword = obtainUserAndPasswordFromBasicAuthenticationHeader(httpServletRequest);
         }
@@ -83,17 +82,19 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
             httpServletResponse.addHeader("WWW-Authenticate", "Basic");
             return new ResponseEntity<AuthorizationData>(HttpStatus.UNAUTHORIZED);
         }
-        //validate user
-
-        //Create and set the cookie
-        httpServletRequest.getSession(true);
-        String jsessionId = httpServletRequest.getSession().getId();
-        Cookie sessionIdCookie = new Cookie("JSESSIONID", jsessionId);
-        httpServletResponse.addCookie(sessionIdCookie);
 
         // Obtain XSRFToken and add it as a response header
-        String xsrfToken = SecurityHelper.createXSRFToken(httpServletRequest);
-        httpServletResponse.addHeader(SecurityHelper.XSRF_TOKEN_NAME, xsrfToken);
+        // The token comes in the request (CsrFilter adds it) and we need to set it in the response so the clients 
+        // have it to use it in the next requests
+        CsrfToken csrfToken  = (CsrfToken) httpServletRequest.getAttribute(CSRF_TOKEN_SESSION_ATTRIBUTE);
+        
+        /*
+        CsrfTokenRepository csrfTokenRepository = new HttpSessionCsrfTokenRepository();
+        CsrfToken csrfToken = csrfTokenRepository.loadToken(httpServletRequest);
+        */
+        
+        httpServletResponse.addHeader(csrfToken.getHeaderName(), csrfToken.getToken());
+        
         try{
             // Authenticate principal and return authorization data
             AuthorizationData authData = userAndPasswordAuthenticationManager.authenticatePrincipal(userNameAndPassword[0], userNameAndPassword[1]);
@@ -104,7 +105,6 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
             httpServletResponse.addHeader("WWW-Authenticate", "Basic");
             return new ResponseEntity<AuthorizationData>(HttpStatus.UNAUTHORIZED);
         }
-        //return Response.status(Response.Status.OK).entity(authData).build();
     }
 
 
@@ -132,5 +132,5 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
             throw new BadCredentialsException("Invalid basic authentication token");
         }
         return new String[] {token.substring(0, separator), token.substring(separator + 1)};
-    }    
+    }           
 }
