@@ -46,8 +46,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebIntegrationTest(randomPort= true, 
-					value={"appverse.security.xs.xsrf.filter.enabled=false",
-						   "appverse.frontfacade.rest.basicAuthentication.enabled=true",
+					value={"appverse.frontfacade.rest.basicAuthentication.enabled=true",
 						   "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
 						   "appverse.frontfacade.rest.remoteLogEndpoint.enabled=false",
 						   "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false",

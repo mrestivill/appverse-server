@@ -74,8 +74,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringApplicationConfiguration
 @WebIntegrationTest(randomPort= true, 
 					value={"security.basic.enabled=false",
-						   "security.sessions=NEVER",
-						   "appverse.security.xs.xsrf.filter.enabled=false"})
+						   "security.sessions=NEVER"})
 public class XssFilterTests {
 	
 	@Autowired
