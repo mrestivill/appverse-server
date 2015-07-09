@@ -33,8 +33,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
  * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 
  */
 @SpringApplicationConfiguration(classes = Application.class)
-@IntegrationTest(value={"server.port=0",
-		         "appverse.security.xs.xsrf.filter.enabled=false",
+@IntegrationTest(value={"server.port=0",		         
 		         "appverse.frontfacade.oauth2.apiprotection.enabled=true",
 		         "appverse.frontfacade.rest.basicAuthentication.enabled=false"})
 public class Oauth2RESTProtectedAPITests extends Oauth2RESTProtectedAPIPredefinedTests {

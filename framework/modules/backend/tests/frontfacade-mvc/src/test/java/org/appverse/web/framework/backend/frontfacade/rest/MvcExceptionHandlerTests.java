@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {FrontFacadeModuleTestsConfigurationApplication.class})
-@WebIntegrationTest(randomPort= true, value="appverse.security.xs.xsrf.filter.enabled=false")
+@WebIntegrationTest(randomPort= true)
 public class MvcExceptionHandlerTests extends BaseAbstractAuthenticationRequiredTest{
 	 
     @Test

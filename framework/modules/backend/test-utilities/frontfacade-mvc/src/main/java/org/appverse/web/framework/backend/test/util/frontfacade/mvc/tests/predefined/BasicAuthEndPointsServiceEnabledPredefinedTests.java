@@ -51,7 +51,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebIntegrationTest(randomPort= true, value="appverse.security.xs.xsrf.filter.enabled=false")
+@WebIntegrationTest(randomPort= true)
 public abstract class BasicAuthEndPointsServiceEnabledPredefinedTests extends BaseAbstractAuthenticationRequiredTest {
 	
 	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}")
