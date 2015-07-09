@@ -177,10 +177,7 @@
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<configuration>
-						<mainClass>${start-class}</mainClass>
-					</configuration>
+					<artifactId>exec-maven-plugin</artifactId>					
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -210,25 +207,29 @@
 						<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
 					</configuration>
 				</plugin>
-				<!-- Support our own plugin -->
-				<!-- This has to be specified by the project itself
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
-					<version>${spring-boot.version}</version>
 					<executions>
 						<execution>
 							<goals>
 								<goal>repackage</goal>
 							</goals>
 						</execution>
-					</executions>					 
+					</executions>
 					<configuration>
 						<mainClass>${start-class}</mainClass>
 					</configuration>
+					<!-- This dependency enables hot source code replacement (including changes
+						in classes and methods signatures) very handy for development -->
+					<dependencies>
+						<dependency>
+							<groupId>org.springframework</groupId>
+							<artifactId>springloaded</artifactId>
+							<version>${spring.boot.version}</version>
+						</dependency>
+					</dependencies>
 				</plugin>
-				--> 				
-				<!-- Support shade packaging (if the user does not want to use our plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-shade-plugin</artifactId>
@@ -236,7 +237,7 @@
 						<dependency>
 							<groupId>org.springframework.boot</groupId>
 							<artifactId>spring-boot-maven-plugin</artifactId>
-							<version>${spring-boot.version}</version>
+							<version>${spring.boot.version}</version>
 						</dependency>
 					</dependencies>
 					<configuration>
