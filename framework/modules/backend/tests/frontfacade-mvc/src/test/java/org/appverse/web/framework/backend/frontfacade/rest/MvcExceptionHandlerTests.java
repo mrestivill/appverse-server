@@ -1,7 +1,7 @@
 package org.appverse.web.framework.backend.frontfacade.rest;
 
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ResponseDataVO;
-import org.appverse.web.framework.backend.test.util.frontfacade.mvc.tests.predefined.BaseAbstractAuthenticationRequiredTest;
+import org.appverse.web.framework.backend.test.util.frontfacade.BaseAbstractAuthenticationRequiredTest;
 import org.appverse.web.framework.backend.test.util.frontfacade.mvc.tests.predefined.TestLoginInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
