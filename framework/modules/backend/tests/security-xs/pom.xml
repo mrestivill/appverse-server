@@ -50,12 +50,12 @@
 	</licenses>
 
 	<dependencies>			
-        <!--test dependencies-->        
-        <dependency>
-			<groupId>org.appverse.web.framework.modules.backend.frontfacade.rest</groupId>
-			<artifactId>appverse-web-modules-backend-frontfacade-rest</artifactId>
-			<scope>test</scope>
+		<dependency>
+			<groupId>org.appverse.web.framework.modules.backend.frontfacade.mvc</groupId>
+			<artifactId>appverse-web-modules-backend-frontfacade-mvc</artifactId>
+			<scope>test</scope>		
 		</dependency>        
+		
         <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

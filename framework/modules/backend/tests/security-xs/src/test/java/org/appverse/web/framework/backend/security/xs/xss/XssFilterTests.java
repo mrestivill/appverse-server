@@ -26,7 +26,6 @@ package org.appverse.web.framework.backend.security.xs.xss;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
-import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.services.BasicAuthenticationService;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,8 +72,7 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration
 @WebIntegrationTest(randomPort= true, 
-					value={"security.basic.enabled=false",
-						   "security.sessions=NEVER"})
+					value={"security.enable-csrf=false"})
 public class XssFilterTests {
 	
 	@Autowired
@@ -151,20 +149,6 @@ public class XssFilterTests {
 		assertThat(registrationBean.getInitParameters().get("exclude"),
 				equalTo(null));
 	}
-	
-	
-	/*
-	 * Enable this init method if you need to use a proxy to debug (fiddler, for instance)
-	 * This is required as passing regular JVM arguments for proxy setup seems not to work with RestTemplate
-	 * as it uses Apache HttpClient
-    @Before
-    public void initProxy(){    	
-		SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-	    Proxy proxy= new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888));
-	    requestFactory.setProxy(proxy);
-	    restTemplate = new RestTemplate(requestFactory);    	
-    }
-	 */ 
 	
 	@Test
 	public void testXssFilterInHeader() throws Exception{

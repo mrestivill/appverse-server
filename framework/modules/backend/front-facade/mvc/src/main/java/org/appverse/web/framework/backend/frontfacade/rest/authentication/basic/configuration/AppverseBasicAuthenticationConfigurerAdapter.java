@@ -12,6 +12,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 public abstract class AppverseBasicAuthenticationConfigurerAdapter extends
 		WebSecurityConfigurerAdapter {
+	
+	@Value("${security.enable-csrf:true}")
+	protected boolean securityEnableCsrf;
 
 	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
 	protected String baseApiPath;
@@ -45,9 +48,13 @@ public abstract class AppverseBasicAuthenticationConfigurerAdapter extends
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf()
-				.requireCsrfProtectionMatcher(new CsrfSecurityRequestMatcher())
-		.and().authorizeRequests()
+		if (securityEnableCsrf){
+			http.csrf()
+			.requireCsrfProtectionMatcher(new CsrfSecurityRequestMatcher());
+		}
+		else http.csrf().disable();
+		
+		http.authorizeRequests()
 			.antMatchers(baseApiPath + basicAuthenticationEndpointPath).permitAll()
 			.antMatchers(baseApiPath + simpleAuthenticationEndpointPath).permitAll()
 			.antMatchers(baseApiPath + "/**").fullyAuthenticated()
