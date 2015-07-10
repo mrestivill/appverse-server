@@ -76,7 +76,6 @@
 		<module>enterprise-aop</module>
 		<module>enterprise-converters</module>
 		<module>enterprise-log</module>
-		<module>api</module>
 		<module>persistence-jpa</module>
 <!-- 		<module>cache</module> -->
 <!-- 		<module>persistence</module> -->
