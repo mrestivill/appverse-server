@@ -47,14 +47,15 @@ public abstract class AppverseBasicAuthenticationConfigurerAdapter extends
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf()
 				.requireCsrfProtectionMatcher(new CsrfSecurityRequestMatcher())
-				.and().authorizeRequests()
-				.antMatchers(baseApiPath + basicAuthenticationEndpointPath)
-				.permitAll()
-				.antMatchers(baseApiPath + simpleAuthenticationEndpointPath)
-				.permitAll().antMatchers(baseApiPath + "/**")
-				.fullyAuthenticated().antMatchers("/").permitAll().and()
-				.logout().permitAll().and().httpBasic().and()
-				.sessionManagement().sessionFixation().newSession();
+		.and().authorizeRequests()
+			.antMatchers(baseApiPath + basicAuthenticationEndpointPath).permitAll()
+			.antMatchers(baseApiPath + simpleAuthenticationEndpointPath).permitAll()
+			.antMatchers(baseApiPath + "/**").fullyAuthenticated()
+			.antMatchers("/").permitAll()
+		.and()
+		.logout().permitAll().and()
+		.httpBasic().and()
+		.sessionManagement().sessionFixation().newSession();
 	}
 
 	/**

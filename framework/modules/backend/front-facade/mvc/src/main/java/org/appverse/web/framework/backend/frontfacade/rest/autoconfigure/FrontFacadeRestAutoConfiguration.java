@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
 /**
- * {@link EnableAutoConfiguration Auto-configuration} for Front Facade module when Jersey is present.
+ * {@link EnableAutoConfiguration Auto-configuration} for Front Facade module
  */
 @Configuration
 @ConditionalOnClass(FrontFacadeRestAutoConfiguration.class)

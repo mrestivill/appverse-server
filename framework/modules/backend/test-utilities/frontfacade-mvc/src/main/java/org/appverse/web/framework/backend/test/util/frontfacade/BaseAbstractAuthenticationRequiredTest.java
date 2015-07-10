@@ -1,4 +1,4 @@
-package org.appverse.web.framework.backend.test.util.frontfacade.mvc.tests.predefined;
+package org.appverse.web.framework.backend.test.util.frontfacade;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
+import org.appverse.web.framework.backend.test.util.frontfacade.mvc.tests.predefined.TestLoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;

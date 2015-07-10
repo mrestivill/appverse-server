@@ -23,25 +23,18 @@
  */
 package org.appverse.web.framework.backend.security.xs;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 /**
  * Helper class holding static methods related to security 
  */
 public class SecurityHelper {
-
-    public static final String XSRF_TOKEN_NAME = "XSRF-TOKEN";
 
     /**
      * Retrieves the authorities list corresponding to the currently authenticated principal
@@ -68,57 +61,5 @@ public class SecurityHelper {
         final Authentication authentication = SecurityContextHolder
                 .getContext().getAuthentication();
         return authentication.getName();
-    }
-
-    /**
-     * Creates a new XSRF token and stores it in session (HttpSession) preventing
-     * session fixation attack
-     * @return the XSRF token
-     */    
-    public static String createXSRFToken(final HttpServletRequest request)
-            throws IOException {
-        // getSession(false) as this method never creates a new session
-        HttpSession session = request.getSession(false);
-        String xsrfSessionToken = (String) session
-                .getAttribute(XSRF_TOKEN_NAME);
-        if (xsrfSessionToken == null) {
-            Random r = new Random(System.currentTimeMillis());
-            long value = System.currentTimeMillis() + r.nextLong();
-            char ids[] = session.getId().toCharArray();
-            for (int i = 0; i < ids.length; i++) {
-                value += ids[i] * (i + 1);
-            }
-            xsrfSessionToken = Long.toString(value);
-            session.setAttribute(XSRF_TOKEN_NAME, xsrfSessionToken);
-        }
-        return xsrfSessionToken;
-    }
-
-    /**
-     * Checks that an HttpServletRequest contains the correct XSRF token that has 
-     * to match the one stored in session
-     * @param request
-     * @throws Exception
-     */
-
-    public static void checkXSRFToken(final HttpServletRequest request)
-            throws Exception {
-        String tokenFromRequest = request.getHeader(XSRF_TOKEN_NAME);
-        checkXSRFToken(tokenFromRequest, request);
-    }
-
-    /**
-     * Checks that an HttpServletRequest contains the correct XSRF token that has 
-     * to match the one stored in session 
-     * @param xsrfToken
-     * @param request
-     * @throws Exception
-     */
-    public static void checkXSRFToken(final String xsrfToken, final HttpServletRequest request)
-            throws Exception {
-        String sessionValue = (String) request.getSession().getAttribute(SecurityHelper.XSRF_TOKEN_NAME);
-        if (xsrfToken == null || sessionValue == null || !sessionValue.equals(xsrfToken)) {
-            throw new Exception("XSRF attribute not found in request or session or invalid.");
-        }
     }
 }
