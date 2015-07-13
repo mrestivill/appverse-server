@@ -23,13 +23,22 @@
  */
 package org.appverse.web.framework.backend.security.xs.xss;
 
-import org.appverse.web.framework.backend.test.util.frontfacade.xs.xss.tests.predefined.XssFilterPredefinedTests;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 
-/**
- * This class uses the XSS tests utilities. See {@link XssFilterPredefinedTests}.
- */
-@SpringApplicationConfiguration(classes = {XssModuleTestsConfigurationApplication.class})
-public class XssFilterTests extends XssFilterPredefinedTests {
+@SpringBootApplication
+@EnableAutoConfiguration
+public class XssModuleTestsConfigurationApplication extends SpringBootServletInitializer {
+	
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(XssModuleTestsConfigurationApplication.class);
+	}
 
+	public static void main(String[] args) {
+		new XssModuleTestsConfigurationApplication().configure(
+				new SpringApplicationBuilder(XssModuleTestsConfigurationApplication.class)).run(args);
+	}
 }
