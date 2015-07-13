@@ -133,9 +133,17 @@ public abstract class BasicAuthEndPointsServiceEnabledPredefinedTests extends Ba
 		responseEntityRemotelog = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entityRemotelog, String.class);
 		assertEquals(HttpStatus.OK, responseEntityRemotelog.getStatusCode());
 		
-		// TODO
 		// Calling here logout
+		builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + basicAuthenticationLogoutEndpointPath);
+		HttpEntity<Void> entityLogout = new HttpEntity<Void>(headers);
+		responseEntityRemotelog = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entityLogout, String.class);
+		assertEquals(HttpStatus.OK, responseEntityRemotelog.getStatusCode());
 		
+		// Try to call remotelog again (after logout)
+		// This implies passing JSESSIONID and CSRF Token - We expect this not to work as the CSRF token has been removed and the session invalidated
+		entityRemotelog = new HttpEntity<RemoteLogRequestVO>(logRequestVO, headers);
+		responseEntityRemotelog = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entityRemotelog, String.class);
+		assertEquals(HttpStatus.FORBIDDEN, responseEntityRemotelog.getStatusCode());
 	}
 	
 	/*
@@ -229,7 +237,7 @@ public abstract class BasicAuthEndPointsServiceEnabledPredefinedTests extends Ba
 		
 		// Calling here logout
 		builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + basicAuthenticationLogoutEndpointPath);
-		HttpEntity entityLogout = new HttpEntity(headers);
+		HttpEntity<Void> entityLogout = new HttpEntity<Void>(headers);
 		responseEntityRemotelog = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entityLogout, String.class);
 		assertEquals(HttpStatus.OK, responseEntityRemotelog.getStatusCode());
 		
