@@ -103,7 +103,7 @@ public abstract class BaseAbstractAuthenticationRequiredTest {
 		loginInfo.setJsessionid(responseEntity.getHeaders().getFirst("Set-Cookie"));
 		return loginInfo;
 	}		
-	
+		
 	protected abstract String getPassword();
 
 	protected abstract String getUsername();

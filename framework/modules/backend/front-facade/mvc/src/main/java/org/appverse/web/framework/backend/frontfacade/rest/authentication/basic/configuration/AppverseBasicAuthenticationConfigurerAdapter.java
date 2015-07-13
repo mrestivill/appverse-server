@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.appverse.web.framework.backend.frontfacade.rest.authentication.handlers.SimpleNoRedirectLogoutSucessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -21,6 +22,9 @@ public abstract class AppverseBasicAuthenticationConfigurerAdapter extends
 
 	@Value("${appverse.frontfacade.rest.basicAuthenticationEndpoint.path:/sec/login}")
 	protected String basicAuthenticationEndpointPath;
+	
+	@Value("${appverse.frontfacade.rest.basicAuthenticationLogoutEndpoint.path:/sec/logout}")
+	protected String basicAuthenticationLogoutEndpointPath;
 
 	@Value("${appverse.frontfacade.rest.simpleAuthenticationEndpoint.path:/sec/simplelogin}")
 	protected String simpleAuthenticationEndpointPath;
@@ -60,7 +64,10 @@ public abstract class AppverseBasicAuthenticationConfigurerAdapter extends
 			.antMatchers(baseApiPath + "/**").fullyAuthenticated()
 			.antMatchers("/").permitAll()
 		.and()
-		.logout().permitAll().and()
+		.logout()
+			.logoutUrl(basicAuthenticationLogoutEndpointPath)
+			.logoutSuccessHandler(new SimpleNoRedirectLogoutSucessHandler())
+			.permitAll().and()		
 		.httpBasic().and()
 		.sessionManagement().sessionFixation().newSession();
 	}

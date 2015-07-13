@@ -81,6 +81,7 @@ public abstract class BasicAuthEndPointsDisabledPredefinedTests extends BaseAbst
 		// When an enpoint is disabled, "405 - METHOD NOT ALLOWED" is returned
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
 	}
+		
 	@Test
 	public void simpleAuthenticationServiceTest() throws Exception{
 		int port = context.getEmbeddedServletContainer().getPort();
