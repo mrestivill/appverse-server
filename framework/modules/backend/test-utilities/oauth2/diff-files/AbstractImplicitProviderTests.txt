@@ -1,0 +1,52 @@
+- package sparklr.common;
+1	+ package org.appverse.web.framework.backend.test.util.oauth2.tests.common;
+2	2	  
+3	3	  import static org.junit.Assert.assertNotNull;
+4	4	  import static org.junit.Assert.fail;
+5	5	  
+6	6	  import org.junit.Test;
+7	7	  import org.springframework.http.HttpHeaders;
+8	8	  import org.springframework.security.oauth2.client.resource.UserRedirectRequiredException;
+9	9	  import org.springframework.security.oauth2.client.test.OAuth2ContextConfiguration;
+10	10	  import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitResourceDetails;
+11	11	  import org.springframework.security.oauth2.common.util.OAuth2Utils;
+12	12	  
+13		- /**
+14		-  * @author Ryan Heaton
+15		-  * @author Dave Syer
+16		-  */
+17	13	  public abstract class AbstractImplicitProviderTests extends AbstractIntegrationTests {
+18	14	  
+19	15	  	@Test
+20	16	  	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
+21	17	  	public void testPostForNonAutomaticApprovalToken() throws Exception {
+22	18	  
+23	19	  		HttpHeaders headers = new HttpHeaders();
+24	20	  		headers.set("Authorization", getBasicAuthentication());
+25	21	  		context.getAccessTokenRequest().setHeaders(headers);
+26	22	  		try {
+27	23	  			assertNotNull(context.getAccessToken());
+28	24	  			fail("Expected UserRedirectRequiredException");
+29	25	  		}
+30	26	  		catch (UserRedirectRequiredException e) {
+31	27	  			// ignore
+32	28	  		}
+33	29	  		// add user approval parameter for the second request
+34	30	  		context.getAccessTokenRequest().add(OAuth2Utils.USER_OAUTH_APPROVAL, "true");
+35	31	  		context.getAccessTokenRequest().add("scope.read", "true");
+36	32	  		assertNotNull(context.getAccessToken());
+37	33	  	}
+38	34	  
+39	35	  	static class NonAutoApproveImplicit extends ImplicitResourceDetails {
+40	36	  		public NonAutoApproveImplicit(Object target) {
+41	37	  			super();
+42		- 			setClientId("my-trusted-client");
+38	+ 			setClientId("test-client");
+43	39	  			setId(getClientId());
+44		- 			setPreEstablishedRedirectUri("http://anywhere");
+40	+ 			setPreEstablishedRedirectUri("http://yourredirecturihere");
+45	41	  		}
+46	42	  	}
+47	43	  
+48	44	  }
+45	+ 

@@ -2,7 +2,7 @@
  Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
 
  This Source Code Form is subject to the terms of the Appverse Public License 
- Version 2.0 (“APL v2.0”). If a copy of the APL was not distributed with this 
+ Version 2.0 (“APL v2.0�?). If a copy of the APL was not distributed with this 
  file, You can obtain one at http://www.appverse.mobi/licenses/apl_v2.0.pdf. [^]
 
  Redistribution and use in source and binary forms, with or without modification, 
@@ -21,39 +21,24 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.authentication.userpassword.model;
+package org.appverse.web.framework.backend.security.xs.xss;
 
-import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 
-/**
- * TODO: Move this so the presentation layer (facade) uses it 
- */
-
-public class UserInfoVO extends AbstractPresentationBean {
-
-	private static final long serialVersionUID = 7431357982859482224L;
-
-	private String user;
-	private String password;
-
-	public UserInfoVO() {
-		super();
+@SpringBootApplication
+@EnableAutoConfiguration
+public class XssModuleTestsConfigurationApplication extends SpringBootServletInitializer {
+	
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(XssModuleTestsConfigurationApplication.class);
 	}
 
-	public String getUser() {
-		return user;
+	public static void main(String[] args) {
+		new XssModuleTestsConfigurationApplication().configure(
+				new SpringApplicationBuilder(XssModuleTestsConfigurationApplication.class)).run(args);
 	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 }

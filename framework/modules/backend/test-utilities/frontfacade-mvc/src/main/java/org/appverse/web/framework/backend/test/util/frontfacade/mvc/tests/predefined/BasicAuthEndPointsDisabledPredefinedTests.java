@@ -24,14 +24,10 @@
 package org.appverse.web.framework.backend.test.util.frontfacade.mvc.tests.predefined;
 
 import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
-import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
+import org.appverse.web.framework.backend.test.util.frontfacade.BaseAbstractAuthenticationRequiredTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;
-import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -40,7 +36,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.client.RestTemplate;
 
 import static org.junit.Assert.*;
 
@@ -86,6 +81,7 @@ public abstract class BasicAuthEndPointsDisabledPredefinedTests extends BaseAbst
 		// When an enpoint is disabled, "405 - METHOD NOT ALLOWED" is returned
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
 	}
+		
 	@Test
 	public void simpleAuthenticationServiceTest() throws Exception{
 		int port = context.getEmbeddedServletContainer().getPort();

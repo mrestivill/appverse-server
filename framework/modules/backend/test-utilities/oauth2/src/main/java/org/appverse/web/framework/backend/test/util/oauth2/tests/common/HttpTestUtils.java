@@ -21,6 +21,29 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
+/* 
+ IMPORTANT NOTE ABOUT THE ORIGIN OF THIS CLASS
+ This code is taken from: 	
+ 	https://github.com/spring-projects/spring-security-oauth/blob/master/tests/annotation/common/src/main/java/sparklr/common/HttpTestUtils.java
+ 	Commit: bbd7b7052b1d6479f9f9180a3de28712ab9f0504
+ 
+ This class provides interesting testing utilities for our OAuth2 scenarios. At least at the time we found this code we were not able
+ to find the artifact build in any Maven public repository:
+
+	<groupId>org.demo</groupId>
+	<artifactId>spring-oauth2-tests-parent</artifactId>
+	
+	(The version of the code we used was: <version>2.0.8.BUILD-SNAPSHOT</version>) 
+
+ This was one of the reasons why we decided to add this class to our framework so the own framework tests and the projects can use this utility. 
+ Another important reason was that we could evolve the code as needed.
+   
+ Take into account that both the Spring project code and Appverse Web code could have evolved different since the time we 
+ decided to add the code to our project.
+ 
+ You can find a folder called 'diff-files' in the root directory of this Maven module containing a file with the differences between this class
+ and the original specified above. 
+ */
 package org.appverse.web.framework.backend.test.util.oauth2.tests.common;
 
 import java.net.URI;
@@ -46,19 +69,6 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriTemplate;
 
-/* TODO
- * Take into account that this common test classes are taken from:
- * https://github.com/spring-projects/spring-security-oauth/tree/master/tests/annotation/jdbc
- * by Dave Syer.
- * In this test project there are not license headers (maybe the same license that applies to the complete
- * spring-oauth2 project?). Before making this public we need to clarify (a good way would be to ask Dave 
- * directly) if it is possible to copy here this code and use it as a common class for our tests as he 
- * does in his example.
- * It would have been ideal to directly add a test dependency directly including the artifact that has the
- * example to use the classes for tests but the problem is that they seem not to be published.
- * Not even in the spring repositories that are enabled when you run the example with -Bootstrap profile
- * IMPORTANT!!! We need to clarify this before publishing anything.
- */
 /**
  * <p>
  * A rule that provides HTTP connectivity to test cases on the assumption that the server is available when test methods

@@ -30,7 +30,7 @@ public abstract class AbstractException extends RuntimeException{
 
 	private static final long serialVersionUID = -5547004129911718577L;
 
-    private static Long code;
+    private Long code;
 
 	/**
 	 * Default constructor
