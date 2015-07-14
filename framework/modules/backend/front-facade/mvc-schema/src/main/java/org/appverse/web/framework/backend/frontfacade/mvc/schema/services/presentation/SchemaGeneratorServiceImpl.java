@@ -21,22 +21,29 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.frontfacade.rest.authentication.simple.services.presentation;
+package org.appverse.web.framework.backend.frontfacade.mvc.schema.services.presentation;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.appverse.web.framework.backend.core.exceptions.PresentationException;
 
-import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
-import org.appverse.web.framework.backend.security.authentication.userpassword.managers.UserAndPasswordAuthenticationManager;
-import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.core.convert.converter.GenericConverter;
+import org.springframework.data.rest.webmvc.json.JsonSchema;
+import org.springframework.data.rest.webmvc.json.PersistentEntityToJsonSchemaConverter;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 
 @RestController
 @ConditionalOnProperty(value="appverse.frontfacade.rest.schema.enabled", matchIfMissing=false)
@@ -64,9 +71,6 @@ public class SchemaGeneratorServiceImpl {
             throw new PresentationException("invalid content");
         }
         Class<?> clazz = Class.forName(entity);
-        if (clazz.getAnnotationsByType(Entity.class)==null ) {
-            throw new PresentationException("invalid class");
-        }
         try {
             Constructor<?> ctor = clazz.getConstructor();
             JsonSchema schema = entityConverter.convert(clazz, TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(JsonSchema.class));
