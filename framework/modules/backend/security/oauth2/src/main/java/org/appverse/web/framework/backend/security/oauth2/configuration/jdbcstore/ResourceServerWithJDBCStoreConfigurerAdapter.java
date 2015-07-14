@@ -23,12 +23,15 @@
  */
 package org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore;
 
+import org.appverse.web.framework.backend.security.oauth2.handlers.OAuth2LogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.stereotype.Component;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 /**
  * Convenient setup for an OAuth2 Resource Server that uses a
@@ -56,6 +59,14 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 
 	@Autowired
 	private TokenStore tokenStore;
+	
+	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
+	protected String oauth2LogoutEndpointPath;
+	
+	@Bean
+	public OAuth2LogoutHandler oauth2LogoutHandler() {
+		return new OAuth2LogoutHandler();
+	}
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources)
@@ -65,7 +76,11 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().authenticated();
+		http.logout()
+        	.logoutUrl(oauth2LogoutEndpointPath)
+        	.logoutSuccessHandler(oauth2LogoutHandler())
+        .and()        	
+			.authorizeRequests().anyRequest().authenticated();
 	}
 
 }

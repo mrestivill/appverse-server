@@ -30,7 +30,9 @@ import static org.junit.Assert.fail;
 
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.common.AbstractIntegrationTests;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,6 +65,9 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	
 	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}")
 	private String remoteLogEndpointPath;
+	
+	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
+	protected String oauth2LogoutEndpointPath;
 	
 	@Autowired
     private FilterChainProxy springSecurityFilterChain;
@@ -163,6 +168,51 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));
+	}
+	
+	@Test
+	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
+	public void oauth2FlowTest() throws Exception {
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", getBasicAuthentication());
+		context.getAccessTokenRequest().setHeaders(headers);
+		try {
+			assertNotNull(context.getAccessToken());
+			fail("Expected UserRedirectRequiredException");
+		}
+		catch (UserRedirectRequiredException e) {
+			// ignore
+		}
+		// add user approval parameter for the second request
+		context.getAccessTokenRequest().add(OAuth2Utils.USER_OAUTH_APPROVAL, "true");
+		context.getAccessTokenRequest().add("scope.read", "true");
+		assertNotNull(context.getAccessToken());
+		
+		// OAuth2RestTemplate template = new OAuth2RestTemplate(resource, new DefaultOAuth2ClientContext(context.getAccessToken()));
+        RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
+        remoteLogRequest.setLogLevel("DEBUG");
+        remoteLogRequest.setMessage("This is my log message!");
+        
+        int port = server.getEmbeddedServletContainer().getPort();
+        
+        ResponseEntity<String> result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
+        assertEquals(HttpStatus.OK, result2.getStatusCode());
+
+        // We call logout endpoint
+        result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + oauth2LogoutEndpointPath, null, String.class);
+        assertEquals(HttpStatus.OK, result2.getStatusCode());
+
+        try{
+        	// We try to call the protected API again (after having logged out which removes the token) - We expect not to be able to call the service.
+        	// This will throw a exception. In this case here in the test we receive an exception but really what happened was 'access denied'
+        	// A production client will receive the proper http error
+        	result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
+        	fail("Expected a exception here - access denied");
+        }
+        catch(Exception e){
+        	// Ignore - If the exception is not thrown the test will fail
+        }
 	}
 
 	protected abstract String getPassword();
