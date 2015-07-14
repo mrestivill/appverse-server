@@ -40,20 +40,24 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @EntityListeners({ AuditingEntityListener.class })
 @MappedSuperclass
-public class AuditingAbstractIntegrationBean extends AbstractIntegrationBean {
+public abstract class AuditingAbstractIntegrationBean extends AbstractIntegrationBean {
     private static final long serialVersionUID = -4532840221913116181L;
+    protected long id;
     private Date created;
     private Date updated;
     private String createdBy;
     private String updatedBy;
     private long version;
-    protected long id;
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATED", nullable = true)
     public Date getCreated() {
         return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     @LastModifiedDate
@@ -63,10 +67,18 @@ public class AuditingAbstractIntegrationBean extends AbstractIntegrationBean {
         return updated;
     }
 
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
     @CreatedBy
     @Column(name = "CREATED_BY", nullable = true)
     public String getCreatedBy() {
         return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     @LastModifiedBy
@@ -75,26 +87,14 @@ public class AuditingAbstractIntegrationBean extends AbstractIntegrationBean {
         return updatedBy;
     }
 
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
     @Version
     @Column(name = "VERSION", nullable = true)
     public long getVersion() {
         return version;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
     }
 
     public void setVersion(long version) {
