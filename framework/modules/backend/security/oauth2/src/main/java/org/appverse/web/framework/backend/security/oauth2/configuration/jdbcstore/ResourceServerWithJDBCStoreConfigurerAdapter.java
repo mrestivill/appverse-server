@@ -64,7 +64,7 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 	
 	@Bean
 	public OAuth2LogoutHandler oauth2LogoutHandler() {
-		return new OAuth2LogoutHandler();
+		return new OAuth2LogoutHandler(tokenStore);
 	}
 
 	@Override

@@ -29,13 +29,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
  * This logout handler will just invalidate the OAuth2 token that was granted in the
@@ -45,13 +44,22 @@ import org.springframework.stereotype.Component;
  * biggest advantages). So in this case we just remove the token from the token store
  * and we return HTTP OK.
  */
-@Component
 public class OAuth2LogoutHandler extends
 		AbstractAuthenticationTargetUrlRequestHandler implements
 		LogoutSuccessHandler {
 
-	@Autowired
-	private TokenStore tokenStore;
+	protected TokenStore tokenStore;
+	
+	public OAuth2LogoutHandler(TokenStore tokenStore){
+		Assert.state(tokenStore != null, "TokenStore cannot be null in OAuth2LogoutHandler");
+		this.tokenStore = tokenStore;
+	}
+	
+	public OAuth2LogoutHandler tokenStore(TokenStore tokenStore) {
+		Assert.state(tokenStore != null, "TokenStore cannot be null in OAuth2LogoutHandler");
+		this.tokenStore = tokenStore;
+		return this;
+	}
 
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request,
