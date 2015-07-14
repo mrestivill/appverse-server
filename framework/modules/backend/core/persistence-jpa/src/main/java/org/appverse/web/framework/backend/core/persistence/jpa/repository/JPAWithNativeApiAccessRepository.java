@@ -30,8 +30,6 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 /**
  * JPA with access to underlaying native JPA Session specific extension of {@link org.springframework.data.jpa.repository.JpaRepository}.
- * 
- * @author Miguel Fernandez
  */
 @NoRepositoryBean
 public interface JPAWithNativeApiAccessRepository <T, ID extends Serializable> extends JpaRepository<T, ID>{

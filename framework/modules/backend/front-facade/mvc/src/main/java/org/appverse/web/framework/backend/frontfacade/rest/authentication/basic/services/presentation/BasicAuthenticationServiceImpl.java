@@ -87,12 +87,6 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
         // The token comes in the request (CsrFilter adds it) and we need to set it in the response so the clients 
         // have it to use it in the next requests
         CsrfToken csrfToken  = (CsrfToken) httpServletRequest.getAttribute(CSRF_TOKEN_SESSION_ATTRIBUTE);
-        
-        /*
-        CsrfTokenRepository csrfTokenRepository = new HttpSessionCsrfTokenRepository();
-        CsrfToken csrfToken = csrfTokenRepository.loadToken(httpServletRequest);
-        */
-        
         httpServletResponse.addHeader(csrfToken.getHeaderName(), csrfToken.getToken());
         
         try{

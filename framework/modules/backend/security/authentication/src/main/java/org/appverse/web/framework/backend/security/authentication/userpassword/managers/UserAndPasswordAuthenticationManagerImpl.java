@@ -39,14 +39,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
-/*
- * TODO: This manager should not have presentation dependant annotations or dependencies.
- * Facades (annotated if necessary) should delegate on this autentication manager.
- * 
- * It should not return VOs either.. it should have its own model and the corresponding 
- * facades should do the conversion
- */
-
 /**
  * {@link UserAndPasswordAuthenticationManagerAuthentication} Service Implementation.
  * In charge for XSRF Token generation.

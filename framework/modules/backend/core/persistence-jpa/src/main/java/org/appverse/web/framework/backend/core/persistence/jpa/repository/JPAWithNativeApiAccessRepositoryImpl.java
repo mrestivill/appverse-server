@@ -27,16 +27,12 @@ import java.io.Serializable;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.data.jpa.provider.PersistenceProvider;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
 
 /**
  * {@link JPAWithNativeApiAccessRepository} implementation.
- * 
- * @author Miguel Fernandez
  */
 @Repository
 public class JPAWithNativeApiAccessRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements JPAWithNativeApiAccessRepository<T, ID> {

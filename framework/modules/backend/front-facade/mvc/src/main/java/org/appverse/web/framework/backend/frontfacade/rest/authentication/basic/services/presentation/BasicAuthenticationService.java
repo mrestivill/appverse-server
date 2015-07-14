@@ -26,7 +26,6 @@ package org.appverse.web.framework.backend.frontfacade.rest.authentication.basic
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.springframework.http.ResponseEntity;
 

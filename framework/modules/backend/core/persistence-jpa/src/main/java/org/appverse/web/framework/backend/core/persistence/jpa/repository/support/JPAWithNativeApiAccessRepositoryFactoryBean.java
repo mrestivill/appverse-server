@@ -14,8 +14,6 @@ import org.springframework.data.repository.core.support.RepositoryFactorySupport
 /**
  * Specialization of  {@link org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean} for 
  * {@link org.appverse.web.framework.backend.core.persistence.jpa.repository.JPAWithNativeApiAccessRepositoryImpl} 
- * 
- * @author Miguel Fernandez
  * @param <T> the type of the repository
  */
 public class JPAWithNativeApiAccessRepositoryFactoryBean<R extends JpaRepository<T, I>, T, I extends Serializable> extends JpaRepositoryFactoryBean<R, T, I> {
