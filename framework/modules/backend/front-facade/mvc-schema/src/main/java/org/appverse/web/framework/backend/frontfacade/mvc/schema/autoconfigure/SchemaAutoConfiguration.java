@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@ConditionalOnProperty(value="schema.enabled", matchIfMissing=true)
+@ConditionalOnProperty(value="appverse.frontfacade.rest.schema.enabled", matchIfMissing=false)
 @ConditionalOnClass(SchemaAutoConfiguration.class)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.schema.services.presentation")
 public class SchemaAutoConfiguration  {
