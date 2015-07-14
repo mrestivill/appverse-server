@@ -1,0 +1,287 @@
+1		- package sparklr.common;
+1	+ package org.appverse.web.framework.backend.test.util.oauth2.tests.common;
+2	2	  
+3	3	  import java.net.URI;
+4	4	  import java.util.Arrays;
+5	5	  import java.util.Collections;
+6	6	  import java.util.LinkedHashMap;
+7	7	  import java.util.Map;
+8	8	  
+9	9	  import org.junit.rules.MethodRule;
+10	10	  import org.junit.runners.model.FrameworkMethod;
+11	11	  import org.junit.runners.model.Statement;
+12	12	  import org.springframework.boot.test.TestRestTemplate;
+13	13	  import org.springframework.http.HttpEntity;
+14	14	  import org.springframework.http.HttpHeaders;
+15	15	  import org.springframework.http.HttpMethod;
+16	16	  import org.springframework.http.HttpStatus;
+17	17	  import org.springframework.http.MediaType;
+18	18	  import org.springframework.http.ResponseEntity;
+19	19	  import org.springframework.security.oauth2.client.test.RestTemplateHolder;
+20	20	  import org.springframework.util.MultiValueMap;
+21	21	  import org.springframework.util.StringUtils;
+22	22	  import org.springframework.web.client.RestOperations;
+23	23	  import org.springframework.web.client.RestTemplate;
+24	24	  import org.springframework.web.util.UriTemplate;
+25	25	  
+26	26	  /**
+27	27	   * <p>
+28	28	   * A rule that provides HTTP connectivity to test cases on the assumption that the server is available when test methods
+29	29	   * fire.
+30	30	   * </p>
+31		-  * 
+32		-  * @author Dave Syer
+33		-  * 
+34	31	   */
+35	32	  public class HttpTestUtils implements MethodRule, RestTemplateHolder {
+36	33	  
+37	34	  	private static int DEFAULT_PORT = 8080;
+38	35	  
+39	36	  	private static String DEFAULT_HOST = "localhost";
+40	37	  
+41	38	  	private int port;
+42	39	  
+43	40	  	private String hostName = DEFAULT_HOST;
+44	41	  
+45	42	  	private RestOperations client;
+46	43	  
+47	44	  	private String prefix = "";
+48	45	  
+49	46	  	/**
+50	47	  	 * @return a new rule that sets up default host and port etc.
+51	48	  	 */
+52	49	  	public static HttpTestUtils standard() {
+53	50	  		return new HttpTestUtils();
+54	51	  	}
+55	52	  
+56	53	  	private HttpTestUtils() {
+57	54	  		setPort(DEFAULT_PORT);
+58	55	  	}
+59	56	  
+60	57	  	/**
+61	58	  	 * @param prefix
+62	59	  	 */
+63	60	  	public void setPrefix(String prefix) {
+64	61	  		if (!StringUtils.hasText(prefix)) {
+65	62	  			prefix = "";
+66	63	  		} else while (prefix.endsWith("/")) {
+67	64	  			prefix = prefix.substring(0, prefix.lastIndexOf("/"));
+68	65	  		}
+69	66	  		this.prefix = prefix;
+70	67	  	}
+71	68	  
+72	69	  	/**
+73	70	  	 * @param port the port to set
+74	71	  	 */
+75	72	  	public HttpTestUtils setPort(int port) {
+76	73	  		this.port = port;
+77	74	  		if (client == null) {
+78	75	  			client = createRestTemplate();
+79	76	  		}
+80	77	  		return this;
+81	78	  	}
+82	79	  
+83	80	  	/**
+84	81	  	 * @param hostName the hostName to set
+85	82	  	 */
+86	83	  	public HttpTestUtils setHostName(String hostName) {
+87	84	  		this.hostName = hostName;
+88	85	  		return this;
+89	86	  	}
+90	87	  
+91	88	  	public Statement apply(final Statement base, FrameworkMethod method, Object target) {
+92	89	  		
+93	90	  		return new Statement() {
+94	91	  			@Override
+95	92	  			public void evaluate() throws Throwable {
+96	93	  				base.evaluate();
+97	94	  			}
+98	95	  		};
+99	96	  
+100	97	  	}
+101	98	  
+102	99	  	public String getBaseUrl() {
+103	100	  		return "http://" + hostName + ":" + port + prefix;
+104	101	  	}
+105	102	  
+106	103	  	public String getUrl(String path) {
+107	104	  		if (path.startsWith("http")) {
+108	105	  			return path;
+109	106	  		}
+110	107	  		if (!path.startsWith("/")) {
+111	108	  			path = "/" + path;
+112	109	  		}
+113	110	  		return "http://" + hostName + ":" + port + prefix + path;
+114	111	  	}
+115	112	  
+116	113	  	public ResponseEntity<String> postForString(String path, MultiValueMap<String, String> formData) {
+117	114	  		HttpHeaders headers = new HttpHeaders();
+118	115	  		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+119	116	  		return client.exchange(getUrl(path), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(formData,
+120	117	  				headers), String.class);
+121	118	  	}
+122	119	  
+123	120	  	public ResponseEntity<String> postForString(String path, HttpHeaders headers, MultiValueMap<String, String> formData) {
+124	121	  		HttpHeaders actualHeaders = new HttpHeaders();
+125	122	  		actualHeaders.putAll(headers);
+126	123	  		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+127	124	  		return client.exchange(getUrl(path), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(formData,
+128	125	  				actualHeaders), String.class);
+129	126	  	}
+130	127	  
+131	128	  	@SuppressWarnings("rawtypes")
+132	129	  	public ResponseEntity<Map> postForMap(String path, MultiValueMap<String, String> formData) {
+133	130	  		return postForMap(path, new HttpHeaders(), formData);
+134	131	  	}
+135	132	  
+136	133	  	@SuppressWarnings("rawtypes")
+137	134	  	public ResponseEntity<Map> postForMap(String path, HttpHeaders headers, MultiValueMap<String, String> formData) {
+138	135	  		if (headers.getContentType() == null) {
+139	136	  			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+140	137	  		}
+141	138	  		return client.exchange(getUrl(path), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(formData,
+142	139	  				headers), Map.class);
+143	140	  	}
+144	141	  
+145	142	  	public ResponseEntity<String> postForStatus(String path, MultiValueMap<String, String> formData) {
+146	143	  		return postForStatus(this.client, path, formData);
+147	144	  	}
+148	145	  
+149	146	  	public ResponseEntity<String> postForStatus(String path, HttpHeaders headers, MultiValueMap<String, String> formData) {
+150	147	  		return postForStatus(this.client, path, headers, formData);
+151	148	  	}
+152	149	  
+153	150	  	private ResponseEntity<String> postForStatus(RestOperations client, String path,
+154	151	  			MultiValueMap<String, String> formData) {
+155	152	  		return postForStatus(client, path, new HttpHeaders(), formData);
+156	153	  	}
+157	154	  
+158	155	  	private ResponseEntity<String> postForStatus(RestOperations client, String path, HttpHeaders headers,
+159	156	  			MultiValueMap<String, String> formData) {
+160	157	  		HttpHeaders actualHeaders = new HttpHeaders();
+161	158	  		actualHeaders.putAll(headers);
+162	159	  		actualHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+163	160	  		return client.exchange(getUrl(path), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(formData,
+164	161	  				actualHeaders), String.class);
+165	162	  	}
+166	163	  
+167	164	  	public ResponseEntity<String> postForRedirect(String path, HttpHeaders headers, MultiValueMap<String, String> params) {
+168	165	  		ResponseEntity<String> exchange = postForStatus(path, headers, params);
+169	166	  
+170	167	  		if (exchange.getStatusCode() != HttpStatus.FOUND) {
+171	168	  			throw new IllegalStateException("Expected 302 but server returned status code " + exchange.getStatusCode());
+172	169	  		}
+173	170	  
+174	171	  		if (exchange.getHeaders().containsKey("Set-Cookie")) {
+175	172	  			String cookie = exchange.getHeaders().getFirst("Set-Cookie");
+176	173	  			headers.set("Cookie", cookie);
+177	174	  		}
+178	175	  
+179	176	  		String location = exchange.getHeaders().getLocation().toString();
+180	177	  
+181	178	  		return client.exchange(location, HttpMethod.GET, new HttpEntity<Void>(null, headers), String.class);
+182	179	  	}
+183	180	  
+184	181	  	public ResponseEntity<String> getForString(String path) {
+185	182	  		return getForString(path, new HttpHeaders());
+186	183	  	}
+187	184	  
+188	185	  	public ResponseEntity<String> getForString(String path, final HttpHeaders headers) {
+189	186	  		return client.exchange(getUrl(path), HttpMethod.GET, new HttpEntity<Void>((Void) null, headers), String.class);
+190	187	  	}
+191	188	  
+192	189	  	public ResponseEntity<String> getForString(String path, final HttpHeaders headers, Map<String, String> uriVariables) {
+193	190	  		return client.exchange(getUrl(path), HttpMethod.GET, new HttpEntity<Void>((Void) null, headers), String.class,
+194	191	  				uriVariables);
+195	192	  	}
+196	193	  
+197	194	  	public ResponseEntity<Void> getForResponse(String path, final HttpHeaders headers, Map<String, String> uriVariables) {
+198	195	  		HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
+199	196	  		return client.exchange(getUrl(path), HttpMethod.GET, request, (Class<Void>) null, uriVariables);
+200	197	  	}
+201	198	  
+202	199	  	public ResponseEntity<Void> getForResponse(String path, HttpHeaders headers) {
+203	200	  		return getForResponse(path, headers, Collections.<String, String> emptyMap());
+204	201	  	}
+205	202	  
+206	203	  	public HttpStatus getStatusCode(String path, final HttpHeaders headers) {
+207	204	  		ResponseEntity<Void> response = getForResponse(path, headers);
+208	205	  		return response.getStatusCode();
+209	206	  	}
+210	207	  
+211	208	  	public HttpStatus getStatusCode(String path) {
+212	209	  		return getStatusCode(getUrl(path), null);
+213	210	  	}
+214	211	  
+215	212	  	public void setRestTemplate(RestOperations restTemplate) {
+216	213	  		client = restTemplate;
+217	214	  	}
+218	215	  
+219	216	  	public RestOperations getRestTemplate() {
+220	217	  		return client;
+221	218	  	}
+222	219	  
+223	220	  	public RestOperations createRestTemplate() {
+224	221	  		RestTemplate client = new TestRestTemplate();
+225	222	  		return client;
+226	223	  	}
+227	224	  
+228	225	  	public UriBuilder buildUri(String url) {
+229	226	  		return UriBuilder.fromUri(url.startsWith("http:") ? url : getUrl(url));
+230	227	  	}
+231	228	  
+232	229	  	public static class UriBuilder {
+233	230	  
+234	231	  		private final String url;
+235	232	  
+236	233	  		private Map<String, String> params = new LinkedHashMap<String, String>();
+237	234	  
+238	235	  		public UriBuilder(String url) {
+239	236	  			this.url = url;
+240	237	  		}
+241	238	  
+242	239	  		public static UriBuilder fromUri(String url) {
+243	240	  			return new UriBuilder(url);
+244	241	  		}
+245	242	  
+246	243	  		public UriBuilder queryParam(String key, String value) {
+247	244	  			params.put(key, value);
+248	245	  			return this;
+249	246	  		}
+250	247	  
+251	248	  		public String pattern() {
+252	249	  			StringBuilder builder = new StringBuilder();
+253	250	  			// try {
+254	251	  			builder.append(url.replace(" ", "+"));
+255	252	  			if (!params.isEmpty()) {
+256	253	  				builder.append("?");
+257	254	  				boolean first = true;
+258	255	  				for (String key : params.keySet()) {
+259	256	  					if (!first) {
+260	257	  						builder.append("&");
+261	258	  					}
+262	259	  					else {
+263	260	  						first = false;
+264	261	  					}
+265	262	  					String value = params.get(key);
+266	263	  					if (value.contains("=")) {
+267	264	  						value = value.replace("=", "%3D");
+268	265	  					}
+269	266	  					builder.append(key + "={" + key + "}");
+270	267	  				}
+271	268	  			}
+272	269	  			return builder.toString();
+273	270	  
+274	271	  		}
+275	272	  
+276	273	  		public Map<String, String> params() {
+277	274	  			return params;
+278	275	  		}
+279	276	  
+280	277	  		public URI build() {
+281	278	  			return new UriTemplate(pattern()).expand(params);
+282	279	  		}
+283	280	  	}
+284	281	  
+285	282	  }
+283	+ 

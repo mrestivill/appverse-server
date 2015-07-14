@@ -40,6 +40,9 @@
    
  Take into account that both the Spring project code and Appverse Web code could have evolved different since the time we 
  decided to add the code to our project.
+ 
+ You can find a folder called 'diff-files' in the root directory of this Maven module containing a file with the differences between this class
+ and the original specified above.  
  */
 package org.appverse.web.framework.backend.test.util.oauth2.tests.common;
 
