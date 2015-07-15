@@ -33,11 +33,13 @@ import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.data.rest.webmvc.json.JsonSchema;
 import org.springframework.data.rest.webmvc.json.PersistentEntityToJsonSchemaConverter;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -52,8 +54,7 @@ public class SchemaGeneratorServiceImpl {
     @Autowired
     private PersistentEntityToJsonSchemaConverter entityConverter;
 
-    @RequestMapping(value = "/schema-generator/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> listEntities(){
         List<String> data = new ArrayList<String>();
         Set<GenericConverter.ConvertiblePair> list =  entityConverter.getConvertibleTypes();
@@ -64,26 +65,29 @@ public class SchemaGeneratorServiceImpl {
         }
         return data;
     }
-    @RequestMapping(value = "/schema-generator/entity/{entity}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String listDetail (@PathVariable("entity") String entity) throws Exception{
+    @RequestMapping(value = "/entity/{entity}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String generateSchemaByEntityName (@PathVariable("entity") String entity) {
         String data = "";
-        if (entity==null || "".equals(entity)){
+        if (StringUtils.isEmpty(entity)){
             throw new PresentationException("invalid content");
         }
-        Class<?> clazz = Class.forName(entity);
         try {
-            Constructor<?> ctor = clazz.getConstructor();
+            Class<?> clazz = Class.forName(entity);
             JsonSchema schema = entityConverter.convert(clazz, TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(JsonSchema.class));
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING, true);
+            mapper.configure(SerializationConfig.Feature.WRITE_NULL_PROPERTIES, false);
             mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
             data = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(schema);
 
-        }catch (NoSuchMethodException nsme){
-            throw new PresentationException("invalid class no empty constructor",nsme);
+        }catch (ClassNotFoundException nsme){
+            throw new PresentationException("invalid class:"+entity,nsme);
+        }catch( IOException e){
+            throw new PresentationException("schema generation exception",e);
         }
         return data;
     }
+
 
 }
