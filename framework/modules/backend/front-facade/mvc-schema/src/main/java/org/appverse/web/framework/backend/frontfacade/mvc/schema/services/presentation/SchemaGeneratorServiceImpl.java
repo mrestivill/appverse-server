@@ -89,6 +89,9 @@ public class SchemaGeneratorServiceImpl {
             throw new PresentationException("invalid class:"+entity,nsme);
         }catch( IOException e){
             throw new PresentationException("schema generation exception",e);
+        }catch( NullPointerException npe){
+            // workarround where entity have a setter without getter it fails to parse
+            throw new PresentationException("entity have setter without getter",npe);
         }
         return data;
     }
@@ -105,6 +108,9 @@ public class SchemaGeneratorServiceImpl {
 
         }catch (ClassNotFoundException nsme){
             throw new PresentationException("invalid class:"+entity,nsme);
+        }catch( NullPointerException npe){
+            // workarround where entity have a setter without getter it fails to parse
+            throw new PresentationException("entity have setter without getter",npe);
         }
         return ResponseEntity.ok().contentType(APPLICATION_SCHEMA_JSON).body(schema);
     }
