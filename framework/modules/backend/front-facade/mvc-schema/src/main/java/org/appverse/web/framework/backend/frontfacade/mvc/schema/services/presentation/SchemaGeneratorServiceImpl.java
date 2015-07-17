@@ -33,6 +33,7 @@ import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.data.rest.webmvc.json.JsonSchema;
 import org.springframework.data.rest.webmvc.json.PersistentEntityToJsonSchemaConverter;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,7 @@ import java.util.Set;
 @RestController
 @ConditionalOnProperty(value="appverse.frontfacade.rest.schema.enabled", matchIfMissing=false)
 @RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}")
+@PreAuthorize("permitAll")
 public class SchemaGeneratorServiceImpl {
     @Autowired
     private PersistentEntityToJsonSchemaConverter entityConverter;
@@ -65,7 +67,8 @@ public class SchemaGeneratorServiceImpl {
         }
         return data;
     }
-    @RequestMapping(value = "/entity/{entity}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(value = "/entity/{entity}/", method = RequestMethod.GET, produces = "application/schem+json")
     public String generateSchemaByEntityName (@PathVariable("entity") String entity) {
         String data = "";
         if (StringUtils.isEmpty(entity)){
