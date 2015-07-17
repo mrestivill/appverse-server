@@ -27,6 +27,7 @@ import org.appverse.web.framework.backend.frontfacade.rest.beans.CredentialsVO;
 import org.appverse.web.framework.backend.security.authentication.userpassword.managers.UserAndPasswordAuthenticationManager;
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,9 @@ import javax.servlet.http.HttpServletResponse;
  * session fixation protection.
  */
 public class SimpleAuthenticationServiceImpl implements SimpleAuthenticationService {
+	
+	@Value("${security.enable-csrf:true}")
+	private boolean securityEnableCsrf;
 
     @Autowired
 	private UserAndPasswordAuthenticationManager userAndPasswordAuthenticationManager;
@@ -75,12 +79,14 @@ public class SimpleAuthenticationServiceImpl implements SimpleAuthenticationServ
             }
             // Authenticate principal and return authorization data
             AuthorizationData authData = userAndPasswordAuthenticationManager.authenticatePrincipal(credentials.getUsername(),credentials.getPassword());
-            
-            // Obtain XSRFToken and add it as a response header
-            // The token comes in the request (CsrFilter adds it) and we need to set it in the response so the clients 
-            // have it to use it in the next requests
-            CsrfToken csrfToken  = (CsrfToken) httpServletRequest.getAttribute(CSRF_TOKEN_SESSION_ATTRIBUTE);
-            httpServletResponse.addHeader(csrfToken.getHeaderName(), csrfToken.getToken());
+    
+            if (securityEnableCsrf){
+            	// Obtain XSRFToken and add it as a response header
+            	// The token comes in the request (CsrFilter adds it) and we need to set it in the response so the clients 
+            	// have it to use it in the next requests
+            	CsrfToken csrfToken  = (CsrfToken) httpServletRequest.getAttribute(CSRF_TOKEN_SESSION_ATTRIBUTE);
+            	httpServletResponse.addHeader(csrfToken.getHeaderName(), csrfToken.getToken());
+            }
             
             // AuthorizationDataVO
             return new ResponseEntity<AuthorizationData>(authData, HttpStatus.OK);
