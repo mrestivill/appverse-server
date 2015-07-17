@@ -65,7 +65,7 @@ public class SchemaGeneratorServiceImpl {
         return data;
     }
 
-    @RequestMapping(value = "/entity/{entity}/", method = RequestMethod.GET, produces = "application/schem+json")
+    @RequestMapping(value = "/entity/{entity}/", method = RequestMethod.GET, produces = "application/schema+json")
     public String generateSchemaByEntityName (@PathVariable("entity") String entity) {
         String data = "";
         if (StringUtils.isEmpty(entity)){
