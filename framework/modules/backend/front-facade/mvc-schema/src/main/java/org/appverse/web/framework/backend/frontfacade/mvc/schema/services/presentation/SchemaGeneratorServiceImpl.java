@@ -33,7 +33,6 @@ import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.data.rest.webmvc.json.JsonSchema;
 import org.springframework.data.rest.webmvc.json.PersistentEntityToJsonSchemaConverter;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +40,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +49,11 @@ import java.util.Set;
 @RestController
 @ConditionalOnProperty(value="appverse.frontfacade.rest.schema.enabled", matchIfMissing=false)
 @RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}")
-@PreAuthorize("permitAll")
 public class SchemaGeneratorServiceImpl {
     @Autowired
     private PersistentEntityToJsonSchemaConverter entityConverter;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/entities", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> listEntities(){
         List<String> data = new ArrayList<String>();
         Set<GenericConverter.ConvertiblePair> list =  entityConverter.getConvertibleTypes();
