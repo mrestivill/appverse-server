@@ -33,6 +33,7 @@ import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.data.rest.webmvc.json.JsonSchema;
 import org.springframework.data.rest.webmvc.json.PersistentEntityToJsonSchemaConverter;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +51,13 @@ import java.util.Set;
 @ConditionalOnProperty(value="appverse.frontfacade.rest.schema.enabled", matchIfMissing=false)
 @RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}")
 public class SchemaGeneratorServiceImpl {
+
+    public static final String APPLICATION_SCHEMA_JSON_VALUE="application/schema+json";
+    public static final MediaType APPLICATION_SCHEMA_JSON=MediaType.valueOf(APPLICATION_SCHEMA_JSON_VALUE);
     @Autowired
     private PersistentEntityToJsonSchemaConverter entityConverter;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/entities", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> listEntities(){
         List<String> data = new ArrayList<String>();
         Set<GenericConverter.ConvertiblePair> list =  entityConverter.getConvertibleTypes();
@@ -65,7 +68,8 @@ public class SchemaGeneratorServiceImpl {
         }
         return data;
     }
-    @RequestMapping(value = "/entity/{entity}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/entity/{entity}/", method = RequestMethod.GET, produces = "application/schema+json")
+    @Deprecated
     public String generateSchemaByEntityName (@PathVariable("entity") String entity) {
         String data = "";
         if (StringUtils.isEmpty(entity)){
@@ -85,8 +89,30 @@ public class SchemaGeneratorServiceImpl {
             throw new PresentationException("invalid class:"+entity,nsme);
         }catch( IOException e){
             throw new PresentationException("schema generation exception",e);
+        }catch( NullPointerException npe){
+            // workarround where entity have a setter without getter it fails to parse
+            throw new PresentationException("entity have setter without getter",npe);
         }
         return data;
+    }
+
+    @RequestMapping(value = "/entity/{entity}.schema.json", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<JsonSchema> generateSchemaByEntityName2 (@PathVariable("entity") String entity) {
+        JsonSchema schema = null;
+        if (StringUtils.isEmpty(entity)){
+            throw new PresentationException("invalid content");
+        }
+        try {
+            Class<?> clazz = Class.forName(entity);
+            schema = entityConverter.convert(clazz, TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(JsonSchema.class));
+
+        }catch (ClassNotFoundException nsme){
+            throw new PresentationException("invalid class:"+entity,nsme);
+        }catch( NullPointerException npe){
+            // workarround where entity have a setter without getter it fails to parse
+            throw new PresentationException("entity have setter without getter",npe);
+        }
+        return ResponseEntity.ok().contentType(APPLICATION_SCHEMA_JSON).body(schema);
     }
 
 

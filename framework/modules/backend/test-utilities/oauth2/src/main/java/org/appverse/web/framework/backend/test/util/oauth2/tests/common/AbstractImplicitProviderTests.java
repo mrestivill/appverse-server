@@ -47,16 +47,29 @@
 package org.appverse.web.framework.backend.test.util.oauth2.tests.common;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.oauth2.client.resource.UserRedirectRequiredException;
 import org.springframework.security.oauth2.client.test.OAuth2ContextConfiguration;
+import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitResourceDetails;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 
 public abstract class AbstractImplicitProviderTests extends AbstractIntegrationTests {
+	
+	private String cookie;
+	
+	private HttpHeaders latestHeaders = null;
 
 	@Test
 	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
@@ -84,6 +97,40 @@ public abstract class AbstractImplicitProviderTests extends AbstractIntegrationT
 			setClientId("test-client");
 			setId(getClientId());
 			setPreEstablishedRedirectUri("http://yourredirecturihere");
+		}
+	}
+	
+	@Test
+	@OAuth2ContextConfiguration(resource = AutoApproveImplicit.class, initialize = false)
+	public void testPostForAutomaticApprovalToken() throws Exception {
+		final ImplicitAccessTokenProvider implicitProvider = new ImplicitAccessTokenProvider();
+		implicitProvider.setInterceptors(Arrays
+				.<ClientHttpRequestInterceptor> asList(new ClientHttpRequestInterceptor() {
+					public ClientHttpResponse intercept(HttpRequest request, byte[] body,
+							ClientHttpRequestExecution execution) throws IOException {
+						ClientHttpResponse result = execution.execute(request, body);
+						latestHeaders = result.getHeaders();
+						return result;
+					}
+				}));
+		context.setAccessTokenProvider(implicitProvider);
+		context.getAccessTokenRequest().setCookie(cookie);
+		assertNotNull(context.getAccessToken());
+		assertTrue("Wrong location header: " + latestHeaders.getLocation().getFragment(), latestHeaders.getLocation().getFragment()
+				.contains("scope=read write trust"));
+	}
+	
+	static class AutoApproveImplicit extends ImplicitResourceDetails {
+		public AutoApproveImplicit(Object target) {
+			super();
+			setClientId("test-client-autoapprove");
+			setId(getClientId());
+			setPreEstablishedRedirectUri("http://anywhere");
+			AbstractImplicitProviderTests test = (AbstractImplicitProviderTests) target;			
+			//setAccessTokenUri(test.serverRunning.getUrl("/sparklr2/oauth/authorize"));
+			setAccessTokenUri(test.http.buildUri("/oauth/authorize").toString());
+			//setUserAuthorizationUri(test.serverRunning.getUrl("/sparklr2/oauth/authorize"));
+			setUserAuthorizationUri(test.http.buildUri("/oauth/authorize").toString());
 		}
 	}
 
