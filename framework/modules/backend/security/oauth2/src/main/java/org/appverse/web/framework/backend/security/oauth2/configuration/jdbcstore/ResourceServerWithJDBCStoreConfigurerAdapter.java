@@ -93,6 +93,7 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
         	.logoutSuccessHandler(oauth2LogoutHandler())
         .and()       
      	// TODO: This should be conditioned to swagger enabled
+        /* Swagger integration - work in progress
             .formLogin()
             	//.loginProcessingUrl("/sec/login")
             	// .loginProcessingUrl("/oauth/token")
@@ -109,6 +110,7 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
         	.authorizeRequests().antMatchers("/lib/**").permitAll().and()
         	.authorizeRequests().antMatchers("/swagger-ui.js").permitAll().and()        	
         	.authorizeRequests().antMatchers("/api-docs/**").permitAll().and()
+        */
     // TODO: This should be conditioned to swagger enabled
 			.authorizeRequests().anyRequest().authenticated();
 	}
