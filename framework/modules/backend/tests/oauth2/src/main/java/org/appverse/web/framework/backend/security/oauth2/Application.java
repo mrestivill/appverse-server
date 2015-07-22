@@ -68,7 +68,16 @@ public class Application {
 					.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
 					.scopes("read", "write", "trust")
 					.resourceIds("oauth2-resource")
-					.accessTokenValiditySeconds(60);
+					.accessTokenValiditySeconds(60)
+			.and()
+			.withClient("test-client-autoapprove")
+			.authorizedGrantTypes("password", "authorization_code",
+					"refresh_token", "implicit")
+					.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
+					.scopes("read", "write", "trust")
+					.resourceIds("oauth2-resource")
+					.accessTokenValiditySeconds(60)
+					.autoApprove(true);
 		}
 	}
 	

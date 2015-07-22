@@ -28,7 +28,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.util.Arrays;
+
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
+import org.appverse.web.framework.backend.test.util.oauth2.tests.common.AbstractImplicitProviderTests;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.common.AbstractIntegrationTests;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +40,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.oauth2.client.resource.UserRedirectRequiredException;
 import org.springframework.security.oauth2.client.test.OAuth2ContextConfiguration;
+import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitResourceDetails;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -79,11 +88,57 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	
 	RestTemplate restTemplate = new TestRestTemplate();
 	
+	// We don't use the cookie for authentication, in our workflow the client will pass basic auth
+	// private String cookie;
+	
+	private HttpHeaders latestHeaders = null;
+	
+	
 	@Test
 	public void contextLoads() {
 		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof JdbcTokenStore);
 		// assertTrue("Wrong client details type: " + clientDetailsService, JdbcClientDetailsService.class.isAssignableFrom(AopUtils.getTargetClass(clientDetailsService)));
 	}
+	
+	@Test
+	@OAuth2ContextConfiguration(resource = AutoApproveImplicit.class, initialize = false)
+	public void testPostForAutomaticApprovalToken() throws Exception {
+		final ImplicitAccessTokenProvider implicitProvider = new ImplicitAccessTokenProvider();
+		implicitProvider.setInterceptors(Arrays
+				.<ClientHttpRequestInterceptor> asList(new ClientHttpRequestInterceptor() {
+					public ClientHttpResponse intercept(HttpRequest request, byte[] body,
+							ClientHttpRequestExecution execution) throws IOException {
+						ClientHttpResponse result = execution.execute(request, body);
+						latestHeaders = result.getHeaders();
+						return result;
+					}
+				}));
+		context.setAccessTokenProvider(implicitProvider);
+
+		// We don't use  cookie for authentication
+		// context.getAccessTokenRequest().setCookie(cookie);
+		
+		// We use basic auth to authenticate here as in our workflow
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", getBasicAuthentication());
+		context.getAccessTokenRequest().setHeaders(headers);
+
+		assertNotNull(context.getAccessToken());
+		assertTrue("Wrong location header: " + latestHeaders.getLocation().getFragment(), latestHeaders.getLocation().getFragment()
+				.contains("scope=read write trust"));
+	}
+	
+	static class AutoApproveImplicit extends ImplicitResourceDetails {
+		public AutoApproveImplicit(Object target) {
+			super();
+			setClientId("test-client-autoapprove");
+			setId(getClientId());
+			setPreEstablishedRedirectUri("http://anywhere");
+			Oauth2RESTProtectedAPIPredefinedTests test = (Oauth2RESTProtectedAPIPredefinedTests) target;			
+			setAccessTokenUri(test.http.buildUri("/oauth/authorize").toString());
+			setUserAuthorizationUri(test.http.buildUri("/oauth/authorize").toString());
+		}
+	}	
 		
 	@Test
 	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
@@ -125,22 +180,26 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	@Test
 	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
 	public void testProtectedRemoteLogWithToken() throws Exception {
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", getBasicAuthentication());
-		context.getAccessTokenRequest().setHeaders(headers);
-		try {
-			assertNotNull(context.getAccessToken());
-			fail("Expected UserRedirectRequiredException");
-		}
-		catch (UserRedirectRequiredException e) {
-			// ignore
-		}
-		// add user approval parameter for the second request
-		context.getAccessTokenRequest().add(OAuth2Utils.USER_OAUTH_APPROVAL, "true");
-		context.getAccessTokenRequest().add("scope.read", "true");
-		assertNotNull(context.getAccessToken());
+		// Obtains the token in the context
+		testPostForNonAutomaticApprovalToken();
 		
+		// OAuth2RestTemplate template = new OAuth2RestTemplate(resource, new DefaultOAuth2ClientContext(context.getAccessToken()));
+        RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
+        remoteLogRequest.setLogLevel("DEBUG");
+        remoteLogRequest.setMessage("This is my log message!");
+        
+        int port = server.getEmbeddedServletContainer().getPort();
+        
+        ResponseEntity<String> result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
+        assertEquals(HttpStatus.OK, result2.getStatusCode());
+	}
+	
+	@Test
+	@OAuth2ContextConfiguration(resource = AutoApproveImplicit.class, initialize = false)
+	public void testProtectedRemoteLogWithTokenAutoApprove() throws Exception {
+		// Obtains the token in the context
+		testPostForAutomaticApprovalToken();
+
 		// OAuth2RestTemplate template = new OAuth2RestTemplate(resource, new DefaultOAuth2ClientContext(context.getAccessToken()));
         RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
         remoteLogRequest.setLogLevel("DEBUG");
