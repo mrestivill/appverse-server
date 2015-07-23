@@ -23,6 +23,8 @@
  */
 package org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore;
 
+import javax.servlet.Filter;
+
 import org.appverse.web.framework.backend.security.oauth2.handlers.OAuth2LogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +35,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Convenient setup for an OAuth2 Resource Server that uses a
@@ -88,19 +91,23 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.logout()
+		http.
+			addFilter(getUsernamePasswordAuthenticationFilter())		
+		.logout()
         	.logoutUrl(oauth2LogoutEndpointPath)
         	.logoutSuccessHandler(oauth2LogoutHandler())
-        .and()       
+        
      	// TODO: This should be conditioned to swagger enabled
-        /* Swagger integration - work in progress
+        /*	Is this necessary!?
+        .and()       
             .formLogin()
+            	.loginPage("/oauth2loginform.html")
+            	.successHandler(successHandler())  
+        */    	         	
             	//.loginProcessingUrl("/sec/login")
             	// .loginProcessingUrl("/oauth/token")
                 // .failureUrl("/login.jsp?authentication_error=true")
                 //.loginPage("/login.jsp")
-            	.loginPage("/oauth2loginform.html")
-            	.successHandler(successHandler())
         .and()
         	.authorizeRequests().antMatchers("/oauth2loginform.html").permitAll().and()
         	.authorizeRequests().antMatchers("/o2c.html").permitAll().and()
@@ -110,9 +117,16 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
         	.authorizeRequests().antMatchers("/lib/**").permitAll().and()
         	.authorizeRequests().antMatchers("/swagger-ui.js").permitAll().and()        	
         	.authorizeRequests().antMatchers("/api-docs/**").permitAll().and()
-        */
     // TODO: This should be conditioned to swagger enabled
 			.authorizeRequests().anyRequest().authenticated();
 	}
+	
+	private Filter getUsernamePasswordAuthenticationFilter(){
+		UsernamePasswordAuthenticationFilter filter = new UsernamePasswordAuthenticationFilter();
+		filter.setFilterProcessesUrl("/oauth/authorize");
+		return filter;
+	}
+	
+	
 
 }

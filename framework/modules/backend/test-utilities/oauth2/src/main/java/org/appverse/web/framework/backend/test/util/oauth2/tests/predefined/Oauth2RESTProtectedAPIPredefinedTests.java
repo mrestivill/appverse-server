@@ -171,7 +171,7 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	
 	@Test
 	public void testProtectedResourceIsProtected() throws Exception {
-		ResponseEntity<String> response = http.getForString("/");
+		ResponseEntity<String> response = http.getForString("/protected");
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));
