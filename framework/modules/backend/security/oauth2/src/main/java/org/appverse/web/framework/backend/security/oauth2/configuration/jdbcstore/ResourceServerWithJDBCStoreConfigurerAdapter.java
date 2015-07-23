@@ -31,6 +31,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 /**
  * Convenient setup for an OAuth2 Resource Server that uses a
@@ -67,6 +69,17 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 		return new OAuth2LogoutHandler(tokenStore);
 	}
 
+	/* Necessary for swagger so that once we redirect after the login we can go to o2c.html */
+	// http://stackoverflow.com/questions/26833452/spring-boot-redirect-to-current-page-after-succes-login
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+	    SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+	    handler.setDefaultTargetUrl("/o2c.html");
+	    // handler.setUseReferer(true);
+	    return handler;
+	}
+	
+	
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources)
 			throws Exception {
@@ -78,7 +91,27 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 		http.logout()
         	.logoutUrl(oauth2LogoutEndpointPath)
         	.logoutSuccessHandler(oauth2LogoutHandler())
-        .and()        	
+        .and()       
+     	// TODO: This should be conditioned to swagger enabled
+        /* Swagger integration - work in progress
+            .formLogin()
+            	//.loginProcessingUrl("/sec/login")
+            	// .loginProcessingUrl("/oauth/token")
+                // .failureUrl("/login.jsp?authentication_error=true")
+                //.loginPage("/login.jsp")
+            	.loginPage("/oauth2loginform.html")
+            	.successHandler(successHandler())
+        .and()
+        	.authorizeRequests().antMatchers("/oauth2loginform.html").permitAll().and()
+        	.authorizeRequests().antMatchers("/o2c.html").permitAll().and()
+        	.authorizeRequests().antMatchers("/").permitAll().and()
+        	.authorizeRequests().antMatchers("/index.html").permitAll().and()
+        	.authorizeRequests().antMatchers("/css/**").permitAll().and()
+        	.authorizeRequests().antMatchers("/lib/**").permitAll().and()
+        	.authorizeRequests().antMatchers("/swagger-ui.js").permitAll().and()        	
+        	.authorizeRequests().antMatchers("/api-docs/**").permitAll().and()
+        */
+    // TODO: This should be conditioned to swagger enabled
 			.authorizeRequests().anyRequest().authenticated();
 	}
 

@@ -23,10 +23,23 @@
  */
 package org.appverse.web.framework.backend.frontfacade.mvc.swagger.autoconfigure;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mangofactory.swagger.authorization.AuthorizationContext;
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.plugin.EnableSwagger;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
 import com.mangofactory.swagger.models.dto.ApiInfo;
+import com.mangofactory.swagger.models.dto.Authorization;
+import com.mangofactory.swagger.models.dto.AuthorizationScope;
+import com.mangofactory.swagger.models.dto.AuthorizationType;
+import com.mangofactory.swagger.models.dto.GrantType;
+import com.mangofactory.swagger.models.dto.ImplicitGrant;
+import com.mangofactory.swagger.models.dto.LoginEndpoint;
+import com.mangofactory.swagger.models.dto.OAuth;
+import com.mangofactory.swagger.models.dto.TokenRequestEndpoint;
+import com.mangofactory.swagger.models.dto.builder.OAuthBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -71,10 +84,8 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
             */
     		.includePatterns(getIncludePatterns())
             .apiInfo(apiInfo())
-            /* TODO: Review this when we enable OAUth2 in Swagger
             .authorizationTypes(authorizationTypes())
             .authorizationContext(authorizationContext())
-            */
             .build();
   }
 
@@ -113,7 +124,68 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
               propertyResolver.getProperty("licenseUrl"));
   }
 
+/* TODO: Review this when we enable OAUth2 in Swagger */
+  private List<AuthorizationType> authorizationTypes() {
+    ArrayList<AuthorizationType> authorizationTypes = new ArrayList<AuthorizationType>();
 
+    List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
+    authorizationScopeList.add(new AuthorizationScope("read", "read"));
+    authorizationScopeList.add(new AuthorizationScope("write", "write"));
+    authorizationScopeList.add(new AuthorizationScope("trust", "trust"));
 
+    List<GrantType> grantTypes = new ArrayList<GrantType>();
+
+    // LoginEndpoint loginEndpoint = new LoginEndpoint("http://petstore.swagger.wordnik.com/api/oauth/dialog");
+    // It cannot be this because we need to show a login form, then we will redirect here.. LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/oauth/token");
+    
+    LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/oauth2loginform.html");    
+    grantTypes.add(new ImplicitGrant(loginEndpoint, "access_token"));
+    
+/*    
+    TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("http://localhost:8080/oauth/token", "client_id", "client_secret");
+    grantTypes.add(new ImplicitGrant(loginEndpoint, "access_token"));
+*/  
+    
+    // TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("http://petstore.swagger.wordnik.com/oauth/requestToken", "client_id", "client_secret");
+/*
+    TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("http://localhost:8080/oauth/token", "test-client", null);
+    TokenEndpoint tokenEndpoint = new TokenEndpoint("http://petstore.swagger.wordnik.com/oauth/token", "auth_code");
+*/
+
+    OAuth oAuth = new OAuthBuilder()
+            .scopes(authorizationScopeList)
+            .grantTypes(grantTypes)
+            .build();
+
+    authorizationTypes.add(oAuth);
+    return authorizationTypes;
+  }
+
+  @Bean
+  public AuthorizationContext authorizationContext() {
+    List<Authorization> authorizations = new ArrayList<Authorization>();
+
+    /*
+    AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+    AuthorizationScope[] authorizationScopes = new AuthorizationScope[]{authorizationScope};
+    */
+
+    List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
+    authorizationScopeList.add(new AuthorizationScope("read", "read"));
+    authorizationScopeList.add(new AuthorizationScope("write", "write"));
+    authorizationScopeList.add(new AuthorizationScope("trust", "trust"));    
+    
+    authorizations.add(new Authorization("oauth2", authorizationScopeList.toArray(new AuthorizationScope[authorizationScopeList.size()])));
+    AuthorizationContext authorizationContext =
+            new AuthorizationContext.AuthorizationContextBuilder(authorizations).build();
+    return authorizationContext;
+  }
+  
+  @Bean
+  public MultipartResolver multipartResolver() {
+    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+    multipartResolver.setMaxUploadSize(500000);
+    return multipartResolver;
+  }
 
 }
