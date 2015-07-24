@@ -180,12 +180,6 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
             new AuthorizationContext.AuthorizationContextBuilder(authorizations).build();
     return authorizationContext;
   }
-  
-  @Bean
-  public MultipartResolver multipartResolver() {
-    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-    multipartResolver.setMaxUploadSize(500000);
-    return multipartResolver;
-  }
+
 
 }
