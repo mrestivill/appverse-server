@@ -76,7 +76,7 @@ public class FrontFacadeRestAutoConfiguration {
      * @return
      */
     @Bean
-    @ConditionalOnProperty(value="appverse.frontfacade.cors.enabled", matchIfMissing=false)
+    @ConditionalOnProperty(value="appverse.frontfacade.rest.cors.enabled", matchIfMissing=false)
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurerAdapter() {
             @Override
