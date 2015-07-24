@@ -1,0 +1,47 @@
+<html>
+<head>
+<script src="/lib/jquery-1.8.0.min.js"></script>
+<script src="/lib/swagger-oauth.js"></script>
+</head>
+<body id="oauth-authorize">
+	<header>
+		<h1></h1>
+		<p>
+			<strong>Please enter your credentials</strong>
+		</p>
+	</header>
+	<section>
+		<!--  TODO: Redirect URL has to be a parameter -->
+		<form method="POST" id="oauth-authorize-login" action="/oauth/authorize?redirect_uri=http://localhost:8080/o2c.html">
+			<div>
+				<button type="button" id="deny">
+					<span>Cancel and go back</span>
+				</button>
+				<button type="button" id="allow">
+					<span>Allow</span>
+				</button>
+			</div>
+			<div>
+
+				<input name="client_id" id="client_id" type="hidden"
+					value="test-client-autoapprove"></input> 
+				<input name="accept"
+					id="accept" type="hidden" value="Allow"></input> 
+				<input name="request_id" id="request_id" type="hidden" value=""></input> 
+				<input name="response_type" id="response_type" type="hidden" value="token"/>
+				<!-- TODO: This URL has to be a parameter 					
+				<input name="redirect_uri" id="redirect_uri" type="hidden"
+					value="http://localhost:8080/o2c.html" /> <label for="username">Username</label>
+				-->
+				<input name="username" id="username" type="text"
+					placeholder="Username" value="user"></input> <label for="password">Password</label>
+				<input name="password" id="password" type="password"
+					placeholder="Password" value="password"></input>
+				<button type="submit" id="login" name="login">
+					<span>Confirm</span>
+				</button>
+			</div>
+		</form>
+	</section>
+</body>
+</html>

@@ -125,7 +125,7 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 
 		assertNotNull(context.getAccessToken());
 		assertTrue("Wrong location header: " + latestHeaders.getLocation().getFragment(), latestHeaders.getLocation().getFragment()
-				.contains("scope=read write trust"));
+				.contains("trust"));
 	}
 	
 	static class AutoApproveImplicit extends ImplicitResourceDetails {
@@ -156,7 +156,7 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 		}
 		// add user approval parameter for the second request
 		context.getAccessTokenRequest().add(OAuth2Utils.USER_OAUTH_APPROVAL, "true");
-		context.getAccessTokenRequest().add("scope.read", "true");
+		context.getAccessTokenRequest().add("scope.trust", "true");
 		assertNotNull(context.getAccessToken());
 	}
 
@@ -241,7 +241,7 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 		}
 		// add user approval parameter for the second request
 		context.getAccessTokenRequest().add(OAuth2Utils.USER_OAUTH_APPROVAL, "true");
-		context.getAccessTokenRequest().add("scope.read", "true");
+		context.getAccessTokenRequest().add("scope.trust", "true");
 		assertNotNull(context.getAccessToken());
 		
 		// OAuth2RestTemplate template = new OAuth2RestTemplate(resource, new DefaultOAuth2ClientContext(context.getAccessToken()));

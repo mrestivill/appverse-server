@@ -33,8 +33,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -72,17 +70,6 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 		return new OAuth2LogoutHandler(tokenStore);
 	}
 
-	/* Necessary for swagger so that once we redirect after the login we can go to o2c.html */
-	// http://stackoverflow.com/questions/26833452/spring-boot-redirect-to-current-page-after-succes-login
-	@Bean
-	public AuthenticationSuccessHandler successHandler() {
-	    SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
-	    handler.setDefaultTargetUrl("/o2c.html");
-	    // handler.setUseReferer(true);
-	    return handler;
-	}
-	
-	
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources)
 			throws Exception {
@@ -91,23 +78,17 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
+		// In this OAuth2 scenario with implicit flow we both login the user and obtain the token
+		// in the same endpoint (/oauth/authorize). User credentials will be passed as "username" and 
+		// "password" form. That's why we register the filter.
+		// This might be different in other scenarios, for instance if we wanted to implement
+		// authorization code flow to support token refresh.
 		http.
 			addFilter(getUsernamePasswordAuthenticationFilter())		
 		.logout()
         	.logoutUrl(oauth2LogoutEndpointPath)
         	.logoutSuccessHandler(oauth2LogoutHandler())
-        
-     	// TODO: This should be conditioned to swagger enabled
-        /*	Is this necessary!?
-        .and()       
-            .formLogin()
-            	.loginPage("/oauth2loginform.html")
-            	.successHandler(successHandler())  
-        */    	         	
-            	//.loginProcessingUrl("/sec/login")
-            	// .loginProcessingUrl("/oauth/token")
-                // .failureUrl("/login.jsp?authentication_error=true")
-                //.loginPage("/login.jsp")
+    // TODO: All this needs to be comma separated property that is passed as a list of antmatchers        	
         .and()
         	.authorizeRequests().antMatchers("/oauth2loginform.html").permitAll().and()
         	.authorizeRequests().antMatchers("/o2c.html").permitAll().and()
@@ -126,7 +107,5 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 		filter.setFilterProcessesUrl("/oauth/authorize");
 		return filter;
 	}
-	
-	
 
 }
