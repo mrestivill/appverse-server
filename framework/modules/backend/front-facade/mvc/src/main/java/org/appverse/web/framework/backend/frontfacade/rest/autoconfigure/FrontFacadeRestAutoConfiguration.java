@@ -56,7 +56,7 @@ public class FrontFacadeRestAutoConfiguration {
     //comma separated allowed origins, by default *
     private String allowedHeaders;
 
-    @Value("${appverse.frontfacade.rest.cors.allowedmethods:GET, POST, PUT, DELETE, OPTIONS, PATCH}")
+    @Value("${appverse.frontfacade.rest.cors.allowedmethods:GET,POST,PUT,DELETE,OPTIONS,PATCH}")
     //comma separated allowed methods, by default
     private String allowedMethods;
     @Value("${appverse.frontfacade.rest.cors.allowcredentials:true}")
@@ -85,10 +85,10 @@ public class FrontFacadeRestAutoConfiguration {
                 if (!StringUtils.isEmpty(corsPath)){
                     path = corsPath;
                 }
-                registry.addMapping(path+"/**")
+                registry.addMapping(path + "/**")
                         .allowedOrigins(StringUtils.commaDelimitedListToStringArray(allowedOrigins))
-                        .allowedMethods(allowedMethods)
-                        .allowedHeaders(allowedHeaders)
+                        .allowedMethods(StringUtils.commaDelimitedListToStringArray(allowedMethods))
+                        .allowedHeaders(StringUtils.commaDelimitedListToStringArray(allowedHeaders))
                         .allowCredentials(Boolean.valueOf(allowedCredentials))
                         .maxAge(Long.valueOf(maxAge));
             }

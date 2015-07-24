@@ -73,6 +73,7 @@ import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration;
 import org.springframework.web.socket.WebSocketHttpHeaders;
+import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -105,16 +106,12 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 @Ignore
 public class IntegrationWebsocketTest {
 
- private static Logger logger = LoggerFactory.getLogger(IntegrationWebsocketTest.class);
-
- private static int port;
-
- private static TomcatWebSocketTestServer server;
-
- private static SockJsClient sockJsClient;
-
  private final static WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
-
+ private static Logger logger = LoggerFactory.getLogger(IntegrationWebsocketTest.class);
+ private static int port;
+ private static TomcatWebSocketTestServer server;
+ private static SockJsClient sockJsClient;
+ private static WebSocketClient standardWebSocketClient;
 
  @BeforeClass
  public static void setup() throws Exception {
@@ -192,7 +189,6 @@ public class IntegrationWebsocketTest {
 
 
  @Test
- @Ignore
  public void getPositions() throws Exception {
 
   final CountDownLatch latch = new CountDownLatch(1);
@@ -231,7 +227,7 @@ public class IntegrationWebsocketTest {
   };
 
   WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
-  stompClient.connect("ws://localhost:{port}/services/websocket", this.headers, handler, port);
+  stompClient.connect("http://localhost:{port}/services/websocket", this.headers, handler, port);
 
   if (failure.get() != null) {
    throw new AssertionError("", failure.get());
@@ -243,7 +239,6 @@ public class IntegrationWebsocketTest {
  }
 
  @Test
- @Ignore
  public void executeTrade() throws Exception {
 
   final CountDownLatch latch = new CountDownLatch(1);
@@ -290,10 +285,10 @@ public class IntegrationWebsocketTest {
     }
    }
   };
-
+  //test websocket
   WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
   stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-  stompClient.connect("ws://localhost:{port}/services/websocket", headers, handler, port);
+  stompClient.connect("ws://localhost:{port}/services/websocket/standard", headers, handler, port);
 
   if (!latch.await(10, TimeUnit.SECONDS)) {
    fail("Trade confirmation not received");
@@ -301,6 +296,18 @@ public class IntegrationWebsocketTest {
   else if (failure.get() != null) {
    throw new AssertionError("", failure.get());
   }
+  //test sockJs
+  stompClient = new WebSocketStompClient(sockJsClient);
+  stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+  stompClient.connect("http://localhost:{port}/services/websocket/sockJs", headers, handler, port);
+
+  if (!latch.await(10, TimeUnit.SECONDS)) {
+   fail("Trade confirmation not received");
+  }
+  else if (failure.get() != null) {
+   throw new AssertionError("", failure.get());
+  }
+
  }
 
 

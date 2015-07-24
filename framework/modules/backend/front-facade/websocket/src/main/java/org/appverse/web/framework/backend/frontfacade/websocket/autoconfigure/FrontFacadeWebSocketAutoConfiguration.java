@@ -30,9 +30,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.util.StringUtils;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.StompWebSocketEndpointRegistration;
 
 @Configuration
 @ConditionalOnProperty(value="appverse.frontfacade.websocket.enabled", matchIfMissing=true)
@@ -41,19 +43,34 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 public class FrontFacadeWebSocketAutoConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
     private static final Logger logger = LoggerFactory.getLogger(FrontFacadeWebSocketAutoConfiguration.class);
 
-    @Value("${appverse.frontfacade.websocket.defaultWebSocketEndpoint.path:/services/websocket}")
-    private String defaultwebsocketEndpointPath;
+    @Value("${appverse.frontfacade.websocket.defaultWebSocketEndpoint.path:/services/websocket/standard}")
+    private String defaultWebsocketEndpointPath;
+    @Value("${appverse.frontfacade.websocket.defaultWebSocketEndpoint.path:/services/websocket/sockJs}")
+    private String defaultSockJsEndpointPath;
     @Value("${appverse.frontfacade.websocket.simpleBrokerEndpoint.path:/topic/}")
     private String simpleBrokerEndpointPath;
     @Value("${appverse.frontfacade.websocket.queueBrokerEndpoint.path:/queue/}")
     private String queueBrokerEndpointPath;
     @Value("${appverse.frontfacade.websocket.applicationDestinationEndpoint.path:/app}")
     private String applicationDestinationEndpointPath;
-
+    @Value("${appverse.frontfacade.rest.cors.allowedorigins:*}")
+    //comma separated allowed origins, by default *
+    private String allowedOrigins;
+    @Value("${appverse.frontfacade.cors.enabled:false}")
+    private String corsEnabled;
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        logger.info("initializing websocket on path:'{}' ...",defaultwebsocketEndpointPath);
-        stompEndpointRegistry.addEndpoint(defaultwebsocketEndpointPath).withSockJS();
+
+        logger.info("Initializing websocket standard on path:'{}' ...", defaultWebsocketEndpointPath);
+        StompWebSocketEndpointRegistration webSockedEndpoint  = stompEndpointRegistry.addEndpoint(defaultWebsocketEndpointPath);
+        logger.info("Initializing websocket sockJs on path:'{}' ...", defaultSockJsEndpointPath);
+        StompWebSocketEndpointRegistration sockJsEndpoint = stompEndpointRegistry.addEndpoint(defaultSockJsEndpointPath);
+        sockJsEndpoint.withSockJS();
+        if (Boolean.valueOf(corsEnabled)){
+            logger.info("Initializing cors on websockets");
+            webSockedEndpoint.setAllowedOrigins(StringUtils.commaDelimitedListToStringArray(allowedOrigins));
+            sockJsEndpoint.setAllowedOrigins(StringUtils.commaDelimitedListToStringArray(allowedOrigins));
+        }
     }
     @Override
     public void configureMessageBroker(final MessageBrokerRegistry registry) {
