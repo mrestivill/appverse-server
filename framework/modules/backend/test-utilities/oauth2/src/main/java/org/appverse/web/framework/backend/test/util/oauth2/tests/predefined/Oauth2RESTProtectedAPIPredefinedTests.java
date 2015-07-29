@@ -29,17 +29,19 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Arrays;
 
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
-import org.appverse.web.framework.backend.test.util.oauth2.tests.common.AbstractImplicitProviderTests;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.common.AbstractIntegrationTests;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.boot.test.TestRestTemplate;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +58,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 
 /**
@@ -74,6 +77,10 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
 	
+	// TODO: Rename this to frontfacade oauth2
+	@Value("${appverse.oauth2.implicitflow.loginEndpoint.path:/oauth/login}")
+	protected String oauth2ImplicitFlowLoginEndpointPath;
+	
 	@Autowired
     private FilterChainProxy springSecurityFilterChain;
 	
@@ -88,6 +95,8 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	
 	RestTemplate restTemplate = new TestRestTemplate();
 	
+	private String accessToken=null;
+	
 	// We don't use the cookie for authentication, in our workflow the client will pass basic auth
 	// private String cookie;
 	
@@ -99,7 +108,9 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof JdbcTokenStore);
 		// assertTrue("Wrong client details type: " + clientDetailsService, JdbcClientDetailsService.class.isAssignableFrom(AopUtils.getTargetClass(clientDetailsService)));
 	}
-	
+
+
+/*
 	@Test
 	@OAuth2ContextConfiguration(resource = AutoApproveImplicit.class, initialize = false)
 	public void testPostForAutomaticApprovalToken() throws Exception {
@@ -122,15 +133,17 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", getBasicAuthentication());
 		context.getAccessTokenRequest().setHeaders(headers);
-
+		
 		assertNotNull(context.getAccessToken());
 		assertTrue("Wrong location header: " + latestHeaders.getLocation().getFragment(), latestHeaders.getLocation().getFragment()
 				.contains("trust"));
 	}
+*/	
 	
 	static class AutoApproveImplicit extends ImplicitResourceDetails {
 		public AutoApproveImplicit(Object target) {
 			super();
+			// TODO: All this need to be parameters passed to the test (depends on our application setup)
 			setClientId("test-client-autoapprove");
 			setId(getClientId());
 			setPreEstablishedRedirectUri("http://anywhere");
@@ -140,6 +153,7 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 		}
 	}	
 		
+	/*
 	@Test
 	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
 	public void testPostForNonAutomaticApprovalToken() throws Exception {
@@ -159,10 +173,13 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 		context.getAccessTokenRequest().add("scope.trust", "true");
 		assertNotNull(context.getAccessToken());
 	}
+	*/
 
+	
 	static class NonAutoApproveImplicit extends ImplicitResourceDetails {
 		public NonAutoApproveImplicit(Object target) {
 			super();
+			// TODO: All this need to be parameters passed to the test (depends on our application setup)
 			setClientId("test-client");
 			setId(getClientId());
 			setPreEstablishedRedirectUri("http://anywhere");
@@ -178,37 +195,28 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	}
 		
 	@Test
-	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
-	public void testProtectedRemoteLogWithToken() throws Exception {
-		// Obtains the token in the context
-		testPostForNonAutomaticApprovalToken();
-		
-		// OAuth2RestTemplate template = new OAuth2RestTemplate(resource, new DefaultOAuth2ClientContext(context.getAccessToken()));
-        RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
-        remoteLogRequest.setLogLevel("DEBUG");
-        remoteLogRequest.setMessage("This is my log message!");
-        
-        int port = server.getEmbeddedServletContainer().getPort();
-        
-        ResponseEntity<String> result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
-        assertEquals(HttpStatus.OK, result2.getStatusCode());
+	public void testProtectedRemoteLogWithTokenAutoApprove() throws Exception {
+		// Obtains the token
+		obtainTokenFromOuth2LoginEndpoint();
+
+		// Call remote log using the token
+		ResponseEntity<String> result = callRemoteLogWithAccessToken();
+		assertEquals(HttpStatus.OK, result.getStatusCode());
 	}
 	
-	@Test
-	@OAuth2ContextConfiguration(resource = AutoApproveImplicit.class, initialize = false)
-	public void testProtectedRemoteLogWithTokenAutoApprove() throws Exception {
-		// Obtains the token in the context
-		testPostForAutomaticApprovalToken();
-
-		// OAuth2RestTemplate template = new OAuth2RestTemplate(resource, new DefaultOAuth2ClientContext(context.getAccessToken()));
+	private ResponseEntity<String> callRemoteLogWithAccessToken(){
         RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
         remoteLogRequest.setLogLevel("DEBUG");
         remoteLogRequest.setMessage("This is my log message!");
         
         int port = server.getEmbeddedServletContainer().getPort();
         
-        ResponseEntity<String> result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
-        assertEquals(HttpStatus.OK, result2.getStatusCode());
+        HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+        builder.queryParam("access_token", accessToken);        
+        
+        ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
+        return result;        
 	}
 	
 	@Test
@@ -228,47 +236,68 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	@Test
 	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
 	public void oauth2FlowTest() throws Exception {
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", getBasicAuthentication());
-		context.getAccessTokenRequest().setHeaders(headers);
-		try {
-			assertNotNull(context.getAccessToken());
-			fail("Expected UserRedirectRequiredException");
-		}
-		catch (UserRedirectRequiredException e) {
-			// ignore
-		}
-		// add user approval parameter for the second request
-		context.getAccessTokenRequest().add(OAuth2Utils.USER_OAUTH_APPROVAL, "true");
-		context.getAccessTokenRequest().add("scope.trust", "true");
-		assertNotNull(context.getAccessToken());
+		// Obtains the token
+		obtainTokenFromOuth2LoginEndpoint();
 		
-		// OAuth2RestTemplate template = new OAuth2RestTemplate(resource, new DefaultOAuth2ClientContext(context.getAccessToken()));
-        RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
-        remoteLogRequest.setLogLevel("DEBUG");
-        remoteLogRequest.setMessage("This is my log message!");
+		// Call remotelog        
+		ResponseEntity<String> result = callRemoteLogWithAccessToken();
+		assertEquals(HttpStatus.OK, result.getStatusCode());
+
+		int port = server.getEmbeddedServletContainer().getPort();
+		
+        // We call logout endpoint (we need to use the access token for this)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2LogoutEndpointPath);
+        builder.queryParam("access_token", accessToken);        
         
+        ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, null, String.class);
+        assertEquals(HttpStatus.OK, result2.getStatusCode());
+
+        // We try to call the protected API again (after having logged out which removes the token) - We expect not to be able to call the service.
+        // This will throw a exception. In this case here in the test we receive an exception but really what happened was 'access denied'
+        // A production client will receive the proper http error
+        result = callRemoteLogWithAccessToken();
+        assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
+	}
+	
+	@Test	
+	public void obtainTokenFromOuth2LoginEndpoint() throws Exception {
         int port = server.getEmbeddedServletContainer().getPort();
         
-        ResponseEntity<String> result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
-        assertEquals(HttpStatus.OK, result2.getStatusCode());
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2ImplicitFlowLoginEndpointPath);
+        builder.queryParam("username", getUsername());
+        builder.queryParam("password", getPassword());
+        builder.queryParam("response_type", "token");
+        builder.queryParam("redirect_uri", "http://anywhere");
+        
+        // TODO: All this need to be parameters passed to the test (depends on our application setup)
+        builder.queryParam("client_id", "test-client-autoapprove");
+        
+        HttpEntity<String> entity = new HttpEntity<>("");
+        ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
+        
+        // This means the user was correctly authenticated, then a redirection was performed to /oauth/authorize to obtain the token.
+        // Then the token was sucessfully obtained (authenticating the client properly) and a last redirection was performed to the 
+        // redirect_uri with the token after #
+        assertEquals(HttpStatus.FOUND, result2.getStatusCode());
 
-        // We call logout endpoint
-        result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + oauth2LogoutEndpointPath, null, String.class);
-        assertEquals(HttpStatus.OK, result2.getStatusCode());
-
-        try{
-        	// We try to call the protected API again (after having logged out which removes the token) - We expect not to be able to call the service.
-        	// This will throw a exception. In this case here in the test we receive an exception but really what happened was 'access denied'
-        	// A production client will receive the proper http error
-        	result2 = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
-        	fail("Expected a exception here - access denied");
-        }
-        catch(Exception e){
-        	// Ignore - If the exception is not thrown the test will fail
-        }
+        // Obtain the token from redirection URL after #
+        URI location = result2.getHeaders().getLocation();
+        accessToken = extractToken(location.getFragment().toString());
+        assertNotNull(accessToken);
 	}
+	
+	protected String extractToken(String urlFragment){
+        String[] fragmentParams = urlFragment.split("&");
+        String accessToken=null;
+        for (String param : fragmentParams){
+        	if (param.contains("access_token")){
+        		String[] params = param.split("=");
+        		accessToken = params[1];
+        		break;
+        	}
+        }
+        return accessToken;
+	}	
 
 	protected abstract String getPassword();
 

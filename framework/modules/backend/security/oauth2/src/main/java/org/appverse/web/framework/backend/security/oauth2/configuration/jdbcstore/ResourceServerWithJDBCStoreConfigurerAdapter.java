@@ -92,20 +92,15 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 		// "password" form. That's why we register the filter.
 		// This might be different in other scenarios, for instance if we wanted to implement
 		// authorization code flow to support token refresh.
-		http
-			// All this is not working to avoid popup to be shown...
-		    // Idea: backup the changes and restore the code to see if then it was working...
-			//httpBasic().disable()			    
-		//.addFilterAfter(getUsernamePasswordAuthenticationFilter(), LogoutFilter.class)
+		http.
+			httpBasic().disable()
 		// Test filter gives problems because is redirecting to / is not saving the request to redirect properly
-		//.addFilterAfter(getTestFilter(), LogoutFilter.class)
 		.logout()
         	.logoutUrl(oauth2LogoutEndpointPath)
         	.logoutSuccessHandler(oauth2LogoutHandler())
     // TODO: All this needs to be comma separated property that is passed as a list of antmatchers        	
         .and()
         	.authorizeRequests().antMatchers("/api/oauth/login").permitAll().and()
-        // .formLogin().loginProcessingUrl("/swaggeroauth2login").and()
         	.authorizeRequests().antMatchers("/swaggeroauth2login").permitAll().and()        
         	.authorizeRequests().antMatchers("/o2c.html").permitAll().and()
         	.authorizeRequests().antMatchers("/").permitAll().and()
@@ -127,24 +122,5 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 		registration.addUrlPatterns("/*");
 		return registration;
 	}
-	*/
-	
-	private Filter getUsernamePasswordAuthenticationFilter(){
-		// TODO: Solve this, the filter is not being called!!
-		// http://stackoverflow.com/questions/30287568/springboot-usernamepasswordauthenticationfilter-issue
-		
-		UsernamePasswordAuthenticationFilter filter = new UsernamePasswordAuthenticationFilter();
-		filter.setFilterProcessesUrl("/oauth/authorize/**");
-		return filter;
-	}
-	
-	private Filter getTestFilter(){
-		// TODO: Solve this, the filter is not being called!!
-		// http://stackoverflow.com/questions/30287568/springboot-usernamepasswordauthenticationfilter-issue
-		UserNamePasswordTestCustomFilter filter = new UserNamePasswordTestCustomFilter();
-		System.out.println("******** Authentication Manager: " + authenticationManager);
-		filter.setAuthenticationManager(authenticationManager);
-		return filter;
-	}	
-		
+	*/		
 }

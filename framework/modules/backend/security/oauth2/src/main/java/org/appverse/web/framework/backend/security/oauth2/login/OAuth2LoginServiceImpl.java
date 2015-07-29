@@ -66,6 +66,7 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
     	// Authenticate principal and return authorization data
     	userAndPasswordAuthenticationManager.authenticatePrincipal(username, password);
 
+/* TODO: See how CSRF fits here. Are we going to use CSRF with OAuth2?
     	if (securityEnableCsrf){
     		// Obtain XSRFToken and add it as a response header
     		// The token comes in the request (CsrFilter adds it) and we need to set it in the response so the clients 
@@ -73,6 +74,15 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
     		CsrfToken csrfToken  = (CsrfToken) httpServletRequest.getAttribute(CSRF_TOKEN_SESSION_ATTRIBUTE);
     		httpServletResponse.addHeader(csrfToken.getHeaderName(), csrfToken.getToken());
     	}
+    	
+    	In AppverseWebBasicAuthenticationConfigurerAdapter is handled like this:
+		
+		if (securityEnableCsrf){
+			http.csrf()
+			.requireCsrfProtectionMatcher(new CsrfSecurityRequestMatcher());
+		}
+		else http.csrf().disable();
+*/    	
 
     	RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/oauth/authorize");
     	dispatcher.forward(httpServletRequest, httpServletResponse);        	
