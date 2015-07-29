@@ -62,5 +62,9 @@
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 		</dependency>
+		<dependency>		
+			<groupId>org.appverse.web.framework.modules.backend.security.authentication</groupId>
+			<artifactId>appverse-web-modules-backend-security-authentication</artifactId>
+		</dependency>		
 	</dependencies>	    
 </project>

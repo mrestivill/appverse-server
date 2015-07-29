@@ -28,12 +28,18 @@ import javax.servlet.Filter;
 import org.appverse.web.framework.backend.security.oauth2.handlers.OAuth2LogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpointAuthenticationFilter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 /**
  * Convenient setup for an OAuth2 Resource Server that uses a
@@ -62,6 +68,9 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 	@Autowired
 	private TokenStore tokenStore;
 	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
 	
@@ -83,14 +92,21 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 		// "password" form. That's why we register the filter.
 		// This might be different in other scenarios, for instance if we wanted to implement
 		// authorization code flow to support token refresh.
-		http.
-			addFilter(getUsernamePasswordAuthenticationFilter())		
+		http
+			// All this is not working to avoid popup to be shown...
+		    // Idea: backup the changes and restore the code to see if then it was working...
+			//httpBasic().disable()			    
+		//.addFilterAfter(getUsernamePasswordAuthenticationFilter(), LogoutFilter.class)
+		// Test filter gives problems because is redirecting to / is not saving the request to redirect properly
+		//.addFilterAfter(getTestFilter(), LogoutFilter.class)
 		.logout()
         	.logoutUrl(oauth2LogoutEndpointPath)
         	.logoutSuccessHandler(oauth2LogoutHandler())
     // TODO: All this needs to be comma separated property that is passed as a list of antmatchers        	
         .and()
-        	.authorizeRequests().antMatchers("/oauth2loginform.html").permitAll().and()
+        	.authorizeRequests().antMatchers("/api/oauth/login").permitAll().and()
+        // .formLogin().loginProcessingUrl("/swaggeroauth2login").and()
+        	.authorizeRequests().antMatchers("/swaggeroauth2login").permitAll().and()        
         	.authorizeRequests().antMatchers("/o2c.html").permitAll().and()
         	.authorizeRequests().antMatchers("/").permitAll().and()
         	.authorizeRequests().antMatchers("/index.html").permitAll().and()
@@ -100,12 +116,35 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
         	.authorizeRequests().antMatchers("/api-docs/**").permitAll().and()
     // TODO: This should be conditioned to swagger enabled
 			.authorizeRequests().anyRequest().authenticated();
+		
+		// http://stackoverflow.com/questions/28838530/spring-boot-with-security-oauth2-how-to-use-resource-server-with-web-login-for
 	}
 	
+	/* This did not work either! Try to write a custom userNamePasswordFilter to make sure it stops there...
+	@Bean
+	public FilterRegistrationBean userNamePasswordAuthenticationFilter() {
+		FilterRegistrationBean registration = new FilterRegistrationBean(getUsernamePasswordAuthenticationFilter());
+		registration.addUrlPatterns("/*");
+		return registration;
+	}
+	*/
+	
 	private Filter getUsernamePasswordAuthenticationFilter(){
+		// TODO: Solve this, the filter is not being called!!
+		// http://stackoverflow.com/questions/30287568/springboot-usernamepasswordauthenticationfilter-issue
+		
 		UsernamePasswordAuthenticationFilter filter = new UsernamePasswordAuthenticationFilter();
-		filter.setFilterProcessesUrl("/oauth/authorize");
+		filter.setFilterProcessesUrl("/oauth/authorize/**");
 		return filter;
 	}
-
+	
+	private Filter getTestFilter(){
+		// TODO: Solve this, the filter is not being called!!
+		// http://stackoverflow.com/questions/30287568/springboot-usernamepasswordauthenticationfilter-issue
+		UserNamePasswordTestCustomFilter filter = new UserNamePasswordTestCustomFilter();
+		System.out.println("******** Authentication Manager: " + authenticationManager);
+		filter.setAuthenticationManager(authenticationManager);
+		return filter;
+	}	
+		
 }

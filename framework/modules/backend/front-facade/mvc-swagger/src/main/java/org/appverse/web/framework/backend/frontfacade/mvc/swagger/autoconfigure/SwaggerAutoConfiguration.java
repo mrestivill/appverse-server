@@ -45,6 +45,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.multipart.MultipartResolver;
@@ -55,6 +56,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 @EnableSwagger
 @Configuration
 @ConditionalOnProperty(value="swagger.enabled", matchIfMissing=true)
+@ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
 public class SwaggerAutoConfiguration implements EnvironmentAware {
 
   private SpringSwaggerConfig springSwaggerConfig;
@@ -132,11 +134,14 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
     ArrayList<AuthorizationType> authorizationTypes = new ArrayList<AuthorizationType>();
 
     List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
-    authorizationScopeList.add(new AuthorizationScope("trust", "trust"));
+    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API - 1"));
 
     List<GrantType> grantTypes = new ArrayList<GrantType>();
 
-    LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/oauth2loginform.html");    
+//     LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/oauth2loginform.html");
+    
+    LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/swaggeroauth2login");
+    
     grantTypes.add(new ImplicitGrant(loginEndpoint, "access_token"));
     
     OAuth oAuth = new OAuthBuilder()
@@ -153,7 +158,7 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
     List<Authorization> authorizations = new ArrayList<Authorization>();
 
     List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
-    authorizationScopeList.add(new AuthorizationScope("trust", "trust"));    
+    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API - 2"));    
     
     authorizations.add(new Authorization("oauth2", authorizationScopeList.toArray(new AuthorizationScope[authorizationScopeList.size()])));
     AuthorizationContext authorizationContext =

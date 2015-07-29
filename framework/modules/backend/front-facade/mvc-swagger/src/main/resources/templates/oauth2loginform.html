@@ -12,7 +12,8 @@
 	</header>
 	<section>
 		<!--  TODO: Redirect URL has to be a parameter -->
-		<form method="POST" id="oauth-authorize-login" action="/oauth/authorize?redirect_uri=http://localhost:8080/o2c.html">
+		<!-- <form method="POST" id="oauth-authorize-login" action="/oauth/authorize?redirect_uri=http://localhost:8080/o2c.html">  -->
+		<form method="POST" id="oauth-authorize-login" action="/api/oauth/login">
 			<div>
 				<button type="button" id="deny">
 					<span>Cancel and go back</span>
@@ -22,17 +23,15 @@
 				</button>
 			</div>
 			<div>
-
+				<!-- ALL this need to be parameters -->
 				<input name="client_id" id="client_id" type="hidden"
 					value="test-client-autoapprove"></input> 
 				<input name="accept"
 					id="accept" type="hidden" value="Allow"></input> 
 				<input name="request_id" id="request_id" type="hidden" value=""></input> 
 				<input name="response_type" id="response_type" type="hidden" value="token"/>
-				<!-- TODO: This URL has to be a parameter 					
-				<input name="redirect_uri" id="redirect_uri" type="hidden"
-					value="http://localhost:8080/o2c.html" /> <label for="username">Username</label>
-				-->
+				<!-- TODO: This URL has to be a parameter --> 					
+				<input name="redirect_uri" id="redirect_uri" type="hidden" value="http://localhost:8080/o2c.html" />
 				<input name="username" id="username" type="text"
 					placeholder="Username" value="user"></input> <label for="password">Password</label>
 				<input name="password" id="password" type="password"
