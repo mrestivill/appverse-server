@@ -67,22 +67,34 @@ public class OAuth2LogoutHandler extends
 			throws IOException, ServletException {
 
 		// We get the token and then we remove it from the tokenStore
-		String token = request.getHeader("authorization");
+		// We have to take into account that the OAuth2 spec allows the access token to be passed
+		// in the authorization header or as a parameter
+		String authorizationHeader = request.getHeader("authorization");
+		String accessToken=null;
 
-		if (token != null) {
-			String authorizationType = token.substring(0,
+		if (authorizationHeader != null) {
+			String authorizationType = authorizationHeader.substring(0,
 					OAuth2AccessToken.BEARER_TYPE.length());
 			if (authorizationType
 					.equalsIgnoreCase(OAuth2AccessToken.BEARER_TYPE)) {
-				final OAuth2AccessToken oAuth2AccessToken = tokenStore
-						.readAccessToken(token.substring(
-								OAuth2AccessToken.BEARER_TYPE.length()).trim());
-
-				if (oAuth2AccessToken != null) {
-					tokenStore.removeAccessToken(oAuth2AccessToken);
-				}
+				
+				accessToken = authorizationHeader.substring(
+						OAuth2AccessToken.BEARER_TYPE.length()).trim();				
 			}
 		}
+		else{
+			accessToken = request.getParameter("access_token");
+		}
+
+		if (accessToken != null){
+			final OAuth2AccessToken oAuth2AccessToken = tokenStore
+					.readAccessToken(accessToken);
+
+			if (oAuth2AccessToken != null) {
+				tokenStore.removeAccessToken(oAuth2AccessToken);
+			}
+		}
+		
 		response.setStatus(HttpServletResponse.SC_OK);
 	}
 }

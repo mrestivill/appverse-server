@@ -38,7 +38,6 @@ import com.mangofactory.swagger.models.dto.GrantType;
 import com.mangofactory.swagger.models.dto.ImplicitGrant;
 import com.mangofactory.swagger.models.dto.LoginEndpoint;
 import com.mangofactory.swagger.models.dto.OAuth;
-import com.mangofactory.swagger.models.dto.TokenRequestEndpoint;
 import com.mangofactory.swagger.models.dto.builder.OAuthBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +45,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 @EnableSwagger
 @Configuration
 @ConditionalOnProperty(value="swagger.enabled", matchIfMissing=true)
+@ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
 public class SwaggerAutoConfiguration implements EnvironmentAware {
 
   private SpringSwaggerConfig springSwaggerConfig;
@@ -124,34 +125,21 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
               propertyResolver.getProperty("licenseUrl"));
   }
 
-/* TODO: Review this when we enable OAUth2 in Swagger */
+/* TODO: This needs to be parametrized */
   private List<AuthorizationType> authorizationTypes() {
     ArrayList<AuthorizationType> authorizationTypes = new ArrayList<AuthorizationType>();
 
     List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
-    authorizationScopeList.add(new AuthorizationScope("read", "read"));
-    authorizationScopeList.add(new AuthorizationScope("write", "write"));
-    authorizationScopeList.add(new AuthorizationScope("trust", "trust"));
+    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API - 1"));
 
     List<GrantType> grantTypes = new ArrayList<GrantType>();
 
-    // LoginEndpoint loginEndpoint = new LoginEndpoint("http://petstore.swagger.wordnik.com/api/oauth/dialog");
-    // It cannot be this because we need to show a login form, then we will redirect here.. LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/oauth/token");
+//     LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/oauth2loginform.html");
     
-    LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/oauth2loginform.html");    
+    LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/swaggeroauth2login");
+    
     grantTypes.add(new ImplicitGrant(loginEndpoint, "access_token"));
     
-/*    
-    TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("http://localhost:8080/oauth/token", "client_id", "client_secret");
-    grantTypes.add(new ImplicitGrant(loginEndpoint, "access_token"));
-*/  
-    
-    // TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("http://petstore.swagger.wordnik.com/oauth/requestToken", "client_id", "client_secret");
-/*
-    TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("http://localhost:8080/oauth/token", "test-client", null);
-    TokenEndpoint tokenEndpoint = new TokenEndpoint("http://petstore.swagger.wordnik.com/oauth/token", "auth_code");
-*/
-
     OAuth oAuth = new OAuthBuilder()
             .scopes(authorizationScopeList)
             .grantTypes(grantTypes)
@@ -165,15 +153,8 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
   public AuthorizationContext authorizationContext() {
     List<Authorization> authorizations = new ArrayList<Authorization>();
 
-    /*
-    AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-    AuthorizationScope[] authorizationScopes = new AuthorizationScope[]{authorizationScope};
-    */
-
     List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
-    authorizationScopeList.add(new AuthorizationScope("read", "read"));
-    authorizationScopeList.add(new AuthorizationScope("write", "write"));
-    authorizationScopeList.add(new AuthorizationScope("trust", "trust"));    
+    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API - 2"));    
     
     authorizations.add(new Authorization("oauth2", authorizationScopeList.toArray(new AuthorizationScope[authorizationScopeList.size()])));
     AuthorizationContext authorizationContext =

@@ -121,7 +121,7 @@ public class XssProtectHttpRequestWrapper extends HttpServletRequestWrapper {
     
 	
 	private String sanitize(String value) {
-        if( value != null )
+        if( value != null && !value.isEmpty())
         {
             // Use the ESAPI library to avoid encoded attacks.
             value = ESAPI.encoder().canonicalize( value );
