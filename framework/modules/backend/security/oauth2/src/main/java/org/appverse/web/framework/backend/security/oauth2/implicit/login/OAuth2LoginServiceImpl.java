@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@ConditionalOnProperty(value="appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled", matchIfMissing=true)
+@ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=true)
 @RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}", method = RequestMethod.POST)
 /**
  * TODO: Document here!
@@ -57,7 +57,7 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "${appverse.oauth2.implicitflow.loginEndpoint.path:/oauth/login}", method = RequestMethod.POST)
+    @RequestMapping(value = "${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}", method = RequestMethod.POST)
     public void login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
     	if (username == null || password == null) {
     		throw new BadCredentialsException("username or password is null");

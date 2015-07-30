@@ -63,8 +63,14 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
+    @Value("${appverse.frontfacade.rest.api.basepath:/api}")
+    private String apiPath;
+	
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
+	
+	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/login}")
+	protected String oauth2LoginEndpointPath;
 	
 	@Bean
 	public OAuth2LogoutHandler oauth2LogoutHandler() {
@@ -88,11 +94,11 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 			httpBasic().disable()
 		// Test filter gives problems because is redirecting to / is not saving the request to redirect properly
 		.logout()
-        	.logoutUrl(oauth2LogoutEndpointPath)
+        	.logoutUrl(apiPath + oauth2LogoutEndpointPath)
         	.logoutSuccessHandler(oauth2LogoutHandler())
     // TODO: All this needs to be comma separated property that is passed as a list of antmatchers        	
         .and()
-        	.authorizeRequests().antMatchers("/api/oauth/login").permitAll().and()
+        	.authorizeRequests().antMatchers(apiPath + oauth2LoginEndpointPath).permitAll().and()
         	.authorizeRequests().antMatchers("/swaggeroauth2login").permitAll().and()        
         	.authorizeRequests().antMatchers("/o2c.html").permitAll().and()
         	.authorizeRequests().antMatchers("/").permitAll().and()
