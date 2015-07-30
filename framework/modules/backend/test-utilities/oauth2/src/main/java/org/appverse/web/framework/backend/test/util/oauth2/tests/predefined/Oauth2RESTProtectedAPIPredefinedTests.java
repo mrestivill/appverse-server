@@ -32,9 +32,11 @@ import java.net.URI;
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.common.AbstractIntegrationTests;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
+import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -43,6 +45,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -52,7 +56,10 @@ import org.springframework.web.util.UriComponentsBuilder;
  * Otherwise you will experience exactly the problem described here:
  * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 
  */
-public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractIntegrationTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@IntegrationTest("server.port=0")
+public abstract class Oauth2RESTProtectedAPIPredefinedTests /*extends AbstractIntegrationTests*/ {
 	
 	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
 	private String baseApiPath;
@@ -88,7 +95,9 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 
 	@Test
 	public void testProtectedResourceIsProtected() throws Exception {
-		ResponseEntity<String> response = http.getForString("/protected");
+		int port = server.getEmbeddedServletContainer().getPort();
+		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + baseApiPath + "/protected", String.class);
+		// ResponseEntity<String> response = http.getForString("/protected");
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));
@@ -104,7 +113,6 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 		assertEquals(HttpStatus.OK, result.getStatusCode());
 	}
 	
-	
 	@Test
 	public void testRemoteLogIsProtected() throws Exception {
         RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
@@ -112,10 +120,14 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
         remoteLogRequest.setMessage("This is my log message!");
         
         int port = server.getEmbeddedServletContainer().getPort();
-		
-		ResponseEntity<String> response = http.getRestTemplate().postForEntity("http://localhost:" + port + baseApiPath + remoteLogEndpointPath, remoteLogRequest, String.class);
-		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
+
+        // We call remote log WITHOUT the access token
+        HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+        ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
+        
+		assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
+		assertTrue("Wrong header: " + result.getHeaders(), result.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));
 	}
 	
