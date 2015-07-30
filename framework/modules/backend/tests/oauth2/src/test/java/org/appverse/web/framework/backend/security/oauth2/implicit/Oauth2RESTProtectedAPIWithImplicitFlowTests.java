@@ -21,9 +21,10 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2;
+package org.appverse.web.framework.backend.security.oauth2.implicit;
 
-import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.Oauth2RESTProtectedAPIPredefinedTests;
+import org.appverse.web.framework.backend.security.oauth2.Application;
+import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.implicit.Oauth2ImplicitFlowPredefinedTests;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 
@@ -36,7 +37,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 @IntegrationTest(value={"server.port=0",		         
 		         "appverse.frontfacade.oauth2.apiprotection.enabled=true",
 		         "appverse.frontfacade.rest.basicAuthentication.enabled=false"})
-public class Oauth2RESTProtectedAPITests extends Oauth2RESTProtectedAPIPredefinedTests {
+public class Oauth2RESTProtectedAPIWithImplicitFlowTests extends Oauth2ImplicitFlowPredefinedTests {
 
 	@Override
 	protected String getPassword() {

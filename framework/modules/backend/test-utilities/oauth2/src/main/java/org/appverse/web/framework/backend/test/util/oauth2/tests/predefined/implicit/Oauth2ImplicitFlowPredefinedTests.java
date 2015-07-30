@@ -21,7 +21,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.test.util.oauth2.tests.predefined;
+package org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.implicit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
 import java.net.URI;
 
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
-import org.appverse.web.framework.backend.test.util.oauth2.tests.common.AbstractIntegrationTests;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,13 +59,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @IntegrationTest("server.port=0")
-public abstract class Oauth2RESTProtectedAPIPredefinedTests /*extends AbstractIntegrationTests*/ {
+public abstract class Oauth2ImplicitFlowPredefinedTests {
 	
 	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
-	private String baseApiPath;
+	protected String baseApiPath;
 	
 	@Value("${appverse.frontfacade.rest.remoteLogEndpoint.path:/remotelog/log}")
-	private String remoteLogEndpointPath;
+	protected String remoteLogEndpointPath;
 	
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
@@ -73,6 +73,8 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests /*extends AbstractIn
 	// TODO: Rename this to frontfacade oauth2
 	@Value("${appverse.oauth2.implicitflow.loginEndpoint.path:/oauth/login}")
 	protected String oauth2ImplicitFlowLoginEndpointPath;
+	
+	protected int port;
 		
 	@Autowired
 	private EmbeddedWebApplicationContext server;	
@@ -87,15 +89,18 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests /*extends AbstractIn
 	
 	private String accessToken=null;
 	
+	@Before
+	public void init(){
+		 port = server.getEmbeddedServletContainer().getPort();
+	}	
+	
 	@Test
 	public void contextLoads() {
 		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof JdbcTokenStore);
-		// assertTrue("Wrong client details type: " + clientDetailsService, JdbcClientDetailsService.class.isAssignableFrom(AopUtils.getTargetClass(clientDetailsService)));
 	}
 
 	@Test
 	public void testProtectedResourceIsProtected() throws Exception {
-		int port = server.getEmbeddedServletContainer().getPort();
 		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + baseApiPath + "/protected", String.class);
 		// ResponseEntity<String> response = http.getForString("/protected");
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
@@ -119,8 +124,6 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests /*extends AbstractIn
         remoteLogRequest.setLogLevel("DEBUG");
         remoteLogRequest.setMessage("This is my log message!");
         
-        int port = server.getEmbeddedServletContainer().getPort();
-
         // We call remote log WITHOUT the access token
         HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
@@ -140,8 +143,6 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests /*extends AbstractIn
 		ResponseEntity<String> result = callRemoteLogWithAccessToken();
 		assertEquals(HttpStatus.OK, result.getStatusCode());
 
-		int port = server.getEmbeddedServletContainer().getPort();
-		
         // We call logout endpoint (we need to use the access token for this)
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2LogoutEndpointPath);
         builder.queryParam("access_token", accessToken);        
@@ -158,8 +159,6 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests /*extends AbstractIn
 	
 	@Test	
 	public void obtainTokenFromOuth2LoginEndpoint() throws Exception {
-        int port = server.getEmbeddedServletContainer().getPort();
-        
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2ImplicitFlowLoginEndpointPath);
         builder.queryParam("username", getUsername());
         builder.queryParam("password", getPassword());
@@ -187,8 +186,6 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests /*extends AbstractIn
         RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
         remoteLogRequest.setLogLevel("DEBUG");
         remoteLogRequest.setMessage("This is my log message!");
-        
-        int port = server.getEmbeddedServletContainer().getPort();
         
         HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
