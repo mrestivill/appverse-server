@@ -41,6 +41,7 @@ import com.mangofactory.swagger.models.dto.OAuth;
 import com.mangofactory.swagger.models.dto.builder.OAuthBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
@@ -59,6 +60,9 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
   
   private RelaxedPropertyResolver propertyResolver;
   
+  @Value("${appverse.frontfacade.oauth2.apiprotection.enabled:false}")
+  private boolean oauth2Enabled;  
+  
   @Override
   public void setEnvironment(Environment environment) {
       this.propertyResolver = new RelaxedPropertyResolver(environment, "swagger.");
@@ -71,7 +75,7 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
 
   @Bean
   public SwaggerSpringMvcPlugin swaggerSpringMvcPlugin() {
-    return new SwaggerSpringMvcPlugin(springSwaggerConfig)
+    SwaggerSpringMvcPlugin swaggerSpringMVCPlugin =	new SwaggerSpringMvcPlugin(springSwaggerConfig)
     		/* Example: including groups and patterns
     		.swaggerGroup("group")
             .includePatterns(
@@ -84,10 +88,12 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
             )
             */
     		.includePatterns(getIncludePatterns())
-            .apiInfo(apiInfo())
-            .authorizationTypes(authorizationTypes())
-            .authorizationContext(authorizationContext())
-            .build();
+            .apiInfo(apiInfo());
+    if (oauth2Enabled){
+    	swaggerSpringMVCPlugin.authorizationTypes(authorizationTypes())
+        .authorizationContext(authorizationContext());
+    }
+    return swaggerSpringMVCPlugin.build();
   }
 
   /**
