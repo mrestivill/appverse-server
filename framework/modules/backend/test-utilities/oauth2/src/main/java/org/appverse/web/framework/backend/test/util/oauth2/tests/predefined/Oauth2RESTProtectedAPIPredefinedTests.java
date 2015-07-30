@@ -26,11 +26,8 @@ package org.appverse.web.framework.backend.test.util.oauth2.tests.predefined;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.io.IOException;
 import java.net.URI;
-import java.util.Arrays;
 
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.common.AbstractIntegrationTests;
@@ -40,23 +37,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.security.oauth2.client.resource.UserRedirectRequiredException;
-import org.springframework.security.oauth2.client.test.OAuth2ContextConfiguration;
-import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitAccessTokenProvider;
-import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitResourceDetails;
-import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
-import org.springframework.security.web.FilterChainProxy;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -80,10 +66,7 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	// TODO: Rename this to frontfacade oauth2
 	@Value("${appverse.oauth2.implicitflow.loginEndpoint.path:/oauth/login}")
 	protected String oauth2ImplicitFlowLoginEndpointPath;
-	
-	@Autowired
-    private FilterChainProxy springSecurityFilterChain;
-	
+		
 	@Autowired
 	private EmbeddedWebApplicationContext server;	
 		
@@ -97,95 +80,12 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	
 	private String accessToken=null;
 	
-	// We don't use the cookie for authentication, in our workflow the client will pass basic auth
-	// private String cookie;
-	
-	private HttpHeaders latestHeaders = null;
-	
-	
 	@Test
 	public void contextLoads() {
 		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof JdbcTokenStore);
 		// assertTrue("Wrong client details type: " + clientDetailsService, JdbcClientDetailsService.class.isAssignableFrom(AopUtils.getTargetClass(clientDetailsService)));
 	}
 
-
-/*
-	@Test
-	@OAuth2ContextConfiguration(resource = AutoApproveImplicit.class, initialize = false)
-	public void testPostForAutomaticApprovalToken() throws Exception {
-		final ImplicitAccessTokenProvider implicitProvider = new ImplicitAccessTokenProvider();
-		implicitProvider.setInterceptors(Arrays
-				.<ClientHttpRequestInterceptor> asList(new ClientHttpRequestInterceptor() {
-					public ClientHttpResponse intercept(HttpRequest request, byte[] body,
-							ClientHttpRequestExecution execution) throws IOException {
-						ClientHttpResponse result = execution.execute(request, body);
-						latestHeaders = result.getHeaders();
-						return result;
-					}
-				}));
-		context.setAccessTokenProvider(implicitProvider);
-
-		// We don't use  cookie for authentication
-		// context.getAccessTokenRequest().setCookie(cookie);
-		
-		// We use basic auth to authenticate here as in our workflow
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", getBasicAuthentication());
-		context.getAccessTokenRequest().setHeaders(headers);
-		
-		assertNotNull(context.getAccessToken());
-		assertTrue("Wrong location header: " + latestHeaders.getLocation().getFragment(), latestHeaders.getLocation().getFragment()
-				.contains("trust"));
-	}
-*/	
-	
-	static class AutoApproveImplicit extends ImplicitResourceDetails {
-		public AutoApproveImplicit(Object target) {
-			super();
-			// TODO: All this need to be parameters passed to the test (depends on our application setup)
-			setClientId("test-client-autoapprove");
-			setId(getClientId());
-			setPreEstablishedRedirectUri("http://anywhere");
-			Oauth2RESTProtectedAPIPredefinedTests test = (Oauth2RESTProtectedAPIPredefinedTests) target;			
-			setAccessTokenUri(test.http.buildUri("/oauth/authorize").toString());
-			setUserAuthorizationUri(test.http.buildUri("/oauth/authorize").toString());
-		}
-	}	
-		
-	/*
-	@Test
-	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
-	public void testPostForNonAutomaticApprovalToken() throws Exception {
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", getBasicAuthentication());
-		context.getAccessTokenRequest().setHeaders(headers);
-		try {
-			assertNotNull(context.getAccessToken());
-			fail("Expected UserRedirectRequiredException");
-		}
-		catch (UserRedirectRequiredException e) {
-			// ignore
-		}
-		// add user approval parameter for the second request
-		context.getAccessTokenRequest().add(OAuth2Utils.USER_OAUTH_APPROVAL, "true");
-		context.getAccessTokenRequest().add("scope.trust", "true");
-		assertNotNull(context.getAccessToken());
-	}
-	*/
-
-	
-	static class NonAutoApproveImplicit extends ImplicitResourceDetails {
-		public NonAutoApproveImplicit(Object target) {
-			super();
-			// TODO: All this need to be parameters passed to the test (depends on our application setup)
-			setClientId("test-client");
-			setId(getClientId());
-			setPreEstablishedRedirectUri("http://anywhere");
-		}
-	}
-	
 	@Test
 	public void testProtectedResourceIsProtected() throws Exception {
 		ResponseEntity<String> response = http.getForString("/protected");
@@ -204,20 +104,6 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 		assertEquals(HttpStatus.OK, result.getStatusCode());
 	}
 	
-	private ResponseEntity<String> callRemoteLogWithAccessToken(){
-        RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
-        remoteLogRequest.setLogLevel("DEBUG");
-        remoteLogRequest.setMessage("This is my log message!");
-        
-        int port = server.getEmbeddedServletContainer().getPort();
-        
-        HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
-        builder.queryParam("access_token", accessToken);        
-        
-        ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
-        return result;        
-	}
 	
 	@Test
 	public void testRemoteLogIsProtected() throws Exception {
@@ -234,7 +120,6 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
 	}
 	
 	@Test
-	@OAuth2ContextConfiguration(resource = NonAutoApproveImplicit.class, initialize = false)
 	public void oauth2FlowTest() throws Exception {
 		// Obtains the token
 		obtainTokenFromOuth2LoginEndpoint();
@@ -284,6 +169,21 @@ public abstract class Oauth2RESTProtectedAPIPredefinedTests extends AbstractInte
         URI location = result2.getHeaders().getLocation();
         accessToken = extractToken(location.getFragment().toString());
         assertNotNull(accessToken);
+	}
+	
+	protected ResponseEntity<String> callRemoteLogWithAccessToken(){
+        RemoteLogRequestVO remoteLogRequest = new RemoteLogRequestVO();
+        remoteLogRequest.setLogLevel("DEBUG");
+        remoteLogRequest.setMessage("This is my log message!");
+        
+        int port = server.getEmbeddedServletContainer().getPort();
+        
+        HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+        builder.queryParam("access_token", accessToken);        
+        
+        ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
+        return result;        
 	}
 	
 	protected String extractToken(String urlFragment){
