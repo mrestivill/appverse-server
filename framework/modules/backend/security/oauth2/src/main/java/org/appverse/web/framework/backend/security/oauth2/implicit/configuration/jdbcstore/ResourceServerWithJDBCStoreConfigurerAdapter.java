@@ -21,25 +21,17 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore;
+package org.appverse.web.framework.backend.security.oauth2.implicit.configuration.jdbcstore;
 
-import javax.servlet.Filter;
-
-import org.appverse.web.framework.backend.security.oauth2.handlers.OAuth2LogoutHandler;
+import org.appverse.web.framework.backend.security.oauth2.common.handlers.OAuth2LogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
-import org.springframework.security.oauth2.provider.endpoint.TokenEndpointAuthenticationFilter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 /**
  * Convenient setup for an OAuth2 Resource Server that uses a
