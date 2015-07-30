@@ -70,8 +70,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
 	
-	// TODO: Rename this to frontfacade oauth2
-	@Value("${appverse.oauth2.implicitflow.loginEndpoint.path:/oauth/login}")
+	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
 	protected String oauth2ImplicitFlowLoginEndpointPath;
 	
 	protected int port;
@@ -102,7 +101,6 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	@Test
 	public void testProtectedResourceIsProtected() throws Exception {
 		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + baseApiPath + "/protected", String.class);
-		// ResponseEntity<String> response = http.getForString("/protected");
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));
@@ -144,7 +142,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 		assertEquals(HttpStatus.OK, result.getStatusCode());
 
         // We call logout endpoint (we need to use the access token for this)
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2LogoutEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2LogoutEndpointPath);
         builder.queryParam("access_token", accessToken);        
         
         ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, null, String.class);

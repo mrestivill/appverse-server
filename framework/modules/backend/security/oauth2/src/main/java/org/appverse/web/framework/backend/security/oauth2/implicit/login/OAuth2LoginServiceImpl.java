@@ -21,14 +21,13 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.login;
+package org.appverse.web.framework.backend.security.oauth2.implicit.login;
 
 import org.appverse.web.framework.backend.security.authentication.userpassword.managers.UserAndPasswordAuthenticationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.RequestDispatcher;
@@ -36,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@ConditionalOnProperty(value="appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled", matchIfMissing=true)
+@ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=true)
 @RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}", method = RequestMethod.POST)
 /**
  * TODO: Document here!
@@ -58,7 +57,7 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "${appverse.oauth2.implicitflow.loginEndpoint.path:/oauth/login}", method = RequestMethod.POST)
+    @RequestMapping(value = "${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}", method = RequestMethod.POST)
     public void login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
     	if (username == null || password == null) {
     		throw new BadCredentialsException("username or password is null");
