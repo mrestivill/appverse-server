@@ -69,7 +69,7 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
 	
-	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/login}")
+	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
 	protected String oauth2LoginEndpointPath;
 	
 	@Bean
