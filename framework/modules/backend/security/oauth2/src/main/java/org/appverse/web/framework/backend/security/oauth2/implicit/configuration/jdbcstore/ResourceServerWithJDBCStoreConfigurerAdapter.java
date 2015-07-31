@@ -64,13 +64,19 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 	private AuthenticationManager authenticationManager;
 	
     @Value("${appverse.frontfacade.rest.api.basepath:/api}")
-    private String apiPath;
+    protected String apiPath;
 	
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
 	
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
 	protected String oauth2LoginEndpointPath;
+	
+	@Value("${appverse.frontfacade.swagger.enabled:true}")
+	protected boolean swagerEnabled;
+	
+	@Value("${appverse.frontfacade.swagger.oauth2.allowedUrls.antMatchers:/swaggeroauth2login,/o2c.html,/,/index.html,/css/**,/lib/**,/swagger-ui.js,/api-docs/**}")
+	protected String swaggerOauth2AllowedUrlsAntMatchers;
 	
 	@Bean
 	public OAuth2LogoutHandler oauth2LogoutHandler() {
@@ -86,8 +92,8 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// In this OAuth2 scenario with implicit flow we both login the user and obtain the token
-		// in the same endpoint (/oauth/authorize). User credentials will be passed as "username" and 
-		// "password" form. That's why we register the filter.
+		// in the same endpoint (/sec/login). User credentials will be passed as "username" and 
+		// "password" form. 
 		// This might be different in other scenarios, for instance if we wanted to implement
 		// authorization code flow to support token refresh.
 		http.
@@ -96,29 +102,15 @@ public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServer
 		.logout()
         	.logoutUrl(apiPath + oauth2LogoutEndpointPath)
         	.logoutSuccessHandler(oauth2LogoutHandler())
-    // TODO: All this needs to be comma separated property that is passed as a list of antmatchers        	
+        // OAuth2 login endpoint (which authenticates the user and obtains the OAuth2 token) has to be allowed        	
         .and()
-        	.authorizeRequests().antMatchers(apiPath + oauth2LoginEndpointPath).permitAll().and()
-        	.authorizeRequests().antMatchers("/swaggeroauth2login").permitAll().and()        
-        	.authorizeRequests().antMatchers("/o2c.html").permitAll().and()
-        	.authorizeRequests().antMatchers("/").permitAll().and()
-        	.authorizeRequests().antMatchers("/index.html").permitAll().and()
-        	.authorizeRequests().antMatchers("/css/**").permitAll().and()
-        	.authorizeRequests().antMatchers("/lib/**").permitAll().and()
-        	.authorizeRequests().antMatchers("/swagger-ui.js").permitAll().and()        	
-        	.authorizeRequests().antMatchers("/api-docs/**").permitAll().and()
-    // TODO: This should be conditioned to swagger enabled
-			.authorizeRequests().anyRequest().authenticated();
-		
-		// http://stackoverflow.com/questions/28838530/spring-boot-with-security-oauth2-how-to-use-resource-server-with-web-login-for
-	}
-	
-	/* This did not work either! Try to write a custom userNamePasswordFilter to make sure it stops there...
-	@Bean
-	public FilterRegistrationBean userNamePasswordAuthenticationFilter() {
-		FilterRegistrationBean registration = new FilterRegistrationBean(getUsernamePasswordAuthenticationFilter());
-		registration.addUrlPatterns("/*");
-		return registration;
-	}
-	*/		
+        	.authorizeRequests().antMatchers(apiPath + oauth2LoginEndpointPath).permitAll();
+
+		if (swagerEnabled){
+		// If swagger is enabled we need to permit certain URLs and resources for Swagger UI to work with OAuth2
+		http
+        	.authorizeRequests().antMatchers(swaggerOauth2AllowedUrlsAntMatchers.split(",")).permitAll();
+		}
+		http.authorizeRequests().anyRequest().authenticated();
+	}	
 }

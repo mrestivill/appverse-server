@@ -52,7 +52,7 @@ import org.springframework.core.env.Environment;
 
 @EnableSwagger
 @Configuration
-@ConditionalOnProperty(value="swagger.enabled", matchIfMissing=true)
+@ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=true)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
 public class SwaggerAutoConfiguration implements EnvironmentAware {
 
@@ -112,16 +112,6 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
    * API Info as it appears on the swagger-ui page
    */
   private ApiInfo apiInfo() {
-	/*
-    ApiInfo apiInfo = new ApiInfo(
-            "Demo Spring MVC swagger 1.2 api",
-            "Sample spring mvc api based on the swagger 1.2 spec",
-            "http://en.wikipedia.org/wiki/Terms_of_service",
-            "somecontact@somewhere.com",
-            "Apache 2.0",
-            "http://www.apache.org/licenses/LICENSE-2.0.html"
-    );
-    */
       return new ApiInfo(
               propertyResolver.getProperty("title"),
               propertyResolver.getProperty("description"),
@@ -131,7 +121,6 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
               propertyResolver.getProperty("licenseUrl"));
   }
 
-/* TODO: This needs to be parametrized */
   private List<AuthorizationType> authorizationTypes() {
     ArrayList<AuthorizationType> authorizationTypes = new ArrayList<AuthorizationType>();
 
@@ -140,9 +129,7 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
 
     List<GrantType> grantTypes = new ArrayList<GrantType>();
 
-//     LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/oauth2loginform.html");
-    
-    LoginEndpoint loginEndpoint = new LoginEndpoint("http://localhost:8080/swaggeroauth2login");
+    LoginEndpoint loginEndpoint = new LoginEndpoint("/swaggeroauth2login");
     
     grantTypes.add(new ImplicitGrant(loginEndpoint, "access_token"));
     

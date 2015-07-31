@@ -1,4 +1,4 @@
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <script src="/lib/jquery-1.8.0.min.js"></script>
 <script src="/lib/swagger-oauth.js"></script>
@@ -11,9 +11,7 @@
 		</p>
 	</header>
 	<section>
-		<!--  TODO: Redirect URL has to be a parameter as the users can configure it: ${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login} and the
-		base api as well -->
-		<form method="POST" id="oauth-authorize-login" action="/api/sec/login">
+		<form method="POST" id="oauth-authorize-login" th:action="${swaggerLoginFormAction}">
 			<div>
 				<button type="button" id="deny">
 					<span>Cancel and go back</span>
@@ -23,19 +21,11 @@
 				</button>
 			</div>
 			<div>
-				<!-- ALL this need to be parameters -->
-				<input name="client_id" id="client_id" type="hidden"
-					value="test-client-autoapprove"></input> 
-				<input name="accept"
-					id="accept" type="hidden" value="Allow"></input> 
-				<input name="request_id" id="request_id" type="hidden" value=""></input> 
 				<input name="response_type" id="response_type" type="hidden" value="token"/>
-				<!-- TODO: This URL has to be a parameter  --> 					
-				<input name="redirect_uri" id="redirect_uri" type="hidden" value="http://localhost:8080/o2c.html" />
-				<input name="username" id="username" type="text"
-					placeholder="Username" value="user"></input> <label for="password">Password</label>
-				<input name="password" id="password" type="password"
-					placeholder="Password" value="password"></input>
+				<input name="client_id" id="client_id" type="hidden" th:value="${swaggerClientId}"/> 
+				<input name="redirect_uri" id="redirect_uri" type="hidden" th:value="${swaggerRedirectUri}" />
+				<input name="username" id="username" type="text" placeholder="Username" value="user"></input> <label for="password">Password</label>
+				<input name="password" id="password" type="password" placeholder="Password" value="password"></input>
 				<button type="submit" id="login" name="login">
 					<span>Confirm</span>
 				</button>
