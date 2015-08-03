@@ -25,6 +25,7 @@ package org.appverse.web.framework.backend.security.oauth2.implicit.configuratio
 
 import javax.sql.DataSource;
 
+import org.appverse.web.framework.backend.security.oauth2.common.token.enhancers.PrincipalCredentialsTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -77,7 +78,7 @@ public class AuthorizationServerWithJDBCStoreConfigurerAdapter extends Authoriza
 		protected BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		@Bean
-		public JdbcTokenStore tokenStore() {
+		protected JdbcTokenStore tokenStore() {
 			return new JdbcTokenStore(dataSource);
 		}
 
@@ -85,18 +86,24 @@ public class AuthorizationServerWithJDBCStoreConfigurerAdapter extends Authoriza
 		protected AuthorizationCodeServices authorizationCodeServices() {
 			return new JdbcAuthorizationCodeServices(dataSource);
 		}
+		
+		@Bean
+		protected PrincipalCredentialsTokenEnhancer principalCredentialsTokenEnhancer(){
+			return new PrincipalCredentialsTokenEnhancer();
+		}
 
 		@Override
 		public void configure(AuthorizationServerSecurityConfigurer security)
 				throws Exception {
 			security.passwordEncoder(passwordEncoder);
 		}
-
+		
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints)
 				throws Exception {
 			endpoints.authorizationCodeServices(authorizationCodeServices())
 					.authenticationManager(auth).tokenStore(tokenStore())
+					.tokenEnhancer(principalCredentialsTokenEnhancer())
 					.approvalStoreDisabled();
 		}
 	}

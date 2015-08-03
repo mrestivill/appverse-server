@@ -178,6 +178,10 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
         URI location = result2.getHeaders().getLocation();
         accessToken = extractToken(location.getFragment().toString());
         assertNotNull(accessToken);
+        
+        // Obtain the user credentials from redirection URL after #
+        String extractUserAuthorities = extractUserAuthorities(location.getFragment().toString());
+        assertNotNull(extractUserAuthorities);
 	}
 	
 	protected ResponseEntity<String> callRemoteLogWithAccessToken(){
@@ -194,17 +198,26 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	}
 	
 	protected String extractToken(String urlFragment){
+		return extractParam(urlFragment, "access_token");
+	}
+	
+	protected String extractUserAuthorities(String urlFragment){
+		return extractParam(urlFragment, "authorities");
+	}
+	
+	protected String extractParam(String urlFragment, String paramName){
         String[] fragmentParams = urlFragment.split("&");
-        String accessToken=null;
+        String extractedParam=null;
         for (String param : fragmentParams){
-        	if (param.contains("access_token")){
+        	if (param.contains(paramName)){
         		String[] params = param.split("=");
-        		accessToken = params[1];
+        		extractedParam = params[1];
         		break;
         	}
         }
-        return accessToken;
+        return extractedParam;
 	}	
+	
 
 	protected abstract String getPassword();
 
