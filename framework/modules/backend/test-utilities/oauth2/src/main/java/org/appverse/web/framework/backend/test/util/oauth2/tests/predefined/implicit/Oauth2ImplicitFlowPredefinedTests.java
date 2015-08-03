@@ -160,11 +160,9 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2ImplicitFlowLoginEndpointPath);
         builder.queryParam("username", getUsername());
         builder.queryParam("password", getPassword());
+        builder.queryParam("client_id", getClientId());        
         builder.queryParam("response_type", "token");
         builder.queryParam("redirect_uri", "http://anywhere");
-        
-        // TODO: All this need to be parameters passed to the test (depends on our application setup)
-        builder.queryParam("client_id", "test-client-autoapprove");
         
         HttpEntity<String> entity = new HttpEntity<>("");
         ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
@@ -222,5 +220,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	protected abstract String getPassword();
 
 	protected abstract String getUsername();
+	
+	protected abstract String getClientId();
 	
 }
