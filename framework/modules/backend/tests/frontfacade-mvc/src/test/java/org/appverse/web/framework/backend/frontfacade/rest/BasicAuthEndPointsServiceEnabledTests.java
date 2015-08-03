@@ -26,6 +26,9 @@ package org.appverse.web.framework.backend.frontfacade.rest;
 import org.appverse.web.framework.backend.test.util.frontfacade.mvc.tests.predefined.BasicAuthEndPointsServiceEnabledPredefinedTests;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 
+/**
+ * Triggers basic auth predefined tests when the endpoints are enabled
+ */
 @SpringApplicationConfiguration(classes = {FrontFacadeModuleTestsConfigurationApplication.class})
 public class BasicAuthEndPointsServiceEnabledTests extends BasicAuthEndPointsServiceEnabledPredefinedTests {
 	

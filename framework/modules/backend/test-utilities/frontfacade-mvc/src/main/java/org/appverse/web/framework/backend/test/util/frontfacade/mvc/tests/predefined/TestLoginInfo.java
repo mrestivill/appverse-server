@@ -25,6 +25,9 @@ package org.appverse.web.framework.backend.test.util.frontfacade.mvc.tests.prede
 
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
 
+/**
+ * Support class used in tests
+ */
 public class TestLoginInfo {
 	
 	String jsessionid;

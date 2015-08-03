@@ -29,6 +29,8 @@ import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 
 /**
+ * Triggers OAuth2 predefined tests passing username, password and client id to use.
+ * 
  * Necessary to have httpclient for this tests (with scope tests) so that the http returns are handle correctly.
  * Otherwise you will experience exactly the problem described here:
  * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 

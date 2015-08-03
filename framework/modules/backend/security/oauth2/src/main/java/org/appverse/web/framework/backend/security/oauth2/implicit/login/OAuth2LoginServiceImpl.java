@@ -38,7 +38,15 @@ import javax.servlet.http.HttpServletResponse;
 @ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=true)
 @RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}", method = RequestMethod.POST)
 /**
- * TODO: Document here!
+ * OAuth2LoginService implementation that shows an enpoint to authenticate the user with username and password based form
+ * authentitication. Once the user is authenticated the request is forwarded to the /oauth/authorize endpoint in order to 
+ * obtain a token and the response is returned to the client.
+ * This way this OAuth2 "login" endpoint can be used by clients to authenticate the user and to obtain the token in a 
+ * single request. 
+ * This is valid for scenarios with implicit grant flow.
+ * The request is exactly the one required to obtain a token in the implicit flow adding the "username" and "password" 
+ * parameters. This way all the required paramters in order to obtain a token (request type, redirect uri, client id and so on)
+ * can be forwarded to the /oauth/authorize endpoint.
  */
 public class OAuth2LoginServiceImpl implements OAuth2LoginService {
 	

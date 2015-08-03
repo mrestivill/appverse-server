@@ -7,6 +7,9 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
+/**
+ * Token enhancer implementation that adds the user list of authorities to the return.
+ */
 public class PrincipalCredentialsTokenEnhancer implements TokenEnhancer {
 
 	@Override

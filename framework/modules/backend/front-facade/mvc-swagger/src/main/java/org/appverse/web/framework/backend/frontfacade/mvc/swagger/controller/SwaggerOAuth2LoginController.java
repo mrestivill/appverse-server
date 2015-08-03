@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/swaggeroauth2login")
 @ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
+/**
+ * Simple controller that just shows the Swagger OAuth2 login form where the user can enter they credentials
+ * to authenticate before obtaining an OAuth2 token (username and password).
+ * This controller shows the Thymeleaf view (template) oauth2loginform.hmtl.
+ * The oauth2 login endpoint, clientId and redirection url are filled in the template.   
+ */
 public class SwaggerOAuth2LoginController {
 	
 	@Value("${appverse.frontfacade.swagger.oauth2.clientId}")

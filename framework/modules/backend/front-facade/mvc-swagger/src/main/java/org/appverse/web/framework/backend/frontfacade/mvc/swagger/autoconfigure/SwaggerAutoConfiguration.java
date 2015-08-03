@@ -52,8 +52,15 @@ import org.springframework.core.env.Environment;
 
 @EnableSwagger
 @Configuration
-@ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=true)
+@ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=false)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
+/**
+ * This class holds default swagger configuration for swagger.
+ * It sets SwaggerSpringMVCPlugin properly by default.
+ * You can enable / disable this autoconfiguration by using the property
+ * "appverse.frontfacade.swagger.enabled" which is false by default.
+ * It provides support both for basic auth and OAuth2 using the login endpoint.
+ */
 public class SwaggerAutoConfiguration implements EnvironmentAware {
 
   private SpringSwaggerConfig springSwaggerConfig;
@@ -76,17 +83,6 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
   @Bean
   public SwaggerSpringMvcPlugin swaggerSpringMvcPlugin() {
     SwaggerSpringMvcPlugin swaggerSpringMVCPlugin =	new SwaggerSpringMvcPlugin(springSwaggerConfig)
-    		/* Example: including groups and patterns
-    		.swaggerGroup("group")
-            .includePatterns(
-                    "/business.*",
-                    "/some.*",
-                    "/contacts.*",
-                    "/pet.*",
-                    "/springsRestController.*",
-                    "/test.*"
-            )
-            */
     		.includePatterns(getIncludePatterns())
             .apiInfo(apiInfo());
     if (oauth2Enabled){
@@ -125,7 +121,7 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
     ArrayList<AuthorizationType> authorizationTypes = new ArrayList<AuthorizationType>();
 
     List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
-    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API - 1"));
+    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API"));
 
     List<GrantType> grantTypes = new ArrayList<GrantType>();
 
@@ -147,7 +143,7 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
     List<Authorization> authorizations = new ArrayList<Authorization>();
 
     List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
-    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API - 2"));    
+    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API"));    
     
     authorizations.add(new Authorization("oauth2", authorizationScopeList.toArray(new AuthorizationScope[authorizationScopeList.size()])));
     AuthorizationContext authorizationContext =
