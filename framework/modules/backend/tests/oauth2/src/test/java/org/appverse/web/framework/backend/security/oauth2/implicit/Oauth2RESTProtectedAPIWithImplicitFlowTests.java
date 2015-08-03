@@ -49,4 +49,9 @@ public class Oauth2RESTProtectedAPIWithImplicitFlowTests extends Oauth2ImplicitF
 		return "user";
 	}
 
+	@Override
+	protected String getClientId() {
+		return "test-client-autoapprove";
+	}
+
 }
