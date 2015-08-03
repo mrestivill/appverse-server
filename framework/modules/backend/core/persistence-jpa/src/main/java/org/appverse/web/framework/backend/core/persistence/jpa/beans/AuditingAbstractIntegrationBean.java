@@ -22,7 +22,6 @@ package org.appverse.web.framework.backend.core.persistence.jpa.beans;/*
  POSSIBILITY OF SUCH DAMAGE.
  */
 
-import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.Date;
 import javax.persistence.Column;
@@ -40,7 +39,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @EntityListeners({ AuditingEntityListener.class })
 @MappedSuperclass
-public abstract class AuditingAbstractIntegrationBean extends AbstractIntegrationBean {
+public abstract class AuditingAbstractIntegrationBean extends AbstractIntegrationBaseBean {
     private static final long serialVersionUID = -4532840221913116181L;
     protected long id;
     private Date created;
@@ -100,30 +99,4 @@ public abstract class AuditingAbstractIntegrationBean extends AbstractIntegratio
     public void setVersion(long version) {
         this.version = version;
     }
-
-
-    public void setId(long id) {
-        this.id = id;
-    }
-    
-	// Always add condition "if (id == 0 || id != other.id)" so in case that
-	// Dozer non-cummulative collections and remove-orphans in mappings works
-	// fine
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		AuditingAbstractIntegrationBean other = (AuditingAbstractIntegrationBean) obj;
-		if (id == 0 || id != other.id) {
-			return false;
-		}
-		return true;
-	}
 }
