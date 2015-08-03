@@ -117,29 +117,6 @@ public class UserAndPasswordAuthenticationManagerImpl implements UserAndPassword
 	}
 
 	/**
-	 * TODO: See if we can remove this method
-	 * 
-	 * Geneates a cross site request forgivery token, saves it at the current
-	 * session and returns the token to the frontend site.
-	 * 
-	 * This method is intercepted by:
-	 * - the spring gwtrpc controller
-	 * - the spring json controller
-	 * - XSRFCheckFilter
-	 * 
-	 * Reason for this interception is to decouple these spring beans from the servlet context.
-	 * 
-	 * @return String object with cross site request forgivery generated token
-	 *         for current session
-	 * @throws IOException 
-	 */
-	@Override
-	public String getXSRFSessionToken() throws IOException {
-		//See Javadoc to understand this method.
-		return "";
-	}
-
-	/**
 	 * Checks if the current user is authenticated by evaluating the
 	 * SecurityContext
 	 * 

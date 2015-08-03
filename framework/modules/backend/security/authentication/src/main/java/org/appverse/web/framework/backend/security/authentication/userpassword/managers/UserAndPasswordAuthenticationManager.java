@@ -23,7 +23,6 @@
  */
 package org.appverse.web.framework.backend.security.authentication.userpassword.managers;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
@@ -41,8 +40,6 @@ public interface UserAndPasswordAuthenticationManager {
 	public List<String> getAuthorities();
 
 	public String getPrincipal();
-
-	public String getXSRFSessionToken() throws IOException;
 
 	public boolean isPrincipalAuthenticated();
 }
