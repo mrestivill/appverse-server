@@ -38,7 +38,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 @SpringApplicationConfiguration(classes = Application.class)
 @IntegrationTest(value={"server.port=0",		         
 		         "appverse.frontfacade.oauth2.apiprotection.enabled=true",
-		         "appverse.frontfacade.rest.basicAuthentication.enabled=false"})
+		         "appverse.frontfacade.rest.http.basic.enabled=false"})
 public class Oauth2RESTProtectedAPIWithImplicitFlowTests extends Oauth2ImplicitFlowPredefinedTests {
 
 	@Override
