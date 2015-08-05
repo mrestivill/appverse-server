@@ -7,9 +7,9 @@ import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 public abstract class AbstractIntegrationBaseBean extends AbstractIntegrationBean{
 
         private static final long serialVersionUID = -2070164067618480119L;
-        protected long id;
+        protected Long id;
 
-        public void setId(long id) {
+        public void setId(Long id) {
             this.id = id;
         }
 
