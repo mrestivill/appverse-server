@@ -23,7 +23,7 @@
  */
 package org.appverse.web.framework.backend.frontfacade.rest.autoconfigure;
 
-import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.configuration.AppverseBasicAuthenticationConfigurerAdapter;
+import org.appverse.web.framework.backend.frontfacade.rest.authentication.basic.configuration.AppverseWebHttpBasicConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -97,7 +97,7 @@ public class FrontFacadeRestAutoConfiguration {
 
 	@Configuration
 	@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-	@ConditionalOnProperty(value="appverse.frontfacade.rest.basicAuthentication.enabled", matchIfMissing=true)
-	protected static class AppverseWebBasicAuthConfiguration extends AppverseBasicAuthenticationConfigurerAdapter {
+	@ConditionalOnProperty(value="appverse.frontfacade.rest.http.basic.enabled", matchIfMissing=true)
+	protected static class AppverseWebHttpBasicConfiguration extends AppverseWebHttpBasicConfigurerAdapter {
 	}
 }

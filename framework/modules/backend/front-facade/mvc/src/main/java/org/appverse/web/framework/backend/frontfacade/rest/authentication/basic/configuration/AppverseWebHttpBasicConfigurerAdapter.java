@@ -34,7 +34,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-public abstract class AppverseBasicAuthenticationConfigurerAdapter extends
+public abstract class AppverseWebHttpBasicConfigurerAdapter extends
 		WebSecurityConfigurerAdapter {
 	
 	@Value("${security.enable-csrf:true}")
