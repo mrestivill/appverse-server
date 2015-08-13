@@ -26,8 +26,10 @@ public class SwaggerOAuth2LoginController {
 	private String apiBasePath;
 	
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
-	private String oauth2LoginEndpoint;	
-	
+	private String oauth2LoginEndpoint;
+	@Value("${server.contextPath:}")
+	private String contextPath;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String showSwaggerOAuth2LoginForm(Model model) {
 		model.addAttribute("swaggerLoginFormAction", convertToRelativePath(apiBasePath + oauth2LoginEndpoint));
@@ -36,10 +38,11 @@ public class SwaggerOAuth2LoginController {
 		return "oauth2loginform";
 	}
 	private String convertToRelativePath(String url) {
-		if (!StringUtils.isEmpty(url)) {
-			if (url.charAt(0) == '/') {
-				return url.substring(1);
+		if (!StringUtils.isEmpty(contextPath)){
+			if (contextPath.charAt(0)!='/'){
+				return "/"+contextPath+url;
 			}
+			return contextPath+url;
 		}
 		return url;
 	}
