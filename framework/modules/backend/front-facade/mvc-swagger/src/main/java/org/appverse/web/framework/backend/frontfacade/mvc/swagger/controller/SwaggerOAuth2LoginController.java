@@ -8,6 +8,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/swaggeroauth2login")
 @ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
@@ -27,17 +29,16 @@ public class SwaggerOAuth2LoginController {
 	
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
 	private String oauth2LoginEndpoint;
-	@Value("${server.contextPath:}")
-	private String contextPath;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String showSwaggerOAuth2LoginForm(Model model) {
-		model.addAttribute("swaggerLoginFormAction", convertToRelativePath(apiBasePath + oauth2LoginEndpoint));
+	public String showSwaggerOAuth2LoginForm(Model model, HttpServletRequest req) {
+		String contextPath = req.getContextPath();
+		model.addAttribute("swaggerLoginFormAction", convertToRelativePath(contextPath, apiBasePath + oauth2LoginEndpoint));
 		model.addAttribute("swaggerClientId", swaggerClientId);
-		model.addAttribute("swaggerRedirectUri", convertToRelativePath("/o2c.html"));
+		model.addAttribute("swaggerRedirectUri", convertToRelativePath(contextPath, "/o2c.html"));
 		return "oauth2loginform";
 	}
-	private String convertToRelativePath(String url) {
+	private String convertToRelativePath(String contextPath, String url) {
 		if (!StringUtils.isEmpty(contextPath)){
 			if (contextPath.charAt(0)!='/'){
 				return "/"+contextPath+url;
