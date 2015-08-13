@@ -31,7 +31,7 @@ public class SwaggerOAuth2LoginController {
 	public String showSwaggerOAuth2LoginForm(Model model) {
 		model.addAttribute("swaggerLoginFormAction", apiBasePath + oauth2LoginEndpoint);
 		model.addAttribute("swaggerClientId", swaggerClientId);
-		model.addAttribute("swaggerRedirectUri", "/o2c.html");		
+		model.addAttribute("swaggerRedirectUri", "o2c.html");
 		return "oauth2loginform";
 	}
 }
