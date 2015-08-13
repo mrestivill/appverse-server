@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -29,9 +30,18 @@ public class SwaggerOAuth2LoginController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String showSwaggerOAuth2LoginForm(Model model) {
-		model.addAttribute("swaggerLoginFormAction", apiBasePath + oauth2LoginEndpoint);
+		model.addAttribute("swaggerLoginFormAction", convertToRelativePath(apiBasePath + oauth2LoginEndpoint));
 		model.addAttribute("swaggerClientId", swaggerClientId);
-		model.addAttribute("swaggerRedirectUri", "o2c.html");
+		model.addAttribute("swaggerRedirectUri", convertToRelativePath("/o2c.html"));
 		return "oauth2loginform";
 	}
+	private String convertToRelativePath(String url) {
+		if (!StringUtils.isEmpty(url)) {
+			if (url.charAt(0) == '/') {
+				return url.substring(1);
+			}
+		}
+		return url;
+	}
+
 }
