@@ -50,13 +50,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class OAuth2LoginServiceImpl implements OAuth2LoginService {
 	
+    private static final String CSRF_TOKEN_SESSION_ATTRIBUTE = "org.springframework.security.web.csrf.CsrfToken";
 	@Value("${security.enable-csrf:true}")
 	private boolean securityEnableCsrf;
-
     @Autowired
 	private UserAndPasswordAuthenticationManager userAndPasswordAuthenticationManager;
-    
-    private static final String CSRF_TOKEN_SESSION_ATTRIBUTE = "org.springframework.security.web.csrf.CsrfToken";
 
     /**
      * Authenticates an user. Requires basic authentication header.
@@ -92,6 +90,6 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
 */    	
 
     	RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/oauth/authorize");
-    	dispatcher.forward(httpServletRequest, httpServletResponse);        	
+    	dispatcher.forward(httpServletRequest, httpServletResponse);
    }
 }

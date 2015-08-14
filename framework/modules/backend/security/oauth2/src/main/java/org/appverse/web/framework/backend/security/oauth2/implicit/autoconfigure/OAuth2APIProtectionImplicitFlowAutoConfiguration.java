@@ -23,7 +23,7 @@
  */
 package org.appverse.web.framework.backend.security.oauth2.implicit.autoconfigure;
 
-import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.jdbcstore.ResourceServerWithJDBCStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.ResourceServerStoreConfigurerAdapter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,7 +40,7 @@ public class OAuth2APIProtectionImplicitFlowAutoConfiguration {
 	
 	@Configuration
 	@EnableResourceServer
-	public static class ResourceServerConfig extends ResourceServerWithJDBCStoreConfigurerAdapter{
+	public static class ResourceServerConfig extends ResourceServerStoreConfigurerAdapter {
 	}
 	
 	/* We tried to setup the Authorization Server 'automatically' also by means this autoconfiguration
