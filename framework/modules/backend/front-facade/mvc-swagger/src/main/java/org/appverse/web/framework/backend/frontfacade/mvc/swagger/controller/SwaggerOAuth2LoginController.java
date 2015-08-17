@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/swaggeroauth2login")
 @ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
 /**
  * Simple controller that just shows the Swagger OAuth2 login form where the user can enter they credentials
@@ -30,13 +31,32 @@ public class SwaggerOAuth2LoginController {
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
 	private String oauth2LoginEndpoint;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value="/",method = RequestMethod.GET)
+	public String showindexOAuth2LoginForm(Model model, HttpServletRequest req) {
+		model.addAttribute("swaggerClientId", swaggerClientId);
+		return "index";
+	}
+
+	@RequestMapping(value="/swaggeroauth2login",method = RequestMethod.GET)
 	public String showSwaggerOAuth2LoginForm(Model model, HttpServletRequest req) {
 		String contextPath = req.getContextPath();
+		model.addAttribute("response_type", "token");
+		Map<String,String[]> map = req.getParameterMap();
+
+		model.addAllAttributes(convertParameters(map));
 		model.addAttribute("swaggerLoginFormAction", convertToRelativePath(contextPath, apiBasePath + oauth2LoginEndpoint));
 		model.addAttribute("swaggerClientId", swaggerClientId);
 		model.addAttribute("swaggerRedirectUri", convertToRelativePath(contextPath, "/o2c.html"));
 		return "oauth2loginform";
+	}
+	private Map<String,String> convertParameters(Map<String, String[]> map){
+		Map<String,String>  data = new HashMap<String,String>();
+		if (map!=null) {
+			for (Map.Entry<String, String[]> entry : map.entrySet()) {
+				data.put(entry.getKey(), StringUtils.arrayToCommaDelimitedString(entry.getValue()));
+			}
+		}
+		return data;
 	}
 	private String convertToRelativePath(String contextPath, String url) {
 		if (!StringUtils.isEmpty(contextPath)){
