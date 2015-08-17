@@ -28,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.RequestDispatcher;
@@ -51,10 +53,15 @@ import javax.servlet.http.HttpServletResponse;
 public class OAuth2LoginServiceImpl implements OAuth2LoginService {
 	
     private static final String CSRF_TOKEN_SESSION_ATTRIBUTE = "org.springframework.security.web.csrf.CsrfToken";
+
 	@Value("${security.enable-csrf:true}")
 	private boolean securityEnableCsrf;
+
     @Autowired
 	private UserAndPasswordAuthenticationManager userAndPasswordAuthenticationManager;
+
+    @Autowired
+    private DefaultTokenServices defaultTokenServices;
 
     /**
      * Authenticates an user. Requires basic authentication header.
@@ -92,4 +99,14 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
     	RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/oauth/authorize");
     	dispatcher.forward(httpServletRequest, httpServletResponse);
    }
+
+    @RequestMapping(value = "${appverse.frontfacade.oauth2.tokenEndpoint.path:/sec/token" , method = RequestMethod.POST)
+    public void token(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws Exception {
+        RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/oauth/token");
+        dispatcher.forward(httpServletRequest, httpServletResponse);
+    }
+    @RequestMapping(value = "${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/token/revoke", method = RequestMethod.POST)
+    public @ResponseBody void revokeToken(@RequestParam("token") String value) throws  InvalidClientException {
+        defaultTokenServices.revokeToken(value);
+    }
 }
