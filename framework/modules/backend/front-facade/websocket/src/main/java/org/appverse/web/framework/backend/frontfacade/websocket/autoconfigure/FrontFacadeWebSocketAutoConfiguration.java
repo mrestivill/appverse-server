@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +39,8 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.StompWebSocketEndpointRegistration;
 
 @Configuration
-@ConditionalOnExpression("${${appverse.frontfacade.websocket.enabled} and !${appverse.frontfacade.websocket.security.enabled}")
+@ConditionalOnMissingClass("org.springframework.web.socket.config.annotation.AbstractSecurityWebSocketMessageBrokerConfigurer")
+@ConditionalOnProperty(value = "${appverse.frontfacade.websocket.enabled}",matchIfMissing = true)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.websocket")
 @EnableWebSocketMessageBroker
 public class FrontFacadeWebSocketAutoConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
