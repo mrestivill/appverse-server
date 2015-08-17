@@ -26,11 +26,15 @@ package org.appverse.web.framework.backend.security.oauth2.implicit.login;
 import org.appverse.web.framework.backend.security.authentication.userpassword.managers.UserAndPasswordAuthenticationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnResource;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -60,8 +64,8 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
     @Autowired
 	private UserAndPasswordAuthenticationManager userAndPasswordAuthenticationManager;
 
-    @Autowired
-    private DefaultTokenServices defaultTokenServices;
+    @Autowired(required = false)
+    private ConsumerTokenServices tokenServices;
 
     /**
      * Authenticates an user. Requires basic authentication header.
@@ -100,13 +104,19 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
     	dispatcher.forward(httpServletRequest, httpServletResponse);
    }
 
-    @RequestMapping(value = "${appverse.frontfacade.oauth2.tokenEndpoint.path:/sec/token" , method = RequestMethod.POST)
+    @RequestMapping(value = "${appverse.frontfacade.oauth2.tokenEndpoint.path:/sec/token}" , method = RequestMethod.POST)
     public void token(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws Exception {
         RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/oauth/token");
         dispatcher.forward(httpServletRequest, httpServletResponse);
     }
-    @RequestMapping(value = "${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/token/revoke", method = RequestMethod.POST)
+    @RequestMapping(value = "${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/token/revoke}", method = RequestMethod.POST)
+    @ConditionalOnExpression("#{tokenServices}!=null")
     public @ResponseBody void revokeToken(@RequestParam("token") String value) throws  InvalidClientException {
-        defaultTokenServices.revokeToken(value);
+        if (tokenServices != null) {
+            tokenServices.revokeToken(value);
+        }else{
+            //There is not a ConsumerTokenServices available
+            throw new NotImplementedException();
+        }
     }
 }
