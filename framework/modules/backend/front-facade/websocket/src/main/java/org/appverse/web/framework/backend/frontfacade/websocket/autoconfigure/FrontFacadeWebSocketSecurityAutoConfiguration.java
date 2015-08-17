@@ -25,12 +25,11 @@ package org.appverse.web.framework.backend.frontfacade.websocket.autoconfigure;/
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 import org.springframework.util.StringUtils;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -38,11 +37,11 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.StompWebSocketEndpointRegistration;
 
 @Configuration
-@ConditionalOnExpression("${${appverse.frontfacade.websocket.enabled} and !${appverse.frontfacade.websocket.security.enabled}")
+@ConditionalOnProperty(value={"appverse.frontfacade.websocket.security.enabled","appverse.frontfacade.websocket.enabled"}, matchIfMissing=false)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.websocket")
 @EnableWebSocketMessageBroker
-public class FrontFacadeWebSocketAutoConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
-    private static final Logger logger = LoggerFactory.getLogger(FrontFacadeWebSocketAutoConfiguration.class);
+public class FrontFacadeWebSocketSecurityAutoConfiguration extends AbstractSecurityWebSocketMessageBrokerConfigurer {
+    private static final Logger logger = LoggerFactory.getLogger(FrontFacadeWebSocketSecurityAutoConfiguration.class);
 
     @Value("${appverse.frontfacade.websocket.defaultWebSocketEndpoint.path:/services/websocket/standard}")
     private String defaultWebsocketEndpointPath;
@@ -59,6 +58,12 @@ public class FrontFacadeWebSocketAutoConfiguration extends AbstractWebSocketMess
     private String allowedOrigins;
     @Value("${appverse.frontfacade.cors.enabled:false}")
     private String corsEnabled;
+
+    @Override
+    protected boolean sameOriginDisabled() {
+        return Boolean.valueOf(corsEnabled);
+    }
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
 
@@ -73,6 +78,7 @@ public class FrontFacadeWebSocketAutoConfiguration extends AbstractWebSocketMess
             sockJsEndpoint.setAllowedOrigins(StringUtils.commaDelimitedListToStringArray(allowedOrigins));
         }
     }
+
     @Override
     public void configureMessageBroker(final MessageBrokerRegistry registry) {
         registry.enableSimpleBroker(simpleBrokerEndpointPath, queueBrokerEndpointPath); // destination prefix
