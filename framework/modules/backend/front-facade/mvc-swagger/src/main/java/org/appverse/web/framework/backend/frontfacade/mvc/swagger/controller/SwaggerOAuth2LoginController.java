@@ -45,10 +45,10 @@ public class SwaggerOAuth2LoginController {
 	public String showSwaggerOAuth2LoginForm(Model model, HttpServletRequest req) throws MalformedURLException{
 		String contextPath = req.getContextPath();
 		model.addAttribute("response_type", "token");
-		model.addAttribute("redirect_uri", obtainBaseServer(req.getParameter("redirect_uri"))+convertToRelativePath(contextPath, "/o2c.html"));
 		Map<String, String[]> map = req.getParameterMap();
 
 		model.addAllAttributes(convertParameters(map));
+		model.addAttribute("redirect_uri", obtainBaseServer(req.getParameter("redirect_uri"))+convertToRelativePath(contextPath, "/o2c.html"));
 		model.addAttribute("swaggerLoginFormAction", convertToRelativePath(contextPath, apiBasePath + oauth2LoginEndpoint));
 		model.addAttribute("swaggerClientId", swaggerClientId);
 
