@@ -41,12 +41,13 @@ public class SwaggerOAuth2LoginController {
 	public String showSwaggerOAuth2LoginForm(Model model, HttpServletRequest req) {
 		String contextPath = req.getContextPath();
 		model.addAttribute("response_type", "token");
-		Map<String,String[]> map = req.getParameterMap();
+		model.addAttribute("redirect_uri", convertToRelativePath(contextPath, "/o2c.html"));
+		Map<String, String[]> map = req.getParameterMap();
 
 		model.addAllAttributes(convertParameters(map));
 		model.addAttribute("swaggerLoginFormAction", convertToRelativePath(contextPath, apiBasePath + oauth2LoginEndpoint));
 		model.addAttribute("swaggerClientId", swaggerClientId);
-		model.addAttribute("swaggerRedirectUri", convertToRelativePath(contextPath, "/o2c.html"));
+
 		return "oauth2loginform";
 	}
 	private Map<String,String> convertParameters(Map<String, String[]> map){
