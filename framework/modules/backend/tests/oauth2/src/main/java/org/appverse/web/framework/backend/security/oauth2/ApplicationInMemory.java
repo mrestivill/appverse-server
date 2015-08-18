@@ -23,9 +23,8 @@
  */
 package org.appverse.web.framework.backend.security.oauth2;
 
-import javax.sql.DataSource;
-
 import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.memory.AuthorizationServerInMemoryStoreConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -36,12 +35,14 @@ import org.springframework.security.config.annotation.authentication.configurers
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
+import javax.sql.DataSource;
+
 @Configuration
 @EnableAutoConfiguration()
-public class Application {
+public class ApplicationInMemory {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ApplicationInMemory.class, args);
 	}
 
 	/* Example, you can override ResourceServerWithJDBCStoreConfigurerAdapter configure(http) method to set
@@ -55,13 +56,12 @@ public class Application {
 	
 	@Configuration
 	@EnableAuthorizationServer	
-	public static class AuthorizationServerConfig extends AuthorizationServerWithJDBCStoreConfigurerAdapter{
+	public static class AuthorizationServerConfig extends AuthorizationServerInMemoryStoreConfigurerAdapter{
 		
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients)
 				throws Exception {
-			clients.jdbc(dataSource)
-			.passwordEncoder(passwordEncoder)
+			clients.inMemory()
 			.withClient("test-client")
 			.authorizedGrantTypes("password", "authorization_code",
 					"refresh_token", "implicit")
@@ -86,12 +86,9 @@ public class Application {
 	protected static class AuthenticationManagerCustomizer extends
 			GlobalAuthenticationConfigurerAdapter {
 
-		@Autowired
-		private DataSource dataSource;
-
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.jdbcAuthentication().dataSource(dataSource).withUser("user")
+			auth.inMemoryAuthentication().withUser("user")
 					.password("password").roles("USER");
 		}
 	}

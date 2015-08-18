@@ -1,15 +1,15 @@
-create table users (
+create table if not exists users (
   username varchar(256),
   password varchar(256),
   enabled boolean
 );
 
-create table authorities (
+create table if not exists authorities (
   username varchar(256),
   authority varchar(256)
-);
+) ;
 
-create table oauth_client_details (
+create table if not exists oauth_client_details (
   client_id VARCHAR(256) PRIMARY KEY,
   resource_ids VARCHAR(256),
   client_secret VARCHAR(256),
@@ -21,17 +21,17 @@ create table oauth_client_details (
   refresh_token_validity INTEGER,
   additional_information VARCHAR(4096),
   autoapprove VARCHAR(256)
-);
+) ;
 
-create table oauth_client_token (
+create table if not exists oauth_client_token (
   token_id VARCHAR(256),
   token LONGVARBINARY,
   authentication_id VARCHAR(256),
   user_name VARCHAR(256),
   client_id VARCHAR(256)
-);
+) ;
 
-create table oauth_access_token (
+create table if not exists oauth_access_token (
   token_id VARCHAR(256),
   token LONGVARBINARY,
   authentication_id VARCHAR(256),
@@ -41,13 +41,15 @@ create table oauth_access_token (
   refresh_token VARCHAR(256)
 );
 
-create table oauth_refresh_token (
+create table if not exists oauth_refresh_token (
   token_id VARCHAR(256),
   token LONGVARBINARY,
   authentication LONGVARBINARY
-);
+) ;
 
-create table oauth_code (
+create table if not exists oauth_code (
   code VARCHAR(256), authentication LONGVARBINARY
-);
+) ;
 
+
+delete from oauth_client_details where client_id like 'test%';
