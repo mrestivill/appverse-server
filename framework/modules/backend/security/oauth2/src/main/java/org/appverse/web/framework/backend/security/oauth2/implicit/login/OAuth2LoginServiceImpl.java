@@ -33,6 +33,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -111,9 +112,9 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
     }
     @RequestMapping(value = "${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/token/revoke}", method = RequestMethod.POST)
     @ConditionalOnExpression("#{tokenServices}!=null")
-    public @ResponseBody void revokeToken(@RequestParam("token") String value) throws  InvalidClientException {
+    public @ResponseBody void revokeToken(@RequestParam("token") String token, HttpServletRequest req) throws  InvalidClientException {
         if (tokenServices != null) {
-            tokenServices.revokeToken(value);
+            tokenServices.revokeToken(token);
         }else{
             //There is not a ConsumerTokenServices available
             throw new NotImplementedException();

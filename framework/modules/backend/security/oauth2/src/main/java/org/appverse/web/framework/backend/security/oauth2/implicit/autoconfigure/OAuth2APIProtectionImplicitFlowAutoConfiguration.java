@@ -26,9 +26,12 @@ package org.appverse.web.framework.backend.security.oauth2.implicit.autoconfigur
 import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.ResourceServerStoreConfigurerAdapter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for OAuth2 to protect your API
@@ -38,6 +41,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @ComponentScan("org.appverse.web.framework.backend.security.oauth2")
 public class OAuth2APIProtectionImplicitFlowAutoConfiguration {
 	
+	@Bean
+	public DefaultTokenServices tokenServices(TokenStore tokenStore){
+		DefaultTokenServices tokenServices = new DefaultTokenServices();
+		tokenServices.setTokenStore(tokenStore);
+		return tokenServices;
+	}
+
 	@Configuration
 	@EnableResourceServer
 	public static class ResourceServerConfig extends ResourceServerStoreConfigurerAdapter {

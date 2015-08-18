@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,10 +42,10 @@ public class SwaggerOAuth2LoginController {
 	}
 
 	@RequestMapping(value="/swaggeroauth2login",method = RequestMethod.GET)
-	public String showSwaggerOAuth2LoginForm(Model model, HttpServletRequest req) {
+	public String showSwaggerOAuth2LoginForm(Model model, HttpServletRequest req) throws MalformedURLException{
 		String contextPath = req.getContextPath();
 		model.addAttribute("response_type", "token");
-		model.addAttribute("redirect_uri", convertToRelativePath(contextPath, "/o2c.html"));
+		model.addAttribute("redirect_uri", obtainBaseServer(req.getParameter("redirect_uri"))+convertToRelativePath(contextPath, "/o2c.html"));
 		Map<String, String[]> map = req.getParameterMap();
 
 		model.addAllAttributes(convertParameters(map));
@@ -58,6 +62,14 @@ public class SwaggerOAuth2LoginController {
 			}
 		}
 		return data;
+	}
+	private String obtainBaseServer(String urlString) throws MalformedURLException {
+		if (!StringUtils.isEmpty(urlString)) {
+			URL url = new URL(urlString);
+			return url.getProtocol() + "://" + url.getAuthority();
+		}
+		return "";
+
 	}
 	private String convertToRelativePath(String contextPath, String url) {
 		if (!StringUtils.isEmpty(contextPath)){
