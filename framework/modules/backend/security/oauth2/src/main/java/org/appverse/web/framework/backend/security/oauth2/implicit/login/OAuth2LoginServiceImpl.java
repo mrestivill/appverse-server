@@ -112,7 +112,7 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
     }
     @RequestMapping(value = "${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/token/revoke}", method = RequestMethod.POST)
     @ConditionalOnExpression("#{tokenServices}!=null")
-    public @ResponseBody void revokeToken(@RequestParam("token") String token, HttpServletRequest req) throws  InvalidClientException {
+    public @ResponseBody void revokeToken(@RequestParam("access_token") String token, HttpServletRequest req) throws  InvalidClientException {
         if (tokenServices != null) {
             tokenServices.revokeToken(token);
         }else{
