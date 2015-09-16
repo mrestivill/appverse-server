@@ -125,7 +125,7 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
 
     List<GrantType> grantTypes = new ArrayList<GrantType>();
 
-    LoginEndpoint loginEndpoint = new LoginEndpoint("/swaggeroauth2login");
+    LoginEndpoint loginEndpoint = new LoginEndpoint("swaggeroauth2login");
     
     grantTypes.add(new ImplicitGrant(loginEndpoint, "access_token"));
     

@@ -1,8 +1,4 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<script src="/lib/jquery-1.8.0.min.js"></script>
-<script src="/lib/swagger-oauth.js"></script>
-</head>
 <body id="oauth-authorize">
 	<header>
 		<h1></h1>
@@ -12,20 +8,16 @@
 	</header>
 	<section>
 		<form method="POST" id="oauth-authorize-login" th:action="${swaggerLoginFormAction}">
+
 			<div>
-				<button type="button" id="deny">
-					<span>Cancel and go back</span>
-				</button>
-				<button type="button" id="allow">
-					<span>Allow</span>
-				</button>
-			</div>
-			<div>
-				<input name="response_type" id="response_type" type="hidden" value="token"/>
+				<input name="response_type" id="response_type" type="hidden" th:value="${response_type}"/>
+				<input name="scope" id="scope" type="hidden" th:value="${scope}"/>
+				<!--input name="realm" id="realm" type="hidden" th:value="${realm}"/-->
 				<input name="client_id" id="client_id" type="hidden" th:value="${swaggerClientId}"/> 
-				<input name="redirect_uri" id="redirect_uri" type="hidden" th:value="${swaggerRedirectUri}" />
-				<input name="username" id="username" type="text" placeholder="Username" value="user"></input> <label for="password">Password</label>
-				<input name="password" id="password" type="password" placeholder="Password" value="password"></input>
+				<input name="redirect_uri" id="redirect_uri" type="hidden" th:value="${redirect_uri}" />
+				<label for="username">Username:</label>
+				<input name="username" id="username" type="text" placeholder="Username" th:value="${username}"/> <label for="password">Password:</label>
+				<input name="password" id="password" type="password" placeholder="Password" th:value="${password}"/><br/>
 				<button type="submit" id="login" name="login">
 					<span>Confirm</span>
 				</button>

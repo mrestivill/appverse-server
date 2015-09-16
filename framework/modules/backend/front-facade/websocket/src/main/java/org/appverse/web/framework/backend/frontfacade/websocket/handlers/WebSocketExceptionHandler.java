@@ -25,26 +25,28 @@ package org.appverse.web.framework.backend.frontfacade.websocket.handlers;/*
 import org.appverse.web.framework.backend.core.AbstractException;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ErrorVO;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ResponseDataVO;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
 @ConditionalOnProperty(value="appverse.frontfacade.websocket.exceptionHandler.enabled", matchIfMissing=true)
+@ControllerAdvice(annotations = {RestController.class, Controller.class})
 public class WebSocketExceptionHandler {
 
-    @MessageExceptionHandler()
+    @MessageExceptionHandler(Exception.class)
     @SendToUser("${appverse.frontfacade.websocket.exceptionHandler.path:/queue/errors}")
-    public ResponseEntity<ResponseDataVO> handleError(HttpServletRequest req, Exception exception) {
+    public ResponseDataVO handleError(Exception exception) {
         ResponseDataVO data = new ResponseDataVO();
         ErrorVO error = new ErrorVO();
 
         Long code = 500L;
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         if(exception instanceof AbstractException) {
             if (((AbstractException) exception).getCode() != null) {
                 code = ((AbstractException) exception).getCode();
@@ -53,6 +55,6 @@ public class WebSocketExceptionHandler {
         error.setCode(code);
         error.setMessage(exception.getMessage());
         data.setErrorVO(error);
-        return  new ResponseEntity<ResponseDataVO>(data, httpStatus);
+        return data;
     }
 }

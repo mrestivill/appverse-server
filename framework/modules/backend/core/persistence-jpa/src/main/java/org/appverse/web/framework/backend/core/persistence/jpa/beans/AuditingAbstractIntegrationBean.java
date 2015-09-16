@@ -41,7 +41,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 @MappedSuperclass
 public abstract class AuditingAbstractIntegrationBean extends AbstractIntegrationBaseBean {
     private static final long serialVersionUID = -4532840221913116181L;
-    protected long id;
     private Date created;
     private Date updated;
     private String createdBy;

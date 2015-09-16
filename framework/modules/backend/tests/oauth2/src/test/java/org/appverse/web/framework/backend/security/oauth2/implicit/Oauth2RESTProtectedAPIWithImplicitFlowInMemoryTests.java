@@ -23,7 +23,8 @@
  */
 package org.appverse.web.framework.backend.security.oauth2.implicit;
 
-import org.appverse.web.framework.backend.security.oauth2.Application;
+import org.appverse.web.framework.backend.security.oauth2.ApplicationInMemory;
+import org.appverse.web.framework.backend.security.oauth2.ApplicationJDBC;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.implicit.Oauth2ImplicitFlowPredefinedTests;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -35,13 +36,13 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
  * Otherwise you will experience exactly the problem described here:
  * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 
  */
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = ApplicationInMemory.class)
 @IntegrationTest(value={"server.port=0",		         
 		         "appverse.frontfacade.oauth2.apiprotection.enabled=true",
 		         "appverse.frontfacade.rest.http.basic.default.setup.enabled=false",
 		         "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
 		         "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false"})
-public class Oauth2RESTProtectedAPIWithImplicitFlowTests extends Oauth2ImplicitFlowPredefinedTests {
+public class Oauth2RESTProtectedAPIWithImplicitFlowInMemoryTests extends Oauth2ImplicitFlowPredefinedTests {
 
 	@Override
 	protected String getPassword() {

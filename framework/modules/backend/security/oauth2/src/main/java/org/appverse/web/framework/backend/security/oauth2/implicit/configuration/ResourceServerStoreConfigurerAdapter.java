@@ -21,7 +21,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.implicit.configuration.jdbcstore;
+package org.appverse.web.framework.backend.security.oauth2.implicit.configuration;
 
 import org.appverse.web.framework.backend.security.oauth2.common.handlers.OAuth2LogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,28 +55,22 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * You can find a schema example here:
  * https://github.com/spring-projects/spring-security-oauth/blob/master/spring-security-oauth2/src/test/resources/schema.sql 
  */
-public class ResourceServerWithJDBCStoreConfigurerAdapter extends ResourceServerConfigurerAdapter {
+public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigurerAdapter {
 
-	@Autowired
-	private TokenStore tokenStore;
-	
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	
     @Value("${appverse.frontfacade.rest.api.basepath:/api}")
     protected String apiPath;
-	
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
-	
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
 	protected String oauth2LoginEndpointPath;
-	
 	@Value("${appverse.frontfacade.swagger.enabled:true}")
 	protected boolean swagerEnabled;
-	
 	@Value("${appverse.frontfacade.swagger.oauth2.allowedUrls.antMatchers:/swaggeroauth2login,/o2c.html,/,/index.html,/css/**,/lib/**,/swagger-ui.js,/api-docs/**}")
 	protected String swaggerOauth2AllowedUrlsAntMatchers;
+	@Autowired
+	private TokenStore tokenStore;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
 	@Bean
 	public OAuth2LogoutHandler oauth2LogoutHandler() {
