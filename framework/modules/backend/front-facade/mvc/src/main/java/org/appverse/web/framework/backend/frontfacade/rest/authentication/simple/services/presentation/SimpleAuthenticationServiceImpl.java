@@ -42,8 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 //TODO: Review multiple conditional properties (so they can have separated "matchIfMissing" after spring boot 1.4 is released,
 //there is an issue for this: https://github.com/spring-projects/spring-boot/issues/2541
-@ConditionalOnProperty(value={"appverse.frontfacade.rest.http.basic.enabled",
-							  "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled"}, matchIfMissing=true)
+@ConditionalOnProperty(value={"appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled"}, matchIfMissing=true)
 @RequestMapping(value = "${appverse.frontfacade.rest.api.basepath:/api}", method = RequestMethod.POST)
 /**
  * {@link BasicAuthenticationService} Spring MVC implementation. Exposes a Basic Autentication service for REST services
