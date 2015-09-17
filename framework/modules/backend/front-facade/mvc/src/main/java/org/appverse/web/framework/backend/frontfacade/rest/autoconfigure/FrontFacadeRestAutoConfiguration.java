@@ -97,7 +97,7 @@ public class FrontFacadeRestAutoConfiguration {
 
 	@Configuration
 	@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-	@ConditionalOnProperty(value="appverse.frontfacade.rest.http.basic.enabled", matchIfMissing=true)
+	@ConditionalOnProperty(value="appverse.frontfacade.rest.http.basic.default.setup.enabled", matchIfMissing=true)
 	protected static class AppverseWebHttpBasicConfiguration extends AppverseWebHttpBasicConfigurerAdapter {
 	}
 }

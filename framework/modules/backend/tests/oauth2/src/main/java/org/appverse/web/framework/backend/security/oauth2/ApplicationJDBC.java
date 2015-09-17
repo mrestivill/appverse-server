@@ -38,10 +38,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @Configuration
 @EnableAutoConfiguration()
-public class ApplicationJdbc {
+public class ApplicationJDBC {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApplicationJdbc.class, args);
+		SpringApplication.run(ApplicationJDBC.class, args);
 	}
 
 	/* Example, you can override ResourceServerWithJDBCStoreConfigurerAdapter configure(http) method to set
