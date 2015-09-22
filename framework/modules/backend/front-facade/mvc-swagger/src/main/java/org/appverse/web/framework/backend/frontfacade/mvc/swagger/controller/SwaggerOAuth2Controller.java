@@ -9,22 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 @ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
+
 /**
  * Simple controller that just shows the Swagger OAuth2 login form where the user can enter they credentials
  * to authenticate before obtaining an OAuth2 token (username and password).
  * This controller shows the Thymeleaf view (template) oauth2loginform.hmtl.
  * The oauth2 login endpoint, clientId and redirection url are filled in the template.   
  */
-public class SwaggerOAuth2LoginController {
+public class SwaggerOAuth2Controller {
 	
 	@Value("${appverse.frontfacade.swagger.oauth2.clientId}")
 	private String swaggerClientId;
