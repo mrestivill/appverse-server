@@ -34,11 +34,10 @@
         log("Loaded SwaggerUI");
 
         if(typeof initOAuth == "function") {
-         // TODO: This setup needs to be provided from outside!
          initOAuth({
             clientId: document.getElementById("clientId").value,
             realm: "oauth2-resource",
-            appName: "test-client"
+            appName: ""
           });
         }
         $('pre code').each(function(i, e) {
@@ -71,12 +70,6 @@
     <a id="logo" href="http://swagger.wordnik.com">swagger</a>
     <input id="clientId" type="hidden" th:value="${swaggerClientId}"/>
     <form id='api_selector'>
-      <div class='input icon-btn'>
-        <img id="show-pet-store-icon" src="images/pet_store_api.png" title="Show Swagger Petstore Example Apis"/>
-      </div>
-      <div class='input icon-btn'>
-        <img id="show-wordnik-dev-icon" src="images/wordnik_api.png" title="Show Wordnik Developer Apis"/>
-      </div>
       <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
       <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
       <div class='input'><a id="explore" href="#">Explore</a></div>
