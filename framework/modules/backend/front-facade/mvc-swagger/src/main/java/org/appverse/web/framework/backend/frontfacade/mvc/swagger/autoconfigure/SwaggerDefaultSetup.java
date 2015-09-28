@@ -25,6 +25,7 @@ package org.appverse.web.framework.backend.frontfacade.mvc.swagger.autoconfigure
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.CharMatcher;
@@ -91,7 +92,7 @@ import org.springframework.core.env.Environment;
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
 */
 
-
+// https://github.com/springfox/springfox/issues/767
 
 /**
  * This class holds default swagger configuration for swagger.
@@ -116,7 +117,7 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 		    ApplicationContext ctx = SpringApplication.run(SwaggerDefaultSetup.class, args);
 		  }
 
-
+/*
 	 @Bean
 	    public Docket petApi() {
 	        return new Docket(DocumentationType.SWAGGER_2)
@@ -126,36 +127,6 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 	                .paths(petstorePaths())
 	                .build();
 	    }
-
-/*	 
-	    @Bean
-	    public Docket categoryApi() {
-	        return new Docket(DocumentationType.SWAGGER_2)
-	                .groupName("category-api")
-	                .apiInfo(apiInfo())
-	                .select()
-	                .paths(categoryPaths())
-	                .build();
-	    }
-
-	    @Bean
-	    public Docket multipartApi() {
-	        return new Docket(DocumentationType.SWAGGER_2)
-	                .groupName("multipart-api")
-	                .apiInfo(apiInfo())
-	                .select()
-	                .paths(multipartPaths())
-	                .build();
-	    }
-
-	    private Predicate<String> categoryPaths() {
-	        return regex("/category.*");
-	    }
-
-	    private Predicate<String> multipartPaths() {
-	        return regex("/upload.*");
-	    }
-*/	    
 
 	    @Bean
 	    public Docket userApi() {
@@ -204,6 +175,45 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 	                .paths(userOnlyEndpoints())
 	                .build();
 	    }
+*/
+	 
+	    @Bean
+	    public Docket apiDocumentationV2() {
+	    	// TODO: Works! Only check this:
+	    	// https://github.com/springfox/springfox/issues/767
+	    	return new Docket(DocumentationType.SWAGGER_2).groupName("full-api").apiInfo(apiInfo())
+	    			.select().paths(userOnlyEndpoints()).build()
+	    			.securitySchemes(Arrays.asList(securitySchema()))
+	    			.securityContexts(Arrays.asList(securityContext()));
+	    }
+
+	    public static final String securitySchemaOAuth2 = "oauth2schema";
+	    public static final String authorizationScopeGlobal = "global";
+	    public static final String authorizationScopeGlobalDesc ="accessEverything";
+
+	    private OAuth securitySchema() {
+	    	AuthorizationScope authorizationScope = new AuthorizationScope(authorizationScopeGlobal, authorizationScopeGlobal);
+	    	LoginEndpoint loginEndpoint = new LoginEndpoint("swaggeroauth2login");
+	    	GrantType grantType = new ImplicitGrant(loginEndpoint, "access_token");
+	    	return new OAuth(securitySchemaOAuth2, Arrays.asList(authorizationScope), Arrays.asList(grantType));
+	    }
+
+	    private SecurityContext securityContext() {
+	    	return SecurityContext.builder()
+	    			.securityReferences(defaultAuth())
+	    			.forPaths(userOnlyEndpoints())
+	    			.build();
+	    }
+
+	    private List<SecurityReference> defaultAuth() {
+	    	AuthorizationScope authorizationScope
+	    	= new AuthorizationScope(authorizationScopeGlobal, authorizationScopeGlobalDesc);
+	    	AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+	    	authorizationScopes[0] = authorizationScope;
+	    	return Arrays.asList(
+	    			new SecurityReference(securitySchemaOAuth2, authorizationScopes));
+	    }
+	    
 
 	    private Predicate<String> petstorePaths() {
 	    	/*
