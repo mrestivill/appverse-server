@@ -18,6 +18,6 @@ public class SwaggerBasicController {
 
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public String showindexOAuth2LoginForm(Model model, HttpServletRequest req) {
-		return "index";
+		return "redirect:swagger-ui.html";
 	}
 }
