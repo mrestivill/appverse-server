@@ -54,11 +54,19 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * This class holds default swagger configuration for swagger.
- * It sets SwaggerSpringMVCPlugin properly by default.
+ * This class holds default swagger configuration using Swagger Sprinfox API.
  * You can enable / disable this autoconfiguration by using the property
  * "appverse.frontfacade.swagger.enabled" which is false by default.
- * It provides support both for basic auth and OAuth2 using the login endpoint.
+ * 
+ * It creates by default a default group showing all your API (the patterns you have included).
+ * It provides support both for basic auth and OAuth2 using a login endpoint.
+ * Properties:
+ * - appverse.frontfacade.swagger.enabled: allows enable / disable Appverse Swagger feature
+ * - appverse.frontfacade.swagger.oauth2.defaultscope: default scope that will be used with swagger using oauth2
+ * - 
+ * 
+ * Example of more complex setup:
+ * https://github.com/springfox/springfox/blob/master/springfox-spring-config/src/main/java/springfox/springconfig/Swagger2SpringBoot.java
  */
 @EnableSwagger2
 @Configuration
@@ -124,38 +132,37 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 	}
 		
 	private OAuth securitySchema() {
-		AuthorizationScope authorizationScope = new AuthorizationScope(swaggerDefaultScope, "Global scope");
 		LoginEndpoint loginEndpoint = new LoginEndpoint("swaggeroauth2login");
 		GrantType grantType = new ImplicitGrant(loginEndpoint, "access_token");
-		return new OAuth(securitySchemaOAuth2, Arrays.asList(authorizationScope), Arrays.asList(grantType));
+		return new OAuth(securitySchemaOAuth2, Arrays.asList(getOauth2Scopes()), Arrays.asList(grantType));
 	}
 
 	private SecurityContext securityContext() {
 		SecurityContextBuilder builder = SecurityContext.builder();
 		if (oauth2Enabled){
-			List<SecurityReference> defaultOAuthSecurityReference = getDefaultOauthSetup();
+			List<SecurityReference> defaultOAuthSecurityReference = Arrays.asList(new SecurityReference(securitySchemaOAuth2, getOauth2Scopes()));
 			if (defaultOAuthSecurityReference != null){
 				builder.securityReferences(defaultOAuthSecurityReference);
 			}
 		}
 		return builder.forPaths(defaultGroup()).build();
 	}
-
-	private List<SecurityReference> getDefaultOauthSetup() {
+	
+	private AuthorizationScope[] getOauth2Scopes() {
 		String[] scopes = getSwaggerScopes();
+		AuthorizationScope[] authorizationScopes = null;
 		if (scopes != null) {
-			AuthorizationScope[] authorizationScopes = new AuthorizationScope[scopes.length];
+			authorizationScopes = new AuthorizationScope[scopes.length];
 			int cnt=0;
 			for (String scope:scopes){				
 				AuthorizationScope authScope = new AuthorizationScope(scope, "");
 				authorizationScopes[cnt] = authScope;
 				cnt++;
 			}
-			return Arrays.asList(new SecurityReference(securitySchemaOAuth2, authorizationScopes));
 		}
-		return null;
-	}
-
+		return authorizationScopes;
+	}	
+	
 	@SuppressWarnings("unchecked")
 	private Predicate<String> defaultGroup() {
 		String[] includePatterns = getIncludePatterns();
