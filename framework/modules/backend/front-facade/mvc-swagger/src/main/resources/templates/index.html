@@ -34,10 +34,11 @@
         log("Loaded SwaggerUI");
 
         if(typeof initOAuth == "function") {
+         // TODO: This setup needs to be provided from outside!
          initOAuth({
             clientId: document.getElementById("clientId").value,
             realm: "oauth2-resource",
-            appName: ""
+            appName: document.getElementById("clientId").value
           });
         }
         $('pre code').each(function(i, e) {
