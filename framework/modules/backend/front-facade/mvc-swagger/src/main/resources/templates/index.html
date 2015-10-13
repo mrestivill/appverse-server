@@ -37,7 +37,7 @@
          initOAuth({
             clientId: document.getElementById("clientId").value,
             realm: "oauth2-resource",
-            appName: ""
+            appName: document.getElementById("clientId").value
           });
         }
         $('pre code').each(function(i, e) {
