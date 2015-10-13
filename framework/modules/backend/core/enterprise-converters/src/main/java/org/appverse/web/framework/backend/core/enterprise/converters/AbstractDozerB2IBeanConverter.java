@@ -32,6 +32,7 @@ import org.appverse.web.framework.backend.core.beans.AbstractBusinessBean;
 import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
+import org.springframework.core.convert.converter.Converter;
 
 public abstract class AbstractDozerB2IBeanConverter<BusinessBean extends AbstractBusinessBean, IntegrationBean extends AbstractIntegrationBean>
 		implements IB2IBeanConverter<BusinessBean, IntegrationBean> {
@@ -48,6 +49,11 @@ public abstract class AbstractDozerB2IBeanConverter<BusinessBean extends Abstrac
 	@Resource
 	protected DozerBeanMapperFactoryBean dozerBeanMapperFactoryBean;
 
+	
+	private Converter<BusinessBean, IntegrationBean> springConverter = (BusinessBean bean) -> { try { return this.convert(bean); } catch (Exception e) { throw new RuntimeException(e);}}; 
+	private Converter<IntegrationBean, BusinessBean> springInverseConverter = (IntegrationBean bean) -> { try { return this.convert(bean); } catch (Exception e) { throw new RuntimeException(e);}};
+
+	
 	public AbstractDozerB2IBeanConverter() {
 	}
 
@@ -298,6 +304,16 @@ public abstract class AbstractDozerB2IBeanConverter<BusinessBean extends Abstrac
 		if (scopes.length > 2) {
 			this.SCOPE_CUSTOM = scopes[2];
 		}
+	}
+	
+	@Override
+	public Converter<BusinessBean, IntegrationBean> getSpringConverter() {
+		return springConverter;
+	}
+	
+	@Override
+	public Converter<IntegrationBean, BusinessBean> getSpringInverseConverter() {
+		return springInverseConverter;
 	}
 
 }
