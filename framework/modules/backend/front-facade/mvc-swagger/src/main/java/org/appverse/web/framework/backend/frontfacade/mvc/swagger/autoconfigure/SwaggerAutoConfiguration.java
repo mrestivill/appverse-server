@@ -23,34 +23,14 @@
  */
 package org.appverse.web.framework.backend.frontfacade.mvc.swagger.autoconfigure;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mangofactory.swagger.authorization.AuthorizationContext;
-import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
-import com.mangofactory.swagger.plugin.EnableSwagger;
-import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
-import com.mangofactory.swagger.models.dto.ApiInfo;
-import com.mangofactory.swagger.models.dto.Authorization;
-import com.mangofactory.swagger.models.dto.AuthorizationScope;
-import com.mangofactory.swagger.models.dto.AuthorizationType;
-import com.mangofactory.swagger.models.dto.GrantType;
-import com.mangofactory.swagger.models.dto.ImplicitGrant;
-import com.mangofactory.swagger.models.dto.LoginEndpoint;
-import com.mangofactory.swagger.models.dto.OAuth;
-import com.mangofactory.swagger.models.dto.builder.OAuthBuilder;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-@EnableSwagger
 @Configuration
 @ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=false)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
@@ -63,8 +43,6 @@ import org.springframework.core.env.Environment;
  */
 public class SwaggerAutoConfiguration implements EnvironmentAware {
 
-  private SpringSwaggerConfig springSwaggerConfig;
-  
   private RelaxedPropertyResolver propertyResolver;
   
   @Value("${appverse.frontfacade.oauth2.apiprotection.enabled:false}")
@@ -74,82 +52,4 @@ public class SwaggerAutoConfiguration implements EnvironmentAware {
   public void setEnvironment(Environment environment) {
       this.propertyResolver = new RelaxedPropertyResolver(environment, "swagger.");
   }
-
-  @Autowired
-  public void setSpringSwaggerConfig(SpringSwaggerConfig springSwaggerConfig) {
-    this.springSwaggerConfig = springSwaggerConfig;
-  }
-
-  @Bean
-  public SwaggerSpringMvcPlugin swaggerSpringMvcPlugin() {
-    SwaggerSpringMvcPlugin swaggerSpringMVCPlugin =	new SwaggerSpringMvcPlugin(springSwaggerConfig)
-    		.includePatterns(getIncludePatterns())
-            .apiInfo(apiInfo());
-    if (oauth2Enabled){
-    	swaggerSpringMVCPlugin.authorizationTypes(authorizationTypes())
-        .authorizationContext(authorizationContext());
-    }
-    return swaggerSpringMVCPlugin.build();
-  }
-
-  /**
-   * Patterns to be included to appear in the swagger-ui page
-   */
-  private String[] getIncludePatterns(){
-	  String includePatterns = propertyResolver.getProperty("includePatterns");
-	  if (includePatterns == null){
-		  String[] pattern = {".*?"};
-		  return pattern;
-	  }
-	  return includePatterns.split(",");		 
-  }
-
-  /**
-   * API Info as it appears on the swagger-ui page
-   */
-  private ApiInfo apiInfo() {
-      return new ApiInfo(
-              propertyResolver.getProperty("title"),
-              propertyResolver.getProperty("description"),
-              propertyResolver.getProperty("termsOfServiceUrl"),
-              propertyResolver.getProperty("contact"),
-              propertyResolver.getProperty("license"),
-              propertyResolver.getProperty("licenseUrl"));
-  }
-
-  private List<AuthorizationType> authorizationTypes() {
-    ArrayList<AuthorizationType> authorizationTypes = new ArrayList<AuthorizationType>();
-
-    List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
-    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API"));
-
-    List<GrantType> grantTypes = new ArrayList<GrantType>();
-
-    LoginEndpoint loginEndpoint = new LoginEndpoint("swaggeroauth2login");
-    
-    grantTypes.add(new ImplicitGrant(loginEndpoint, "access_token"));
-    
-    OAuth oAuth = new OAuthBuilder()
-            .scopes(authorizationScopeList)
-            .grantTypes(grantTypes)
-            .build();
-
-    authorizationTypes.add(oAuth);
-    return authorizationTypes;
-  }
-
-  @Bean
-  public AuthorizationContext authorizationContext() {
-    List<Authorization> authorizations = new ArrayList<Authorization>();
-
-    List<AuthorizationScope> authorizationScopeList = new ArrayList<AuthorizationScope>();
-    authorizationScopeList.add(new AuthorizationScope("trust", "This is the only scope which provides acccess to your REST API"));    
-    
-    authorizations.add(new Authorization("oauth2", authorizationScopeList.toArray(new AuthorizationScope[authorizationScopeList.size()])));
-    AuthorizationContext authorizationContext =
-            new AuthorizationContext.AuthorizationContextBuilder(authorizations).build();
-    return authorizationContext;
-  }
-
-
 }
