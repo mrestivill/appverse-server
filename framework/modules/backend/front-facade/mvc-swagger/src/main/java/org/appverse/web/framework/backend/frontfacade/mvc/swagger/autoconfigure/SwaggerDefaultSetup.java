@@ -136,7 +136,7 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 	public Docket apiDocumentationV2() {
 		return new Docket(DocumentationType.SWAGGER_2).groupName("default-group").apiInfo(apiInfo())
 				.select().paths(defaultGroup()).build()
-				.pathMapping(apiPath)
+				// This causes duplicated contextpath in Swagger UI .pathMapping(apiPath)
 				.securitySchemes(Arrays.asList(securitySchema()))
 				.securityContexts(Arrays.asList(securityContext()));
 	}
