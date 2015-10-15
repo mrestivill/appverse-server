@@ -51,6 +51,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spi.service.contexts.SecurityContextBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
@@ -81,6 +82,9 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
     
     @Value("${appverse.frontfacade.swagger.oauth2.defaultscope}")
     private String swaggerDefaultScope;  
+    
+	@Value("${appverse.frontfacade.swagger.oauth2.clientId}")
+	private String swaggerClientId;
 
 	private RelaxedPropertyResolver propertyResolver;
 
@@ -121,6 +125,12 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 	        ;
 	  }
 */	
+	
+	@Bean
+	public SecurityConfiguration securityConfiguration(){
+		SecurityConfiguration config = new SecurityConfiguration(swaggerClientId, "oauth2-resource", swaggerClientId, "apiKey", "notused");
+		return config;
+	}
 
 	@Bean
 	public Docket apiDocumentationV2() {
