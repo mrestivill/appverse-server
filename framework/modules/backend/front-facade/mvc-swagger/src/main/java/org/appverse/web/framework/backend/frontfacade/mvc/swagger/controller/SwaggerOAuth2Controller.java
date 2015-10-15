@@ -47,7 +47,7 @@ public class SwaggerOAuth2Controller {
 		Map<String, String[]> map = req.getParameterMap();
 
 		model.addAllAttributes(convertParameters(map));
-		model.addAttribute("redirect_uri", obtainBaseServer(req.getParameter("redirect_uri"))+convertToRelativePath(contextPath, "/o2c.html"));
+		model.addAttribute("redirect_uri", req.getParameter("redirect_uri"));
 		model.addAttribute("swaggerLoginFormAction", convertToRelativePath(contextPath, apiBasePath + oauth2LoginEndpoint));
 		model.addAttribute("swaggerClientId", swaggerClientId);
 
@@ -62,6 +62,7 @@ public class SwaggerOAuth2Controller {
 		}
 		return data;
 	}
+	/*
 	private String obtainBaseServer(String urlString) throws MalformedURLException {
 		if (!StringUtils.isEmpty(urlString)) {
 			URL url = new URL(urlString);
@@ -70,6 +71,7 @@ public class SwaggerOAuth2Controller {
 		return "";
 
 	}
+	*/
 	private String convertToRelativePath(String contextPath, String url) {
 		if (!StringUtils.isEmpty(contextPath)){
 			if (contextPath.charAt(0)!='/'){
