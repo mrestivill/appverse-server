@@ -23,9 +23,7 @@
  */
 package org.appverse.web.framework.backend.security.oauth2;
 
-import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
 import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.memory.AuthorizationServerInMemoryStoreConfigurerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -34,8 +32,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableAutoConfiguration()

@@ -69,8 +69,6 @@ public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigur
 	protected String swaggerOauth2AllowedUrlsAntMatchers;
 	@Autowired
 	private TokenStore tokenStore;
-	@Autowired
-	private AuthenticationManager authenticationManager;
 	
 	@Bean
 	public OAuth2LogoutHandler oauth2LogoutHandler() {
