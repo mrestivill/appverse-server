@@ -8,7 +8,7 @@
  * This class needs to be removed from Appverse Web project once a newer version of 
  * SpringFox is released.
  * 
- * Corresponds (unchanged) to class:
+ * Corresponds (with only the commented modifiction) to class:
  * https://github.com/springfox/springfox/blob/master/springfox-swagger-common/src/main/java/springfox/documentation/swagger/web/SecurityConfiguration.java
  * As it was in commit: fa764c53e399d62ef800f946072cea4082eb8470 (Aug 25th)
  */
@@ -86,7 +86,10 @@ public class SecurityConfiguration {
     return clientSecret;
   }
 
-  @JsonProperty("apiKey")
+  // This seems to be wrong @JsonProperty("apiKey")
+  // And reported to SpringFox team in issue: 
+  // https://github.com/springfox/springfox/issues/767
+  // @JsonProperty("scopeSeparator")
   public String scopeSeparator() {
     return scopeSeparator;
   }

@@ -74,85 +74,56 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=false)
 public class SwaggerDefaultSetup implements EnvironmentAware {
 	
+	public static final String SECURITY_SCHEMA_OAUTH2 = "oauth2schema";
+	public static final String SCOPES_SEPARATOR = ","; 
+	
     @Value("${appverse.frontfacade.rest.api.basepath:/api}")
     private String apiPath;
-    
     @Value("${appverse.frontfacade.oauth2.apiprotection.enabled:false}")
-    private boolean oauth2Enabled;  
-    
-    @Value("${appverse.frontfacade.swagger.oauth2.defaultscope}")
-    private String swaggerDefaultScope;  
-    
-	@Value("${appverse.frontfacade.swagger.oauth2.clientId}")
+    private boolean oauth2Enabled;
+    @Value("${appverse.frontfacade.swagger.oauth2.defaultscope:}")
+    private String swaggerDefaultScope;
+	@Value("${appverse.frontfacade.swagger.oauth2.clientId:}")
 	private String swaggerClientId;
-
 	private RelaxedPropertyResolver propertyResolver;
 	
-	private final String SCOPE_SEPARATOR = ",";
-
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.propertyResolver = new RelaxedPropertyResolver(environment, "appverse.frontfacade.swagger.");
 	}
-	
-	public static final String securitySchemaOAuth2 = "oauth2schema";
 
 	
-/* Example: https://github.com/springfox/springfox/blob/master/springfox-spring-config/src/main/java/springfox/springconfig/Swagger2SpringBoot.java	
-	  @Bean
-	  public Docket petApi() {
-	    return new Docket(DocumentationType.SWAGGER_2)//<3>
-	        .select()//<4>
-	          .apis(RequestHandlerSelectors.any())//<5>
-	          .paths(PathSelectors.any())//<6>
-	          .build()//<7>
-	        .pathMapping("/")//<8>
-	        .directModelSubstitute(LocalDate.class,
-	            String.class)//<9>
-	        .genericModelSubstitutes(ResponseEntity.class)
-	        .alternateTypeRules(
-	            newRule(typeResolver.resolve(DeferredResult.class,
-	                    typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
-	                typeResolver.resolve(WildcardType.class)))//<10>
-	        .useDefaultResponseMessages(false)//<11>
-	        .globalResponseMessage(RequestMethod.GET,//<12>
-	            newArrayList(new ResponseMessageBuilder()
-	                .code(500)
-	                .message("500 message")
-	                .responseModel(new ModelRef("Error"))//<13>
-	                .build()))
-	        .securitySchemes(newArrayList(apiKey()))//<14>
-	        .securityContexts(newArrayList(securityContext()))//<15>
-	        .enableUrlTemplating(true)//<21>
-	        ;
-	  }
-*/	
-	
 	@Bean
+	@ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
 	public SecurityConfiguration securityConfiguration(){
-		SecurityConfiguration config = new SecurityConfiguration(swaggerClientId, "notused", "oauth2-resource", swaggerClientId, "apiKey", SCOPE_SEPARATOR);
+		SecurityConfiguration config = new SecurityConfiguration(swaggerClientId, "NOT_USED", "oauth2-resource", swaggerClientId, "apiKey", SCOPES_SEPARATOR);
 		return config;
 	}
 
+
 	@Bean
-	public Docket apiDocumentationV2() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName("default-group").apiInfo(apiInfo())
-				.select().paths(defaultGroup()).build()
-				// This causes duplicated contextpath in Swagger UI .pathMapping(apiPath)
-				.securitySchemes(Arrays.asList(securitySchema()))
-				.securityContexts(Arrays.asList(securityContext()));
+	public Docket apiDocumentationV2Security() {
+		Docket docket =  new Docket(DocumentationType.SWAGGER_2).groupName("default-group").apiInfo(apiInfo())
+				.select().paths(defaultGroup()).build();
+		if (oauth2Enabled) {
+			// This causes duplicated contextpath in Swagger UI 
+			// .pathMapping(apiPath)
+			docket.securitySchemes(Arrays.asList(securitySchema()))
+					.securityContexts(Arrays.asList(securityContext()));
+		}
+		return docket;
 	}
 		
 	private OAuth securitySchema() {
 		LoginEndpoint loginEndpoint = new LoginEndpoint("swaggeroauth2login");
 		GrantType grantType = new ImplicitGrant(loginEndpoint, "access_token");
-		return new OAuth(securitySchemaOAuth2, Arrays.asList(getOauth2Scopes()), Arrays.asList(grantType));
+		return new OAuth(SECURITY_SCHEMA_OAUTH2, Arrays.asList(getOauth2Scopes()), Arrays.asList(grantType));
 	}
 
 	private SecurityContext securityContext() {
 		SecurityContextBuilder builder = SecurityContext.builder();
 		if (oauth2Enabled){
-			List<SecurityReference> defaultOAuthSecurityReference = Arrays.asList(new SecurityReference(securitySchemaOAuth2, getOauth2Scopes()));
+			List<SecurityReference> defaultOAuthSecurityReference = Arrays.asList(new SecurityReference(SECURITY_SCHEMA_OAUTH2, getOauth2Scopes()));
 			if (defaultOAuthSecurityReference != null){
 				builder.securityReferences(defaultOAuthSecurityReference);
 			}
