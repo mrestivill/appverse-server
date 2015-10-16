@@ -74,26 +74,21 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=false)
 public class SwaggerDefaultSetup implements EnvironmentAware {
 	
+	public static final String securitySchemaOAuth2 = "oauth2schema";
     @Value("${appverse.frontfacade.rest.api.basepath:/api}")
     private String apiPath;
-    
     @Value("${appverse.frontfacade.oauth2.apiprotection.enabled:false}")
-    private boolean oauth2Enabled;  
-    
-    @Value("${appverse.frontfacade.swagger.oauth2.defaultscope}")
-    private String swaggerDefaultScope;  
-    
-	@Value("${appverse.frontfacade.swagger.oauth2.clientId}")
+    private boolean oauth2Enabled;
+    @Value("${appverse.frontfacade.swagger.oauth2.defaultscope:}")
+    private String swaggerDefaultScope;
+	@Value("${appverse.frontfacade.swagger.oauth2.clientId:}")
 	private String swaggerClientId;
-
 	private RelaxedPropertyResolver propertyResolver;
-
+	
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.propertyResolver = new RelaxedPropertyResolver(environment, "appverse.frontfacade.swagger.");
 	}
-	
-	public static final String securitySchemaOAuth2 = "oauth2schema";
 
 	
 /* Example: https://github.com/springfox/springfox/blob/master/springfox-spring-config/src/main/java/springfox/springconfig/Swagger2SpringBoot.java	
@@ -127,6 +122,7 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 */	
 	
 	@Bean
+	@ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
 	public SecurityConfiguration securityConfiguration(){
 		SecurityConfiguration config = new SecurityConfiguration(swaggerClientId, "oauth2-resource", swaggerClientId, "apiKey", "notused");
 		return config;
