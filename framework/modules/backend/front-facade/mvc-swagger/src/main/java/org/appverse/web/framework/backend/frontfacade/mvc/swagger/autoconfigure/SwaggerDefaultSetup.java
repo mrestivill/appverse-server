@@ -87,6 +87,8 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 	private String swaggerClientId;
 
 	private RelaxedPropertyResolver propertyResolver;
+	
+	private final String SCOPE_SEPARATOR = ",";
 
 	@Override
 	public void setEnvironment(Environment environment) {
@@ -128,7 +130,7 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 	
 	@Bean
 	public SecurityConfiguration securityConfiguration(){
-		SecurityConfiguration config = new SecurityConfiguration(swaggerClientId, "oauth2-resource", swaggerClientId, "apiKey", "notused");
+		SecurityConfiguration config = new SecurityConfiguration(swaggerClientId, "notused", "oauth2-resource", swaggerClientId, "apiKey", SCOPE_SEPARATOR);
 		return config;
 	}
 
