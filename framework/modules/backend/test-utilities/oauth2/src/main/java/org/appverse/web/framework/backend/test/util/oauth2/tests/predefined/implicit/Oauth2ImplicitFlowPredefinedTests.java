@@ -91,7 +91,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	
 	@Test
 	public void contextLoads() {
-		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof JdbcTokenStore);
+		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof TokenStore);
 	}
 
 	@Test
