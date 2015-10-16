@@ -91,36 +91,6 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 	}
 
 	
-/* Example: https://github.com/springfox/springfox/blob/master/springfox-spring-config/src/main/java/springfox/springconfig/Swagger2SpringBoot.java	
-	  @Bean
-	  public Docket petApi() {
-	    return new Docket(DocumentationType.SWAGGER_2)//<3>
-	        .select()//<4>
-	          .apis(RequestHandlerSelectors.any())//<5>
-	          .paths(PathSelectors.any())//<6>
-	          .build()//<7>
-	        .pathMapping("/")//<8>
-	        .directModelSubstitute(LocalDate.class,
-	            String.class)//<9>
-	        .genericModelSubstitutes(ResponseEntity.class)
-	        .alternateTypeRules(
-	            newRule(typeResolver.resolve(DeferredResult.class,
-	                    typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
-	                typeResolver.resolve(WildcardType.class)))//<10>
-	        .useDefaultResponseMessages(false)//<11>
-	        .globalResponseMessage(RequestMethod.GET,//<12>
-	            newArrayList(new ResponseMessageBuilder()
-	                .code(500)
-	                .message("500 message")
-	                .responseModel(new ModelRef("Error"))//<13>
-	                .build()))
-	        .securitySchemes(newArrayList(apiKey()))//<14>
-	        .securityContexts(newArrayList(securityContext()))//<15>
-	        .enableUrlTemplating(true)//<21>
-	        ;
-	  }
-*/	
-	
 	@Bean
 	@ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
 	public SecurityConfiguration securityConfiguration(){
@@ -128,13 +98,17 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
 		return config;
 	}
 
+
 	@Bean
-	public Docket apiDocumentationV2() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName("default-group").apiInfo(apiInfo())
-				.select().paths(defaultGroup()).build()
-				// This causes duplicated contextpath in Swagger UI .pathMapping(apiPath)
-				.securitySchemes(Arrays.asList(securitySchema()))
-				.securityContexts(Arrays.asList(securityContext()));
+	public Docket apiDocumentationV2Security() {
+		Docket docket =  new Docket(DocumentationType.SWAGGER_2).groupName("default-group").apiInfo(apiInfo())
+				.select().paths(defaultGroup()).build();
+		if (oauth2Enabled) {
+			// This causes duplicated contextpath in Swagger UI .pathMapping(apiPath)
+			docket.securitySchemes(Arrays.asList(securitySchema()))
+					.securityContexts(Arrays.asList(securityContext()));
+		}
+		return docket;
 	}
 		
 	private OAuth securitySchema() {
