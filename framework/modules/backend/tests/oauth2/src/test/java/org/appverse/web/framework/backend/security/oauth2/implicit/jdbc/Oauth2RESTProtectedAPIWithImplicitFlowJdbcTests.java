@@ -21,9 +21,9 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.implicit;
+package org.appverse.web.framework.backend.security.oauth2.implicit.jdbc;
 
-import org.appverse.web.framework.backend.security.oauth2.ApplicationJdbc;
+import org.appverse.web.framework.backend.security.oauth2.implicit.jdbc.ApplicationJdbc;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.implicit.Oauth2ImplicitFlowPredefinedTests;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
