@@ -63,8 +63,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * It provides support both for basic auth and OAuth2 using a login endpoint.
  * Properties:
  * - appverse.frontfacade.swagger.enabled: allows enable / disable Appverse Swagger feature
- * - appverse.frontfacade.swagger.oauth2.defaultscope: default scope that will be used with swagger using oauth2
- * - 
+ * - appverse.frontfacade.swagger.oauth2.scopes: scopes offered to the swagger user to authenticate with oauth2
+ * - appverse.frontfacade.swagger.oauth2.clientId: the cliendId oauth2 parameter used to authenticate using swagger with oauht2 enabled 
  * 
  * Example of more complex setup:
  * https://github.com/springfox/springfox/blob/master/springfox-spring-config/src/main/java/springfox/springconfig/Swagger2SpringBoot.java
@@ -81,8 +81,6 @@ public class SwaggerDefaultSetup implements EnvironmentAware {
     private String apiPath;
     @Value("${appverse.frontfacade.oauth2.apiprotection.enabled:false}")
     private boolean oauth2Enabled;
-    @Value("${appverse.frontfacade.swagger.oauth2.defaultscope:}")
-    private String swaggerDefaultScope;
 	@Value("${appverse.frontfacade.swagger.oauth2.clientId:}")
 	private String swaggerClientId;
 	private RelaxedPropertyResolver propertyResolver;
