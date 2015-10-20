@@ -65,12 +65,10 @@ public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigur
 	protected String oauth2LoginEndpointPath;
 	@Value("${appverse.frontfacade.swagger.enabled:true}")
 	protected boolean swagerEnabled;
-	@Value("${appverse.frontfacade.swagger.oauth2.allowedUrls.antMatchers:/swaggeroauth2login,/o2c.html,/,/index.html,/css/**,/lib/**,/swagger-ui.js,/api-docs/**}")
+	@Value("${appverse.frontfacade.swagger.oauth2.allowedUrls.antMatchers:/webjars/springfox-swagger-ui/**,/configuration/security,/configuration/ui,/swagger-resources,/api-docs/**,/v2/api-docs/**,/swagger-ui.html/**,/swaggeroauth2login,/o2c.html,/}")
 	protected String swaggerOauth2AllowedUrlsAntMatchers;
 	@Autowired
 	private TokenStore tokenStore;
-	@Autowired
-	private AuthenticationManager authenticationManager;
 	
 	@Bean
 	public OAuth2LogoutHandler oauth2LogoutHandler() {

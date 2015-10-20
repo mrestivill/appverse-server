@@ -48,9 +48,7 @@ public class JSONStringXSSDeserializer extends JsonDeserializer<String> {
 			throws IOException, JsonProcessingException {
 
         String rawValue = jp.getText();
-        //String encValue = stripXSS(rawValue);
         String encValue = encodeHtml(rawValue);
-        //System.out.println("JSONStringXSSDeserializer 1["+rawValue+"] to ["+encValue+"]");
 		return encValue;
 	}
 
@@ -62,7 +60,6 @@ public class JSONStringXSSDeserializer extends JsonDeserializer<String> {
     private String encodeHtml(String html) {
         Encoder encoder = DefaultEncoder.getInstance();
         String s = encoder.encodeForHTML(html);
-        //System.out.println("Encoded from ["+html+"] to ["+s+"]");
         return s;
     }
 

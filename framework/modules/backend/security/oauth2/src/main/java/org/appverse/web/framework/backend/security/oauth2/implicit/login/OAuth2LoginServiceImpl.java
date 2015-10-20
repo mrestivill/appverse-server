@@ -28,14 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnResource;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -57,7 +53,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class OAuth2LoginServiceImpl implements OAuth2LoginService {
 	
-    private static final String CSRF_TOKEN_SESSION_ATTRIBUTE = "org.springframework.security.web.csrf.CsrfToken";
+    // private static final String CSRF_TOKEN_SESSION_ATTRIBUTE = "org.springframework.security.web.csrf.CsrfToken";
 
 	@Value("${security.enable-csrf:true}")
 	private boolean securityEnableCsrf;
@@ -116,8 +112,7 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
         if (tokenServices != null) {
             tokenServices.revokeToken(token);
         }else{
-            //There is not a ConsumerTokenServices available
-            throw new NotImplementedException();
+            throw new RuntimeException("There is not a ConsumerTokenServices available");
         }
     }
 }

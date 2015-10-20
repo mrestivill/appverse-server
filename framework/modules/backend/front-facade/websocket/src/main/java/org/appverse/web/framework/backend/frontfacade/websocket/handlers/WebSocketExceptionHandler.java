@@ -1,4 +1,4 @@
-package org.appverse.web.framework.backend.frontfacade.websocket.handlers;/*
+/*
  Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
 
  This Source Code Form is subject to the terms of the Appverse Public License 
@@ -21,20 +21,17 @@ package org.appverse.web.framework.backend.frontfacade.websocket.handlers;/*
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
+package org.appverse.web.framework.backend.frontfacade.websocket.handlers;
 
 import org.appverse.web.framework.backend.core.AbstractException;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ErrorVO;
 import org.appverse.web.framework.backend.frontfacade.rest.beans.ResponseDataVO;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 @ConditionalOnProperty(value="appverse.frontfacade.websocket.exceptionHandler.enabled", matchIfMissing=true)
 @ControllerAdvice(annotations = {RestController.class, Controller.class})

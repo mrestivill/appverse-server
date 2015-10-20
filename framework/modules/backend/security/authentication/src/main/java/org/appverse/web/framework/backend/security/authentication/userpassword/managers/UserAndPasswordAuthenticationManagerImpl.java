@@ -23,7 +23,6 @@
  */
 package org.appverse.web.framework.backend.security.authentication.userpassword.managers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
