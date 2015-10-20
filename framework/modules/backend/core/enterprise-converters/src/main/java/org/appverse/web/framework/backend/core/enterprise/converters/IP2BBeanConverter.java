@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.appverse.web.framework.backend.core.beans.AbstractBusinessBean;
 import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
+import org.springframework.core.convert.converter.Converter;
 
 public interface IP2BBeanConverter<PresentationBean extends AbstractPresentationBean, BusinessBean extends AbstractBusinessBean>
 		extends IBeanConverter {
@@ -108,4 +109,10 @@ public interface IP2BBeanConverter<PresentationBean extends AbstractPresentation
     void convertPresentationList(List<PresentationBean> presentationBean,
                                  List<BusinessBean> businessBean, String scope)
             throws Exception;
+    
+    
+	Converter<PresentationBean, BusinessBean> getSpringConverter();
+	
+	Converter<BusinessBean, PresentationBean> getSpringInverseConverter();
+
 }

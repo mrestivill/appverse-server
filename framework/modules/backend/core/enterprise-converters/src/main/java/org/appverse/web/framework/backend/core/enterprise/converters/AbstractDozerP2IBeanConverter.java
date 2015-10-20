@@ -28,10 +28,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.appverse.web.framework.backend.core.AbstractBean;
 import org.appverse.web.framework.backend.core.beans.AbstractIntegrationBean;
 import org.appverse.web.framework.backend.core.beans.AbstractPresentationBean;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
+import org.springframework.core.convert.converter.Converter;
 
 public class AbstractDozerP2IBeanConverter<PresentationBean extends AbstractPresentationBean, IntegrationBean extends AbstractIntegrationBean>
 		implements IP2IBeanConverter<PresentationBean, IntegrationBean> {
@@ -44,6 +46,9 @@ public class AbstractDozerP2IBeanConverter<PresentationBean extends AbstractPres
 	private String SCOPE_COMPLETE = "default-scope-complete";
 	private String SCOPE_CUSTOM = "default-scope-custom";
 
+	private Converter<PresentationBean, IntegrationBean> springConverter = (PresentationBean bean) -> { try { return this.convert(bean); } catch (Exception e) { throw new RuntimeException(e);}}; 
+	private Converter<IntegrationBean, PresentationBean> springInverseConverter = (IntegrationBean bean) -> { try { return this.convert(bean); } catch (Exception e) { throw new RuntimeException(e);}};
+	
 	public AbstractDozerP2IBeanConverter() {
 		super();
 	}
@@ -295,4 +300,16 @@ public class AbstractDozerP2IBeanConverter<PresentationBean extends AbstractPres
 		}
 	}
 
+	
+	@Override
+	public Converter<PresentationBean, IntegrationBean> getSpringConverter() {
+		return springConverter;
+	}
+	
+	@Override
+	public Converter<IntegrationBean, PresentationBean> getSpringInverseConverter() {
+		return springInverseConverter;
+	}
+	
+	
 }
