@@ -41,6 +41,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,22 +87,17 @@ public abstract class XssFilterPredefinedTests {
 		}
 
 		@RequestMapping(value="/test", method = RequestMethod.POST)
-		public void test(@RequestHeader("testRiskyHeader") String testRiskyHeader,
+		public String test(@RequestHeader("testRiskyHeader") String testRiskyHeader,
 						 @RequestHeader("testSafeHeader") String testSafeHeader,
 				         @RequestBody String requestBody){
-			System.out.println(testRiskyHeader);
-			System.out.println(testSafeHeader);
-			System.out.println(requestBody);			
+			return "|" + testRiskyHeader + "|" + testSafeHeader + "|" + requestBody + "|";
 		}
 		
 		@RequestMapping(value="/test/{testSafeUrlpath}/{testRiskyUrlpath}", method = RequestMethod.GET)
 		public String test2(@RequestHeader("testSafeHeader") String testSafeHeader,
 				          @PathVariable String testSafeUrlpath,
 				          @PathVariable String testRiskyUrlpath){
-			System.out.println(testSafeHeader);
-			System.out.println(testSafeUrlpath);
-			System.out.println(testRiskyUrlpath);
-			return "";
+			return "|" + testSafeHeader + "|" + testSafeUrlpath + "|" + testRiskyUrlpath + "|";
 		}
 		
 		@RequestMapping(value="/test/{testSafeUrlpath}", method = RequestMethod.GET)
@@ -109,19 +105,13 @@ public abstract class XssFilterPredefinedTests {
 				          @PathVariable String testSafeUrlpath,
 				          @RequestParam String safeQueryStringParam,
 				          @RequestParam String riskyQueryStringParam){
-			System.out.println(testSafeHeader);
-			System.out.println(testSafeUrlpath);
-			System.out.println(safeQueryStringParam);
-			System.out.println(riskyQueryStringParam);
-			return "";
+			return "|" + testSafeHeader + "|" + testSafeUrlpath + "|" + safeQueryStringParam + "|" + riskyQueryStringParam + "|";
 		}
 		
 		@RequestMapping(value="/test", method = RequestMethod.GET)
 		public String test4(@CookieValue(value="safeCookie") String safeCookie,
 							@CookieValue(value="riskyCookie", required=false) String riskyCookie){
-			System.out.println(safeCookie);
-			System.out.println(riskyCookie);
-			return "";
+			return "|" + safeCookie + "|" + riskyCookie + "|";
 		}				
 	}
 	
@@ -150,15 +140,9 @@ public abstract class XssFilterPredefinedTests {
 		HttpEntity<String> entity = new HttpEntity<String>("testParamInBody1=testvalue1", headers);
 		
 		int port = context.getEmbeddedServletContainer().getPort();
-		restTemplate.postForEntity("http://localhost:" + port + "/test", entity, String.class);		
-		// Risky header has been skipped
-		String captureString = capture.toString();
-		assertThat(captureString, not(containsString("<script>alert(document.cookie);</script>")));
-		assertThat(captureString, containsString(""));
-		// Safe header is kept
-		assertThat(capture.toString(), containsString("safeHeader"));
-		// Safe body is kept
-		assertThat(capture.toString(), containsString("testParamInBody1=testvalue1"));
+		ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/test", entity, String.class);
+		// Assert that Risky header has been skipped, Safe header is kept, Safe body is kept
+		assertThat(response.getBody(), equalTo("||safeHeader|testParamInBody1=testvalue1|"));
 	}
 	
 	@Test
@@ -168,11 +152,9 @@ public abstract class XssFilterPredefinedTests {
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		
 		int port = context.getEmbeddedServletContainer().getPort();
-		restTemplate.exchange("http://localhost:" + port + "/test", HttpMethod.GET, entity, String.class);
-		// Safe cookie has been kept
-		assertThat(capture.toString(), containsString("safeCookie"));
-		// Risky cookie has been skipped
-		assertThat(capture.toString(), not(containsString("<script>alert(document.cookie);</script>")));
+		ResponseEntity<String> response = restTemplate.exchange("http://localhost:" + port + "/test", HttpMethod.GET, entity, String.class);
+		// Assert that: Safe cookie has been kept, Risky cookie has been skipped
+		assertThat(response.getBody(), equalTo("|safeCookie|null|"));		
 	}
 	
 	@Test
@@ -182,15 +164,10 @@ public abstract class XssFilterPredefinedTests {
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		
 		int port = context.getEmbeddedServletContainer().getPort();
-		restTemplate.exchange("http://localhost:" + port + "/test/safeurlpath?safeQueryStringParam=safeQueryStringParam&riskyQueryStringParam=<script>alert(document.cookie);</script>", HttpMethod.GET, entity, String.class);
-		// Safe header is kept
-		assertThat(capture.toString(), containsString("safeHeader"));
-		// Safe url path is kept
-		assertThat(capture.toString(), containsString("safeurlpath"));
-		// Safe query string parameter is kept
-		assertThat(capture.toString(), containsString("safeQueryStringParam"));	
-		// Risky query string parameter has been skipped
-		assertThat(capture.toString(), not(containsString("<script>alert(document.cookie);</script>")));				
+		ResponseEntity<String> response = restTemplate.exchange("http://localhost:" + port + "/test/safeurlpath?safeQueryStringParam=safeQueryStringParam&riskyQueryStringParam=<script>alert(document.cookie);</script>", HttpMethod.GET, entity, String.class);
+
+		// Assert that: Safe header is kept, Safe url path is kept, Safe query string parameter is kept, Risky query string parameter has been skipped
+		assertThat(response.getBody(), equalTo("|safeHeader|safeurlpath|safeQueryStringParam||"));
 	}
 	
 	
@@ -201,13 +178,8 @@ public abstract class XssFilterPredefinedTests {
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		
 		int port = context.getEmbeddedServletContainer().getPort();
-		restTemplate.exchange("http://localhost:" + port + "/test/safeurlpath/document.cookie", HttpMethod.GET, entity, String.class);
-		// Safe header is kept
-		assertThat(capture.toString(), containsString("safeHeader"));
-		// Safe url path is kept
-		assertThat(capture.toString(), containsString("safeurlpath"));
-		// Risky URK path is skipped
-		assertThat(capture.toString(), not(containsString("document.cookie")));
-		
+		HttpEntity<String> response = restTemplate.exchange("http://localhost:" + port + "/test/safeurlpath/document.cookie", HttpMethod.GET, entity, String.class);
+		// Assert that: Safe header is kept, Safe url path is kept, Risky URK path is skipped
+		assertThat(response.getBody(), equalTo("|safeHeader|safeurlpath|document|"));
 	}
 }
