@@ -23,33 +23,22 @@
  */
 package org.appverse.web.framework.backend.frontfacade.mvc.swagger.autoconfigure;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 
 @Configuration
 @ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=false)
 @ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
 /**
- * This class holds default swagger configuration for swagger.
- * It sets SwaggerSpringMVCPlugin properly by default.
+ * This autoconfiguration just adds the component scan for the required appverse swagger 
+ * controllers so the users (projects) don't need to add it explicitly avoiding the risk 
+ * of forgetting to include the component scan and then out-of-the-box swagger integration
+ * not working.
  * You can enable / disable this autoconfiguration by using the property
  * "appverse.frontfacade.swagger.enabled" which is false by default.
  * It provides support both for basic auth and OAuth2 using the login endpoint.
  */
-public class SwaggerAutoConfiguration implements EnvironmentAware {
+public class SwaggerAutoConfiguration {
 
-  private RelaxedPropertyResolver propertyResolver;
-  
-  @Value("${appverse.frontfacade.oauth2.apiprotection.enabled:false}")
-  private boolean oauth2Enabled;  
-  
-  @Override
-  public void setEnvironment(Environment environment) {
-      this.propertyResolver = new RelaxedPropertyResolver(environment, "swagger.");
-  }
 }
