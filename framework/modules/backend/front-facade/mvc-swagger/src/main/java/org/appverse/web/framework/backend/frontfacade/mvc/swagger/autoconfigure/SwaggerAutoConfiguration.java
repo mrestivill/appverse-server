@@ -27,9 +27,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=false)
-@ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
 /**
  * This autoconfiguration just adds the component scan for the required appverse swagger 
  * controllers so the users (projects) don't need to add it explicitly avoiding the risk 
@@ -39,6 +36,9 @@ import org.springframework.context.annotation.Configuration;
  * "appverse.frontfacade.swagger.enabled" which is false by default.
  * It provides support both for basic auth and OAuth2 using the login endpoint.
  */
+@Configuration
+@ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=false)
+@ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
 public class SwaggerAutoConfiguration {
 
 }
