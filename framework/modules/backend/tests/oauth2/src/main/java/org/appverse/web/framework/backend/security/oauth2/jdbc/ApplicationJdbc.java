@@ -21,9 +21,12 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.implicit.inmemory;
+package org.appverse.web.framework.backend.security.oauth2.jdbc;
 
-import org.appverse.web.framework.backend.security.oauth2.configuration.memory.AuthorizationServerInMemoryStoreConfigurerAdapter;
+import javax.sql.DataSource;
+
+import org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -35,10 +38,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @Configuration
 @EnableAutoConfiguration()
-public class ApplicationInMemory {
+public class ApplicationJdbc {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApplicationInMemory.class, args);
+		SpringApplication.run(ApplicationJdbc.class, args);
 	}
 
 	/* Example, you can override ResourceServerWithJDBCStoreConfigurerAdapter configure(http) method to set
@@ -52,12 +55,13 @@ public class ApplicationInMemory {
 	
 	@Configuration
 	@EnableAuthorizationServer	
-	public static class AuthorizationServerConfig extends AuthorizationServerInMemoryStoreConfigurerAdapter{
+	public static class AuthorizationServerConfig extends AuthorizationServerWithJDBCStoreConfigurerAdapter{
 		
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients)
 				throws Exception {
-			clients.inMemory()
+			clients.jdbc(dataSource)
+			.passwordEncoder(passwordEncoder)
 			.withClient("test-client")
 			.authorizedGrantTypes("password", "authorization_code",
 					"refresh_token", "implicit")
@@ -73,7 +77,16 @@ public class ApplicationInMemory {
 					.scopes("read", "write", "trust")
 					.resourceIds("oauth2-resource")
 					.accessTokenValiditySeconds(60)
-					.autoApprove(true);
+					.autoApprove(true)
+			.and()
+			.withClient("test-client-auth-code-autoapprove")
+			.authorizedGrantTypes("authorization_code")
+					.secret("our-secret")
+					.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
+					.scopes("trust")					
+					.resourceIds("oauth2-resource")
+					.accessTokenValiditySeconds(60)
+					.autoApprove(true);			
 		}
 	}
 	
@@ -82,9 +95,12 @@ public class ApplicationInMemory {
 	protected static class AuthenticationManagerCustomizer extends
 			GlobalAuthenticationConfigurerAdapter {
 
+		@Autowired
+		private DataSource dataSource;
+
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.inMemoryAuthentication().withUser("user")
+			auth.jdbcAuthentication().dataSource(dataSource).withUser("user")
 					.password("password").roles("USER");
 		}
 	}

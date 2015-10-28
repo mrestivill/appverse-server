@@ -23,8 +23,8 @@
  */
 package org.appverse.web.framework.backend.security.oauth2.implicit.inmemory;
 
-import org.appverse.web.framework.backend.security.oauth2.implicit.inmemory.ApplicationInMemory;
-import org.appverse.web.framework.backend.security.oauth2.implicit.jdbc.ApplicationJdbc;
+import org.appverse.web.framework.backend.security.oauth2.inmemory.ApplicationInMemory;
+import org.appverse.web.framework.backend.security.oauth2.jdbc.ApplicationJdbc;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.implicit.Oauth2ImplicitFlowPredefinedTests;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;

@@ -21,9 +21,11 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.implicit.jdbc;
+package org.appverse.web.framework.backend.security.oauth2.authcode.inmemory;
 
+import org.appverse.web.framework.backend.security.oauth2.inmemory.ApplicationInMemory;
 import org.appverse.web.framework.backend.security.oauth2.jdbc.ApplicationJdbc;
+import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.authorizationcode.Oauth2AuthorizationCodeFlowPredefinedTests;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.implicit.Oauth2ImplicitFlowPredefinedTests;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -35,13 +37,13 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
  * Otherwise you will experience exactly the problem described here:
  * http://stackoverflow.com/questions/27341604/exception-when-using-testresttemplate 
  */
-@SpringApplicationConfiguration(classes = ApplicationJdbc.class)
+@SpringApplicationConfiguration(classes = ApplicationInMemory.class)
 @IntegrationTest(value={"server.port=0",		         
 		         "appverse.frontfacade.oauth2.apiprotection.enabled=true",
 		         "appverse.frontfacade.rest.http.basic.default.setup.enabled=false",
 		         "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
 		         "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false"})
-public class Oauth2RESTProtectedAPIWithImplicitFlowJdbcTests extends Oauth2ImplicitFlowPredefinedTests {
+public class Oauth2RESTProtectedAPIWithAuthCodeFlowInMemoryTests extends Oauth2AuthorizationCodeFlowPredefinedTests {
 
 	@Override
 	protected String getPassword() {
@@ -55,7 +57,12 @@ public class Oauth2RESTProtectedAPIWithImplicitFlowJdbcTests extends Oauth2Impli
 
 	@Override
 	protected String getClientId() {
-		return "test-client-autoapprove";
+		return "test-client-auth-code-autoapprove";
+	}
+
+	@Override
+	protected String getClientSecret() {
+		return "our-secret";
 	}
 
 }
