@@ -21,28 +21,25 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.implicit.configuration.jdbcstore;
-
-import javax.sql.DataSource;
+package org.appverse.web.framework.backend.security.oauth2.configuration.memory;
 
 import org.appverse.web.framework.backend.security.oauth2.common.token.enhancers.PrincipalCredentialsTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
- * Convinient setup for an OAuth2 Authorization Server that uses a
- * JdbcTokenStore to keep the tokens. This way you only need to override
+ * OAuth2 Authorization Server that uses an InMemory to keep the tokens.
+ * !!! This should not be used on production!!!
+ * This way you only need to override
  * configure method to register the clients as shown in the following example.
- * 
+ *
  * Take into account that ClientDetailsStore, TokenStore, AuthorizationCodeStore
  * etc, could be in-memory instead of be persisted in database if you had just a
  * node for the AuthorizationServer (for instance). You can use the setup
@@ -53,7 +50,7 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
  * sessions (for Authorization server if you are using stateful grant types) or
  * need to use another solution as Spring Session in combination with this
  * setup. Take this setup just as an starting point.
- * 
+ *
  * @Override public void configure(ClientDetailsServiceConfigurer clients)
  *           throws Exception { clients.jdbc(dataSource)
  *           .passwordEncoder(passwordEncoder) .withClient("my-trusted-client")
@@ -68,43 +65,34 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
  *           -projects/spring-security-oauth/blob/master
  *           /spring-security-oauth2/src/test/resources/schema.sql
  */
-public class AuthorizationServerWithJDBCStoreConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerInMemoryStoreConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
-		@Autowired
-		private AuthenticationManager auth;
+ @Autowired
+ protected AuthenticationManager auth;
 
-		@Autowired
-		protected DataSource dataSource;
 
-		protected BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+ @Bean
+ protected TokenStore tokenStore() {
+  return new InMemoryTokenStore();
+ }
 
-		@Bean
-		protected TokenStore tokenStore() {
-			return new JdbcTokenStore(dataSource);
-		}
+ @Bean
+ protected AuthorizationCodeServices authorizationCodeServices() {
+  return new InMemoryAuthorizationCodeServices();
+ }
 
-		@Bean
-		protected AuthorizationCodeServices authorizationCodeServices() {
-			return new JdbcAuthorizationCodeServices(dataSource);
-		}
-		
-		@Bean
-		protected PrincipalCredentialsTokenEnhancer principalCredentialsTokenEnhancer(){
-			return new PrincipalCredentialsTokenEnhancer();
-		}
+ @Bean
+ protected PrincipalCredentialsTokenEnhancer principalCredentialsTokenEnhancer(){
+  return new PrincipalCredentialsTokenEnhancer();
+ }
 
-		@Override
-		public void configure(AuthorizationServerSecurityConfigurer security)
-				throws Exception {
-			security.passwordEncoder(passwordEncoder);
-		}
-		
-		@Override
-		public void configure(AuthorizationServerEndpointsConfigurer endpoints)
-				throws Exception {
-			endpoints.authorizationCodeServices(authorizationCodeServices())
-					.authenticationManager(auth).tokenStore(tokenStore())
-					.tokenEnhancer(principalCredentialsTokenEnhancer())
-					.approvalStoreDisabled();
-		}
-	}
+
+ @Override
+ public void configure(AuthorizationServerEndpointsConfigurer endpoints)
+         throws Exception {
+  endpoints.authorizationCodeServices(authorizationCodeServices())
+          .authenticationManager(auth).tokenStore(tokenStore())
+          .tokenEnhancer(principalCredentialsTokenEnhancer())
+          .approvalStoreDisabled();
+ }
+}

@@ -25,7 +25,7 @@ package org.appverse.web.framework.backend.security.oauth2.implicit.jdbc;
 
 import javax.sql.DataSource;
 
-import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

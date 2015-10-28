@@ -23,7 +23,7 @@
  */
 package org.appverse.web.framework.backend.security.oauth2.implicit.inmemory;
 
-import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.memory.AuthorizationServerInMemoryStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.configuration.memory.AuthorizationServerInMemoryStoreConfigurerAdapter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;

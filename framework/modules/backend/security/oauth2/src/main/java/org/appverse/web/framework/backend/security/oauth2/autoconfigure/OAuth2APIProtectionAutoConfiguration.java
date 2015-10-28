@@ -21,9 +21,9 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.implicit.autoconfigure;
+package org.appverse.web.framework.backend.security.oauth2.autoconfigure;
 
-import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.ResourceServerStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.configuration.ResourceServerStoreConfigurerAdapter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +39,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @Configuration
 @ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
 @ComponentScan("org.appverse.web.framework.backend.security.oauth2")
-public class OAuth2APIProtectionImplicitFlowAutoConfiguration {
+public class OAuth2APIProtectionAutoConfiguration {
 	
 	@Bean
 	public DefaultTokenServices tokenServices(TokenStore tokenStore){

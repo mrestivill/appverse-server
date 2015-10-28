@@ -75,6 +75,9 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
 	protected String oauth2ImplicitFlowLoginEndpointPath;
 	
+	@Value("${appverse.frontfacade.oauth2.tokenEndpoint.path:/sec/token}")
+	protected String oauth2TokenEndpointPath;
+	
 	protected int port;
 		
 	@Autowired
@@ -157,7 +160,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 
 	@Test	
 	public void obtainAuthorizationCode() throws Exception {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/oauth/authorize");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2ImplicitFlowLoginEndpointPath);
         builder.queryParam("client_id", getClientId());        
         builder.queryParam("response_type", "code");
         builder.queryParam("redirect_uri", "http://anywhere");
@@ -208,21 +211,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
         
         // Obtain and keep the token
         accessToken = result2.getBody().getValue();
-        assertNotNull(accessToken);
-        
-        // Obtain the user credentials        
-        assertNotNull(result2.getBody().getAdditionalInformation());
-
-/*        
-        // Obtain the token from redirection URL after #
-        URI location = result2.getHeaders().getLocation();
-        accessToken = extractToken(location.getFragment().toString());
-        assertNotNull(accessToken);
-        
-        // Obtain the user credentials from redirection URL after #
-        String extractUserAuthorities = extractUserAuthorities(location.getFragment().toString());
-        assertNotNull(extractUserAuthorities);
-*/        
+        assertNotNull(accessToken);        
 	}
 	
 	protected ResponseEntity<String> callRemoteLogWithAccessToken(){
@@ -242,18 +231,6 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 		return extractParam(urlFragment, "code");
 	}
 
-	protected String extractState(String urlFragment){
-		return extractParam(urlFragment, "state");
-	}
-	
-	protected String extractToken(String urlFragment){
-		return extractParam(urlFragment, "access_token");
-	}
-	
-	protected String extractUserAuthorities(String urlFragment){
-		return extractParam(urlFragment, "authorities");
-	}
-	
 	protected String extractParam(String urlFragment, String paramName){
         String[] fragmentParams = urlFragment.split("&");
         String extractedParam=null;
