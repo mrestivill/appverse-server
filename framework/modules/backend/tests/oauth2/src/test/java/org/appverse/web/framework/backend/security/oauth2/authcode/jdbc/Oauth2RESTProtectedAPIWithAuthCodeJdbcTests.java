@@ -55,12 +55,17 @@ public class Oauth2RESTProtectedAPIWithAuthCodeJdbcTests extends Oauth2Authoriza
 
 	@Override
 	protected String getClientId() {
-		return "test-client-auth-code-autoapprove";
-	}
-
+		return "test-client-auth-code-autoapprove-for-tests";
+	}	
+	
 	@Override
 	protected String getClientSecret() {
 		return "our-secret";
+	}	
+
+	@Override
+	protected int getTokenExpirationDelayInSeconds(){
+		return 5;
 	}
 
 }

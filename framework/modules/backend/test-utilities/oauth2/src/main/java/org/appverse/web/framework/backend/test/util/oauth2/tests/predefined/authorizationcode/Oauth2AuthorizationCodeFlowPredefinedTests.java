@@ -90,6 +90,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	
 	private String accessToken=null;
 	private String authorizationCode=null;
+	private String refreshToken=null;
 	
 	@Before
 	public void init(){
@@ -143,6 +144,17 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 		// Call remotelog        
 		ResponseEntity<String> result = callRemoteLogWithAccessToken();
 		assertEquals(HttpStatus.OK, result.getStatusCode());
+		
+		// Call remotelog once the access token has expired (we wait enough to make sure it has expired)
+        Thread.sleep(getTokenExpirationDelayInSeconds()*1000);
+        
+		// Call remotelog        
+		result = callRemoteLogWithAccessToken();
+		assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
+		assertTrue(result.getBody().contains("Access token expired"));
+		
+		// Refresh the token
+		refreshToken();        
 
         // We call logout endpoint (we need to use the access token for this)
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2LogoutEndpointPath);
@@ -212,6 +224,33 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
         // Obtain and keep the token
         accessToken = result2.getBody().getValue();
         assertNotNull(accessToken);        
+        
+        refreshToken = result2.getBody().getRefreshToken().getValue();
+        assertNotNull(refreshToken);
+	}
+	
+	public void refreshToken(){
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/oauth/token");
+        // Here we don't authenticate the user, we authenticate the client and we pass the authcode proving that the user has accepted and loged in
+        builder.queryParam("grant_type", "refresh_token");
+        builder.queryParam("refresh_token", refreshToken);
+
+        // Add Basic Authorization headers for CLIENT authentication (user was authenticated in previous request (authorization code)
+        HttpHeaders headers = new HttpHeaders();
+        Encoder encoder = Base64.getEncoder();
+        headers.add("Authorization","Basic " + encoder.encodeToString((getClientId() + ":" + getClientSecret()).getBytes()));
+        
+        HttpEntity<String> entity = new HttpEntity<>("", headers);
+        ResponseEntity<OAuth2AccessToken> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, OAuth2AccessToken.class);
+        
+        assertEquals(HttpStatus.OK, result2.getStatusCode());
+        
+        // Obtain and keep the token
+        accessToken = result2.getBody().getValue();
+        assertNotNull(accessToken);        
+        
+        refreshToken = result2.getBody().getRefreshToken().getValue();
+        assertNotNull(refreshToken);
 	}
 	
 	protected ResponseEntity<String> callRemoteLogWithAccessToken(){
@@ -225,7 +264,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
         
         ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
         return result;        
-	}
+	}	
 
 	protected String extractAuthorizationCode(String urlFragment){
 		return extractParam(urlFragment, "code");
@@ -252,5 +291,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	protected abstract String getClientId();
 	
 	protected abstract String getClientSecret();
+	
+	protected abstract int getTokenExpirationDelayInSeconds();
 	
 }

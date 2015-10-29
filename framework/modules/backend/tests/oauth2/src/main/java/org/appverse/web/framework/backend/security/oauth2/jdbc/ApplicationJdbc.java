@@ -86,7 +86,16 @@ public class ApplicationJdbc {
 					.scopes("trust")					
 					.resourceIds("oauth2-resource")
 					.accessTokenValiditySeconds(60)
-					.autoApprove(true);			
+					.autoApprove(true)
+			.and()
+			.withClient("test-client-auth-code-autoapprove-for-tests")
+			.authorizedGrantTypes("authorization_code","refresh_token")
+					.secret("our-secret")
+					.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
+					.scopes("trust")					
+					.resourceIds("oauth2-resource")
+					.accessTokenValiditySeconds(4)
+					.autoApprove(true);								
 		}
 	}
 	

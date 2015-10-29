@@ -24,9 +24,7 @@
 package org.appverse.web.framework.backend.security.oauth2.authcode.inmemory;
 
 import org.appverse.web.framework.backend.security.oauth2.inmemory.ApplicationInMemory;
-import org.appverse.web.framework.backend.security.oauth2.jdbc.ApplicationJdbc;
 import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.authorizationcode.Oauth2AuthorizationCodeFlowPredefinedTests;
-import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.implicit.Oauth2ImplicitFlowPredefinedTests;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 
@@ -57,12 +55,17 @@ public class Oauth2RESTProtectedAPIWithAuthCodeFlowInMemoryTests extends Oauth2A
 
 	@Override
 	protected String getClientId() {
-		return "test-client-auth-code-autoapprove";
-	}
-
+		return "test-client-auth-code-autoapprove-for-tests";
+	}	
+	
 	@Override
 	protected String getClientSecret() {
 		return "our-secret";
+	}	
+
+	@Override
+	protected int getTokenExpirationDelayInSeconds(){
+		return 5;
 	}
 
 }

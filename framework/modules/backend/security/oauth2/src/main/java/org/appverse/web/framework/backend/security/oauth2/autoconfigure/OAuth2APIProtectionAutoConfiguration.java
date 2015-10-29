@@ -45,6 +45,11 @@ public class OAuth2APIProtectionAutoConfiguration {
 	public DefaultTokenServices tokenServices(TokenStore tokenStore){
 		DefaultTokenServices tokenServices = new DefaultTokenServices();
 		tokenServices.setTokenStore(tokenStore);
+		// We enable support refresh token as default is false.
+		// This is possible because refresh token can be enabled / disabled by specifying the 
+		// "refresh_token" grant type in the clients registration in the authoriztion server.
+		// Is this grant is not specified no refresh token is issued.
+		tokenServices.setSupportRefreshToken(true);
 		return tokenServices;
 	}
 
