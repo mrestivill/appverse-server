@@ -40,7 +40,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 		         "appverse.frontfacade.oauth2.apiprotection.enabled=true",
 		         "appverse.frontfacade.rest.http.basic.default.setup.enabled=false",
 		         "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
-		         "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false"})
+		         "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false",
+		     	 "appverse.frontfacade.oauth2.tokenEndpoint.path=/oauth/token",
+		     	 "appverse.frontfacade.oauth2.authorizeEndpoint.path=/oauth/authorize"})
 public class Oauth2RESTProtectedAPIWithAuthCodeJdbcTests extends Oauth2AuthorizationCodeFlowPredefinedTests {
 
 	@Override

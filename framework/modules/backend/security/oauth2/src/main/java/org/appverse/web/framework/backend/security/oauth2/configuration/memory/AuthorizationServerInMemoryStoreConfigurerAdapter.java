@@ -25,6 +25,7 @@ package org.appverse.web.framework.backend.security.oauth2.configuration.memory;
 
 import org.appverse.web.framework.backend.security.oauth2.common.token.enhancers.PrincipalCredentialsTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -67,32 +68,40 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
  */
 public class AuthorizationServerInMemoryStoreConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
- @Autowired
- protected AuthenticationManager auth;
+	@Autowired
+	protected AuthenticationManager auth;
+
+	@Value("${appverse.frontfacade.oauth2.tokenEndpoint.path:/oauth/token}")
+	protected String oauth2TokenEndpointPath;
+
+	@Value("${appverse.frontfacade.oauth2.authorizeEndpoint.path:/oauth/authorize}")
+	protected String oauth2AuthorizeEndpointPath;
 
 
- @Bean
- protected TokenStore tokenStore() {
-  return new InMemoryTokenStore();
- }
+	@Bean
+	protected TokenStore tokenStore() {
+		return new InMemoryTokenStore();
+	}
 
- @Bean
- protected AuthorizationCodeServices authorizationCodeServices() {
-  return new InMemoryAuthorizationCodeServices();
- }
+	@Bean
+	protected AuthorizationCodeServices authorizationCodeServices() {
+		return new InMemoryAuthorizationCodeServices();
+	}
 
- @Bean
- protected PrincipalCredentialsTokenEnhancer principalCredentialsTokenEnhancer(){
-  return new PrincipalCredentialsTokenEnhancer();
- }
+	@Bean
+	protected PrincipalCredentialsTokenEnhancer principalCredentialsTokenEnhancer(){
+		return new PrincipalCredentialsTokenEnhancer();
+	}
 
 
- @Override
- public void configure(AuthorizationServerEndpointsConfigurer endpoints)
-         throws Exception {
-  endpoints.authorizationCodeServices(authorizationCodeServices())
-          .authenticationManager(auth).tokenStore(tokenStore())
-          .tokenEnhancer(principalCredentialsTokenEnhancer())
-          .approvalStoreDisabled();
- }
+	@Override
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints)
+			throws Exception {
+		endpoints.pathMapping("/oauth/token", oauth2TokenEndpointPath);			
+		endpoints.pathMapping("/oauth/authorize", oauth2AuthorizeEndpointPath);	 
+		endpoints.authorizationCodeServices(authorizationCodeServices())
+		.authenticationManager(auth).tokenStore(tokenStore())
+		.tokenEnhancer(principalCredentialsTokenEnhancer())
+		.approvalStoreDisabled();
+	}
 }

@@ -71,6 +71,12 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
 	protected String oauth2ImplicitFlowLoginEndpointPath;
 	
+	@Value("${appverse.frontfacade.oauth2.tokenEndpoint.path:/oauth/token}")
+	protected String oauth2TokenEndpointPath;
+	
+	@Value("${appverse.frontfacade.oauth2.authorizeEndpoint.path:/oauth/authorize}")
+	protected String oauth2AuthorizeEndpointPath;
+	
 	protected int port;
 		
 	@Autowired
@@ -152,7 +158,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	
 	@Test	
 	public void obtainTokenFromOuth2LoginEndpoint() throws Exception {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2ImplicitFlowLoginEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2AuthorizeEndpointPath);
         builder.queryParam("username", getUsername());
         builder.queryParam("password", getPassword());
         builder.queryParam("client_id", getClientId());        

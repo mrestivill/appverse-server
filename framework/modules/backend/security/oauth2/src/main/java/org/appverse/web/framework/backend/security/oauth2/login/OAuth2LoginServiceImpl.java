@@ -82,70 +82,6 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
 	 * @throws Exception
 	 */
 	
-	// TODO: See if we replace this with UsernamePasswordAuthenticationFilter (path needs to be customized)
-	
-	@RequestMapping(value = "${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}", params="response_type=token", method = RequestMethod.POST)
-	public void login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-		if (username == null || password == null) {
-			throw new BadCredentialsException("username or password is null");
-		}
-		// Authenticate principal and return authorization data
-		userAndPasswordAuthenticationManager.authenticatePrincipal(username, password);
-
-		/* TODO: See how CSRF fits here. Are we going to use CSRF with OAuth2?
-    	if (securityEnableCsrf){
-    		// Obtain XSRFToken and add it as a response header
-    		// The token comes in the request (CsrFilter adds it) and we need to set it in the response so the clients 
-    		// have it to use it in the next requests
-    		CsrfToken csrfToken  = (CsrfToken) httpServletRequest.getAttribute(CSRF_TOKEN_SESSION_ATTRIBUTE);
-    		httpServletResponse.addHeader(csrfToken.getHeaderName(), csrfToken.getToken());
-    	}
-
-    	In AppverseWebBasicAuthenticationConfigurerAdapter is handled like this:
-
-		if (securityEnableCsrf){
-			http.csrf()
-			.requireCsrfProtectionMatcher(new CsrfSecurityRequestMatcher());
-		}
-		else http.csrf().disable();
-		 */    	
-
-		RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/oauth/authorize");
-		dispatcher.forward(httpServletRequest, httpServletResponse);
-	}
-
-	/**
-	 * Authenticates an user using oauth implicit grant flow. Requires basic authentication header.
-	 * @param httpServletRequest
-	 * @param httpServletResponse
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}", params="response_type=code", method = RequestMethod.GET)
-	public void login(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-
-
-		/* TODO: See how CSRF fits here. Are we going to use CSRF with OAuth2?
-    	if (securityEnableCsrf){
-    		// Obtain XSRFToken and add it as a response header
-    		// The token comes in the request (CsrFilter adds it) and we need to set it in the response so the clients 
-    		// have it to use it in the next requests
-    		CsrfToken csrfToken  = (CsrfToken) httpServletRequest.getAttribute(CSRF_TOKEN_SESSION_ATTRIBUTE);
-    		httpServletResponse.addHeader(csrfToken.getHeaderName(), csrfToken.getToken());
-    	}
-
-    	In AppverseWebBasicAuthenticationConfigurerAdapter is handled like this:
-
-		if (securityEnableCsrf){
-			http.csrf()
-			.requireCsrfProtectionMatcher(new CsrfSecurityRequestMatcher());
-		}
-		else http.csrf().disable();
-		 */    	
-
-		RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/oauth/authorize");
-		dispatcher.forward(httpServletRequest, httpServletResponse);
-	}
 	
 	@RequestMapping(value = "${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/token/revoke}", method = RequestMethod.POST)
 	@ConditionalOnExpression("#{tokenServices}!=null")
@@ -155,5 +91,12 @@ public class OAuth2LoginServiceImpl implements OAuth2LoginService {
 		}else{
 			throw new RuntimeException("There is not a ConsumerTokenServices available");
 		}
+	}
+
+	@Override
+	public void login(String username, String password, HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -75,8 +75,12 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
 	protected String oauth2ImplicitFlowLoginEndpointPath;
 	
-	@Value("${appverse.frontfacade.oauth2.tokenEndpoint.path:/sec/token}")
+	@Value("${appverse.frontfacade.oauth2.tokenEndpoint.path:/oauth/token}")
 	protected String oauth2TokenEndpointPath;
+	
+	@Value("${appverse.frontfacade.oauth2.authorizeEndpoint.path:/oauth/authorize}")
+	protected String oauth2AuthorizeEndpointPath;
+	
 	
 	protected int port;
 		
@@ -172,7 +176,9 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 
 	@Test	
 	public void obtainAuthorizationCode() throws Exception {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2ImplicitFlowLoginEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2AuthorizeEndpointPath);
+        builder.queryParam("username", getUsername());
+        builder.queryParam("password", getPassword());
         builder.queryParam("client_id", getClientId());        
         builder.queryParam("response_type", "code");
         builder.queryParam("redirect_uri", "http://anywhere");
@@ -180,13 +186,9 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
         
         // optional builder.queryParam("scope", "");
         // recommended (optional) builder.queryParam("state", "");
-        
-        // Add Basic Authorization headers for USER authentication
-        HttpHeaders headers = new HttpHeaders();
-        Encoder encoder = Base64.getEncoder();
-        headers.add("Authorization","Basic " + encoder.encodeToString((getUsername() + ":" + getPassword()).getBytes()));
 
-        HttpEntity<String> entity = new HttpEntity("",headers);
+        //HttpEntity<String> entity = new HttpEntity("",headers);
+        HttpEntity<String> entity = new HttpEntity("");
         ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, entity, String.class);
         
         // check this! assertEquals(HttpStatus.FOUND, result2.getStatusCode());        
@@ -201,7 +203,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	@Test	
 	public void obtainTokenFromOuth2LoginEndpoint() throws Exception {
 		obtainAuthorizationCode();
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/oauth/token");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2TokenEndpointPath);
         // Here we don't authenticate the user, we authenticate the client and we pass the authcode proving that the user has accepted and loged in        
         builder.queryParam("client_id", getClientId());
         builder.queryParam("grant_type", "authorization_code");
@@ -230,7 +232,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	}
 	
 	public void refreshToken(){
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/oauth/token");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2TokenEndpointPath);
         // Here we don't authenticate the user, we authenticate the client and we pass the authcode proving that the user has accepted and loged in
         builder.queryParam("grant_type", "refresh_token");
         builder.queryParam("refresh_token", refreshToken);

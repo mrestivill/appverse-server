@@ -23,16 +23,10 @@
  */
 package org.appverse.web.framework.backend.security.oauth2.jdbc;
 
-import javax.sql.DataSource;
-
 import org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
@@ -97,20 +91,5 @@ public class ApplicationJdbc {
 					.accessTokenValiditySeconds(4)
 					.autoApprove(true);								
 		}
-	}
-	
-	@Configuration
-	@Order(-1)
-	protected static class AuthenticationManagerCustomizer extends
-			GlobalAuthenticationConfigurerAdapter {
-
-		@Autowired
-		private DataSource dataSource;
-
-		@Override
-		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.jdbcAuthentication().dataSource(dataSource).withUser("user")
-					.password("password").roles("USER");
-		}
-	}
+	}	
 }
