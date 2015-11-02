@@ -93,10 +93,7 @@ public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigur
 		// Test filter gives problems because is redirecting to / is not saving the request to redirect properly
 		.logout()
         	.logoutUrl(apiPath + oauth2LogoutEndpointPath)
-        	.logoutSuccessHandler(oauth2LogoutHandler())
-        // OAuth2 login endpoint (which authenticates the user and obtains the OAuth2 token) has to be allowed        	
-        .and()
-        	.authorizeRequests().antMatchers(apiPath + oauth2LoginEndpointPath).permitAll();
+        	.logoutSuccessHandler(oauth2LogoutHandler());
 
 		if (swagerEnabled){
 		// If swagger is enabled we need to permit certain URLs and resources for Swagger UI to work with OAuth2
