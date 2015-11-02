@@ -68,9 +68,6 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
 	
-	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
-	protected String oauth2ImplicitFlowLoginEndpointPath;
-	
 	@Value("${appverse.frontfacade.oauth2.tokenEndpoint.path:/oauth/token}")
 	protected String oauth2TokenEndpointPath;
 	

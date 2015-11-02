@@ -61,8 +61,6 @@ public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigur
     protected String apiPath;
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
-	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
-	protected String oauth2LoginEndpointPath;
 	@Value("${appverse.frontfacade.swagger.enabled:true}")
 	protected boolean swagerEnabled;
 	@Value("${appverse.frontfacade.swagger.oauth2.allowedUrls.antMatchers:/webjars/springfox-swagger-ui/**,/configuration/security,/configuration/ui,/swagger-resources,/api-docs/**,/v2/api-docs/**,/swagger-ui.html/**,/swaggeroauth2login,/o2c.html,/}")
@@ -84,7 +82,7 @@ public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigur
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// In this OAuth2 scenario with implicit flow we both login the user and obtain the token
-		// in the same endpoint (/sec/login). User credentials will be passed as "username" and 
+		// in the same endpoint (/oauth/authorize). User credentials will be passed as "username" and 
 		// "password" form. 
 		// This might be different in other scenarios, for instance if we wanted to implement
 		// authorization code flow to support token refresh.

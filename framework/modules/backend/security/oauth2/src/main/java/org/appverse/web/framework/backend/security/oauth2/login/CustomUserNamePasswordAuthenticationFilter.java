@@ -46,7 +46,15 @@ import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * TODO: Document this!
+ * This filter is based on Spring BasicAuthenticationFilter. 
+ * It works very similar but with the difference that is used to authenticate user based on
+ * username and password.
+ * Spring has an UsernamePasswordAuthenticationFilter that allows to set up an authentication entry point 
+ * based on username and password authentication at an specific url.
+ * However, UsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter and
+ * does not continues the filter chain as we needed after a successful authentication.
+ * For oauth2 scenarios this filter allows you to authenticate the user using username and password
+ * at the same time you access an oauth2 endpoint so the user can be authenticated in the same request.
  */
 public class CustomUserNamePasswordAuthenticationFilter extends OncePerRequestFilter {
 
@@ -109,22 +117,12 @@ public class CustomUserNamePasswordAuthenticationFilter extends OncePerRequestFi
 			ServletException {
 		final boolean debug = logger.isDebugEnabled();
 
-		
-		String uri = request.getRequestURI();
+		String uri = request.getRequestURI().substring(request.getContextPath().length());
 		if (userNamePasswordAuthenticationUri == null || !uri.equals(userNamePasswordAuthenticationUri)){
 			chain.doFilter(request, response);
 			return;
 		}
 		
-		/*
-		String header = request.getHeader("Authorization");
-		
-		if (header == null || !header.startsWith("Basic ")) {
-			chain.doFilter(request, response);
-			return;
-		}
-		*/
-
 		try {
 			String[] tokens = extractUserNameAndPassword(request);
 			assert tokens.length == 2;
@@ -188,38 +186,7 @@ public class CustomUserNamePasswordAuthenticationFilter extends OncePerRequestFi
 			throw new BadCredentialsException("Invalid username and password parameters");
 		}
 		return new String[] { username, password }; 
-	}
-	
-
-	/**
-	 * Decodes the header into a username and password.
-	 *
-	 * @throws BadCredentialsException if the Basic header is not present or is not valid
-	 * Base64
-	private String[] extractAndDecodeHeader(String header, HttpServletRequest request)
-			throws IOException {
-
-		byte[] base64Token = header.substring(6).getBytes("UTF-8");
-		byte[] decoded;
-		try {
-			decoded = Base64.decode(base64Token);
-		}
-		catch (IllegalArgumentException e) {
-			throw new BadCredentialsException(
-					"Failed to decode basic authentication token");
-		}
-
-		String token = new String(decoded);
-
-		int delim = token.indexOf(":");
-
-		if (delim == -1) {
-			throw new BadCredentialsException("Invalid basic authentication token");
-		}
-		return new String[] { token.substring(0, delim), token.substring(delim + 1) };
-	}
-	 */
-	
+	}	
 
 	private boolean authenticationIsRequired(String username) {
 		// Only reauthenticate if username doesn't match SecurityContextHolder and user
