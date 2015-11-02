@@ -1,11 +1,32 @@
+/*
+ Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
+
+ This Source Code Form is subject to the terms of the Appverse Public License 
+ Version 2.0 (“APL v2.0”). If a copy of the APL was not distributed with this 
+ file, You can obtain one at http://www.appverse.mobi/licenses/apl_v2.0.pdf. [^]
+
+ Redistribution and use in source and binary forms, with or without modification, 
+ are permitted provided that the conditions of the AppVerse Public License v2.0 
+ are met.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. EXCEPT IN CASE OF WILLFUL MISCONDUCT OR GROSS NEGLIGENCE, IN NO EVENT
+ SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT(INCLUDING NEGLIGENCE OR OTHERWISE) 
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ POSSIBILITY OF SUCH DAMAGE.
+ */
 package org.appverse.web.framework.backend.security.oauth2.login;
 
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,65 +37,16 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.Assert;
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * Processes a HTTP request's BASIC authorization headers, putting the result into the
- * <code>SecurityContextHolder</code>.
- *
- * <p>
- * For a detailed background on what this filter is designed to process, refer to <a
- * href="http://www.faqs.org/rfcs/rfc1945.html">RFC 1945, Section 11.1</a>. Any realm name
- * presented in the HTTP request is ignored.
- *
- * <p>
- * In summary, this filter is responsible for processing any request that has a HTTP
- * request header of <code>Authorization</code> with an authentication scheme of
- * <code>Basic</code> and a Base64-encoded <code>username:password</code> token. For
- * example, to authenticate user "Aladdin" with password "open sesame" the following
- * header would be presented:
- * 
- * <pre>
- *
- * Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
- * </pre>
- *
- * <p>
- * This filter can be used to provide BASIC authentication services to both remoting
- * protocol clients (such as Hessian and SOAP) as well as standard user agents (such as
- * Internet Explorer and Netscape).
- * <p>
- * If authentication is successful, the resulting {@link Authentication} object will be
- * placed into the <code>SecurityContextHolder</code>.
- *
- * <p>
- * If authentication fails and <code>ignoreFailure</code> is <code>false</code> (the
- * default), an {@link AuthenticationEntryPoint} implementation is called (unless the
- * <tt>ignoreFailure</tt> property is set to <tt>true</tt>). Usually this should be
- * {@link BasicAuthenticationEntryPoint}, which will prompt the user to authenticate again
- * via BASIC authentication.
- *
- * <p>
- * Basic authentication is an attractive protocol because it is simple and widely
- * deployed. However, it still transmits a password in clear text and as such is
- * undesirable in many situations. Digest authentication is also provided by Spring
- * Security and should be used instead of Basic authentication wherever possible. See
- * {@link org.springframework.security.web.authentication.www.DigestAuthenticationFilter}.
- * <p>
- * Note that if a {@link RememberMeServices} is set, this filter will automatically send
- * back remember-me details to the client. Therefore, subsequent requests will not need to
- * present a BASIC authentication header as they will be authenticated using the
- * remember-me mechanism.
- *
- * @author Ben Alex
+ * TODO: Document this!
  */
 public class CustomUserNamePasswordAuthenticationFilter extends OncePerRequestFilter {
 
