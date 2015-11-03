@@ -21,10 +21,10 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.implicit.jdbc;
+package org.appverse.web.framework.backend.security.oauth2.authcode.jdbc;
 
 import org.appverse.web.framework.backend.security.oauth2.jdbc.ApplicationJdbc;
-import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.implicit.Oauth2ImplicitFlowPredefinedTests;
+import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.authorizationcode.Oauth2AuthorizationCodeFlowPredefinedTests;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 
@@ -40,8 +40,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 		         "appverse.frontfacade.oauth2.apiprotection.enabled=true",
 		         "appverse.frontfacade.rest.http.basic.default.setup.enabled=false",
 		         "appverse.frontfacade.rest.basicAuthenticationEndpoint.enabled=false",
-		         "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false"})
-public class Oauth2RESTProtectedAPIWithImplicitFlowJdbcTests extends Oauth2ImplicitFlowPredefinedTests {
+		         "appverse.frontfacade.rest.simpleAuthenticationEndpoint.enabled=false",
+		     	 "appverse.frontfacade.oauth2.tokenEndpoint.path=/oauth/token",
+		     	 "appverse.frontfacade.oauth2.authorizeEndpoint.path=/oauth/authorize"})
+public class Oauth2RESTProtectedAPIWithAuthCodeJdbcTests extends Oauth2AuthorizationCodeFlowPredefinedTests {
 
 	@Override
 	protected String getPassword() {
@@ -55,7 +57,17 @@ public class Oauth2RESTProtectedAPIWithImplicitFlowJdbcTests extends Oauth2Impli
 
 	@Override
 	protected String getClientId() {
-		return "test-client-autoapprove";
+		return "test-client-auth-code-autoapprove-for-tests";
+	}	
+	
+	@Override
+	protected String getClientSecret() {
+		return "our-secret";
+	}	
+
+	@Override
+	protected int getTokenExpirationDelayInSeconds(){
+		return 5;
 	}
 
 }

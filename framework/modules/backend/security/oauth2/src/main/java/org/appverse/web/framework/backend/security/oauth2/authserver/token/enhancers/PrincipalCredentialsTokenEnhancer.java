@@ -1,4 +1,4 @@
-package org.appverse.web.framework.backend.security.oauth2.common.token.enhancers;
+package org.appverse.web.framework.backend.security.oauth2.authserver.token.enhancers;
 
 import java.util.HashMap;
 
