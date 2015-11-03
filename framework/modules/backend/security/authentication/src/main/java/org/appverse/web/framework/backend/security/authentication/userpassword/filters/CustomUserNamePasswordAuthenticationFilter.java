@@ -21,7 +21,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.login;
+package org.appverse.web.framework.backend.security.authentication.userpassword.filters;
 
 import java.io.IOException;
 
@@ -52,8 +52,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * based on username and password authentication at an specific url.
  * However, UsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter and
  * does not continues the filter chain as we needed after a successful authentication.
- * For oauth2 scenarios this filter allows you to authenticate the user using username and password
- * at the same time you access an oauth2 endpoint so the user can be authenticated in the same request.
+ * It can be used in any scenario where you need to access authenticate the user an access an endpoint 
+ * at the same time so the user can be authenticated in the same request.
  */
 public class CustomUserNamePasswordAuthenticationFilter extends OncePerRequestFilter {
 
