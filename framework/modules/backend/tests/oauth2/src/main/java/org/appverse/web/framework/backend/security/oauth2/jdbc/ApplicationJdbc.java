@@ -23,7 +23,7 @@
  */
 package org.appverse.web.framework.backend.security.oauth2.jdbc;
 
-import org.appverse.web.framework.backend.security.oauth2.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.authserver.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;

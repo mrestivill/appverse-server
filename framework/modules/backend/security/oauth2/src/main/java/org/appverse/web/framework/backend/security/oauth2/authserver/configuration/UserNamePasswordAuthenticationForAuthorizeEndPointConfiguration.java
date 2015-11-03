@@ -1,4 +1,4 @@
-package org.appverse.web.framework.backend.security.oauth2.configuration;
+package org.appverse.web.framework.backend.security.oauth2.authserver.configuration;
 
 import org.appverse.web.framework.backend.security.authentication.userpassword.filters.CustomUserNamePasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;

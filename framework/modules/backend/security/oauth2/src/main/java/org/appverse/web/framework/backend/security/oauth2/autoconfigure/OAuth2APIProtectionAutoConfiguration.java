@@ -23,7 +23,7 @@
  */
 package org.appverse.web.framework.backend.security.oauth2.autoconfigure;
 
-import org.appverse.web.framework.backend.security.oauth2.configuration.ResourceServerStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.resourceserver.configuration.ResourceServerStoreConfigurerAdapter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
