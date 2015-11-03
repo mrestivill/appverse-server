@@ -21,9 +21,9 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.implicit.autoconfigure;
+package org.appverse.web.framework.backend.security.oauth2.autoconfigure;
 
-import org.appverse.web.framework.backend.security.oauth2.implicit.configuration.ResourceServerStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.resourceserver.configuration.ResourceServerStoreConfigurerAdapter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -39,12 +39,17 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @Configuration
 @ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
 @ComponentScan("org.appverse.web.framework.backend.security.oauth2")
-public class OAuth2APIProtectionImplicitFlowAutoConfiguration {
+public class OAuth2APIProtectionAutoConfiguration {
 	
 	@Bean
 	public DefaultTokenServices tokenServices(TokenStore tokenStore){
 		DefaultTokenServices tokenServices = new DefaultTokenServices();
 		tokenServices.setTokenStore(tokenStore);
+		// We enable support refresh token as default is false.
+		// This is possible because refresh token can be enabled / disabled by specifying the 
+		// "refresh_token" grant type in the clients registration in the authoriztion server.
+		// Is this grant is not specified no refresh token is issued.
+		tokenServices.setSupportRefreshToken(true);
 		return tokenServices;
 	}
 
@@ -77,5 +82,4 @@ public class OAuth2APIProtectionImplicitFlowAutoConfiguration {
 		}
 	}
 	*/
-	
 }

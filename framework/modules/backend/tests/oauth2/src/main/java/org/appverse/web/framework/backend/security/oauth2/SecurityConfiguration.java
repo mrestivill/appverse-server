@@ -2,7 +2,7 @@
  Copyright (c) 2012 GFT Appverse, S.L., Sociedad Unipersonal.
 
  This Source Code Form is subject to the terms of the Appverse Public License 
- Version 2.0 (“APL v2.0�?). If a copy of the APL was not distributed with this 
+ Version 2.0 (“APL v2.0”). If a copy of the APL was not distributed with this 
  file, You can obtain one at http://www.appverse.mobi/licenses/apl_v2.0.pdf. [^]
 
  Redistribution and use in source and binary forms, with or without modification, 
@@ -21,24 +21,22 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.frontfacade.mvc.swagger.autoconfigure;
+package org.appverse.web.framework.backend.security.oauth2;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 
-/**
- * This autoconfiguration just adds the component scan for the required appverse swagger 
- * controllers so the users (projects) don't need to add it explicitly avoiding the risk 
- * of forgetting to include the component scan and then out-of-the-box swagger integration
- * not working.
- * You can enable / disable this autoconfiguration by using the property
- * "appverse.frontfacade.swagger.enabled" which is false by default.
- * It provides support both for basic auth and OAuth2 using the login endpoint.
- */
 @Configuration
-@ConditionalOnProperty(value="appverse.frontfacade.swagger.enabled", matchIfMissing=false)
-@ComponentScan("org.appverse.web.framework.backend.frontfacade.mvc.swagger")
-public class SwaggerAutoConfiguration {
+public class SecurityConfiguration {
+	
+	@Configuration
+	protected static class AuthenticationManagerCustomizer extends
+			GlobalAuthenticationConfigurerAdapter {
 
+		@Override
+		public void init(AuthenticationManagerBuilder auth) throws Exception {
+			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+		}
+	}
 }

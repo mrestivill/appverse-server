@@ -21,13 +21,12 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2.implicit.configuration;
+package org.appverse.web.framework.backend.security.oauth2.resourceserver.configuration;
 
-import org.appverse.web.framework.backend.security.oauth2.common.handlers.OAuth2LogoutHandler;
+import org.appverse.web.framework.backend.security.oauth2.resourceserver.handlers.OAuth2LogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -61,8 +60,6 @@ public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigur
     protected String apiPath;
 	@Value("${appverse.frontfacade.oauth2.logoutEndpoint.path:/sec/logout}")
 	protected String oauth2LogoutEndpointPath;
-	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
-	protected String oauth2LoginEndpointPath;
 	@Value("${appverse.frontfacade.swagger.enabled:true}")
 	protected boolean swagerEnabled;
 	@Value("${appverse.frontfacade.swagger.oauth2.allowedUrls.antMatchers:/webjars/springfox-swagger-ui/**,/configuration/security,/configuration/ui,/swagger-resources,/api-docs/**,/v2/api-docs/**,/swagger-ui.html/**,/swaggeroauth2login,/o2c.html,/}")
@@ -84,7 +81,7 @@ public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigur
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// In this OAuth2 scenario with implicit flow we both login the user and obtain the token
-		// in the same endpoint (/sec/login). User credentials will be passed as "username" and 
+		// in the same endpoint (/oauth/authorize). User credentials will be passed as "username" and 
 		// "password" form. 
 		// This might be different in other scenarios, for instance if we wanted to implement
 		// authorization code flow to support token refresh.
@@ -93,10 +90,7 @@ public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigur
 		// Test filter gives problems because is redirecting to / is not saving the request to redirect properly
 		.logout()
         	.logoutUrl(apiPath + oauth2LogoutEndpointPath)
-        	.logoutSuccessHandler(oauth2LogoutHandler())
-        // OAuth2 login endpoint (which authenticates the user and obtains the OAuth2 token) has to be allowed        	
-        .and()
-        	.authorizeRequests().antMatchers(apiPath + oauth2LoginEndpointPath).permitAll();
+        	.logoutSuccessHandler(oauth2LogoutHandler());
 
 		if (swagerEnabled){
 		// If swagger is enabled we need to permit certain URLs and resources for Swagger UI to work with OAuth2
