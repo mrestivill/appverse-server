@@ -189,7 +189,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 
         //HttpEntity<String> entity = new HttpEntity("",headers);
         HttpEntity<String> entity = new HttpEntity("");
-        ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
         
         // check this! assertEquals(HttpStatus.FOUND, result2.getStatusCode());        
 
