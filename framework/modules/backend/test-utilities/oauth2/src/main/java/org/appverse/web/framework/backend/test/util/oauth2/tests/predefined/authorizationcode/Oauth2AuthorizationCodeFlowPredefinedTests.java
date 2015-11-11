@@ -47,6 +47,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
@@ -95,10 +96,14 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	private String accessToken=null;
 	private String authorizationCode=null;
 	private String refreshToken=null;
+	private boolean isJwtTokenStore=false;
 	
 	@Before
 	public void init(){
 		 port = server.getEmbeddedServletContainer().getPort();
+		 if (tokenStore != null && tokenStore instanceof JwtTokenStore){
+			 isJwtTokenStore = true;
+		 }
 	}	
 	
 	@Test
@@ -155,23 +160,30 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 		// Call remotelog        
 		result = callRemoteLogWithAccessToken();
 		assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
-		assertTrue(result.getBody().contains("Access token expired"));
+		assertTrue(result.getBody().contains("Access token expired"));		
 		
 		// Refresh the token
-		refreshToken();        
+		refreshToken();        		
 
-        // We call logout endpoint (we need to use the access token for this)
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2LogoutEndpointPath);
-        builder.queryParam("access_token", accessToken);        
-        
-        ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, null, String.class);
-        assertEquals(HttpStatus.OK, result2.getStatusCode());
+		if (!isJwtTokenStore){
+			// The following code is executed only if the token store is not a JwtTokenStore. The reason is that using this kind of store
+			// the tokens can't be revoked (they just expire) and so this part of the test would fail.
+			// A JwtTokenStore is not a proper store as the tokens are not stored anywhere (as they contain all the required info about the user
+			// themselves. That's why the token revocation is not possible.
 
-        // We try to call the protected API again (after having logged out which removes the token) - We expect not to be able to call the service.
-        // This will throw a exception. In this case here in the test we receive an exception but really what happened was 'access denied'
-        // A production client will receive the proper http error
-        result = callRemoteLogWithAccessToken();
-        assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
+			// We call logout endpoint (we need to use the access token for this)
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2LogoutEndpointPath);
+			builder.queryParam("access_token", accessToken);        
+
+			ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, null, String.class);
+			assertEquals(HttpStatus.OK, result2.getStatusCode());
+
+			// We try to call the protected API again (after having logged out which removes the token) - We expect not to be able to call the service.
+			// This will throw a exception. In this case here in the test we receive an exception but really what happened was 'access denied'
+			// A production client will receive the proper http error
+			result = callRemoteLogWithAccessToken();
+			assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
+		}
 	}
 
 	@Test	

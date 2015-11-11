@@ -43,6 +43,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
@@ -78,7 +79,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 		
 	@Autowired
 	private EmbeddedWebApplicationContext server;	
-		
+	
 	@Autowired
 	private TokenStore tokenStore;
 	
@@ -86,9 +87,14 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	
 	private String accessToken=null;
 	
+	private boolean isJwtTokenStore=false;
+	
 	@Before
 	public void init(){
 		 port = server.getEmbeddedServletContainer().getPort();
+		 if (tokenStore != null && tokenStore instanceof JwtTokenStore){
+			 isJwtTokenStore = true;
+		 }
 	}	
 	
 	@Test
@@ -139,18 +145,24 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 		ResponseEntity<String> result = callRemoteLogWithAccessToken();
 		assertEquals(HttpStatus.OK, result.getStatusCode());
 
-        // We call logout endpoint (we need to use the access token for this)
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2LogoutEndpointPath);
-        builder.queryParam("access_token", accessToken);        
-        
-        ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, null, String.class);
-        assertEquals(HttpStatus.OK, result2.getStatusCode());
+		if (!isJwtTokenStore){
+			// The following code is executed only if the token store is not a JwtTokenStore. The reason is that using this kind of store
+			// the tokens can't be revoked (they just expire) and so this part of the test would fail.
+			// A JwtTokenStore is not a proper store as the tokens are not stored anywhere (as they contain all the required info about the user
+			// themselves. That's why the token revocation is not possible.
+			// We call logout endpoint (we need to use the access token for this)
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2LogoutEndpointPath);
+			builder.queryParam("access_token", accessToken);        
 
-        // We try to call the protected API again (after having logged out which removes the token) - We expect not to be able to call the service.
-        // This will throw a exception. In this case here in the test we receive an exception but really what happened was 'access denied'
-        // A production client will receive the proper http error
-        result = callRemoteLogWithAccessToken();
-        assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
+			ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, null, String.class);
+			assertEquals(HttpStatus.OK, result2.getStatusCode());
+
+			// We try to call the protected API again (after having logged out which removes the token) - We expect not to be able to call the service.
+			// This will throw a exception. In this case here in the test we receive an exception but really what happened was 'access denied'
+			// A production client will receive the proper http error
+			result = callRemoteLogWithAccessToken();
+			assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
+		}
 	}
 	
 	@Test	
@@ -175,9 +187,14 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
         accessToken = extractToken(location.getFragment().toString());
         assertNotNull(accessToken);
         
-        // Obtain the user credentials from redirection URL after #
-        String extractUserAuthorities = extractUserAuthorities(location.getFragment().toString());
-        assertNotNull(extractUserAuthorities);
+        if (!isJwtTokenStore){
+        	// Temporarily we can't not apply the default token enhacer adding the authorities if we use a JwtTokenStore
+        	// TODO: Put again the login endpoint separated for CSRF and return the authorities there
+        	
+        	// Obtain the user credentials from redirection URL after #
+        	String extractUserAuthorities = extractUserAuthorities(location.getFragment().toString());
+        	assertNotNull(extractUserAuthorities);
+        }
 	}
 	
 	protected ResponseEntity<String> callRemoteLogWithAccessToken(){
