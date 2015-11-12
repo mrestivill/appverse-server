@@ -74,10 +74,12 @@ public class AuthorizationServerWithJWTStoreConfigurerAdapter extends Authorizat
 
 		@Bean
 		public JwtAccessTokenConverter jwtTokenEnhancer() {
+			// Implementation based on Java TrustStore. If you need something different you can
+			// override and implement your own JwtAccessTokenConverter
 			JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 			KeyPair keyPair = new KeyStoreKeyFactory(
-					new ClassPathResource("keystore.jks"), "foobar".toCharArray())
-					.getKeyPair("test");
+					new ClassPathResource("oauth-example-keystore.jks"), "guessThis".toCharArray())
+					.getKeyPair("appverse-oauth-server-showcase");
 			converter.setKeyPair(keyPair);
 			return converter;
 		}

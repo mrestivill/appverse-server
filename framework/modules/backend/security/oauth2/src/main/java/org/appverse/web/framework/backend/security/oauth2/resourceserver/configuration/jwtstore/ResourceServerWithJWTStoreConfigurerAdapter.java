@@ -100,8 +100,8 @@ public class ResourceServerWithJWTStoreConfigurerAdapter extends ResourceServerC
 	public JwtAccessTokenConverter jwtTokenEnhancer() {
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 		KeyPair keyPair = new KeyStoreKeyFactory(
-				new ClassPathResource("keystore.jks"), "foobar".toCharArray())
-				.getKeyPair("test");
+				new ClassPathResource("oauth-example-keystore.jks"), "guessThis".toCharArray())
+				.getKeyPair("appverse-oauth-server-showcase");
 		converter.setKeyPair(keyPair);
 		return converter;
 	}
