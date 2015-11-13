@@ -61,7 +61,13 @@ public class ResourceServerWithJWTStoreConfigurerAdapter extends ResourceServerC
 	@Value("${appverse.frontfacade.swagger.enabled:true}")
 	protected boolean swagerEnabled;
 	@Value("${appverse.frontfacade.swagger.oauth2.allowedUrls.antMatchers:/webjars/springfox-swagger-ui/**,/configuration/security,/configuration/ui,/swagger-resources,/api-docs/**,/v2/api-docs/**,/swagger-ui.html/**,/swaggeroauth2login,/o2c.html,/}")
-	protected String swaggerOauth2AllowedUrlsAntMatchers;
+	protected String swaggerOauth2AllowedUrlsAntMatchers;	
+	@Value("${appverse.frontfacade.oauth2.jwt.jks.keystore}")
+	protected String oauthJwtKeystore;
+	@Value("${appverse.frontfacade.oauth2.jwt.jks.password}")
+	protected String oauthJwtKeystorePassword;
+	@Value("${appverse.frontfacade.oauth2.jwt.jks.key}")
+	protected String oauthJwtKeystoreKey;
 	
 	@Bean
 	public OAuth2LogoutHandler oauth2LogoutHandler() {
@@ -98,10 +104,13 @@ public class ResourceServerWithJWTStoreConfigurerAdapter extends ResourceServerC
 	
 	@Bean
 	public JwtAccessTokenConverter jwtTokenEnhancer() {
+		// Implementation based on Java TrustStore. If you need something different you can
+		// override and implement your own JwtAccessTokenConverter.
+		// Authorization and ResourceServer implementation must be the same
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 		KeyPair keyPair = new KeyStoreKeyFactory(
-				new ClassPathResource("oauth-example-keystore.jks"), "guessThis".toCharArray())
-				.getKeyPair("appverse-oauth-server-showcase");
+				new ClassPathResource(oauthJwtKeystore), oauthJwtKeystorePassword.toCharArray())
+				.getKeyPair(oauthJwtKeystoreKey);
 		converter.setKeyPair(keyPair);
 		return converter;
 	}
