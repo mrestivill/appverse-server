@@ -29,9 +29,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.URI;
 import java.util.Base64;
+import java.util.List;
 import java.util.Base64.Encoder;
 
 import org.appverse.web.framework.backend.frontfacade.rest.remotelog.model.presentation.RemoteLogRequestVO;
+import org.appverse.web.framework.backend.security.authentication.userpassword.model.AuthorizationData;
+import org.appverse.web.framework.backend.test.util.oauth2.tests.predefined.common.TestLoginInfo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,7 +77,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	protected String oauth2LogoutEndpointPath;
 	
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/sec/login}")
-	protected String oauth2ImplicitFlowLoginEndpointPath;
+	protected String oauth2LoginEndpointPath;
 	
 	@Value("${appverse.frontfacade.oauth2.tokenEndpoint.path:/oauth/token}")
 	protected String oauth2TokenEndpointPath;
@@ -82,6 +85,11 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	@Value("${appverse.frontfacade.oauth2.authorizeEndpoint.path:/oauth/authorize}")
 	protected String oauth2AuthorizeEndpointPath;
 	
+	// The following constants need to match the CsrfRepository you are using
+	// In particular this test is designed to work with a TestCsrfTokenRepository
+	protected static final String DEFAULT_CSRF_PARAMETER_NAME = "_csrf";
+	
+	protected static final String DEFAULT_CSRF_HEADER_NAME = "X-CSRF-TOKEN";
 	
 	protected int port;
 		
@@ -122,7 +130,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	@Test
 	public void testProtectedRemoteLogWithTokenAutoApprove() throws Exception {
 		// Obtains the token
-		obtainTokenFromOuth2LoginEndpoint();
+		obtainToken();
 
 		// Call remote log using the token
 		ResponseEntity<String> result = callRemoteLogWithAccessToken();
@@ -148,7 +156,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	@Test
 	public void oauth2FlowTest() throws Exception {
 		// Obtains the token
-		obtainTokenFromOuth2LoginEndpoint();
+		obtainToken();
 		
 		// Call remotelog        
 		ResponseEntity<String> result = callRemoteLogWithAccessToken();
@@ -185,6 +193,33 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 			assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
 		}
 	}
+		
+	public TestLoginInfo authenticateUser() throws Exception{
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2LoginEndpointPath);
+        builder.queryParam("username", getUsername());
+        builder.queryParam("password", getPassword());
+		
+        HttpEntity<String> entity = new HttpEntity<>("");
+		ResponseEntity<AuthorizationData> responseEntity = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, AuthorizationData.class);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+				
+		List<String> xsrfTokenHeaders = responseEntity.getHeaders().get(DEFAULT_CSRF_HEADER_NAME);
+		assertNotNull(xsrfTokenHeaders);
+		assertEquals(xsrfTokenHeaders.size(), 1);
+		assertNotNull(xsrfTokenHeaders.get(0));
+		AuthorizationData authorizationData = responseEntity.getBody();
+		assertNotNull(authorizationData);
+		List<String> roles = authorizationData.getRoles();
+		assertNotNull(roles);
+		assertEquals(roles.size() > 0, true);
+		assertEquals(roles.contains(getAnUserRole()), true);		
+		
+		TestLoginInfo loginInfo = new TestLoginInfo();
+		loginInfo.setXsrfToken(xsrfTokenHeaders.get(0));
+		loginInfo.setAuthorizationData(authorizationData);
+		loginInfo.setJsessionid(responseEntity.getHeaders().getFirst("Set-Cookie"));
+		return loginInfo;
+	}
 
 	@Test	
 	public void obtainAuthorizationCode() throws Exception {
@@ -213,7 +248,8 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	
 	
 	@Test	
-	public void obtainTokenFromOuth2LoginEndpoint() throws Exception {
+	public void obtainToken() throws Exception {
+		authenticateUser();
 		obtainAuthorizationCode();
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2TokenEndpointPath);
         // Here we don't authenticate the user, we authenticate the client and we pass the authcode proving that the user has accepted and loged in        
@@ -307,5 +343,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	protected abstract String getClientSecret();
 	
 	protected abstract int getTokenExpirationDelayInSeconds();
+	
+	protected abstract String getAnUserRole();
 	
 }

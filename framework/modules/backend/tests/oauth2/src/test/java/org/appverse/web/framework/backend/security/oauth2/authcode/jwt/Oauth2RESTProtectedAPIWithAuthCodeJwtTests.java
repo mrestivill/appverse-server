@@ -70,4 +70,9 @@ public class Oauth2RESTProtectedAPIWithAuthCodeJwtTests extends Oauth2Authorizat
 		return 5;
 	}
 
+	@Override
+	protected String getAnUserRole() {
+		return "ROLE_USER";
+	}
+
 }

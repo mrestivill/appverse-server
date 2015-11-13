@@ -70,4 +70,9 @@ public class Oauth2RESTProtectedAPIWithAuthCodeFlowInMemoryTests extends Oauth2A
 		return 5;
 	}
 
+	@Override
+	protected String getAnUserRole() {
+		return "ROLE_USER";
+	}
+
 }

@@ -70,4 +70,9 @@ public class Oauth2RESTProtectedAPIWithAuthCodeJdbcTests extends Oauth2Authoriza
 		return 5;
 	}
 
+	@Override
+	protected String getAnUserRole() {
+		return "ROLE_USER";
+	}
+
 }

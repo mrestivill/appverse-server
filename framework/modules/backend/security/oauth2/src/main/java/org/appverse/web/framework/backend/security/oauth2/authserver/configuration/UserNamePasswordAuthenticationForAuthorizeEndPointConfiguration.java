@@ -11,10 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
+/*
 @Configuration
 @EnableWebSecurity
 @ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
+*/
 public class UserNamePasswordAuthenticationForAuthorizeEndPointConfiguration extends WebSecurityConfigurerAdapter {
 	
     @Autowired
