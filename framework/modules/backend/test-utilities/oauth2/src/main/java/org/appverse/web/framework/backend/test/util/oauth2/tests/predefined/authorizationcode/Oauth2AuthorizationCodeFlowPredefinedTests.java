@@ -106,6 +106,8 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	private String refreshToken=null;
 	private boolean isJwtTokenStore=false;
 	
+	private TestLoginInfo loginInfo;
+	
 	@Before
 	public void init(){
 		 port = server.getEmbeddedServletContainer().getPort();
@@ -224,18 +226,24 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	@Test	
 	public void obtainAuthorizationCode() throws Exception {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2AuthorizeEndpointPath);
-        builder.queryParam("username", getUsername());
-        builder.queryParam("password", getPassword());
+//        builder.queryParam("username", getUsername());
+//        builder.queryParam("password", getPassword());
         builder.queryParam("client_id", getClientId());        
         builder.queryParam("response_type", "code");
         builder.queryParam("redirect_uri", "http://anywhere");
+        builder.queryParam(DEFAULT_CSRF_PARAMETER_NAME, loginInfo.getXsrfToken());
+        
         // builder.queryParam("realm","oauth2-resource");
         
         // optional builder.queryParam("scope", "");
         // recommended (optional) builder.queryParam("state", "");
 
-        //HttpEntity<String> entity = new HttpEntity("",headers);
-        HttpEntity<String> entity = new HttpEntity("");
+        // TODO: Let us see if we can put the username and password filter again
+		// This test requires the test CSRF Token in the auth server (not in the resource). This implies passing JSESSIONID and CSRF Token        
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Cookie", loginInfo.getJsessionid());
+
+		HttpEntity<String> entity = new HttpEntity("", headers);
         ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
         
         // check this! assertEquals(HttpStatus.FOUND, result2.getStatusCode());        
@@ -249,7 +257,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	
 	@Test	
 	public void obtainToken() throws Exception {
-		authenticateUser();
+		loginInfo = authenticateUser();
 		obtainAuthorizationCode();
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2TokenEndpointPath);
         // Here we don't authenticate the user, we authenticate the client and we pass the authcode proving that the user has accepted and loged in        

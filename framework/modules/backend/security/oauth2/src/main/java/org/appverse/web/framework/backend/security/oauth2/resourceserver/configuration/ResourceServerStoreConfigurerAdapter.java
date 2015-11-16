@@ -97,6 +97,6 @@ public class ResourceServerStoreConfigurerAdapter extends ResourceServerConfigur
 		http
         	.authorizeRequests().antMatchers(swaggerOauth2AllowedUrlsAntMatchers.split(",")).permitAll();
 		}
-		http.authorizeRequests().anyRequest().authenticated();
+		// TEST http.authorizeRequests().anyRequest().authenticated();
 	}	
 }
