@@ -60,6 +60,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @IntegrationTest("server.port=0")
 public abstract class Oauth2ImplicitFlowPredefinedTests {
 	
+	@Value("${appverse.frontfacade.oauth2.authserver.baseUrl:}")
+	protected String authServerBaseUrl;
+	
+	@Value("${appverse.frontfacade.oauth2.resourceserver.baseUrl:}")
+	protected String resourceServerBaseUrl;
+	
 	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
 	protected String baseApiPath;
 	
@@ -79,32 +85,33 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 		
 	@Autowired
 	private EmbeddedWebApplicationContext server;	
-	
-	@Autowired
-	private TokenStore tokenStore;
-	
+		
 	RestTemplate restTemplate = new TestRestTemplate();
 	
 	private String accessToken=null;
 	
-	private boolean isJwtTokenStore=false;
+	@Value("${appverse.frontfacade.oauth2.test.isJwtTokenStore:false}")
+	protected boolean isJwtTokenStore;
 	
 	@Before
 	public void init(){
 		 port = server.getEmbeddedServletContainer().getPort();
-		 if (tokenStore != null && tokenStore instanceof JwtTokenStore){
-			 isJwtTokenStore = true;
+		 port = server.getEmbeddedServletContainer().getPort();
+		 if (authServerBaseUrl.isEmpty()){
+			 authServerBaseUrl = "http://localhost:" + port;
+		 }
+		 if (resourceServerBaseUrl.isEmpty()){
+			 resourceServerBaseUrl = "http://localhost:" + port;
 		 }
 	}	
 	
 	@Test
 	public void contextLoads() {
-		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof TokenStore);
 	}
 
 	@Test
 	public void testProtectedResourceIsProtected() throws Exception {
-		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + baseApiPath + "/protected", String.class);
+		ResponseEntity<String> response = restTemplate.getForEntity(resourceServerBaseUrl + baseApiPath + "/protected", String.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));
@@ -128,7 +135,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
         
         // We call remote log WITHOUT the access token
         HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(resourceServerBaseUrl + baseApiPath + remoteLogEndpointPath);
         ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
         
 		assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
@@ -151,7 +158,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 			// A JwtTokenStore is not a proper store as the tokens are not stored anywhere (as they contain all the required info about the user
 			// themselves. That's why the token revocation is not possible.
 			// We call logout endpoint (we need to use the access token for this)
-			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2LogoutEndpointPath);
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authServerBaseUrl + baseApiPath + oauth2LogoutEndpointPath);
 			builder.queryParam("access_token", accessToken);        
 
 			ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, null, String.class);
@@ -167,7 +174,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
 	
 	@Test	
 	public void obtainTokenFromOuth2LoginEndpoint() throws Exception {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2AuthorizeEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authServerBaseUrl + oauth2AuthorizeEndpointPath);
         builder.queryParam("username", getUsername());
         builder.queryParam("password", getPassword());
         builder.queryParam("client_id", getClientId());        
@@ -203,7 +210,7 @@ public abstract class Oauth2ImplicitFlowPredefinedTests {
         remoteLogRequest.setMessage("This is my log message!");
         
         HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(resourceServerBaseUrl + baseApiPath + remoteLogEndpointPath);
         builder.queryParam("access_token", accessToken);        
         
         ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
