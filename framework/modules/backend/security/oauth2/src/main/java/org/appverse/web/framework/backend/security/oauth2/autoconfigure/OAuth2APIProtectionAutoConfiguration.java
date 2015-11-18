@@ -38,9 +38,10 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 @Configuration
 @ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
-@ComponentScan("org.appverse.web.framework.backend.security.oauth2")
+//@ComponentScan("org.appverse.web.framework.backend.security.oauth2")
+@ComponentScan("org.appverse.web.framework.backend.security.oauth2.authserver.configuration")
 public class OAuth2APIProtectionAutoConfiguration {
-	
+	/*
 	@Bean
 	public DefaultTokenServices tokenServices(TokenStore tokenStore){
 		DefaultTokenServices tokenServices = new DefaultTokenServices();
@@ -52,7 +53,8 @@ public class OAuth2APIProtectionAutoConfiguration {
 		tokenServices.setSupportRefreshToken(true);
 		return tokenServices;
 	}
-
+	*/
+	
 	@Configuration
 	@EnableResourceServer
 	public static class ResourceServerConfig extends ResourceServerStoreConfigurerAdapter {
