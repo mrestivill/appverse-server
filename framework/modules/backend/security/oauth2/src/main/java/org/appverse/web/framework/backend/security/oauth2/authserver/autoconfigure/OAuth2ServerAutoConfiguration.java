@@ -21,22 +21,19 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
  */
-package org.appverse.web.framework.backend.security.oauth2;
+package org.appverse.web.framework.backend.security.oauth2.authserver.autoconfigure;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 
+/**
+ * {@link EnableAutoConfiguration Auto-configuration} for OAuth2 to protect your API
+ */
 @Configuration
-public class SecurityConfiguration {
-	
-	@Configuration
-	protected static class AuthenticationManagerCustomizer extends
-			GlobalAuthenticationConfigurerAdapter {
+@ConditionalOnProperty(value="appverse.frontfacade.oauth2.apiprotection.enabled", matchIfMissing=false)
+@ComponentScan("org.appverse.web.framework.backend.security.oauth2.authserver.configuration")
+public class OAuth2ServerAutoConfiguration {
 
-		@Override
-		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-		}
-	}
 }

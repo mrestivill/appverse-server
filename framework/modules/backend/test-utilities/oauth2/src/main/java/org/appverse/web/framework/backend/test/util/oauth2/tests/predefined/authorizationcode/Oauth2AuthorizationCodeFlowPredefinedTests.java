@@ -46,8 +46,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
@@ -64,6 +62,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @IntegrationTest("server.port=0")
 public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	
+	@Value("${appverse.frontfacade.oauth2.authserver.baseUrl:}")
+	protected String authServerBaseUrl;
+	
+	@Value("${appverse.frontfacade.oauth2.resourceserver.baseUrl:}")
+	protected String resourceServerBaseUrl;
+		
 	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
 	protected String baseApiPath;
 	
@@ -82,38 +86,40 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	@Value("${appverse.frontfacade.oauth2.authorizeEndpoint.path:/oauth/authorize}")
 	protected String oauth2AuthorizeEndpointPath;
 	
+	@Value("${appverse.frontfacade.oauth2.test.isJwtTokenStore:false}")
+	protected boolean isJwtTokenStore;
+	
 	
 	protected int port;
 		
 	@Autowired
 	private EmbeddedWebApplicationContext server;	
 		
-	@Autowired
-	private TokenStore tokenStore;
-	
 	RestTemplate restTemplate = new TestRestTemplate();
 	
 	private String accessToken=null;
 	private String authorizationCode=null;
 	private String refreshToken=null;
-	private boolean isJwtTokenStore=false;
 	
 	@Before
 	public void init(){
 		 port = server.getEmbeddedServletContainer().getPort();
-		 if (tokenStore != null && tokenStore instanceof JwtTokenStore){
-			 isJwtTokenStore = true;
+		 if (authServerBaseUrl.isEmpty()){
+			 authServerBaseUrl = "http://localhost:" + port;
+		 }
+		 if (resourceServerBaseUrl.isEmpty()){
+			 resourceServerBaseUrl = "http://localhost:" + port;
 		 }
 	}	
 	
 	@Test
 	public void contextLoads() {
-		assertTrue("Wrong token store type: " + tokenStore, tokenStore instanceof TokenStore);
+
 	}
 
 	@Test
 	public void testProtectedResourceIsProtected() throws Exception {
-		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + baseApiPath + "/protected", String.class);
+		ResponseEntity<String> response = restTemplate.getForEntity(resourceServerBaseUrl + baseApiPath + "/protected", String.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		assertTrue("Wrong header: " + response.getHeaders(), response.getHeaders()
 				.getFirst("WWW-Authenticate").startsWith("Bearer realm="));
@@ -137,7 +143,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
         
         // We call remote log WITHOUT the access token
         HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(resourceServerBaseUrl + baseApiPath + remoteLogEndpointPath);
         ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
         
 		assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
@@ -172,7 +178,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 			// themselves. That's why the token revocation is not possible.
 
 			// We call logout endpoint (we need to use the access token for this)
-			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + oauth2LogoutEndpointPath);
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(resourceServerBaseUrl + baseApiPath + oauth2LogoutEndpointPath);
 			builder.queryParam("access_token", accessToken);        
 
 			ResponseEntity<String> result2 = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, null, String.class);
@@ -188,7 +194,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 
 	@Test	
 	public void obtainAuthorizationCode() throws Exception {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2AuthorizeEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authServerBaseUrl + oauth2AuthorizeEndpointPath);
         builder.queryParam("username", getUsername());
         builder.queryParam("password", getPassword());
         builder.queryParam("client_id", getClientId());        
@@ -215,7 +221,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	@Test	
 	public void obtainTokenFromOuth2LoginEndpoint() throws Exception {
 		obtainAuthorizationCode();
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2TokenEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authServerBaseUrl + oauth2TokenEndpointPath);
         // Here we don't authenticate the user, we authenticate the client and we pass the authcode proving that the user has accepted and loged in        
         builder.queryParam("client_id", getClientId());
         builder.queryParam("grant_type", "authorization_code");
@@ -244,7 +250,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
 	}
 	
 	public void refreshToken(){
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + oauth2TokenEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authServerBaseUrl + oauth2TokenEndpointPath);
         // Here we don't authenticate the user, we authenticate the client and we pass the authcode proving that the user has accepted and loged in
         builder.queryParam("grant_type", "refresh_token");
         builder.queryParam("refresh_token", refreshToken);
@@ -273,7 +279,7 @@ public abstract class Oauth2AuthorizationCodeFlowPredefinedTests {
         remoteLogRequest.setMessage("This is my log message!");
         
         HttpEntity<RemoteLogRequestVO> entity = new HttpEntity<RemoteLogRequestVO>(remoteLogRequest);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + baseApiPath + remoteLogEndpointPath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(resourceServerBaseUrl + baseApiPath + remoteLogEndpointPath);
         builder.queryParam("access_token", accessToken);        
         
         ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity, String.class);
