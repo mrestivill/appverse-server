@@ -24,6 +24,7 @@
 package org.appverse.web.framework.backend.security.oauth2.jdbc;
 
 import org.appverse.web.framework.backend.security.oauth2.authserver.configuration.jdbcstore.AuthorizationServerWithJDBCStoreConfigurerAdapter;
+import org.appverse.web.framework.backend.security.oauth2.resourceserver.configuration.ResourceServerStoreConfigurerAdapter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @Configuration
 @EnableAutoConfiguration()
@@ -40,14 +42,10 @@ public class ApplicationJdbc {
 		SpringApplication.run(ApplicationJdbc.class, args);
 	}
 
-	/* Example, you can override ResourceServerWithJDBCStoreConfigurerAdapter configure(http) method to set
-	   your own security config. Otherwise ResourceServerWithJDBCStoreConfigurerAdapter is autoconfigured
-	   by default if you have enabled OAuth2 to secure your api
 	@Configuration
 	@EnableResourceServer
-	public static class ResourceServerConfig extends ResourceServerWithJDBCStoreConfigurerAdapter{
+	public static class ResourceServerConfig extends ResourceServerStoreConfigurerAdapter{
 	}
-	*/
 	
 	@Configuration
 	protected static class AuthenticationManagerCustomizer extends

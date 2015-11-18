@@ -52,8 +52,6 @@ public class ApplicationJwt {
 		}
 	}		
 
-	/* Example, you can override ResourceServerWithJWTStoreConfigurerAdapter configure(http) method to set
-	   your own security config. */
 	@Configuration
 	@EnableResourceServer
 	public static class ResourceServerConfig extends ResourceServerWithJWTStoreConfigurerAdapter{
