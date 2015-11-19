@@ -53,6 +53,9 @@ public class SwaggerOAuth2Controller {
 	@Value("${appverse.frontfacade.rest.api.basepath:/api}")
 	private String apiBasePath;
 	
+	@Value("${appverse.frontfacade.oauth2.authserver.baseUrl:}")
+	private String oauthAuthServerBaseUrl;	
+	
 	@Value("${appverse.frontfacade.oauth2.loginEndpoint.path:/oauth/authorize}")
 	private String oauth2LoginEndpoint;
 
@@ -70,7 +73,14 @@ public class SwaggerOAuth2Controller {
 
 		model.addAllAttributes(convertParameters(map));
 		model.addAttribute("redirect_uri", req.getParameter("redirect_uri"));
-		model.addAttribute("swaggerLoginFormAction", convertToRelativePath(contextPath, oauth2LoginEndpoint));
+		if (oauthAuthServerBaseUrl != null && !oauthAuthServerBaseUrl.isEmpty()){
+			// Is an external OAuth2 provider, not in the same webapplication as the resource server
+			model.addAttribute("swaggerLoginFormAction", oauthAuthServerBaseUrl + oauth2LoginEndpoint);
+		}
+		else{
+			// The OAuth2 provider and the resource server reside in the same web application
+			model.addAttribute("swaggerLoginFormAction", convertToRelativePath(contextPath, oauth2LoginEndpoint));
+		}
 		model.addAttribute("swaggerClientId", swaggerClientId);
 
 		return "oauth2loginform";
