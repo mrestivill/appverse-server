@@ -65,10 +65,10 @@
 	</ciManagement>
 
 	<scm>
-		<connection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</connection>
-		<developerConnection>scm:git:https://${appverseweb.user.name}:${appverseweb.user.password}@appverse.gftlabs.com/git/scm/appverse/appverse-java.git</developerConnection>
+		<connection>scm:git:ssh://git@appverse.gft.com:7999/appverse/appverse-java-2.git</connection>
+		<developerConnection>scm:git:ssh://git@appverse.gft.com:7999/appverse/appverse-java-2.git</developerConnection>
 		<tag>master</tag>
-		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java/</url>
+		<url>https://appverse.gftlabs.com/git/projects/APPVERSE/repos/appverse-java-2/</url>
 	</scm>
 
 	<properties>
