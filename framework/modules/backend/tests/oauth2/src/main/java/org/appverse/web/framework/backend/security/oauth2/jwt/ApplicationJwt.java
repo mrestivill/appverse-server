@@ -28,6 +28,8 @@ import org.appverse.web.framework.backend.security.oauth2.resourceserver.configu
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -39,9 +41,17 @@ public class ApplicationJwt {
 	public static void main(String[] args) {
 		SpringApplication.run(ApplicationJwt.class, args);
 	}
+	
+	@Configuration
+	protected static class AuthenticationManagerCustomizer extends
+			GlobalAuthenticationConfigurerAdapter {
 
-	/* Example, you can override ResourceServerWithJWTStoreConfigurerAdapter configure(http) method to set
-	   your own security config. */
+		@Override
+		public void init(AuthenticationManagerBuilder auth) throws Exception {
+			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+		}
+	}		
+
 	@Configuration
 	@EnableResourceServer
 	public static class ResourceServerConfig extends ResourceServerWithJWTStoreConfigurerAdapter{
