@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -194,27 +194,72 @@
 	<!--  As we don't inherit spring-boot-starter-parent we need to add our own build setup.
 	Copied from spring-boot-starter-parent -->
 	<build>
-	
 		<defaultGoal>clean install</defaultGoal>
-	
-		<!-- Turn on filtering by default for application properties -->
-		<resources>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/application.yml</include>
-					<include>**/application.properties</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-				<excludes>
-					<exclude>**/application.yml</exclude>
-					<exclude>**/application.properties</exclude>
-				</excludes>
-			</resource>
-		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<mavenExecutorId>forked-path</mavenExecutorId>
+				</configuration>
+			</plugin>
+			<plugin>
+			      <groupId>org.sonatype.plugins</groupId>
+			      <artifactId>nexus-staging-maven-plugin</artifactId>
+			      <version>1.6.3</version>
+			      <extensions>true</extensions>
+			      <configuration>
+				<serverId>ossrh</serverId>
+				<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+				<autoReleaseAfterClose>true</autoReleaseAfterClose>
+			      </configuration>
+			    </plugin>
+			
+		
+			<plugin>
+			      <groupId>org.apache.maven.plugins</groupId>
+			      <artifactId>maven-source-plugin</artifactId>
+			      <version>2.2.1</version>
+			      <executions>
+				<execution>
+				  <id>attach-sources</id>
+				  <goals>
+				    <goal>jar-no-fork</goal>
+				  </goals>
+				</execution>
+			      </executions>
+			    </plugin>
+			    <plugin>
+			      <groupId>org.apache.maven.plugins</groupId>
+			      <artifactId>maven-javadoc-plugin</artifactId>
+			      <version>2.9.1</version>
+			      <executions>
+				<execution>
+				  <id>attach-javadocs</id>
+				  <goals>
+				    <goal>jar</goal>
+				  </goals>
+				</execution>
+			      </executions>
+			    </plugin>
+			<plugin>
+			      <groupId>org.apache.maven.plugins</groupId>
+			      <artifactId>maven-gpg-plugin</artifactId>
+			      <version>1.5</version>
+			      <executions>
+				<execution>
+				  <id>sign-artifacts</id>
+				  <phase>verify</phase>
+				  <goals>
+				    <goal>sign</goal>
+				  </goals>
+				</execution>
+			      </executions>
+			    </plugin>
+	</plugins>
+
 		<pluginManagement>
 			<plugins>
 			
@@ -1121,5 +1166,5 @@
 			<id>Maven Central</id>
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
-    </repositories>
+	</repositories>
 </project>
