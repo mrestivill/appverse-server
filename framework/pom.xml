@@ -1,16 +1,10 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>9</version>
-	</parent>
- 
 	<groupId>org.appverse.web.framework.poms</groupId>
 	<artifactId>appverse-web-masterpom</artifactId>
-	<version>2.0.0.RC1</version>
+	<version>2.0.0-RC2</version>
 	<packaging>pom</packaging>
 
 	<name>Appverse Web Framework Master POM</name>
@@ -54,6 +48,98 @@
 		<url>http://appverse.org</url>
 	</organization>
 
+	<developers>
+		<developer>
+			<id>carlosrubio</id>
+			<name>Carlos Rubio Manero</name>
+			<email>carlos@rubioonline.es</email>
+			<url />
+			<organization>Appverse</organization>
+			<organizationUrl>http://appverse.org</organizationUrl>
+			<roles>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>Europe/Madrid</timezone>
+		</developer>
+		<developer>
+			<id>miguelfgar</id>
+			<name>Miguel Fernández</name>
+			<email>miguelfgar@gmail.com</email>
+			<organization>Appverse</organization>
+			<organizationUrl>http://appverse.org</organizationUrl>
+			<roles>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>Europe/Andorra</timezone>
+		</developer>
+		<developer>
+			<id>rrbl</id>
+			<name>Roger Bofarull</name>
+			<email>roger.bofarull@gmail.com</email>
+			<url />
+			<organization>Appverse</organization>
+			<organizationUrl>http://appverse.org</organizationUrl>
+			<roles>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>Europe/Andorra</timezone>
+		</developer>
+		<developer>
+			<id>slanau</id>
+			<name>Sergi Lanau Rodríguez</name>
+			<email>sergi@lanau.net</email>
+			<url>http://www.lanau.net</url>
+			<organization>Appverse</organization>
+			<organizationUrl>http://appverse.org</organizationUrl>
+			<roles>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>Europe/Andorra</timezone>
+		</developer>
+		<developer>
+		    <id>mrestivill</id>
+		    <name>Marc Rodriguez Estivill</name>
+		    <email>mrodriguezestivill@gmail.com</email>
+		    <url />
+		    <organization>Appverse</organization>
+		    <organizationUrl>http://appverse.org</organizationUrl>
+		    <roles>
+				<role>Architect</role>
+				<role>Developer</role>
+		    </roles>
+		    <timezone>Europe/Andorra</timezone>
+		</developer>
+	</developers>
+
+	<contributors>
+		<contributor>
+			<name>Jesus de Diego</name>
+			<email>jesus.dediego.erles@gmail.com</email>
+			<url />
+			<organization>GFT</organization>
+			<organizationUrl>http://www.gft.com</organizationUrl>
+			<roles>
+				<role>Contributor</role>
+			</roles>
+			<timezone>Europe/Madrid</timezone>
+		</contributor>
+		<contributor>
+			<name>Sergio Roldan</name>
+			<email>cactus.jiropa@gmail.com</email>
+			<url />
+			<organization>GFT</organization>
+			<organizationUrl>http://www.gft.com</organizationUrl>
+			<roles>
+				<role>Contributor</role>
+			</roles>
+			<timezone>Europe/Madrid</timezone>
+		</contributor>
+	</contributors>
+
 	<issueManagement>
 		<system>Jira</system>
 		<url>https://appverse.gftlabs.com/tracker/browse/AWB/</url>
@@ -85,7 +171,7 @@
 	    <jdk.source>1.8</jdk.source>
         <jdk.target>1.8</jdk.target>
 	
-		<framework.version>2.0.0.RC1</framework.version>
+		<framework.version>2.0.0-RC2</framework.version>
 
 		<spring.boot.version>1.3.0.M5</spring.boot.version>
         <spring.oauth2.version>2.0.7.RELEASE</spring.oauth2.version>
@@ -98,33 +184,113 @@
 	<modules>
 		<module>modules</module>
 	</modules>
-	
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.3</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>sonatype-nexus-staging</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.10.3</version>
+						<configuration>
+							<failOnError>false</failOnError>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<!--  As we don't inherit spring-boot-starter-parent we need to add our own build setup.
 	Copied from spring-boot-starter-parent -->
 	<build>
-	
 		<defaultGoal>clean install</defaultGoal>
-	
-		<!-- Turn on filtering by default for application properties -->
-		<resources>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/application.yml</include>
-					<include>**/application.properties</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-				<excludes>
-					<exclude>**/application.yml</exclude>
-					<exclude>**/application.properties</exclude>
-				</excludes>
-			</resource>
-		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<useReleaseProfile>false</useReleaseProfile>
+						<releaseProfiles>release</releaseProfiles>
+						<goals>deploy</goals>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+
+
+	</plugins>
+
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.10.3</version>
+					<configuration>
+						<failOnError>false</failOnError>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 			
 	<!--  Required so that Eclipse takes the proper JDK -->			
     <plugin>
@@ -1012,6 +1178,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.1</version>
 				<configuration>
 					<encoding>UTF-8</encoding>					
 				</configuration>
@@ -1029,5 +1196,5 @@
 			<id>Maven Central</id>
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
-    </repositories>
+	</repositories>
 </project>
