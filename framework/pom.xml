@@ -9,7 +9,7 @@
 
 	<name>Appverse Web Framework Master POM</name>
 	<description>Appverse Web Framework Master POM</description>
-	<url>http://appverse.org/projects/appverse-web/</url>
+	<url>http://appverse.org/#/web/overview</url>
 	<inceptionYear>2011</inceptionYear>
 
 	<licenses>
@@ -163,7 +163,7 @@
 		The property spring.version is specified in spring-boot-dependencies which appverse imports. However only dependency management is imported, 
 		not properties. If we extended the starter-parent which in turn extends appverse-dependencies then the variable would be included.
 		But we don't want to extend this poms. -->
-		<spring.version>4.2.0.RELEASE</spring.version>
+		<spring.version>4.2.3.RELEASE</spring.version>
 		
 		
 		<resource.delimiter>@</resource.delimiter> <!-- delimiter that doesn't clash with Spring ${} placeholders -->
